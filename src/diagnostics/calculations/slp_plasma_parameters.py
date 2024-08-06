@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jun 21 21:02:09 2024
 
-@author: ajco2
-"""
 import numpy as np
 
 '''TODO: a better way to yield floating potential is available. will potentially implement it from PlasmaPy. must study more the documentation'''

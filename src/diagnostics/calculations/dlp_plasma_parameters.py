@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jun 22 13:48:54 2024
 
-@author: ajco2
-"""
 import numpy as np
 
 def get_ion_saturation_current(filtered_current_list, plasma_potential_index):
