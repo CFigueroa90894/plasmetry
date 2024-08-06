@@ -40,9 +40,20 @@ bias, current = LoadPreviousData();
 filtered_current = FilterSignal(current)
 
 floating_potential, plasma_potential = slp.get_floating_and_plasma_potential(filtered_current, bias)
-print (plasma_potential)
 
-ev, joules = slp.get_electron_temperature(floating_potential, plasma_potential, filtered_current, bias)
+print ('floating potential (V):', floating_potential[1])
 
-print (ev, joules)
+print ('plasma potential (V):', plasma_potential[1])
 
+electron_temperature_ev, electron_temperature_joules = slp.get_electron_temperature(floating_potential, plasma_potential, filtered_current, bias)
+
+print ('electron temperature (eV): ', electron_temperature_ev)
+print('electron temperature (J): ', electron_temperature_joules)
+
+electron_saturation_current = slp.get_electron_saturation_current(filtered_current, plasma_potential[0])
+
+probe_area = 30.3858e-06
+
+electron_density= slp.get_electron_density(electron_saturation_current, electron_temperature_joules, probe_area)
+
+print('Electron Density: ', electron_density)
