@@ -1,4 +1,4 @@
-import slp_plasma_parameters as slp
+import dlp_plasma_parameters as dlp
 import numpy as np
 from scipy import signal
 import csv
@@ -34,7 +34,6 @@ def FilterSignal(rawSignal):
     
     return filteredSignal
 
-
 #storing bias and raw current in lists
 bias, current = LoadPreviousData()
 
@@ -42,30 +41,27 @@ bias, current = LoadPreviousData()
 filtered_current = FilterSignal(current)
 
 
-floating_potential, plasma_potential = slp.get_floating_and_plasma_potential(filtered_current, bias)
+ion_saturation_current = dlp.get_ion_saturation_current(filtered_current)
 
-print ('floating potential (V):', floating_potential[1])
-
-print ('plasma potential (V):', plasma_potential[1])
-
-electron_temperature_ev, electron_temperature_joules = slp.get_electron_temperature(floating_potential, plasma_potential, filtered_current, bias)
-
+electron_temperature_ev, electron_temperature_joules = dlp.get_electron_temperature(filtered_current, bias, ion_saturation_current)
 print ('electron temperature (eV): ', electron_temperature_ev)
 print('electron temperature (J): ', electron_temperature_joules)
 
-electron_saturation_current = slp.get_electron_saturation_current(filtered_current, plasma_potential[0])
 
 probe_area = 30.3858e-06
 
-electron_density= slp.get_electron_density(electron_saturation_current, electron_temperature_joules, probe_area)
+#hydrogen ion mass
+ion_mass = 1.67e-27
+
+electron_density = dlp.get_electron_density(electron_temperature_joules, probe_area, ion_saturation_current, ion_mass)
 
 print('Electron Density: ', electron_density)
 
-debye_length = slp.get_debye_length(electron_temperature_joules, electron_density)
+debye_length = dlp.get_debye_length(electron_temperature_joules, electron_density)
 
 
 print('Debye length (m): ', debye_length)
 
-number_of_charged_particles = slp.get_number_of_electrons(debye_length, electron_density)
+number_of_charged_particles = dlp.get_number_of_electrons(debye_length, electron_density)
 
 print('Number of charged particles in the Debye sphere (integer): ', number_of_charged_particles)

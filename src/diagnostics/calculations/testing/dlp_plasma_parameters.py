@@ -1,7 +1,7 @@
 
 import numpy as np
 
-def get_ion_saturation_current(filtered_current_list, plasma_potential_index):
+def get_ion_saturation_current(filtered_current_list):
     '''
     **TODO: find a better way to obtain ion saturation current.**
     
@@ -11,12 +11,12 @@ def get_ion_saturation_current(filtered_current_list, plasma_potential_index):
     
     '''
     #storing the ion saturation current 
-    ion_satutation_current = np.min(filtered_current_list)
+    ion_saturation_current = np.min(filtered_current_list)
     
-    return ion_satutation_current
+    return ion_saturation_current
     
     
-def get_electron_temperature(filtered_current_list, voltage_list, ion_satutation_current):
+def get_electron_temperature(filtered_current_list, voltage_list, ion_saturation_current):
     '''
     This function returns the electron temperature in both Joules and electron volts.
     
@@ -35,14 +35,14 @@ def get_electron_temperature(filtered_current_list, voltage_list, ion_satutation
     
     
     #calculating electron temperature in electron volts 
-    electron_temperature_ev = abs(ion_satutation_current / (2 * (I_V_derivative[voltage_at_zero_index])))
+    electron_temperature_ev = abs(ion_saturation_current / (2 * (I_V_derivative[voltage_at_zero_index])))
     
     #calculating electron temperature in Joules
     electron_temperature_joules = electron_temperature_ev * electron_charge
  
     return electron_temperature_ev, electron_temperature_joules
 
-def get_electron_density(electron_temperature_joules, probe_area, ion_satutation_current, ion_mass):
+def get_electron_density(electron_temperature_joules, probe_area, ion_saturation_current, ion_mass):
     
     '''
     this function returns the electron density in Kilograms per cubic meter. 
@@ -51,7 +51,7 @@ def get_electron_density(electron_temperature_joules, probe_area, ion_satutation
     electron_charge = -1.60217657e-19
     
     #acquiring electron density 
-    electron_density = ion_satutation_current/(electron_charge *  probe_area) * np.sqrt(ion_mass/electron_temperature_joules) * np.exp(0.5)
+    electron_density = ion_saturation_current/(electron_charge *  probe_area) * np.sqrt(ion_mass/electron_temperature_joules) * np.exp(0.5)
     
     return electron_density
 
