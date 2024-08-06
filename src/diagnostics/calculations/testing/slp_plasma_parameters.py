@@ -124,7 +124,7 @@ def get_number_of_electrons(debye_length, electron_density):
     number_of_electrons = 4/3 * np.pi * debye_length * electron_density
     
     
-    return number_of_electrons
+    return int(number_of_electrons)
 
     
     

@@ -57,3 +57,12 @@ probe_area = 30.3858e-06
 electron_density= slp.get_electron_density(electron_saturation_current, electron_temperature_joules, probe_area)
 
 print('Electron Density: ', electron_density)
+
+debye_length = slp.get_debye_length(electron_temperature_joules, electron_density)
+
+
+print('Debye length (m): ', debye_length)
+
+number_of_charged_particles = slp.get_number_of_electrons(debye_length, electron_density)
+
+print('Number of charged particles in the Debye sphere (integer): ', number_of_charged_particles)
