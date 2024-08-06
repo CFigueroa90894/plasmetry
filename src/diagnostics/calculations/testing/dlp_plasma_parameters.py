@@ -77,7 +77,7 @@ def get_number_of_electrons(debye_length, electron_density):
     #obtaining the number of electrons in the debye sphere
     number_of_electrons = 4/3 * np.pi * debye_length * electron_density
     
-    return number_of_electrons
+    return int(number_of_electrons)
 
     
     
