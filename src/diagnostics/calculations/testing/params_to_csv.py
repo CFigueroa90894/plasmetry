@@ -6,7 +6,7 @@ Created on Wed Aug  7 13:23:17 2024
 """
 import calculate_parameters as slp
 import csv
-#from sweep_parser import SweepParser as parser
+from sweep_parser_v2 import SweepParser as parser
 # Save a separate CSV for plasma parameters
 def ParametersToCsv(listOfParameters, fname):
    keys = list(listOfParameters[0].keys())
@@ -44,14 +44,13 @@ def test_data():
 
 
 def main():
-    
+    filepath = 'Feliz_A1 MirorSLP120200813T105858.csv'
     #local data parse, must me modified to use SweepParser class
-    list_of_sweeps = test_data()
-    
+    list_of_sweeps = parser.parse_sweeps(filepath)
     parameter_list = slp.get_sweeps_parameters(list_of_sweeps)
     filename = 'slp parameters from test.csv'
     ParametersToCsv(parameter_list, filename)
-  
+   
     
     
 main()
