@@ -44,8 +44,8 @@ def test_data():
 
 
 def main():
+    
     filepath = 'Feliz_A1 MirorSLP120200813T105858.csv'
-    #local data parse, must me modified to use SweepParser class
     list_of_sweeps = parser.parse_sweeps(filepath)
     parameter_list = slp.get_sweeps_parameters(list_of_sweeps)
     filename = 'slp parameters from test.csv'
