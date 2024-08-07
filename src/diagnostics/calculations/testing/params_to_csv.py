@@ -31,20 +31,27 @@ def LoadPreviousData():
                 None    
         
         return voltageSLP, current
-
-def main():
+    
+def test_data():
+    
     sweep_list = []
     list_of_sweeps = []
     bias, current = LoadPreviousData()
     sweep_list.append(current)
     sweep_list.append(bias)
     list_of_sweeps.append(sweep_list)
+    return list_of_sweeps
+
+
+def main():
     
-    print(sweep_list)
+    #local data parse, must me modified to use SweepParser class
+    list_of_sweeps = test_data()
+    
     parameter_list = slp.get_sweeps_parameters(list_of_sweeps)
     filename = 'slp parameters from test.csv'
     ParametersToCsv(parameter_list, filename)
-    print(parameter_list)
+  
     
     
 main()
