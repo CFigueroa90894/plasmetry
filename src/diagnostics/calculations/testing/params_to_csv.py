@@ -6,10 +6,9 @@ Created on Wed Aug  7 13:23:17 2024
 """
 import calculate_parameters as slp
 import csv
-#import sweep_parser as parser
+#from sweep_parser import SweepParser as parser
 # Save a separate CSV for plasma parameters
 def ParametersToCsv(listOfParameters, fname):
-   
    keys = list(listOfParameters[0].keys())
    
 
