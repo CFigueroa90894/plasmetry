@@ -55,30 +55,6 @@ def get_electron_density(electron_temperature_joules, probe_area, ion_saturation
     
     return electron_density
 
-def get_debye_length(electron_temperature_joules, electron_density):
-    
-    '''The Debye length is returned from this function in meters.'''
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
-    
-    #storing the permittivity of free space constant in F/m, since it shall be used for calculation
-    epsilon_naught= 8.854e-12
-    
-    #acquiring Debye length
-    debye_length = np.sqrt( (2* epsilon_naught * electron_temperature_joules) / ( electron_density * electron_charge * electron_charge) )
-    
-    return debye_length
-
-def get_number_of_electrons(debye_length, electron_density):
-    '''
-    The number of charged particles in the debye sphere is returned from this function.
-    '''
-    
-    #obtaining the number of electrons in the debye sphere
-    number_of_electrons = 4/3 * np.pi * debye_length * electron_density
-    
-    return int(number_of_electrons)
-
     
     
     

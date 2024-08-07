@@ -89,45 +89,7 @@ def get_electron_temperature(floating_potential, plasma_potential, filtered_curr
     
    
 
-def get_electron_density(electron_saturation_current, electron_temperature_joules, probe_area):
-    '''this function returns the electron  density for SLP in Kilograms per cubic meter.'''
-    
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
-    
-    #storing the electron mass in kilograms, since it shall be used for calculation
-    electron_mass = 9.10938291e-31  
-    
-    #acquiring electron density
-    electron_density = electron_saturation_current/(electron_charge * probe_area * np.sqrt(electron_temperature_joules / (2 * np.pi * electron_mass)))
-    
-    return electron_density
 
-def get_debye_length(electron_temperature_joules, electron_density):
-    
-    '''The Debye length is returned from this function in meters.'''
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
-    
-    #storing the permittivity of free space constant in F/m, since it shall be used for calculation
-    epsilon_naught= 8.854e-12
-    
-    #acquiring Debye length
-    debye_length = np.sqrt( (2* epsilon_naught * electron_temperature_joules) / (electron_density * electron_charge * electron_charge) )
-    
-    return debye_length
-
-def get_number_of_electrons(debye_length, electron_density):
-    '''The number of charged particles in the debye sphere is returned from this function.'''
-    
-    #obtaining the number of electrons in the debye sphere
-    number_of_electrons = 4/3 * np.pi * debye_length * electron_density
-    
-    
-    return int(number_of_electrons)
-
-    
-    
     
     
     
