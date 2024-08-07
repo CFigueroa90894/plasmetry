@@ -1,9 +1,12 @@
-
 import numpy as np
+
 
 def get_debye_length(electron_temperature_joules, electron_density):
     
-    '''DLP and SLP Debye length is returned from this function in meters.'''
+    '''
+    DLP and SLP Debye length is returned from this function in meters.
+    '''
+    
     #storing the charge of the electron particle, since it shall be used for calculation
     electron_charge = 1.60217657e-19
     
@@ -15,7 +18,9 @@ def get_debye_length(electron_temperature_joules, electron_density):
     
     return debye_length
 
+
 def get_number_of_electrons(debye_length, electron_density):
+    
     '''
     DLP and SLP number of charged particles in the debye sphere is returned from this function.
     '''
@@ -25,15 +30,18 @@ def get_number_of_electrons(debye_length, electron_density):
     
     return int(number_of_electrons)
 
+
 def get_plasma_potential(filtered_current_list, voltage_list):
+    
     '''
     HEA and IEA plasma potential
     '''
     
     plasma_potential_index = np.argmin(abs(np.gradient(filtered_current_list,voltage_list)))
+    
     plasma_potential = voltage_list[plasma_potential_index]
+    
     return plasma_potential, plasma_potential_index
-
     
     
 def get_particle_temperature(plasma_potential, filtered_current_list, voltage_list):
@@ -41,7 +49,7 @@ def get_particle_temperature(plasma_potential, filtered_current_list, voltage_li
     '''
     HEA and IEA particle temperature in both electron volts and  Joules is returned by this function.
     
-    Particle temperature may be yielded from 1/ (d(ln(I))/dV) where  dI/dV = 0 (a.k.a.  plasma potential)
+    Particle temperature in electron volts may be yielded from 1/ (d(ln(I))/dV) where  dI/dV = 0 (a.k.a.  plasma potential)
     '''
     #storing the charge of the electron particle, since it shall be used for calculation
     electron_charge = 1.60217657e-19  
@@ -56,17 +64,16 @@ def get_particle_temperature(plasma_potential, filtered_current_list, voltage_li
     #could return the temperature in a list containing both ev and Joules values of electron temperature, need to review with team
     return particle_temperature_ev, particle_temperature_joules
 
-
-
    
-
 def get_particle_density(electron_saturation_current, electron_temperature_joules, probe_area, particle_mass):
+    
     '''
     This function returns the electron  density for SLP, HEA,IEA in Kilograms per cubic meter.
     
     If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
     
-    Other wise, the particle mass should be the estimated ion mass of the ions in the plasma '''
+    Other wise, the particle mass should be the estimated ion mass of the ions in the plasma
+    '''
     
     #storing the charge of the electron particle, since it shall be used for calculation
     electron_charge = 1.60217657e-19
@@ -75,4 +82,3 @@ def get_particle_density(electron_saturation_current, electron_temperature_joule
     particle_density = electron_saturation_current/(electron_charge * probe_area * np.sqrt(electron_temperature_joules / (2 * np.pi * particle_mass)))
     
     return particle_density
-
