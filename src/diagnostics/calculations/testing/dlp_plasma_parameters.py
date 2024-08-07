@@ -32,9 +32,7 @@ def get_electron_temperature(filtered_current_list, voltage_list, ion_saturation
     voltage_at_zero_index = np.argmin(abs(voltage_list))
     
     #storing the derivative of the I-V values
-    
     I_V_derivative = np.gradient(filtered_current_list, voltage_list )
-    
     
     #calculating electron temperature in electron volts 
     electron_temperature_ev = abs(ion_saturation_current / (2 * (I_V_derivative[voltage_at_zero_index])))

@@ -34,10 +34,10 @@ def get_number_of_electrons(debye_length, electron_density):
 def get_plasma_potential(filtered_current_list, voltage_list):
     
     '''
-    HEA and IEA plasma potential
+    HEA and IEA plasma potential is yielded by the applied bias where dI/dV = 0
     '''
-    
-    plasma_potential_index = np.argmin(abs(np.gradient(filtered_current_list,voltage_list)))
+    #value closest to 0 is taken, since the derivative may not be 0 ever
+    plasma_potential_index = np.argmin(abs(np.gradient(filtered_current_list, voltage_list)))
     
     plasma_potential = voltage_list[plasma_potential_index]
     
@@ -54,7 +54,7 @@ def get_particle_temperature(plasma_potential, filtered_current_list, voltage_li
     #storing the charge of the electron particle, since it shall be used for calculation
     electron_charge = 1.60217657e-19  
     
-    log_I_V_derivative=  np.gradient(np.log(filtered_current_list), voltage_list )
+    log_I_V_derivative=  np.gradient(np.log(abs(filtered_current_list)), voltage_list )
     
     particle_temperature_ev = 1/log_I_V_derivative[plasma_potential[0]]
     
