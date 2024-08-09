@@ -72,7 +72,7 @@ def get_particle_density(electron_saturation_current, electron_temperature_joule
     
     If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
     
-    Other wise, the particle mass should be the estimated ion mass of the ions in the plasma
+    Otherwise, the particle mass should be the estimated ion mass of the ions in the plasma
     '''
     
     #storing the charge of the electron particle, since it shall be used for calculation
