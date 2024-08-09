@@ -32,17 +32,6 @@ def LoadPreviousData():
         
         return voltageSLP, current
     
-def test_data():
-    
-    sweep_list = []
-    list_of_sweeps = []
-    bias, current = LoadPreviousData()
-    sweep_list.append(current)
-    sweep_list.append(bias)
-    list_of_sweeps.append(sweep_list)
-    return list_of_sweeps
-
-
 def main():
     
     filepath = 'Feliz_A1 MirorSLP120200813T105858.csv'
