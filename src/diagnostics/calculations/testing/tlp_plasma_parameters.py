@@ -58,8 +58,6 @@ def electron_temperature(potential_difference, bias):
     
     #storing the electron temperature in Joules
     electron_temperature_joules = electron_charge * electron_temperature_ev
-    print(f'Coverged after {counter} iterations. The estimated temperature is:\n\
-{electron_temperature_ev} eV\n{electron_temperature_joules} Joules')    
 
     return  electron_temperature_ev, electron_temperature_joules
 
@@ -80,6 +78,8 @@ potential_difference = 23.7
 
 electron_temperature_ev, electron_temperature_joules = electron_temperature(potential_difference,bias)
 
+print (f'Electron temperature (eV):{electron_temperature_ev}')
+print (f'Electron temperature (Joules):{electron_temperature_joules}')
 #slp probe area in Felix's implementation
 probe_area = 30.3858e-06
 #hydrogen ion mass
@@ -87,4 +87,4 @@ ion_mass = 1.67e-27
 #dummy acquired current
 acquired_current = 0.1
 
-print(electron_density(.01 , potential_difference, electron_temperature_joules, probe_area , ion_mass), 'electrons per cubic meter')
+print( 'electrons per cubic meter: ',electron_density(.01 , potential_difference, electron_temperature_joules, probe_area , ion_mass))
