@@ -1,4 +1,5 @@
 import dlp_plasma_parameters as dlp
+import global_parameters as dlp2
 import numpy as np
 from scipy import signal
 import csv
@@ -57,11 +58,11 @@ electron_density = dlp.get_electron_density(electron_temperature_joules, probe_a
 
 print('Electron Density: ', electron_density)
 
-debye_length = dlp.get_debye_length(electron_temperature_joules, electron_density)
+debye_length = dlp2.get_debye_length(electron_temperature_joules, electron_density)
 
 
 print('Debye length (m): ', debye_length)
 
-number_of_charged_particles = dlp.get_number_of_electrons(debye_length, electron_density)
+number_of_charged_particles = dlp2.get_number_of_electrons(debye_length, electron_density)
 
 print('Number of charged particles in the Debye sphere (integer): ', number_of_charged_particles)

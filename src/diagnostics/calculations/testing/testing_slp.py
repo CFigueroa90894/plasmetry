@@ -1,4 +1,5 @@
 import slp_plasma_parameters as slp
+import global_parameters as slp2
 import numpy as np
 from scipy import signal
 import csv
@@ -57,15 +58,15 @@ electron_saturation_current = slp.get_electron_saturation_current(filtered_curre
 
 probe_area = 30.3858e-06
 
-electron_density= slp.get_electron_density(electron_saturation_current, electron_temperature_joules, probe_area)
+electron_density= slp2.get_particle_density(electron_saturation_current, electron_temperature_joules, probe_area, 9.109e-31)
 
 print('Electron Density: ', electron_density)
 
-debye_length = slp.get_debye_length(electron_temperature_joules, electron_density)
+debye_length = slp2.get_debye_length(electron_temperature_joules, electron_density)
 
 
 print('Debye length (m): ', debye_length)
 
-number_of_charged_particles = slp.get_number_of_electrons(debye_length, electron_density)
+number_of_charged_particles = slp2.get_number_of_electrons(debye_length, electron_density)
 
 print('Number of charged particles in the Debye sphere (integer): ', number_of_charged_particles)
