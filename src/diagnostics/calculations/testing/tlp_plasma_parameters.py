@@ -1,6 +1,9 @@
 import numpy as np 
 
 def electron_temperature(potential_difference, bias):
+    '''
+    This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
+    '''
     #storing the charge of the electron particle, since it shall be used for calculation
     electron_charge = 1.60217657e-19
     #storing initial guess
@@ -47,7 +50,28 @@ def electron_temperature(potential_difference, bias):
 
     return  electron_temperature_ev, electron_temperature_joules
 
-#def electron_density(electron_saturation_current, electron_temperature_joules, probe_area, particle_mass):
+def electron_density(acquired_probe_current , potential_difference, electron_temperature_joules,  probe_area , ion_mass):
+    electron_charge = 1.60217657e-19
+    exponential_term=  np.exp(abs(electron_charge*potential_difference/electron_temperature_joules))
+    numerator_of_equation= abs(acquired_probe_current * exponential_term)
+    denominator_of_equation = abs(0.61 * probe_area *electron_charge * np.sqrt(electron_temperature_joules/ion_mass) * (1-exponential_term))
     
+    electron_density = numerator_of_equation/denominator_of_equation
+    
+    return(electron_density)
 
-electron_temperature(23,30)
+#dummy bias
+bias = 30
+#dummy potential_difference
+potential_difference = 23
+
+electron_temperature_ev, electron_temperature_joules = electron_temperature(potential_difference,bias)
+
+#slp probe area in Felix's implementation
+probe_area = 30.3858e-06
+#hydrogen ion mass
+ion_mass = 1.67e-27
+#dummy acquired current
+acquired_current = 0.1
+
+print(electron_density(.01 , potential_difference, electron_temperature_joules, probe_area , ion_mass), 'electrons per cubic meter')
