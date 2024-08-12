@@ -1,5 +1,4 @@
 from Single_Langmuir_Probe import Single_Langmuir_Probe
-# TO DO - ENFORCE ABSTRACT, and others
 
 def get_probe_object(probe_number):
     
