@@ -3,7 +3,7 @@ import queue
 from slp_plasma_parameters import get_equations
 import Langmuir_Probe
 # TO DO - ENFORCE ABSTRACT, and others
-class Single_Lamguir_Probe(Langmuir_Probe):
+class Single_Langmuir_Probe(Langmuir_Probe):
     # TO DO
     def __init__(self):
         super().__init__()
