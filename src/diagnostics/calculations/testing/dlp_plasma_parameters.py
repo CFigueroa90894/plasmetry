@@ -3,8 +3,8 @@ import numpy as np
 from global_parameters import get_debye_length, get_number_of_electrons
 
 
-def get_ion_saturation_current(filtered_current_list):
-    
+def get_ion_saturation_current(parameters):
+    filtered_current_list = parameters['Filtered current list'] 
     '''
     **TODO: find a better way to obtain ion saturation current.**
     
@@ -14,13 +14,14 @@ def get_ion_saturation_current(filtered_current_list):
     
     '''
     #storing the ion saturation current 
-    ion_saturation_current = np.min(filtered_current_list)
+    parameters['Ion saturation current'] = np.min(filtered_current_list)
+   
     
-    return ion_saturation_current
     
-    
-def get_electron_temperature(filtered_current_list, voltage_list, ion_saturation_current):
-    
+def get_electron_temperature( parameters):
+    filtered_current_list = parameters['Filtered current list'] 
+    voltage_list =  parameters['Voltage list'] 
+    ion_saturation_current = parameters['Ion saturation current'] 
     '''
     This function returns the electron temperature in both Joules and electron volts.
     
@@ -37,14 +38,13 @@ def get_electron_temperature(filtered_current_list, voltage_list, ion_saturation
     I_V_derivative = np.gradient(filtered_current_list, voltage_list )
     
     #calculating electron temperature in electron volts 
-    electron_temperature_ev = abs(ion_saturation_current / (2 * (I_V_derivative[voltage_at_zero_index])))
+    parameters['Electron temperature (eV)'] = abs(ion_saturation_current / (2 * (I_V_derivative[voltage_at_zero_index])))
     
     #calculating electron temperature in Joules
-    electron_temperature_joules = electron_temperature_ev * electron_charge
- 
-    return electron_temperature_ev, electron_temperature_joules
+    parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * electron_charge
 
-def get_electron_density(electron_temperature_joules, probe_area, ion_saturation_current, ion_mass):
+
+def get_electron_density(parameters):
     
     '''
     this function returns the electron density in Kilograms per cubic meter. 
@@ -53,9 +53,8 @@ def get_electron_density(electron_temperature_joules, probe_area, ion_saturation
     electron_charge = -1.60217657e-19
     
     #acquiring electron density 
-    electron_density = ion_saturation_current/(electron_charge *  probe_area) * np.sqrt(ion_mass/electron_temperature_joules) * np.exp(0.5)
+    parameters['Electron density'] = parameters['Ion saturation current']/(electron_charge *  parameters['Probe area']) * np.sqrt(parameters['Ion mass']/parameters['Electron temperature (Joules)']) * np.exp(0.5)
     
-    return electron_density
 
 def get_equations():
     '''

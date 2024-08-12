@@ -21,7 +21,9 @@ def iteration(potential_difference, bias, estimated_guess):
         return 0
     return function_output, derivative_output
 
-def get_electron_temperature(potential_difference, bias):
+def get_electron_temperature(parameters):
+    potential_difference = parameters['Potential difference']
+    bias =  parameters['Voltage list']
     '''
     This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
     
@@ -61,20 +63,23 @@ def get_electron_temperature(potential_difference, bias):
         return f'After {counter} iterations, no accurate value has been yielded.'
     
     #storing the electron temperature in eV
-    electron_temperature_ev = 1/estimated_guess
+    parameters['Electron temperature (eV)'] = 1/estimated_guess
     
     #storing the electron temperature in Joules
-    electron_temperature_joules = electron_charge * electron_temperature_ev
+    parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
 
-    return  electron_temperature_ev, electron_temperature_joules
 
-def get_electron_density(acquired_probe_current , potential_difference, electron_temperature_joules,  probe_area , ion_mass):
+def get_electron_density(parameters):
+    acquired_probe_current = parameters['Current measured'] 
+    potential_difference = parameters['Potential difference']
+    electron_temperature_joules =  parameters['Electron temperature (Joules)']
+    probe_area =  parameters['Probe area']
+    ion_mass =parameters['Ion mass']
     electron_charge = 1.60217657e-19
     exponential_term=  np.exp(abs(electron_charge*potential_difference/electron_temperature_joules))
     numerator_of_equation= abs(acquired_probe_current * exponential_term)
     denominator_of_equation = abs(0.61 * probe_area *electron_charge * np.sqrt(electron_temperature_joules/ion_mass) * (1-exponential_term))
-    electron_density = numerator_of_equation/denominator_of_equation
-    return(electron_density)
+    parameters['Electron density'] = numerator_of_equation/denominator_of_equation
 
 def get_equations():
     '''
