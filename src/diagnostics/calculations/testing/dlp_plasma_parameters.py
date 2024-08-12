@@ -2,7 +2,9 @@
 import numpy as np
 from global_parameters import get_debye_length, get_number_of_electrons
 
-
+#storing the charge of the electron particle, since it shall be used for calculation
+electron_charge = 1.60217657e-19
+   
 def get_ion_saturation_current(parameters):
     filtered_current_list = parameters['Filtered current list'] 
     '''
@@ -11,7 +13,6 @@ def get_ion_saturation_current(parameters):
     The ion saturation current is returned from this function.
     
     NOTE: This is a simple and crude way to obtain the value. Refer to SDD to understand logic behind this method. 
-    
     '''
     #storing the ion saturation current 
     parameters['Ion saturation current'] = np.min(filtered_current_list)
@@ -28,9 +29,7 @@ def get_electron_temperature( parameters):
     The value of  the derivative of the I-V values where the voltage applied is 0 is used to calculate electron temperature, yet it is possible
     that the voltage applied is never 0, thus the value closet to 0 shall be used. 
     '''
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
-    
+ 
     #storing the index where the voltage is closest to 0
     voltage_at_zero_index = np.argmin(abs(voltage_list))
     
@@ -45,13 +44,9 @@ def get_electron_temperature( parameters):
 
 
 def get_electron_density(parameters):
-    
     '''
     this function returns the electron density in Kilograms per cubic meter. 
-    '''
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = -1.60217657e-19
-    
+    ''' 
     #acquiring electron density 
     parameters['Electron density'] = parameters['Ion saturation current']/(electron_charge *  parameters['Probe area']) * np.sqrt(parameters['Ion mass']/parameters['Electron temperature (Joules)']) * np.exp(0.5)
     

@@ -1,18 +1,15 @@
 import numpy as np
 
+#storing the charge of the electron particle, since it shall be used for calculation
+electron_charge = 1.60217657e-19
+#storing the permittivity of free space constant in F/m, since it shall be used for calculation
+epsilon_naught= 8.854e-12
 
 def get_debye_length(parameters):
     
     '''
     DLP and SLP Debye length is returned from this function in meters.
     '''
-    
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
-    
-    #storing the permittivity of free space constant in F/m, since it shall be used for calculation
-    epsilon_naught= 8.854e-12
-    
     #acquiring Debye length
     parameters['Debye length'] = np.sqrt( 2 * epsilon_naught * parameters['Electron temperature (Joules)']/ (  parameters['Electron density'] * electron_charge * electron_charge) )
     
@@ -54,9 +51,7 @@ def get_particle_temperature(parameters):
     plasma_potential = parameters['Plasma potential']
     filtered_current_list = parameters['Filtered current list'] 
     voltage_list =  parameters['Voltage list']
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19  
-    
+
     log_I_V_derivative=  np.gradient(np.log(abs(filtered_current_list)), voltage_list )
     
     parameters['Particle temperature (eV)'] = 1/log_I_V_derivative[plasma_potential[0]]
@@ -75,8 +70,6 @@ def get_particle_density(parameters):
     
     Otherwise, the particle mass should be the estimated ion mass of the ions in the plasma
     '''
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
     
     #acquiring electron density
     parameters['Particle density'] =  abs(parameters['Electron saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Electron temperature(Joules)'] / (2 * np.pi * parameters['Particle mass']))))

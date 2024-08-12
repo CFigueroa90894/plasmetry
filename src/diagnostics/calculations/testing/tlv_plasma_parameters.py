@@ -1,5 +1,9 @@
 import numpy as np 
+#storing the charge of the electron particle, since it shall be used for calculation
+electron_charge = 1.60217657e-19
 
+ 
+number_of_iterations = 1000000
 def iteration(potential_difference, bias, estimated_guess):
     
     
@@ -31,18 +35,15 @@ def get_electron_temperature(parameters):
     
     The loop runs 1,000,000 iterations unless a value has been estimated, with an accuracy of 10^-5
     '''
-
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
-    #storing initial guess for raphson-newton approximation iterations
-    estimated_guess = 1
     #storing the counter, shall be used to know the number of iterations
     counter = 0
     #variable storing the previous guess at the beginning of each iteration
     previous_guess = 0
-
+    #storing initial guess for raphson-newton approximation iterations implemented for electron temperature calculation
+    estimated_guess = 1
+    
     #the raphson-newton approximation iterations occur in this while loop
-    while abs(estimated_guess - previous_guess)>1e-5 and counter <1000000:
+    while abs(estimated_guess - previous_guess)>1e-5 and counter <number_of_iterations:
         #storing previous guess, to compare with the final value of each iteration
         previous_guess =estimated_guess
         
@@ -58,7 +59,7 @@ def get_electron_temperature(parameters):
         
         counter +=1
         
-    if counter ==1000000:
+    if counter ==number_of_iterations:
         
         return f'After {counter} iterations, no accurate value has been yielded.'
     
@@ -75,7 +76,6 @@ def get_electron_density(parameters):
     electron_temperature_joules =  parameters['Electron temperature (Joules)']
     probe_area =  parameters['Probe area']
     ion_mass =parameters['Ion mass']
-    electron_charge = 1.60217657e-19
     exponential_term=  np.exp(abs(electron_charge*potential_difference/electron_temperature_joules))
     numerator_of_equation= abs(acquired_probe_current * exponential_term)
     denominator_of_equation = abs(0.61 * probe_area *electron_charge * np.sqrt(electron_temperature_joules/ion_mass) * (1-exponential_term))

@@ -2,7 +2,9 @@
 import numpy as np
 from global_parameters import get_debye_length, get_number_of_electrons, get_particle_density
 
-
+#storing the charge of the electron particle, since it shall be used for calculation
+electron_charge = 1.60217657e-19
+   
 def get_floating_and_plasma_potential(parameters):
     filtered_current_list = parameters['Filtered current list'] 
     voltage_list =  parameters['Voltage list']
@@ -64,8 +66,6 @@ def get_electron_temperature(parameters):
     filtered_current_list = parameters['Filtered current list'] 
     voltage_list =  parameters['Voltage list']
     
-    #storing the charge of the electron particle, since it shall be used for calculation
-    electron_charge = 1.60217657e-19
     
     #since the  floating potential is not yieded in the best way, we'll be using an estimation for the value of the initial point in the slope.
     #where the value is located between the currently estimated floating potential and the plasma potential, 
