@@ -1,5 +1,6 @@
 
 import numpy as np
+from global_parameters import get_debye_length, get_number_of_electrons, get_particle_density
 
 
 def get_floating_and_plasma_potential(filtered_current_list, voltage_list):
@@ -92,6 +93,19 @@ def get_electron_temperature(floating_potential, plasma_potential, filtered_curr
     return electron_temperature_ev, electron_temperature_joules
 
 
+def get_equations():
+    '''
+    This function returns a reference to the equations 
+    '''
+    list_of_references = []
+    list_of_references.append(get_floating_and_plasma_potential)
+    list_of_references.append(get_electron_saturation_current)
+    list_of_references.append(get_electron_temperature)
+    list_of_references.append(get_particle_density)
+    list_of_references.append(get_debye_length)
+    list_of_references.append(get_number_of_electrons)
+    return list_of_references
+    
     
    
 

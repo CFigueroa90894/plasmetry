@@ -82,3 +82,13 @@ def get_particle_density(electron_saturation_current, electron_temperature_joule
     particle_density = electron_saturation_current/(electron_charge * probe_area * np.sqrt(electron_temperature_joules / (2 * np.pi * particle_mass)))
     
     return particle_density
+
+def get_equations():
+    '''
+    This function returns a list of references for the equations used by both  HEA implementations and the IEA implementation.
+    '''
+    list_of_references = []
+    list_of_references.append(get_plasma_potential)
+    list_of_references.append(get_particle_temperature)
+    list_of_references.append(get_particle_density)
+    return list_of_references

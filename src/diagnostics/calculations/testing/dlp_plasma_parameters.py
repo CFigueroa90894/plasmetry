@@ -1,6 +1,6 @@
 
 import numpy as np
-
+from global_parameters import get_debye_length, get_number_of_electrons
 
 
 def get_ion_saturation_current(filtered_current_list):
@@ -57,8 +57,17 @@ def get_electron_density(electron_temperature_joules, probe_area, ion_saturation
     
     return electron_density
 
-    
-    
+def get_equations():
+    '''
+    This function returns a reference to the equations 
+    '''
+    list_of_references = []
+    list_of_references.append(get_ion_saturation_current)
+    list_of_references.append(get_electron_temperature)
+    list_of_references.append(get_electron_density)
+    list_of_references.append(get_debye_length)
+    list_of_references.append(get_number_of_electrons)
+    return list_of_references
     
     
     
