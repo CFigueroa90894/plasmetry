@@ -7,6 +7,7 @@ from global_parameters import get_equations as analyzers_equations
 from LangmuirProbe import LangmuirProbe
 from BaseTLP import BaseTLP
 from EnergyAnalyzers import EnergyAnalyzers
+
 from ProbeEnum import PRB        
 
 class ProbeFactory:
@@ -16,9 +17,7 @@ class ProbeFactory:
                 self.probe= LangmuirProbe(slp_equations)
             case PRB.DLP:
                 self.probe= LangmuirProbe(dlp_equations)
-            case PRB.HEA: 
-                self.probe= EnergyAnalyzers(analyzers_equations)
-            case PRB.IEA: 
+            case PRB.HEA | PRB.IEA: 
                 self.probe= EnergyAnalyzers(analyzers_equations)
             case PRB.TLV:
                 self.probe= BaseTLP(tlv_equations)
