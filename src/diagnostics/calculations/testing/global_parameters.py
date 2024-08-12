@@ -72,7 +72,7 @@ def get_particle_density(parameters):
     '''
     
     #acquiring electron density
-    parameters['Particle density'] =  abs(parameters['Electron saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Electron temperature(Joules)'] / (2 * np.pi * parameters['Particle mass']))))
+    parameters['Particle density'] =  abs(parameters['Particle saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Particle temperature(Joules)'] / (2 * np.pi * parameters['Particle mass']))))
 
 
 def get_equations():
