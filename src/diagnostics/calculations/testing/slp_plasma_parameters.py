@@ -3,16 +3,14 @@ import numpy as np
 from global_parameters import get_debye_length, get_number_of_electrons, get_particle_density
 
 
-def get_floating_and_plasma_potential(filtered_current_list, voltage_list):
- 
+def get_floating_and_plasma_potential(parameters):
+    filtered_current_list = parameters['Filtered current list'] 
+    voltage_list =  parameters['Voltage list']
     '''
     ** TODO: a better way to yield floating potential is available. will potentially implement it from PlasmaPy. must study more the documentation
     
     This function returns two lists that contains the floating potential and plasma potential and their respective index within the filtered_current_list. 
     '''
-    #initializing the lists
-    floating_potential =[]
-    plasma_potential= []
     
     '''
     The floating potential is defined as the voltage at which the current captured is 0.
@@ -22,33 +20,24 @@ def get_floating_and_plasma_potential(filtered_current_list, voltage_list):
     '''
     
     #acquiring the index where the current is closest to 0
-    floating_potential_index = np.argmin(abs(filtered_current_list))
+    parameters['Floating potential index'] = np.argmin(abs(filtered_current_list))
     
-    #storing the floating potential index in a list since it shall be used to calculate electron temperature
-    floating_potential.append(floating_potential_index)
-    
-    #acquiring the floating potential and storing in the list
-    floating_potential.append(voltage_list[floating_potential_index])
+    parameters['Floating potential'] = voltage_list[parameters['Floating potential index']]
     
     '''
     The plasma potential may be yielded from the value of the voltage where the maximum value of the derivate occurs
     '''
     
     #storing the index of the maximum value of the derivative
-    plasma_potential_index = np.argmax(np.gradient(filtered_current_list, voltage_list))
+    parameters['Plasma potential index']  = np.argmax(np.gradient(filtered_current_list, voltage_list))
     
-    #storing the index in a lis since it shall be used to calculate electron temperature 
-    plasma_potential.append(plasma_potential_index)
-     
     #acquiring plasma potential and storing in the list
-    plasma_potential.append( voltage_list[plasma_potential_index])
+    parameters['Plasma potential'] =voltage_list[parameters['Plasma potential index'] ]
     
-    return floating_potential, plasma_potential
 
 '''TODO: get best way to yield ion saturation current'''
-def get_electron_saturation_current(filtered_current_list, plasma_potential_index):
-    
-    
+def get_electron_saturation_current(parameters):
+    filtered_current_list = parameters['Filtered current list']     
     '''
     The electron saturation current is returned from this function.
     
@@ -56,19 +45,24 @@ def get_electron_saturation_current(filtered_current_list, plasma_potential_inde
     '''
      
     #storing the current acquired at the plasma potential 
-    electron_saturation_current = filtered_current_list[plasma_potential_index]
+    electron_saturation_current = filtered_current_list[parameters['Plasma potential index']]
     
     return electron_saturation_current
     
 
     
 
-def get_electron_temperature(floating_potential, plasma_potential, filtered_current_list, voltage_list):
+def get_electron_temperature(parameters):
     '''
     Single Langmuir Probe electron temperature in both electron volts and  Joules is returned by the slp_electron_temperature function.
     
     Electron temperature may be yielded from the inverse value of the slope of the ln(I)-V values between the floating and plasma potential.
     '''
+    
+    floating_potential=  parameters['Floating potential']
+    plasma_potential = parameters['Plasma potential']
+    filtered_current_list = parameters['Filtered current list'] 
+    voltage_list =  parameters['Voltage list']
     
     #storing the charge of the electron particle, since it shall be used for calculation
     electron_charge = 1.60217657e-19
@@ -84,13 +78,11 @@ def get_electron_temperature(floating_potential, plasma_potential, filtered_curr
     denominator_of_slope  = plasma_potential[1] - voltage_list[middle_index]
     
     #Denominator/numerator is being performed since the inverse value of the slope yields the electron temperature in electron volts 
-    electron_temperature_ev = denominator_of_slope/numerator_of_slope
+    parameters['Electron temperature (eV)'] = denominator_of_slope/numerator_of_slope
     
     #multiplying the electron particle mass times the electron temperature in electron volts yields the electron temperature in Joules
-    electron_temperature_joules = electron_temperature_ev * electron_charge
+    parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * electron_charge
     
-    #could return the temperature in a list containing both ev and Joules values of electron temperature, need to review with team
-    return electron_temperature_ev, electron_temperature_joules
 
 
 def get_equations():
