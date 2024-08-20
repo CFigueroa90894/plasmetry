@@ -48,14 +48,3 @@ class BaseProbe:
     # TO DO - ABSTRACT
     def run(self) -> None:
         raise NotImplementedError
-
-
-
-# Basic tests
-if __name__ == "__main__":
-    print("Hello!")
-    probe = BaseProbe()
-    print("World!")
-    print(PRB.ABS)
-    
-
