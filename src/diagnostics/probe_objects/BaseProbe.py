@@ -1,4 +1,5 @@
 # author: figueroa_90894@studnt.pupr.edu
+# status: WIP
 
 # built-in imports
 from threading import Event
@@ -36,9 +37,11 @@ class BaseProbe:
         self.config = config        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
+        
+        # TO DO - Redundant? Is this needed if run() creates a new one every time it pushes to data_buff?
+        self.params:dict = None     # used to store data samples and calculated parameters
 
-        # PROBE SUBCOMPONENTS
-        self.params:dict = None
+        # TO DO - PROBE SUBCOMPONENTS
         self._relay = None      # <relay object from hardware interface>
         self._filter = None     # <filter object, package TBD>
 
