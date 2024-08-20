@@ -73,16 +73,7 @@ def get_electron_temperature(parameters):
 
 
 def get_electron_density(parameters):
-    acquired_probe_current = parameters['Current measured'] 
-    potential_difference = parameters['Potential difference']
-    electron_temperature_joules =  parameters['Electron temperature (Joules)']
-    probe_area =  parameters['Probe area']
-    ion_mass =parameters['Ion mass']
-    exponential_term=  np.exp(abs(electron_charge*potential_difference/electron_temperature_joules))
-    numerator_of_equation= abs(acquired_probe_current * exponential_term)
-    denominator_of_equation = abs(0.61 * probe_area *electron_charge * np.sqrt(electron_temperature_joules/ion_mass) * (1-exponential_term))
-    parameters['Electron density'] = numerator_of_equation/denominator_of_equation
-
+ return 0
 def get_equations():
     '''
     This function returns a reference to the equations
