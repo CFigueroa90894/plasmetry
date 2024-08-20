@@ -52,4 +52,14 @@ class BaseProbe(ABC):
     def run(self) -> None:
         """Executes the data acquisition process. Children must override it."""
         raise NotImplementedError
+    
+    @abstractmethod
+    def _graceful_exit(self):
+        """Complete all pending actions, then exit gracefully."""
+        raise NotImplementedError
+    
+    @abstractmethod
+    def _emergency_exit(self):
+        """Force termination, perform critical actions and terminate immediately."""
+        raise NotImplementedError
 
