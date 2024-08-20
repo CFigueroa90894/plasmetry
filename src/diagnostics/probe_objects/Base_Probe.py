@@ -23,6 +23,7 @@ class BaseProbe(ABC):
                  equations:list,
                  config:dict,
                  data_buff:Queue,
+                 sampling_rate:int
                  ):
         
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
@@ -41,6 +42,7 @@ class BaseProbe(ABC):
         self.config = config        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
+        self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
         
         # TO DO - Redundant? Is this needed if run() creates a new one every time it pushes to data_buff?
         self.params:dict = None     # used to store data samples and calculated parameters
