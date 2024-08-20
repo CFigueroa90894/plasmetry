@@ -7,22 +7,28 @@ from ProbeEnum import PRB       # local
 class BaseProbe:
     # TO DO
     def __init__(self, 
-                 shutdown_flag:Event=None,
-                 run_flag:Event=None,
-                 config:dict=None
+                 shutdown:Event,
+                 diagnose:Event,
+                 emergency:Event,
+                 operating:Event,
+                 config:dict,
                  ):
-        # --- Parametric Attributes --- #
-        self.shutdown_flag = shutdown_flag  # Set externally, signals system-wide shutdown
-        self.run_flag = run_flag            # Set externally, signals diagnostics must be performed
-        self.config = config                # dictionary containing relevant configuration data
-
-        # --- Non-parametric Attributes --- #
-        self.probe_type = PRB.ABS   # Denotes the probe's type, in this case abstract
-
+        
+        # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
+        self.shutdown = shutdown        # graceful system-wide shutdown, begin exit script
+        self.diagnose = diagnose        # diagnostics must be performed
+        self.emergency = emergency      # emergency system-wide shutdown, terminate immediately
+        
+        # STATUS FLAGS - Set internally, notifies other subcomponents of this objects state.
         # !!! HIGH VOLTAGE INDICATOR !!!
         # Set this BEFORE enabling the relay
         # Clear AFTER confirming the relay is disabled
-        self.running:Event = Event()      # Set internally, signals that diagnostics are being performed
+        self.operating = operating      # indicate that diagnostics are being performed
+        
+        # PROBE INFO
+        self.config = config        # dictionary containing relevant configuration data
+        self.probe_type = PRB.ABS   # specifies the probe's type, in this case abstract
+
         
         # TO DO
         self.params:dict = None
