@@ -1,7 +1,11 @@
 # author: figueroa_90894@studnt.pupr.edu
 
-from threading import Event     # built-in
-from ProbeEnum import PRB       # local
+# built-in imports
+from threading import Event
+from queue import Queue
+
+# local imports
+from ProbeEnum import PRB
 
 # TO DO - ENFORCE ABSTRACT, and others
 class BaseProbe:
@@ -13,6 +17,7 @@ class BaseProbe:
                  operating:Event,
                  equations:list,
                  config:dict,
+                 data_buff:Queue
                  ):
         
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
@@ -30,8 +35,9 @@ class BaseProbe:
         self.probe_type = PRB.ABS   # specifies the probe's type, in this case abstract
         self.config = config        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
-        
-        # TO DO
+        self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
+
+        # PROBE SUBCOMPONENTS
         self.params:dict = None
         self._relay = None      # <relay object from hardware interface>
         self._filter = None     # <filter object, package TBD>
