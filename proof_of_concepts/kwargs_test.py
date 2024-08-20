@@ -52,9 +52,24 @@ def test_double_unpack_in_function():
     
     print("d after", d)
 
+# Succesful, unpacking two separate dictionaries
+# still passes arguments correctly
+def test_multi_dic_unpack():
+    da = {"acorn": 0, "arg1": 4}
+    db = {"arg2": 5, "berry": 1}
+    print("da", da)
+    print("db", db)
+
+    print("init alpha")
+    a = Alpha(**da, **db)
+    print("\n\ninspect alpha")
+    a.say()
+
+
 def main():
     # test_one_double_pack_in_class()
-    test_double_unpack_in_function()
+    # test_double_unpack_in_function()
+    test_multi_dic_unpack()
 
 if __name__ == "__main__":
     main()
