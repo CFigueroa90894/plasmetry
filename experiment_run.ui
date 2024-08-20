@@ -115,50 +115,6 @@
          </property>
         </widget>
        </item>
-       <item alignment="Qt::AlignRight">
-        <widget class="QPushButton" name="continue_btn">
-         <property name="minimumSize">
-          <size>
-           <width>104</width>
-           <height>58</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>104</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>18</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	background-color: #FFFFFF;
-}</string>
-         </property>
-         <property name="text">
-          <string>Continue</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-         <property name="default">
-          <bool>false</bool>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>

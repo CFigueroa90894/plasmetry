@@ -1,8 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QToolButton, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import pyqtSignal, QRect
-from numerical_keypad import NumericalKeypad 
+from PyQt5.QtCore import pyqtSignal
 
 class ExperimentSetup(QMainWindow):
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
@@ -12,8 +11,8 @@ class ExperimentSetup(QMainWindow):
         super().__init__()
         loadUi('experiment_setup.ui', self)  # Load the .ui file directly
 
-        # Add overlay buttons for each QDoubleSpinBox
-        self.add_tool_buttons()
+
+        ############################## GENERAL SIGNALS ##############################
 
         # Connect the continue button to switch to the experiment run window
         self.continue_btn.clicked.connect(self.emit_switch_to_run_signal)
@@ -27,36 +26,51 @@ class ExperimentSetup(QMainWindow):
         # Connect the reset button to reset settings to default
         self.reset_btn.clicked.connect(self.reset_setup)
 
-    def add_tool_buttons(self):
-        # Target QDoubleSpinBoxes and add a tool button to each
-        spinboxes = [
-            self.slp_sweep_adjustment_min_input,
-            self.slp_sweep_adjustment_max_input,
-            self.slp_sample_sweep_input,
-            self.slp_time_sweep_input,
-        ]
+        ############################## SLP SIGNALS ##############################
 
-        for spinbox in spinboxes:
-            tool_button = QToolButton(self)
-            tool_button.setText("...")
-            tool_button.setFixedSize(40, spinbox.height())
-            tool_button.clicked.connect(lambda _, s=spinbox: self.open_keypad_dialog(s))
-            tool_button.setStyleSheet("background-color: #DDDDDD; border: none;")  # Adjust the style as needed
+        # Connect Plus/Minus buttons for Min Voltage Ramp
+        self.slp_volt_ramp_min_minus.clicked.connect(self.decrease_slp_volt_ramp_min)
+        self.slp_volt_ramp_min_plus.clicked.connect(self.increase_slp_volt_ramp_min)
 
-            # Calculate the position of the button relative to the spinbox
-            spinbox_geometry = spinbox.geometry()
-            x_pos = spinbox_geometry.right() - tool_button.width()
-            y_pos = spinbox_geometry.top() + (spinbox_geometry.height() - tool_button.height()) // 2
+        # Connect Plus/Minus buttons for Max Voltage Ramp
+        self.slp_volt_ramp_max_minus.clicked.connect(self.decrease_slp_volt_ramp_max)
+        self.slp_volt_ramp_max_plus.clicked.connect(self.increase_slp_volt_ramp_max)
 
-            # Position the button
-            tool_button.setParent(spinbox.parentWidget())
-            tool_button.setGeometry(QRect(x_pos, y_pos, tool_button.width(), tool_button.height()))
-            tool_button.raise_()  # Ensure the button appears above the spinbox
+        # Connect Plus/Minus buttons for Sampling Rate
+        self.slp_sampling_rate_minus.clicked.connect(self.decrease_slp_sampling_rate)
+        self.slp_sampling_rate_plus.clicked.connect(self.increase_slp_sampling_rate)
 
-    def open_keypad_dialog(self, spinbox):
-        keypad = NumericalKeypad(self)
-        if keypad.exec_() == QDialog.Accepted:
-            spinbox.setValue(keypad.get_value())
+        # Connect Plus/Minus buttons for Number of Measurements 
+        self.slp_num_measurements_minus.clicked.connect(self.decrease_slp_num_measurements)
+        self.slp_num_measurements_plus.clicked.connect(self.increase_dlp_num_measurements)
+
+        ############################## DLP SIGNALS ##############################
+
+        # Connect Plus/Minus buttons for Min Voltage Ramp
+        self.dlp_volt_ramp_min_minus.clicked.connect(self.decrease_dlp_volt_ramp_min)
+        self.dlp_volt_ramp_min_plus.clicked.connect(self.increase_dlp_volt_ramp_min)
+
+        # Connect Plus/Minus buttons for Max Voltage Ramp
+        self.dlp_volt_ramp_max_minus.clicked.connect(self.decrease_dlp_volt_ramp_max)
+        self.dlp_volt_ramp_max_plus.clicked.connect(self.increase_dlp_volt_ramp_max)
+
+        # Connect Plus/Minus buttons for Sampling Rate
+        self.dlp_sampling_rate_minus.clicked.connect(self.decrease_dlp_sampling_rate)
+        self.dlp_sampling_rate_plus.clicked.connect(self.increase_dlp_sampling_rate)
+
+        # Connect Plus/Minus buttons for Number of Measurements 
+        self.dlp_num_measurements_minus.clicked.connect(self.decrease_dlp_num_measurements)
+        self.dlp_num_measurements_plus.clicked.connect(self.increase_dlp_num_measurements)
+
+        ############################## TLP SIGNALS ##############################
+
+        ############################## IEA SIGNALS ##############################
+
+        ############################## HEA SIGNALS ##############################
+
+
+
+    ############################## GENERAL SLOTS ##############################
 
     def emit_switch_to_run_signal(self):
         self.switch_to_run.emit()  # Emit the signal to switch to the experiment run window
@@ -71,6 +85,97 @@ class ExperimentSetup(QMainWindow):
     def reset_setup(self):
         print("Reset button clicked...waiting for implementation")
 
+    ############################## SLP SLOTS ##############################
+
+    # Increase and decrease values are subject to change
+
+    def decrease_slp_volt_ramp_max(self):
+        current_value = self.slp_volt_rampt_max_input.value()
+        new_value = current_value - 5
+        self.slp_volt_rampt_max_input.setValue(new_value)
+
+    def increase_slp_volt_ramp_max(self):
+        current_value = self.slp_volt_rampt_max_input.value()
+        new_value = current_value + 5
+        self.slp_volt_rampt_max_input.setValue(new_value)
+
+    def decrease_slp_volt_ramp_min(self):
+        current_value = self.slp_volt_ramp_min_input.value()
+        new_value = current_value - 5
+        self.slp_volt_ramp_min_input.setValue(new_value)
+
+    def increase_slp_volt_ramp_min(self):
+        current_value = self.slp_volt_ramp_min_input.value()
+        new_value = current_value + 5
+        self.slp_volt_ramp_min_input.setValue(new_value)
+
+    def decrease_slp_sampling_rate(self):
+        current_value = self.slp_sampling_rate_input.value()
+        new_value = current_value - 5
+        self.slp_sampling_rate_input.setValue(new_value)
+
+    def increase_slp_sampling_rate(self):
+        current_value = self.slp_sampling_rate_input.value()
+        new_value = current_value + 5
+        self.slp_sampling_rate_input.setValue(new_value)
+
+    def decrease_slp_num_measurements(self):
+        current_value = self.slp_num_measurements_input.value()
+        new_value = current_value - 5
+        self.slp_num_measurements_input.setValue(new_value)
+
+    def increase_slp_num_measurements(self):
+        current_value = self.slp_num_measurements_input.value()
+        new_value = current_value + 5
+        self.slp_num_measurements_input.setValue(new_value)
+
+    ############################## DLP SLOTS ##############################
+
+    def decrease_dlp_volt_ramp_max(self):
+        current_value = self.dlp_volt_rampt_max_input.value()
+        new_value = current_value - 5
+        self.dlp_volt_rampt_max_input.setValue(new_value)
+
+    def increase_dlp_volt_ramp_max(self):
+        current_value = self.dlp_volt_rampt_max_input.value()
+        new_value = current_value + 5
+        self.dlp_volt_rampt_max_input.setValue(new_value)
+
+    def decrease_dlp_volt_ramp_min(self):
+        current_value = self.dlp_volt_ramp_min_input.value()
+        new_value = current_value - 5
+        self.dlp_volt_ramp_min_input.setValue(new_value)
+
+    def increase_dlp_volt_ramp_min(self):
+        current_value = self.dlp_volt_ramp_min_input.value()
+        new_value = current_value + 5
+        self.dlp_volt_ramp_min_input.setValue(new_value)
+
+    def decrease_dlp_sampling_rate(self):
+        current_value = self.dlp_sampling_rate_input.value()
+        new_value = current_value - 5
+        self.dlp_sampling_rate_input.setValue(new_value)
+
+    def increase_dlp_sampling_rate(self):
+        current_value = self.dlp_sampling_rate_input.value()
+        new_value = current_value + 5
+        self.dlp_sampling_rate_input.setValue(new_value)
+
+    def decrease_dlp_num_measurements(self):
+        current_value = self.dlp_num_measurements_input.value()
+        new_value = current_value - 5
+        self.dlp_num_measurements_input.setValue(new_value)
+
+    def increase_dlp_num_measurements(self):
+        current_value = self.dlp_num_measurements_input.value()
+        new_value = current_value + 5
+        self.dlp_num_measurements_input.setValue(new_value)
+
+    ############################## TLP SLOTS ##############################
+
+    ############################## IEA SLOTS ##############################
+
+    ############################## HEA SLOTS ##############################
 
 if __name__ == "__main__":
     from experiment_run import ExperimentRun
