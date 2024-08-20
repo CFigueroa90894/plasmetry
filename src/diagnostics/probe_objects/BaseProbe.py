@@ -44,10 +44,6 @@ class BaseProbe:
         # TO DO - PROBE SUBCOMPONENTS
         self._relay = None      # <relay object from hardware interface>
         self._filter = None     # <filter object, package TBD>
-
-    # TO DO - ABSTRACT
-    def calc_params(self) -> dict:
-        raise NotImplementedError
     
     # TO DO - ABSTRACT
     def run(self) -> None:
