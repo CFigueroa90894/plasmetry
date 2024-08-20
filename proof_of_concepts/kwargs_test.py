@@ -1,6 +1,10 @@
 # author - figueroa_90894@students.pupr.edu
 # Testing double unpack of dictionary.
 
+# Conclusion - It seems the double-unpack of kwargs in a function signature
+# creates a dictionary view and modifies it to delete used named argument,
+# instead of modifiying the original unpacked dictionary at the function call.
+
 class Alpha:
     def __init__(self, arg1, arg2, *args, **kwargs):
         print("kwargs in alpha", kwargs)
