@@ -23,7 +23,6 @@ class BaseProbe(ABC):
                  equations:list,
                  config:dict,
                  data_buff:Queue,
-                 *args, **kwargs,
                  ):
         
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
