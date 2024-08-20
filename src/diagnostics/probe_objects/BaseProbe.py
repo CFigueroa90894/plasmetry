@@ -11,6 +11,7 @@ class BaseProbe:
                  diagnose:Event,
                  emergency:Event,
                  operating:Event,
+                 equations:list,
                  config:dict,
                  ):
         
@@ -26,9 +27,9 @@ class BaseProbe:
         self.operating = operating      # indicate that diagnostics are being performed
         
         # PROBE INFO
-        self.config = config        # dictionary containing relevant configuration data
         self.probe_type = PRB.ABS   # specifies the probe's type, in this case abstract
-
+        self.config = config        # dictionary containing relevant configuration data
+        self.equations = equations  # list of callables to calculate plasma parameters
         
         # TO DO
         self.params:dict = None
