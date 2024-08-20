@@ -12,6 +12,9 @@ from abc import ABC, abstractmethod     # enforce abstraction
 from ProbeEnum import PRB               # enumator for supported probe types
 
 class BaseProbe(ABC):
+    """The top-level, abstract class for all probe implementations.
+    Includes initialization for flags, data buffer, equations, config, and data buffer.
+    Defines abstract methods run(), _graceful_exit(), and _emergency_exit()."""
     def __init__(self, 
                  shutdown:Event,
                  diagnose:Event,
@@ -19,7 +22,8 @@ class BaseProbe(ABC):
                  operating:Event,
                  equations:list,
                  config:dict,
-                 data_buff:Queue
+                 data_buff:Queue,
+                 *args, **kwargs,
                  ):
         
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
