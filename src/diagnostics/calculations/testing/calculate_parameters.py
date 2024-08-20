@@ -4,6 +4,7 @@ Created on Wed Aug  7 13:43:38 2024
 
 @author: ajco2
 """
+#TODO: MUST UPDATE TO TAKE PARAMETERS DICTIONARY AS ARGUMENTS, ALSO TO USE EQS LIST
 
 
 import slp_plasma_parameters as slp
