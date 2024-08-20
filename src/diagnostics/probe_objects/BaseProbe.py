@@ -1,16 +1,17 @@
 # author: figueroa_90894@studnt.pupr.edu
 # status: WIP
+#   - decide what to do with redundant elements
+#   - add relay object once implemented
 
 # built-in imports
-from threading import Event
-from queue import Queue
+from threading import Event             # thread-safe signaling mechanisms
+from queue import Queue                 # thread-safe data buffer
+from abc import ABC, abstractmethod     # enforce abstraction
 
 # local imports
-from ProbeEnum import PRB
+from ProbeEnum import PRB               # enumator for supported probe types
 
-# TO DO - ENFORCE ABSTRACT, and others
-class BaseProbe:
-    # TO DO
+class BaseProbe(ABC):
     def __init__(self, 
                  shutdown:Event,
                  diagnose:Event,
@@ -43,8 +44,12 @@ class BaseProbe:
 
         # TO DO - PROBE SUBCOMPONENTS
         self._relay = None      # <relay object from hardware interface>
+
+        # MAY BE REDUNDANT IF IMPLEMENTED IN PROBE FACTORY
         self._filter = None     # <filter object, package TBD>
     
-    # TO DO - ABSTRACT
+    @abstractmethod
     def run(self) -> None:
+        """Executes the data acquisition process. Children must override it."""
         raise NotImplementedError
+
