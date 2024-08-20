@@ -91,8 +91,3 @@ def get_equations():
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
     return list_of_references
-parameters = {}
-parameters['Potential difference']= 91
-parameters['Voltage list']= 100
-get_electron_temperature(parameters)
-print(parameters)

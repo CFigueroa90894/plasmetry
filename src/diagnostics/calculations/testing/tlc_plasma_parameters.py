@@ -92,11 +92,3 @@ def get_equations():
     list_of_references.append(get_electron_density)
     return list_of_references
 
-parameters = {}
-parameters['Bias 1']= 25
-parameters['Bias 2']= 30
-parameters['Probe 1 current'] = .05
-parameters['Probe 2 current'] = .03
-parameters['Probe 3 current'] = .02
-get_electron_temperature(parameters)
-print(parameters)
