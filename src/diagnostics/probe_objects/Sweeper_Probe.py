@@ -1,4 +1,4 @@
-# author: figueroa_90894@studnt.pupr.edu
+# author: figueroa_90894@students.pupr.edu
 # status: WIP
 #   - add subcomponents once hardware interface is implemented
 #   - implement sweep method

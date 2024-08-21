@@ -1,4 +1,4 @@
-# author: figueroa_90894@studnt.pupr.edu
+# author: figueroa_90894@students.pupr.edu
 # status: WIP
 #   - decide what to do with redundant elements
 #   - add relay object once implemented
