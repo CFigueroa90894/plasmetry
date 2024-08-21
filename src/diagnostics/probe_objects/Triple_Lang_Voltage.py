@@ -12,8 +12,8 @@ class TripleLangVoltage(BaseTLP):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # TO DO - PROBE INFO
-        self.upper_probe = None     # hardware interface
+        # TO DO - PROBE SUBCOMPONENTS
+        self.float_probe = None     # <analog in> get voltage difference from center probe down to floating probe
 
     # TO DO
     def run(self):
