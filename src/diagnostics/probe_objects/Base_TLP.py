@@ -12,5 +12,5 @@ class BaseTLP(BaseProbe):
         super().__init__(*args, **kwargs)
 
         # TO DO - PROBE SUBCOMPONENTS
-        self.upper_probe = None     # <analog in> obtain currents
-        self.upper_amp = None      # <analog out> set applied voltage
+        self.upper_probe = None     # <analog in> obtain voltage to calculate current through probe
+        self.upper_amp = None       # <analog out> set applied voltage
