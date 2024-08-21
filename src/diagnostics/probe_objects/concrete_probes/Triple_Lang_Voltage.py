@@ -4,7 +4,7 @@
 #   - add hardware interface objects
 #   - implement run
 
-from Base_TLP import BaseTLP
+from abstract_probes.Base_TLP import BaseTLP
 
 class TripleLangVoltage(BaseTLP):
     "<...>"

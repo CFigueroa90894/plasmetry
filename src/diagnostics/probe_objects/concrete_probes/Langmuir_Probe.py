@@ -4,7 +4,7 @@
 #   - implement run()
 
 #local imports
-from Sweeper_Probe import SweeperProbe
+from abstract_probes.Sweeper_Probe import SweeperProbe
 from ProbeEnum import PRB
 
 class LangmuirProbe(SweeperProbe):

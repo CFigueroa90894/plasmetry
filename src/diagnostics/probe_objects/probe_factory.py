@@ -13,10 +13,10 @@ from tlc_plasma_parameters import get_equations as tlc_equations
 from global_parameters import get_equations as analyzers_equations
 
 # CONCRETE PROBE OBJECTS
-from Langmuir_Probe import LangmuirProbe
-from Triple_Lang_Voltage import TripleLangVoltage
-from Triple_Lang_Current import TripleLangCurrent
-from Energy_Analyzer import EnergyAnalyzer
+from concrete_probes.Langmuir_Probe import LangmuirProbe
+from concrete_probes.Triple_Lang_Voltage import TripleLangVoltage
+from concrete_probes.Triple_Lang_Current import TripleLangCurrent
+from concrete_probes.Energy_Analyzer import EnergyAnalyzer
 
 # PROBE IDENTIFIERS
 from ProbeEnum import PRB        
