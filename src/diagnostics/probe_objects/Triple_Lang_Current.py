@@ -15,3 +15,8 @@ class TripleLangCurrent(BaseTLP):
         # TO DO - PROBE SUBCOMPONENTS
         self.lower_probe = None     # <analog in> obtain voltage to calculate current through probe
         self.lower_amp = None       # <analog in> set applied voltage
+
+    # TO DO
+    def run(self):
+        "<...>"
+        raise NotImplementedError
