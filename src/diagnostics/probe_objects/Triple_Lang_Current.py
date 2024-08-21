@@ -11,8 +11,7 @@ class TripleLangCurrent(BaseTLP):
     def __init__(self, *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
-        self.
 
-        # TO DO - PROBE INFO
-        self.lower_probe = None
-        self.center_probe = None
+        # TO DO - PROBE SUBCOMPONENTS
+        self.lower_probe = None     # <analog in> obtain voltage to calculate current through probe
+        self.lower_amp = None       # <analog in> set applied voltage
