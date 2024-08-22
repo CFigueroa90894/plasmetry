@@ -30,7 +30,7 @@ def iteration(potential_difference, bias, estimated_guess):
 def get_electron_temperature(parameters):
     global estimated_guess 
     potential_difference = parameters['Potential difference']
-    bias =  parameters['Voltage list']
+    bias =  parameters['Bias']
     '''
     This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
     
@@ -73,7 +73,7 @@ def get_electron_temperature(parameters):
 
 
 def get_electron_density(parameters):
-    acquired_probe_current = parameters['Current measured'] 
+    acquired_probe_current = parameters['Filtered current'] 
     potential_difference = parameters['Potential difference']
     electron_temperature_joules =  parameters['Electron temperature (Joules)']
     probe_area =  parameters['Probe area']

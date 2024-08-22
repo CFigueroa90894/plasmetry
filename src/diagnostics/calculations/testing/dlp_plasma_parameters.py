@@ -6,7 +6,7 @@ from global_parameters import get_debye_length, get_number_of_electrons
 electron_charge = 1.60217657e-19
    
 def get_ion_saturation_current(parameters):
-    filtered_current_list = parameters['Filtered current list'] 
+    filtered_current_list = parameters['Filtered current'] 
     '''
     **TODO: find a better way to obtain ion saturation current.**
     
@@ -20,8 +20,8 @@ def get_ion_saturation_current(parameters):
     
     
 def get_electron_temperature( parameters):
-    filtered_current_list = parameters['Filtered current list'] 
-    voltage_list =  parameters['Voltage list'] 
+    filtered_current_list = parameters['Filtered current'] 
+    voltage_list =  parameters['Bias'] 
     ion_saturation_current = parameters['Ion saturation current'] 
     '''
     This function returns the electron temperature in both Joules and electron volts.

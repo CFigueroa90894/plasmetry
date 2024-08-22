@@ -33,8 +33,8 @@ def get_plasma_potential(parameters):
     '''
     HEA and IEA plasma potential is yielded by the applied bias where dI/dV = 0
     '''
-    filtered_current_list = parameters['Filtered current list'] 
-    voltage_list =  parameters['Voltage list']
+    filtered_current_list = parameters['Filtered current'] 
+    voltage_list =  parameters['Bias']
     #value closest to 0 is taken, since the derivative may not be 0 ever
     parameters['Plasma potential index'] = np.argmin(abs(np.gradient(filtered_current_list, voltage_list)))
     
@@ -49,8 +49,8 @@ def get_particle_temperature(parameters):
     Particle temperature in electron volts may be yielded from 1/ (d(ln(I))/dV) where  dI/dV = 0 (a.k.a.  plasma potential)
     '''
     plasma_potential = parameters['Plasma potential']
-    filtered_current_list = parameters['Filtered current list'] 
-    voltage_list =  parameters['Voltage list']
+    filtered_current_list = parameters['Filtered current'] 
+    voltage_list =  parameters['Bias']
 
     log_I_V_derivative=  np.gradient(np.log(abs(filtered_current_list)), voltage_list )
     

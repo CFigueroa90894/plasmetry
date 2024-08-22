@@ -6,8 +6,8 @@ from global_parameters import get_debye_length, get_number_of_electrons, get_par
 electron_charge = 1.60217657e-19
    
 def get_floating_and_plasma_potential(parameters):
-    filtered_current_list = parameters['Filtered current list'] 
-    voltage_list =  parameters['Voltage list']
+    filtered_current_list = parameters['Filtered current'] 
+    voltage_list =  parameters['Bias']
     '''
     ** TODO: a better way to yield floating potential is available. will potentially implement it from PlasmaPy. must study more the documentation
     
@@ -39,7 +39,7 @@ def get_floating_and_plasma_potential(parameters):
 
 '''TODO: get best way to yield ion saturation current'''
 def get_electron_saturation_current(parameters):
-    filtered_current_list = parameters['Filtered current list']     
+    filtered_current_list = parameters['Filtered current']     
     '''
     The electron saturation current is returned from this function.
     
@@ -63,8 +63,8 @@ def get_electron_temperature(parameters):
     
     floating_potential=  parameters['Floating potential']
     plasma_potential = parameters['Plasma potential']
-    filtered_current_list = parameters['Filtered current list'] 
-    voltage_list =  parameters['Voltage list']
+    filtered_current_list = parameters['Filtered current'] 
+    voltage_list =  parameters['Bias']
     
     
     #since the  floating potential is not yieded in the best way, we'll be using an estimation for the value of the initial point in the slope.

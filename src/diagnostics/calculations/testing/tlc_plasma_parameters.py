@@ -10,14 +10,14 @@ def iteration(parameters, estimated_guess):
     LIMIT = 500  
     
     #first exponential term, shall be used for function and derivative calculation
-    first_exp_term =  (parameters['Probe 1 current'] -parameters['Probe 3 current'])* np.exp(np.clip(parameters['Bias 1']*estimated_guess, None, LIMIT))
+    first_exp_term =  (parameters['Probe 1 filtered current'] -parameters['Probe 3 filtered current'])* np.exp(np.clip(parameters['Bias 1']*estimated_guess, None, LIMIT))
     
     #second exponential term,  shall be used for function and derivative calculation
-    second_exp_term =(parameters['Probe 1 current'] -parameters['Probe 2 current'])* np.exp(np.clip(parameters['Bias 2']*estimated_guess, None, LIMIT))
+    second_exp_term =(parameters['Probe 1 filtered current'] -parameters['Probe 2 filtered current'])* np.exp(np.clip(parameters['Bias 2']*estimated_guess, None, LIMIT))
     
     
     #storing the function, to be used for the next estimated guess calculation
-    function_output =  first_exp_term - second_exp_term -   parameters['Probe 2 current'] + parameters['Probe 3 current']  
+    function_output =  first_exp_term - second_exp_term -   parameters['Probe 2 filtered current'] + parameters['Probe 3 filtered current']  
     
     #storing the prime value, to be used for the next estimated guess calculation
     derivative_output = parameters['Bias 1'] * first_exp_term - parameters['Bias 2'] *  second_exp_term    
