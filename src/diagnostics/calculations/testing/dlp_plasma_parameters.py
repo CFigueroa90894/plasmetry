@@ -10,7 +10,7 @@ def get_ion_saturation_current(parameters):
     '''
     **TODO: find a better way to obtain ion saturation current.**
     
-    The ion saturation current is returned from this function.
+    The ion saturation current is calculated from this function.
     
     NOTE: This is a simple and crude way to obtain the value. Refer to SDD to understand logic behind this method. 
     '''
@@ -24,7 +24,7 @@ def get_electron_temperature( parameters):
     voltage_list =  parameters['Bias'] 
     ion_saturation_current = parameters['Ion saturation current'] 
     '''
-    This function returns the electron temperature in both Joules and electron volts.
+    This function calculates the electron temperature in both Joules and electron volts.
     
     The value of  the derivative of the I-V values where the voltage applied is 0 is used to calculate electron temperature, yet it is possible
     that the voltage applied is never 0, thus the value closet to 0 shall be used. 
@@ -45,7 +45,7 @@ def get_electron_temperature( parameters):
 
 def get_electron_density(parameters):
     '''
-    this function returns the electron density in Kilograms per cubic meter. 
+    this function yields the electron density in Kilograms per cubic meter. 
     ''' 
     #acquiring electron density 
     parameters['Electron density'] = parameters['Ion saturation current']/(electron_charge *  parameters['Probe area']) * np.sqrt(parameters['Ion mass']/parameters['Electron temperature (Joules)']) * np.exp(0.5)

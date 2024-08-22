@@ -11,7 +11,7 @@ def get_floating_and_plasma_potential(parameters):
     '''
     ** TODO: a better way to yield floating potential is available. will potentially implement it from PlasmaPy. must study more the documentation
     
-    This function returns two lists that contains the floating potential and plasma potential and their respective index within the filtered_current_list. 
+    This function yields two lists that contains the floating potential and plasma potential and their respective index within the filtered_current_list. 
     '''
     
     '''
@@ -41,7 +41,7 @@ def get_floating_and_plasma_potential(parameters):
 def get_electron_saturation_current(parameters):
     filtered_current_list = parameters['Filtered current']     
     '''
-    The electron saturation current is returned from this function.
+    The electron saturation current yields from this function.
     
     The electron saturation region commences at the plasma potential, thus the current acquired at this point yields the value of the electron saturation current.
     '''

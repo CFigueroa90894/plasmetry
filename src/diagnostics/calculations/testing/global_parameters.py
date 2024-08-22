@@ -8,7 +8,7 @@ epsilon_naught= 8.854e-12
 def get_debye_length(parameters):
     
     '''
-    DLP and SLP Debye length is returned from this function in meters.
+    DLP and SLP Debye length is calculated from this function in meters.
     '''
     #acquiring Debye length
     parameters['Debye length'] = np.sqrt( 2 * epsilon_naught * parameters['Electron temperature (Joules)']/ (  parameters['Electron density'] * electron_charge * electron_charge) )
@@ -19,7 +19,7 @@ def get_debye_length(parameters):
 def get_number_of_electrons(debye_length, electron_density):
     
     '''
-    DLP and SLP number of charged particles in the debye sphere is returned from this function.
+    DLP and SLP number of charged particles in the debye sphere is calculated from this function.
     '''
     
     #obtaining the number of electrons in the debye sphere
@@ -44,7 +44,7 @@ def get_plasma_potential(parameters):
 def get_particle_temperature(parameters):
     
     '''
-    HEA and IEA particle temperature in both electron volts and  Joules is returned by this function.
+    HEA and IEA particle temperature in both electron volts and  Joules is calculated by this function.
     
     Particle temperature in electron volts may be yielded from 1/ (d(ln(I))/dV) where  dI/dV = 0 (a.k.a.  plasma potential)
     '''
@@ -64,18 +64,18 @@ def get_particle_temperature(parameters):
 def get_particle_density(parameters):
     
     '''
-    This function returns the electron  density for SLP, HEA,IEA in Kilograms per cubic meter.
+    This function yields the electron  density for SLP, HEA,IEA in Kilograms per cubic meter.
     
     If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
     
     Otherwise, the particle mass should be the estimated ion mass of the ions in the plasma
     '''
-    if parameters['bias'][-1] >= 0 & parameters['Electron saturation current'] != None:
+    if parameters['Bias'][-1] >= 0 & parameters['Electron saturation current'] != None:
         parameters['Particle saturation current'] = ['Particle saturation current']
         
     #acquiring electron density
     parameters['Particle density'] =  abs(parameters['Particle saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Particle temperature(Joules)'] / (2 * np.pi * parameters['Particle mass']))))
-    if parameters['bias'][-1] >= 0 & parameters['Electron saturation current'] != None:
+    if parameters['Bias'][-1] >= 0 & parameters['Electron saturation current'] != None:
        parameters['Electron density'] = parameters['Particle density']
        del parameters['Particle density']
        
