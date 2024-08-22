@@ -47,9 +47,9 @@ def get_electron_saturation_current(parameters):
     '''
      
     #storing the current acquired at the plasma potential 
-    electron_saturation_current = filtered_current_list[parameters['Plasma potential index']]
+    parameters['Electron Saturation current'] = filtered_current_list[parameters['Plasma potential index']]
     
-    return electron_saturation_current
+    
     
 
     
