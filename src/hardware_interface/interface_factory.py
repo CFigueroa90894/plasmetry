@@ -39,5 +39,9 @@ class InterfaceFactory:
                 return DigitalIn(address=address, hardware_obj=self.hardware)
             case CHN.AI:
                 return AnalogIn(address=address, hardware_obj=self.hardware)
+            
+            # Edge case
+            case _:
+                raise ValueError(f"Unknown channel type: {type}")
                   
                   
