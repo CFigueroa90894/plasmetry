@@ -8,8 +8,6 @@ from threading import Event             # thread-safe signaling mechanisms
 from queue import Queue                 # thread-safe data buffer
 from abc import ABC, abstractmethod     # enforce abstraction
 
-# local imports
-from ProbeEnum import PRB               # enumator for supported probe types
 
 class BaseProbe(ABC):
     """The top-level, abstract class for all probe implementations.
@@ -38,7 +36,6 @@ class BaseProbe(ABC):
         self.operating = operating      # indicate that diagnostics are being performed
         
         # PROBE INFO
-        self.probe_type = PRB.ABS   # specifies the probe's type, in this case abstract
         self.config = config        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
