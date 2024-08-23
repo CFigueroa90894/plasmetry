@@ -4,9 +4,18 @@
 #   - add docstrings
 #   - resolve equation imports
 
+import sys
+import os
 from enum import Enum, unique
 
 # ----- LOCAL IMPORTS ----- #
+# add the src folder to the python to locate local modules
+if __name__ == "__main__":
+    target = os.path.dirname(__file__)  # probe_objects
+    target = os.path.dirname(target)    # diagnostics
+    target = os.path.dirname(target)    # src
+    sys.path.append(target)             # add src for absolute imports
+
 # PARAMETER EQUATIONS
 from slp_plasma_parameters import get_equations as slp_equations
 from dlp_plasma_parameters import get_equations as dlp_equations
@@ -15,10 +24,10 @@ from tlc_plasma_parameters import get_equations as tlc_equations
 from global_parameters import get_equations as analyzers_equations
 
 # CONCRETE PROBE OBJECTS
-from concrete_probes.Langmuir_Probe import LangmuirProbe
-from concrete_probes.Triple_Lang_Voltage import TripleLangVoltage
-from concrete_probes.Triple_Lang_Current import TripleLangCurrent
-from concrete_probes.Energy_Analyzer import EnergyAnalyzer
+from diagnostics.probe_objects.concrete_probes.Langmuir_Probe import LangmuirProbe
+from diagnostics.probe_objects.concrete_probes.Triple_Lang_Voltage import TripleLangVoltage
+from diagnostics.probe_objects.concrete_probes.Triple_Lang_Current import TripleLangCurrent
+from diagnostics.probe_objects.concrete_probes.Energy_Analyzer import EnergyAnalyzer
 
 
 # PROBE IDENTIFIERS
