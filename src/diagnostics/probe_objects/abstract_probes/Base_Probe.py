@@ -49,9 +49,6 @@ class BaseProbe(ABC):
 
         # TO DO - PROBE SUBCOMPONENTS
         self._relay = None      # <relay object from hardware interface>
-
-        # MAY BE REDUNDANT IF IMPLEMENTED IN PROBE FACTORY
-        self._filter = None     # <filter object, package TBD>
     
     @abstractmethod
     def run(self) -> None:
