@@ -6,7 +6,7 @@
 import sys
 import os
 
-# add the src folder to the python to locate local modules
+# add the src folder to the python path to locate local modules
 if __name__ == "__main__":
     target = os.path.dirname(__file__)  # abstract probes
     target = os.path.dirname(target)    # probe objects
