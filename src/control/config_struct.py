@@ -20,7 +20,8 @@ class ConfigStruct:
             self.__config[key] = value
 
     def get(self, key: str):
-        """<...>"""
+        """<...>
+        <guarantees mutual exclusion>"""
         with self.lock:
             return self.__config[key]
 
