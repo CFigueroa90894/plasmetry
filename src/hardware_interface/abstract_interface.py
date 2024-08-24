@@ -14,7 +14,7 @@ class AbstractInterface(ABC):
     @abstractmethod
     def write_analog(cls, address:int, value:float) -> None:
         """<...>"""
-        raise NotImplementedError("algo")
+        raise NotImplementedError
     
     @classmethod
     @abstractmethod
