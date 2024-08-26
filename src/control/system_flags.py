@@ -6,7 +6,7 @@
 from threading import Event
 
 
-class StatusStruct:
+class StatusFlags:
     """<...>"""
     def __init__(self):
         """<...>"""
@@ -24,7 +24,7 @@ class StatusStruct:
         self.writing_config_file = Event()  # config is being written to file
 
 
-class CommandStruct:
+class CommandFlags:
     """<...>"""
     def __init__(self):
         """<...>"""
