@@ -70,12 +70,14 @@ def get_particle_density(parameters):
     
     Otherwise, the particle mass should be the estimated ion mass of the ions in the plasma
     '''
-    if parameters['Bias'][-1] >= 0 & parameters['Electron saturation current'] != None:
-        parameters['Particle saturation current'] = ['Particle saturation current']
+    
+    if  'Electron saturation current' in parameters:
+        parameters['Particle saturation current'] = ['Electron saturation current']
         
     #acquiring electron density
     parameters['Particle density'] =  abs(parameters['Particle saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Particle temperature(Joules)'] / (2 * np.pi * parameters['Particle mass']))))
-    if parameters['Bias'][-1] >= 0 & parameters['Electron saturation current'] != None:
+   
+    if  'Electron saturation current' in parameters:
        parameters['Electron density'] = parameters['Particle density']
        del parameters['Particle density']
        
