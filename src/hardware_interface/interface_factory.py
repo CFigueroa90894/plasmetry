@@ -6,7 +6,7 @@
 from enum import Enum, unique
 
 # local imports
-from abstract_interface import AbstractInterface as interface
+from abstract_interface import AbstractWrapper as interface
 from interface_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
 
 # ----- CHANNEL TYPES ----- #

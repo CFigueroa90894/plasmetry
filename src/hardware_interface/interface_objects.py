@@ -4,7 +4,7 @@
 
 
 # local-imports
-from abstract_interface import AbstractInterface as interface
+from abstract_interface import AbstractWrapper as interface
 
 
 # ----- PARENT CLASS ----- #

@@ -6,7 +6,7 @@
 from abc import ABC, abstractmethod
 
 
-class AbstractInterface(ABC):
+class AbstractWrapper(ABC):
     """<...>"""
     
     # ----- ANALOG I/0 ----- #
