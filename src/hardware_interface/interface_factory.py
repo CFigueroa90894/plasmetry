@@ -19,7 +19,7 @@ class CHN(Enum):
     AI = 3
 
 # ----- FACTORY ----- #
-class InterfaceFactory:
+class HardwareFactory:
     def __init__(self, hardware_cls:interface):
         """<...>
         <hardware must be class, not obj>"""
