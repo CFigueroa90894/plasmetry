@@ -34,13 +34,12 @@ from diagnostics.probe_objects.concrete_probes.Energy_Analyzer import EnergyAnal
 @unique # prevent duplicate values
 class PRB(Enum):
     """An enumarator class to represent probe types."""
-    ABS = 0     # abstract probe type
-    SLP = 1     # Single Langmuir Probe
-    DLP = 2     # Double Langmuir Probe
-    HEA = 3     # Hyperbolic Energy Analyzer
-    IEA = 4     # Ion Energy Analyzer
-    TLC = 5     # Triple Langmuir Probe - Current Mode
-    TLV = 6     # Triple Langmuir Probe - Voltage Mode    
+    SLP = 0     # Single Langmuir Probe
+    DLP = 1     # Double Langmuir Probe
+    HEA = 2     # Hyperbolic Energy Analyzer
+    IEA = 3     # Ion Energy Analyzer
+    TLC = 4     # Triple Langmuir Probe - Current Mode
+    TLV = 5     # Triple Langmuir Probe - Voltage Mode    
 
 
 class ProbeFactory:
