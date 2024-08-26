@@ -25,7 +25,7 @@ class HardwareFactory:
         <hardware must be class, not obj>"""
         self.hardware = hardware_cls()
 
-    def Channel(self, address:int, type:CHN):
+    def make(self, address:int, type:CHN):
         """<...>"""
         match type:
             # Outputs
