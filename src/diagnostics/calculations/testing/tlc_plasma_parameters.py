@@ -1,4 +1,5 @@
 import numpy as np 
+from global_parameters import get_particle_density
 #storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
 #storing initial guess for raphson-newton approximation iterations implemented for electron temperature calculation
@@ -73,7 +74,8 @@ def get_electron_temperature(parameters):
 
 
 def get_electron_density(parameters):
- return 0
+    parameters['Particle saturation current'] = parameters['Probe 3 filtered current']
+    get_particle_density(parameters)
 def get_equations():
     '''
     This function returns a reference to the equations
