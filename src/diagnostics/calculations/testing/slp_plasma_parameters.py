@@ -27,11 +27,12 @@ def get_floating_and_plasma_potential(parameters):
     parameters['Floating potential'] = voltage_list[parameters['Floating potential index']]
     
     '''
-    The plasma potential may be yielded from the value of the voltage where the maximum value of the derivate occurs
+    The plasma potential may be yielded from the value of the voltage where the minimum value of the second order derivate occurs
     '''
-    
+    first_derivative = np.gradient(filtered_current_list, voltage_list)
+    second_derivative = np.gradient(first_derivative, voltage_list)
     #storing the index of the maximum value of the derivative
-    parameters['Plasma potential index']  = np.argmax(np.gradient(filtered_current_list, voltage_list))
+    parameters['Plasma potential index']  = np.argmin(second_derivative)
     
     #acquiring plasma potential and storing in the list
     parameters['Plasma potential'] =voltage_list[parameters['Plasma potential index'] ]
