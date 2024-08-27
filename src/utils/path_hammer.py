@@ -24,7 +24,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     # Locate absolute path to /plasmetry/src
     parent = os.path.dirname(__file__)  # traverse directory upwards
     for _ in range(num_dir): parent = os.path.dirname(parent)
-    print(f"Path Hammer: {parent}")          # expect absolute path to /plasmetry/src
+    print(f"Path Hammer: {parent}")     # expect absolute path to /plasmetry/src
 
     # Append all target folders to python path
     for dir in os.listdir(parent): sys.path.append(f"{parent}/{dir}")
