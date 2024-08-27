@@ -19,8 +19,8 @@ from diagnostics.probe_objects.abstract_probes.Base_Probe import BaseProbe
 class BaseTLP(BaseProbe):
     "<...>"
     def __init__(self,
-                 upper_probe_address,
-                 upper_amp_address,
+                 upper_probe_address:int,
+                 upper_amp_address:int,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
