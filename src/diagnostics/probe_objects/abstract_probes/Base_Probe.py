@@ -1,7 +1,5 @@
 # author: figueroa_90894@students.pupr.edu
-# status: WIP
-#   - decide what to do with redundant elements
-#   - add relay object once implemented
+# status: DONE
 
 # built-in imports
 from threading import Event             # thread-safe signaling mechanisms
