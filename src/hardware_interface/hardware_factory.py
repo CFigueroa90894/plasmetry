@@ -3,11 +3,27 @@
 #   - add docstrings
 
 # built-in imports
+import sys
+import os
 from enum import Enum, unique
 
+# ----- PATH HAMMER ----- resolve absolute imports ----- #
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 2             # how many parent folders to reach /plasmetry/src
+    
+    # Locate absolute path to /plasmetry/src
+    parent = os.path.dirname(__file__)  # traverse directory upwards
+    for _ in range(num_dir): parent = os.path.dirname(parent)
+    print(f"Path Hammer: {parent}")     # expect absolute path to /plasmetry/src
+
+    # Append all target folders to python path
+    for dir in os.listdir(parent): sys.path.append(f"{parent}/{dir}")
+    print(f"Path Hammer: folders appended")
+# ----- END PATH HAMMER ----- #
+
 # local imports
-from abstract_wrapper import AbstractWrapper as interface
-from hardware_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
+from hardware_interface.abstract_wrapper import AbstractWrapper as interface
+from hardware_interface.hardware_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
 
 # CHANNEL TYPES
 @unique
