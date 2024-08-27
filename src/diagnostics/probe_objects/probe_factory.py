@@ -17,8 +17,6 @@ if __name__ == "__main__":
     target = os.path.dirname(target)    # src
     sys.path.append(target)             # add src for absolute imports
 
-# CALCULATIONS
-from diagnostics.calculations.calculations_factory import EQ, CalculationsFactory as Equations
 
 # CONCRETE PROBE OBJECTS
 from diagnostics.probe_objects.concrete_probes.Langmuir_Probe import LangmuirProbe
@@ -48,15 +46,22 @@ class ProbeFactory:
                  status_flags,
                  command_flags,
                  hardware_factory,
+                 calculations_factory,
                  ):
         """<...>"""
+        # Save argument references
         self.config = config_ref
         self.status_flags = status_flags
         self.command_flags = command_flags
         self.hardware_factory = hardware_factory
+        self.calculations_factory = calculations_factory
 
     def make(self, probe_type: PRB):
         """<...>"""
+        # Factory aliases
+        Equations = self.calculations_factory
+        EQ = self.calculations_factory.IDs
+        
         # General Probe Arguments - dictionary unpacking depends on named probe parameters
         probe_args = {"config": self.config,
                       "shutdown": self.command_flags.shutdown,
