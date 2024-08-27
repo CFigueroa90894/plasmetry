@@ -27,7 +27,6 @@ class HardwareFactory:
         """<...>
         <hardware must be class, not obj>"""
         self.hardware_wrapper = wrapper_cls()
-        self.IDs:CHN = CHN
 
     def make(self, address:int, type:CHN):
         """<...>"""
