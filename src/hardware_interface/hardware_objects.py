@@ -10,10 +10,10 @@ from abstract_wrapper import AbstractWrapper as interface
 # ----- PARENT CLASS ----- #
 class BaseChannel:
     """<...>"""
-    def __init__(self, address:int, hardware_obj:interface):
+    def __init__(self, address:int, hardware_wrapper:interface):
         """<...>"""
         self.address = address
-        self.hardware = hardware_obj
+        self.hardware = hardware_wrapper
 
 
 # ----- ANALOG CHANNELS ----- #
