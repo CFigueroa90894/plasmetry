@@ -11,19 +11,27 @@
   
     Unfortunately, this snippet cannot be imported since it itself appends each 
     directory path needed to resolve absolute imports at runtime.
+
+    To debug the path hammer, execute the relevant script directly, and ensure the
+    printed path corresponds to plasmetry/src. The path hammer with automatically
+    raise an assertion error if it does not find plasmetry/src. Increase or decrease
+    the path hammer's arguments as necessary.
 """
 
 # built-in imports
 import sys
 import os
 
-# ----- PATH HAMMER v2.3 ----- resolve absolute imports ----- #
+# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 2             # how many parent folders to reach /plasmetry/src
+    num_dir = 1             # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
-    targets = [x[0] for x in os.walk(src_abs) if x[0][-1]!='_']          # all subdirectories, except __pycache__
+    split = src_abs.split('\\')     # separate path into folders for validation
+    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+    
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
