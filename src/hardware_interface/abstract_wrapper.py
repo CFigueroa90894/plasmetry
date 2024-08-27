@@ -11,22 +11,22 @@ class AbstractWrapper(ABC):
     
     # ----- ANALOG I/0 ----- #
     @abstractmethod
-    def write_analog(cls, address:int, value:float) -> None:
+    def write_analog(self, address:int, value:float) -> None:
         """<...>"""
         raise NotImplementedError
     
     @abstractmethod
-    def read_analog(cls, address:int) -> float:
+    def read_analog(self, address:int) -> float:
         """<...>"""
         raise NotImplementedError
     
     # ----- DIGITAL I/O ----- #
     @abstractmethod
-    def write_digital(cls, address:int, level:bool) -> None:
+    def write_digital(self, address:int, level:bool) -> None:
         """<...>"""
         raise NotImplementedError
     
     @abstractmethod
-    def read_digital(cls, address:int) -> bool:
+    def read_digital(self, address:int) -> bool:
         """<...>"""
         raise NotImplementedError
