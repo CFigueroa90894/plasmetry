@@ -19,12 +19,18 @@ from diagnostics.probe_objects.abstract_probes.Base_TLP import BaseTLP
 
 class TripleLangVoltage(BaseTLP):
     "<...>"
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 floating_probe_address:int,
+                 *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # TO DO - PROBE SUBCOMPONENTS
-        self.float_probe = None     # <analog in> get voltage difference from center probe down to floating probe
+        # pack subcomponent arguments
+        float_args = {"address": floating_probe_address,
+                      "type": self.HW.AI}
+
+        # PROBE SUBCOMPONENTS
+        self.float_probe = self.hard.make(**float_args)     # get voltage difference from center probe down to floating probe
 
     # TO DO
     def run(self):
