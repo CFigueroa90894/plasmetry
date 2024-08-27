@@ -15,7 +15,6 @@ class BaseProbe(ABC):
                  config:dict,
                  shutdown:Event,
                  diagnose:Event,
-                 emergency:Event,
                  operating:Event,
                  equations:list,
                  data_buff:Queue,
@@ -27,7 +26,6 @@ class BaseProbe(ABC):
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
         self.shutdown = shutdown        # graceful system-wide shutdown, begin exit script
         self.diagnose = diagnose        # diagnostics must be performed
-        self.emergency = emergency      # emergency system-wide shutdown, terminate immediately
         
         # STATUS FLAGS - Set internally, notifies other subcomponents of this objects state.
         # !!! HIGH VOLTAGE INDICATOR !!!
@@ -60,10 +58,5 @@ class BaseProbe(ABC):
     @abstractmethod
     def _graceful_exit(self):
         """Complete all pending actions, then exit gracefully."""
-        raise NotImplementedError
-    
-    @abstractmethod
-    def _emergency_exit(self):
-        """Force termination, perform critical actions and terminate immediately."""
         raise NotImplementedError
 
