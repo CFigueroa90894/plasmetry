@@ -13,7 +13,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     print(f"{name}: resolving imports...")
     
     # HAMMER ARGUMENTS
-    num_dir = 1     # how many parent folders to reach /plasmetry/src
+    num_dir = 2     # how many parent folders to reach /plasmetry/src
     targets = [     # folders to be added to the python path
         '\\abstract_layers',
         '\\control',
@@ -33,9 +33,8 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     print(f"{name}: appending target paths...")
     for subdir in targets:
         target = parent + subdir
-        print(f"{name}: {subdir}")
         sys.path.append(target)
-    print(f"{name}: complete.")
+    print(f"{name}: complete")
 
 # ----- LOCAL IMPORTS ----- #
 # PARAMETER EQUATIONS
