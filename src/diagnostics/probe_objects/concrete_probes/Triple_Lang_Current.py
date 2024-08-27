@@ -19,13 +19,23 @@ from diagnostics.probe_objects.abstract_probes.Base_TLP import BaseTLP
 
 class TripleLangCurrent(BaseTLP):
     "<...>"
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 lower_probe_addres:int,
+                 lower_amp_address:int,
+                 *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # TO DO - PROBE SUBCOMPONENTS
-        self.lower_probe = None     # <analog in> obtain voltage to calculate current through probe
-        self.lower_amp = None       # <analog in> set applied voltage
+        # pack subcomponent arguments
+        probe_args = {"address": lower_probe_addres,
+                      "type": self.HW.AI}
+        
+        amp_args = {"address": lower_amp_address,
+                    "type": self.HW.AO}
+        
+        # PROBE SUBCOMPONENTS
+        self._low_probe = self.hard.make(**probe_args)  # obtain voltage to calculate current through probe
+        self._low_amp = self.hard.make(**amp_args)      # set applied voltage to lower source
 
     # TO DO
     def run(self):
