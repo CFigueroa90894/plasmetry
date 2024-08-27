@@ -48,6 +48,7 @@ class ProbeFactory:
                  hardware_factory,
                  ):
         """<...>"""
+        self.Ids:PRB = PRB
         self.config = config_ref
         self.status_flags = status_flags
         self.command_flags = command_flags
