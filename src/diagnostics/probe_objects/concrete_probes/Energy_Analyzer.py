@@ -19,12 +19,23 @@ from diagnostics.probe_objects.abstract_probes.Sweeper_Probe import SweeperProbe
 class EnergyAnalyzer(SweeperProbe):
     """<...>"""
     def __init__(self,
+                 rejector_address:int,
+                 collector_bias_address:int,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # TO DO
-        self.collimator = None  #hardware interface
+
+        # pack subcomponent arguments
+        rejector_args = {"address": rejector_address,
+                         "type": self.HW.AO}
+        
+        bias_args = {"address": collector_bias_address,
+                     "type": self.HW.AO}
+
+        # PROBE SUBCOMPONENTS
+        self._rejector_bias = self.hard.make(**rejector_args)   # set voltage to reject particles at outer subcomponent
+        self._collector_bias = self.hard.make(**bias_args)      # set voltage to attract particles at innermost subcomponent
 
     def run(self):
         """<...>"""
