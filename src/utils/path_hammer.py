@@ -37,13 +37,25 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     parent = os.path.dirname(__file__)      # get current file's parent directory
     for _ in range(num_dir):                # traverse directory upwards
         parent = os.path.dirname(parent)    # get next parent
-    print(f"{name}: found path: {parent}")  # expect absolute path to /plasmetry/src
+    print(f"{name}: {parent}")  # expect absolute path to /plasmetry/src
 
     # Append all target folders to python path
     print(f"{name}: appending target paths...")
     for subdir in targets:
         target = parent + subdir
-        print(f"{name}: {subdir}...")
+        print(f"{name}: {subdir}")
         sys.path.append(target)
     print(f"{name}: complete.")
 # ----- END PATH HAMMER ----- #
+
+
+# ----- LOCAL IMPORT TESTS ----- #
+print("\nPath Hammer absolute import tests...")
+import placeholder_layers
+import placeholder_ctrl
+from calculations import placeholder_calc
+from probe_objects import placeholder_probe
+import placeholder_hardware
+import placeholder_ui
+import placeholder_utils
+print("Path Hammer: absolute import tests successful\n")
