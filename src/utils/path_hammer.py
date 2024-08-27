@@ -43,9 +43,8 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     print(f"{name}: appending target paths...")
     for subdir in targets:
         target = parent + subdir
-        print(f"{name}: {subdir}")
         sys.path.append(target)
-    print(f"{name}: complete.")
+    print(f"{name}: complete")
 # ----- END PATH HAMMER ----- #
 
 
