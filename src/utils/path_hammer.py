@@ -45,7 +45,5 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
         target = parent + subdir
         print(f"{name}: {subdir}...")
         sys.path.append(target)
-    print(f"{name}: ")
+    print(f"{name}: complete.")
 # ----- END PATH HAMMER ----- #
-
-# ----- LOCAL IMPORT TESTS ----- #
