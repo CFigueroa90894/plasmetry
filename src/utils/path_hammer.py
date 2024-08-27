@@ -43,8 +43,8 @@ import placeholder_layers
 import placeholder_ctrl
 # calc still needs concrete equations has
 # from calculations import placeholder_calc
-from probe_objects.probe_factory import ProbeFactory
-import placeholder_hardware
+from probe_factory import ProbeFactory
+from hardware_factory import HardwareFactory
 import placeholder_ui
 import placeholder_utils
 print("Path Hammer: absolute import tests successful\n")
