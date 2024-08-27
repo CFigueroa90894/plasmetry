@@ -2,11 +2,12 @@
 # modified: figueroa_90894@students.pupr.edu
 # status: WIP
 #   - add docstrings
-#   - resolve equation imports
 
+# ----- BUILT-IN IMPORTS ----- #
 import sys
 import os
 from enum import Enum, unique
+from queue import Queue
 
 # ----- LOCAL IMPORTS ----- #
 # add the src folder to the python path to locate local modules
@@ -16,12 +17,8 @@ if __name__ == "__main__":
     target = os.path.dirname(target)    # src
     sys.path.append(target)             # add src for absolute imports
 
-# PARAMETER EQUATIONS
-from slp_plasma_parameters import get_equations as slp_equations
-from dlp_plasma_parameters import get_equations as dlp_equations
-from tlv_plasma_parameters import get_equations as tlv_equations
-from tlc_plasma_parameters import get_equations as tlc_equations
-from global_parameters import get_equations as analyzers_equations
+# CALCULATIONS
+from diagnostics.calculations.calculations_factory import EQ, CalculationsFactory as Equations
 
 # CONCRETE PROBE OBJECTS
 from diagnostics.probe_objects.concrete_probes.Langmuir_Probe import LangmuirProbe
@@ -39,25 +36,77 @@ class PRB(Enum):
     HEA = 2     # Hyperbolic Energy Analyzer
     IEA = 3     # Ion Energy Analyzer
     TLC = 4     # Triple Langmuir Probe - Current Mode
-    TLV = 5     # Triple Langmuir Probe - Voltage Mode    
+    TLV = 5     # Triple Langmuir Probe - Voltage Mode
 
 
 class ProbeFactory:
     "<...>"
-    def __new__(self, probe_type: PRB):
+    def __init__(self,
+                 config_ref,
+                 status_flags,
+                 command_flags,
+                 hardware_factory,
+                 ):
+        """<...>"""
+        self.config = config_ref
+        self.status_flags = status_flags
+        self.command_flags = command_flags
+        self.hardware_factory = hardware_factory
+
+    def make(self, probe_type: PRB):
+        """<...>"""
+        # General Probe Arguments - dictionary unpacking depends on named probe parameters
+        probe_args = {"config": self.config,
+                      "shutdown": self.command_flags.shutdown,
+                      "diagnose": self.command_flags.diagnose,
+                      "emergency": self.command_flags.emergency,
+                      "operating": self.status_flags.operating,
+                      "data_buff": Queue(),     # new queue every time a probe is instantiated
+                      "sampling_rate": self.config.get("sampling_rate"),
+                      "hardware_factory": self.hardware_factory
+                      }
+        
+        # Probe Specific Arguments and Instantiation
         match probe_type:
+            # Single Langmuir Probe
             case PRB.SLP:
-                probe = LangmuirProbe(equations=slp_equations)
+                Probe_Class = LangmuirProbe
+                probe_args["equations"] = Equations(EQ.SLP_EQ)
+                probe_args["num_samples"] = self.config.get("num_samples") # samples per sweep
+            
+            # Double Langmuir Probe
             case PRB.DLP:
-                probe = LangmuirProbe(equations=dlp_equations)
-            case PRB.HEA | PRB.IEA:     # how to select particle type for HEA?
-                probe = EnergyAnalyzer(equations=analyzers_equations)
+                Probe_Class = LangmuirProbe
+                probe_args["equations"] = Equations(EQ.DLP_EQ)
+                probe_args["num_samples"] = self.config.get("num_samples") # samples per sweep
+            
+            # Hyperbolic Energy Analyzer
+            case PRB.HEA:
+                Probe_Class = EnergyAnalyzer
+                probe_args["equations"] = Equations(EQ.HEA_EQ)
+                probe_args["num_samples"] = self.config.get("num_samples") # samples per sweep
+            
+            # Ion Energy Analyzer
+            case PRB.IEA:
+                Probe_Class = EnergyAnalyzer
+                probe_args["equations"] = Equations(EQ.IEA_EQ)
+                probe_args["num_samples"] = self.config.get("num_samples") # samples per sweep
+            
+            # Triple Langmuir Probe - Voltage Mode
             case PRB.TLV:
-                probe = TripleLangVoltage(equations=tlv_equations)
+                Probe_Class = TripleLangVoltage
+                probe_args["equations"] = Equations(EQ.TLV_EQ)
+            
+            # Triple Langmuir Probe - Current Mode
             case PRB.TLC:
-                probe = TripleLangCurrent(equations=tlc_equations)
-            case _: # edge case handling
-                raise ValueError(f"Unknown probe type: {self.probe_type}")
-        return probe
+                Probe_Class = TripleLangCurrent
+                probe_args["equations"] = Equations(EQ.TLC_EQ)
+            
+            # Unknown Probe
+            case _:
+                raise ValueError(f"Unknown probe type: {probe_type}")
+        
+        # Initialize and return Probe Object using packed arguments.
+        return Probe_Class(**probe_args)
 
 
