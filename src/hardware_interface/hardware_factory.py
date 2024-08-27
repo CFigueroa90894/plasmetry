@@ -9,7 +9,7 @@ from enum import Enum, unique
 from abstract_wrapper import AbstractWrapper as interface
 from hardware_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
 
-# ----- CHANNEL TYPES ----- #
+# CHANNEL TYPES
 @unique
 class CHN(Enum):
     """<...>"""
@@ -18,30 +18,38 @@ class CHN(Enum):
     DI = 2
     AI = 3
 
-# ----- FACTORY ----- #
+
 class HardwareFactory:
-    def __init__(self, hardware_cls:interface):
+    """<...>"""
+    def __init__(self, wrapper_cls:interface):
         """<...>
         <hardware must be class, not obj>"""
-        self.hardware = hardware_cls()
+        self.hardware_wrapper = wrapper_cls()
 
     def make(self, address:int, type:CHN):
         """<...>"""
+        
+        # Pack hardware object's arguments
+        hardware_args = {"address": address,
+                         "hardware_wrapper": self.hardware_wrapper}
+
+        # Select class to instantiate channel
         match type:
             # Outputs
             case CHN.DO:
-                return DigitalOut(address=address, hardware_obj=self.hardware)
+                Channel_Class = DigitalOut
             case CHN.AO:
-                return AnalogOut(address=address, hardware_obj=self.hardware)
+                Channel_Class = AnalogOut
             
             # Inputs
             case CHN.DI:
-                return DigitalIn(address=address, hardware_obj=self.hardware)
+                Channel_Class = DigitalIn
             case CHN.AI:
-                return AnalogIn(address=address, hardware_obj=self.hardware)
+                Channel_Class = AnalogIn
             
             # Edge case
             case _:
                 raise ValueError(f"Unknown channel type: {type}")
-                  
-                  
+
+        # Initialize and return Channel Object using packed arguments.
+        return Channel_Class(**hardware_args)
