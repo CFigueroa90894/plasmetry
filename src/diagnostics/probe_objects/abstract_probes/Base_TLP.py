@@ -27,7 +27,7 @@ class BaseTLP(BaseProbe):
 
         # pack subcomponent's arguments
         probe_args = {"address": upper_probe_address,
-                      "type": self.HW.AO}
+                      "type": self.HW.AI}
         
         amp_args = {"address": upper_amp_address,
                     "type": self.HW.AO}
