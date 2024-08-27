@@ -47,7 +47,7 @@ class BaseProbe(ABC):
         
         # pack arguments
         relay_args = {"address": relay_address,
-                      "type": self.HW.AO}
+                      "type": self.HW.DO}
         
         # PROBE SUBCOMPONENTS
         self._relay = self.hard.make(**relay_args)      # turn the probe circuits on or off
