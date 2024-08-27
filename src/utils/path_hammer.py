@@ -18,34 +18,17 @@ import sys
 import os
 
 # ----- PATH HAMMER ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly
-    name = "Path Hammer"
-    print(f"{name}: resolving imports...")
-    
-    # HAMMER ARGUMENTS
-    num_dir = 1     # how many parent folders to reach /plasmetry/src
-    targets = [     # folders to be added to the python path
-        '\\abstract_layers',
-        '\\control',
-        '\\diagnostics',
-        '\\hardware_interface',
-        '\\user_interface',
-        '\\utils']
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 1             # how many parent folders to reach /plasmetry/src
     
     # Locate absolute path to /plasmetry/src
-    print(f"{name}: locating plasmetry source path...")
-    parent = os.path.dirname(__file__)      # get current file's parent directory
-    for _ in range(num_dir):                # traverse directory upwards
-        parent = os.path.dirname(parent)    # get next parent
-    print(f"{name}: {parent}")  # expect absolute path to /plasmetry/src
+    parent = os.path.dirname(__file__)  # traverse directory upwards
+    for _ in range(num_dir): parent = os.path.dirname(parent)
+    print(f"Path Hammer: {parent}")          # expect absolute path to /plasmetry/src
 
     # Append all target folders to python path
-    print(f"{name}: appending target paths...")
-    for subdir in targets:
-        target = parent + subdir
-        print(f"{name}: {subdir}")
-        sys.path.append(target)
-    print(f"{name}: complete.")
+    for dir in os.listdir(parent): sys.path.append(f"{parent}/{dir}")
+    print(f"Path Hammer: folders appended")
 # ----- END PATH HAMMER ----- #
 
 
