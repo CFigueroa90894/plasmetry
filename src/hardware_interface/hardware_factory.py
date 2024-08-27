@@ -21,6 +21,8 @@ class CHN(Enum):
 
 class HardwareFactory:
     """<...>"""
+    IDs:CHN = CHN   # package factory's valid IDs as class attribute
+
     def __init__(self, wrapper_cls:interface):
         """<...>
         <hardware must be class, not obj>"""

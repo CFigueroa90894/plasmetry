@@ -28,6 +28,8 @@ class EQ(Enum):
 
 class CalculationsFactory:
     """<...>"""
+    IDs:EQ = EQ     # package factory's valid IDs as class attribute
+
     def __new__(cls, equation_type: EQ):
         """<...>"""
         match equation_type:

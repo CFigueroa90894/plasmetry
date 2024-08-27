@@ -41,6 +41,8 @@ class PRB(Enum):
 
 class ProbeFactory:
     "<...>"
+    Ids:PRB = PRB   # package factory's valid IDs as class attribute
+    
     def __init__(self,
                  config_ref,
                  status_flags,
@@ -48,7 +50,6 @@ class ProbeFactory:
                  hardware_factory,
                  ):
         """<...>"""
-        self.Ids:PRB = PRB
         self.config = config_ref
         self.status_flags = status_flags
         self.command_flags = command_flags
