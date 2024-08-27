@@ -14,7 +14,7 @@ from tlc_plasma_parameters import get_equations as tlc_equations
 from global_parameters import get_equations as analyzers_equations
 
 
-# EQUATION IDENTIFIERS
+# PARAMETER EQUATION IDENTIFIERS
 @unique # prevent duplicate values
 class EQ(Enum):
     """<...>"""
@@ -32,15 +32,15 @@ class CalculationsFactory:
         """<...>"""
         match equation_type:
             case EQ.SLP_EQ:
-                return slp_equations
+                return slp_equations()
             case EQ.DLP_EQ:
-                return dlp_equations
+                return dlp_equations()
             case EQ.TLV_EQ:
-                return tlv_equations
+                return tlv_equations()
             case EQ.TLC_EQ:
-                return tlc_equations
+                return tlc_equations()
             case EQ.HEA_EQ | EQ.IEA_EQ:
-                return analyzers_equations
-            case _:
+                return analyzers_equations()
+            case _: # edge case handling
                 raise ValueError(f"Unknown equation type: {equation_type}")
 
