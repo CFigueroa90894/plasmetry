@@ -14,14 +14,15 @@ class BaseProbe(ABC):
     Includes initialization for flags, data buffer, equations, config, and data buffer.
     Defines abstract methods run(), _graceful_exit(), and _emergency_exit()."""
     def __init__(self, 
+                 config:dict,
                  shutdown:Event,
                  diagnose:Event,
                  emergency:Event,
                  operating:Event,
                  equations:list,
-                 config:dict,
                  data_buff:Queue,
-                 sampling_rate:int
+                 sampling_rate:int,
+                 hardware_factory,
                  ):
         
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
