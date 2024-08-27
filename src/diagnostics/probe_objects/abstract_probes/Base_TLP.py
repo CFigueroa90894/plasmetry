@@ -18,10 +18,20 @@ from diagnostics.probe_objects.abstract_probes.Base_Probe import BaseProbe
 
 class BaseTLP(BaseProbe):
     "<...>"
-    def __init__(self, *args, **kwargs):
+    def __init__(self,
+                 upper_probe_address,
+                 upper_amp_address,
+                 *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # TO DO - PROBE SUBCOMPONENTS
-        self.upper_probe = None     # <analog in> obtain voltage to calculate current through probe
-        self.upper_amp = None       # <analog out> set applied voltage
+        # pack subcomponent's arguments
+        probe_args = {"address": upper_probe_address,
+                      "type": self.HW.AO}
+        
+        amp_args = {"address": upper_amp_address,
+                    "type": self.HW.AO}
+
+        # PROBE SUBCOMPONENTS
+        self._up_probe = self.hard.make(**probe_args)   # Obtain voltage samples to calculate probe current.
+        self._up_amp = self.hard.make(**amp_args)       # Set voltage source output
