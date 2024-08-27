@@ -22,6 +22,7 @@ class BaseProbe(ABC):
                  equations:list,
                  data_buff:Queue,
                  sampling_rate:int,
+                 relay_address:int,
                  hardware_factory,
                  ):
         
@@ -42,8 +43,16 @@ class BaseProbe(ABC):
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
         self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
 
-        # TO DO - PROBE SUBCOMPONENTS
-        self._relay = None      # <relay object from hardware interface>
+        # HARDWARE FACTORY SETUP
+        self.hard = hardware_factory
+        self.HW = hardware_factory.IDs 
+        
+        # pack arguments
+        relay_args = {"address": relay_address,
+                      "type": self.HW.AO}
+        
+        # PROBE SUBCOMPONENTS
+        self._relay = self.hard.make(**relay_args)      # turn the probe circuits on or off
     
     @abstractmethod
     def run(self) -> None:
