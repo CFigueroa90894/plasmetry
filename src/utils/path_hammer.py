@@ -41,9 +41,10 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 print("\nPath Hammer absolute import tests...")
 import placeholder_layers
 from system_flags import StatusFlags, CommandFlags
-from calculations import placeholder_calc
-from probe_objects import placeholder_probe
-import placeholder_hardware
+# calc still needs concrete equations has
+# from calculations import placeholder_calc
+from probe_factory import ProbeFactory
+from hardware_factory import HardwareFactory
 import placeholder_ui
 import placeholder_utils
 print("Path Hammer: absolute import tests successful\n")

@@ -1,1 +1,0 @@
-print("Placeholder: src/diagnostics/probe_objects")
