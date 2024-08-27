@@ -3,19 +3,26 @@
 #   - add subcomponents once hardware interface is implemented
 #   - implement sweep method
 
+# built-in imports
 import sys
 import os
 
-# add the src folder to the python path to locate local modules
-if __name__ == "__main__":
-    target = os.path.dirname(__file__)  # abstract probes
-    target = os.path.dirname(target)    # probe objects
-    target = os.path.dirname(target)    # diagnostics
-    target = os.path.dirname(target)    # src
-    sys.path.append(target)             # add src for absolute imports
+# ----- PATH HAMMER ----- resolve absolute imports ----- #
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 3             # how many parent folders to reach /plasmetry/src
+    
+    # Locate absolute path to /plasmetry/src
+    parent = os.path.dirname(__file__)  # traverse directory upwards
+    for _ in range(num_dir): parent = os.path.dirname(parent)
+    print(f"Path Hammer: {parent}")     # expect absolute path to /plasmetry/src
+
+    # Append all target folders to python path
+    for dir in os.listdir(parent): sys.path.append(f"{parent}/{dir}")
+    print(f"Path Hammer: folders appended")
+# ----- END PATH HAMMER ----- #
 
 # local imports
-from diagnostics.probe_objects.abstract_probes.Base_Probe import BaseProbe        # parent class
+from probe_objects.abstract_probes.Base_Probe import BaseProbe        # parent class
 
 # TO DO
 class SweeperProbe(BaseProbe):
