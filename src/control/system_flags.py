@@ -29,7 +29,6 @@ class CommandFlags:
     def __init__(self):
         """<...>"""
         self.shutdown = Event()     # complete pending operations then terminate
-        self.emergency = Event()    # disable HV amps and forcibly terminate
         self.diagnose = Event()     # perform diagnostics
         self.refresh = Event()      # new plasma parameters to display
 
