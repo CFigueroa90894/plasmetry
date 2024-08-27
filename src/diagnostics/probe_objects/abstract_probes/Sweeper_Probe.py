@@ -39,8 +39,8 @@ class SweeperProbe(BaseProbe):
                           "type": self.HW.AI}
 
         # PROBE SUBCOMPONENTS
-        self._sweeper = self.hard.make(**sweeper_args)      # Hardware interface obj - TBD
-        self._collector = self.hard.make(**collector_args)  # Hardware interface obj - TBD
+        self._sweeper = self.hard.make(**sweeper_args)      # output voltages to sweeper source
+        self._collector = self.hard.make(**collector_args)  # obtain voltage samples to calculate probe current
 
     # TO DO
     def sweep(self) -> dict:
