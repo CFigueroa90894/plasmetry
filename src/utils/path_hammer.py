@@ -36,8 +36,9 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 print("\nPath Hammer absolute import tests...")
 import placeholder_layers
 import placeholder_ctrl
-from calculations import placeholder_calc
-from probe_objects import placeholder_probe
+# calc still needs concrete equations has
+# from calculations import placeholder_calc
+from probe_objects.probe_factory import ProbeFactory
 import placeholder_hardware
 import placeholder_ui
 import placeholder_utils
