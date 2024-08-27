@@ -22,6 +22,8 @@ class SweeperProbe(BaseProbe):
     """<...>"""
     def __init__(self,
                  num_samples:int,
+                 sweeper_address:int,
+                 collector_address:int,
                  *args, **kwargs
                  ):
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
@@ -29,9 +31,16 @@ class SweeperProbe(BaseProbe):
         # PROBE INFO
         self.num_samples = num_samples      # number of samples to obtain per sweep
 
-        # TO DO - PROBE SUBCOMPONENTS
-        self._sweeper = None        # Hardware interface obj - TBD
-        self._collector = None      # Hardware interface obj - TBD
+        # pack subcomponent arguments
+        sweeper_args = {"address": sweeper_address,
+                        "type": self.HW.AO}
+        
+        collector_args = {"address": collector_address,
+                          "type": self.HW.AI}
+
+        # PROBE SUBCOMPONENTS
+        self._sweeper = self.hard.make(**sweeper_args)      # Hardware interface obj - TBD
+        self._collector = self.hard.make(**collector_args)  # Hardware interface obj - TBD
 
     # TO DO
     def sweep(self) -> dict:
