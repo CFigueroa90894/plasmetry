@@ -28,14 +28,14 @@ from Base_TLP import BaseTLP
 class TripleLangCurrent(BaseTLP):
     "<...>"
     def __init__(self,
-                 lower_probe_addres:int,
+                 lower_probe_address:int,
                  lower_amp_address:int,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
         # pack subcomponent arguments
-        probe_args = {"address": lower_probe_addres,
+        probe_args = {"address": lower_probe_address,
                       "type": self.HW.AI}
         
         amp_args = {"address": lower_amp_address,
