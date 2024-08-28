@@ -40,7 +40,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # ----- LOCAL IMPORT TESTS ----- #
 print("\nPath Hammer absolute import tests...")
 import placeholder_layers
-import placeholder_ctrl
+from system_flags import StatusFlags, CommandFlags
 # calc still needs concrete equations has
 # from calculations import placeholder_calc
 from probe_factory import ProbeFactory
