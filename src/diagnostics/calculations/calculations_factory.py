@@ -24,11 +24,19 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 # ----- LOCAL IMPORTS ----- #
 # PARAMETER EQUATIONS
+""" COMMENTED WHILE AWAITING IMPLEMENTATION
 from slp_plasma_parameters import get_equations as slp_equations
 from dlp_plasma_parameters import get_equations as dlp_equations
 from tlv_plasma_parameters import get_equations as tlv_equations
 from tlc_plasma_parameters import get_equations as tlc_equations
 from global_parameters import get_equations as analyzers_equations
+"""
+# TEMPORARY PLACE HOLDERS
+slp_equations = None
+dlp_equations = None
+tlv_equations = None
+tlc_equations = None
+analyzers_equations = None
 
 
 # PARAMETER EQUATION IDENTIFIERS
