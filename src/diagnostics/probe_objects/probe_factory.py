@@ -70,7 +70,7 @@ class ProbeFactory:
         EQ = self.calculations_factory.IDs
         
         # General Probe Arguments - dictionary unpacking depends on named probe parameters
-        probe_args = {"config": self.config,
+        probe_args = {"config_ref": self.config,
                       "shutdown": self.command_flags.shutdown,
                       "diagnose": self.command_flags.diagnose,
                       "emergency": self.command_flags.emergency,
