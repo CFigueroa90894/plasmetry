@@ -46,5 +46,5 @@ import placeholder_ctrl
 from probe_factory import ProbeFactory
 from hardware_factory import HardwareFactory
 import placeholder_ui
-import placeholder_utils
+from type_enforcer import enforce_type
 print("Path Hammer: absolute import tests successful\n")
