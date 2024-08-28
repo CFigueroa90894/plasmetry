@@ -57,3 +57,94 @@ class ProbeOperation:
         }
         self.probe_factory = ProbeFactory(**probe_factory_args)
 
+    # TEMPORARY
+    def __create_probe_test(self, probe_type):
+        return self.probe_factory.make(probe_type)
+
+
+
+# PROBE OPERATION TESTS
+if __name__ == "__main__":
+    print("\n# ----- PROBE OPERATION TESTS ----- #\n")
+    
+    # local imports
+    from counter_wrapper import CounterWrapperTest          # dummy hardware wrapper
+    from system_flags import StatusFlags, CommandFlags      # system control flags
+    from config_struct import ConfigStruct
+    
+    # init system flags
+    status = StatusFlags()
+    commands = CommandFlags()
+
+    
+    # init probe configs
+    base_probe_config = {
+        "sampling_rate": 20,
+        "relay_address": 0,
+    }
+    
+    base_tlp_config = {
+        "upper_probe_address": 1,
+        "upper_amp_address": 2
+    }
+    
+    tlpc_config = {
+        "lower_probe_address": 3,
+        "lower_amp_address": 4
+    }
+    
+    tlpv_config = {
+        "floating_probe_address": 5
+    }
+    
+    sweeper_config = {
+        "num_samples": 10,
+        "sweeper_address": 6,
+        "collector_address": 7
+    }
+    
+    ea_config = {
+        "rejector_address": 8,
+        "collector_bias_address": 9
+    }
+
+    lang_config = {}
+
+    # pack probe config values
+    config_values = {
+        **base_probe_config,
+        **base_tlp_config,
+        **tlpc_config,
+        **tlpv_config,
+        **sweeper_config,
+        **ea_config,
+        **lang_config
+    }
+    # init config struct (config_ref)
+    config_struct = ConfigStruct(config_values)
+
+    # init probe operation
+    probe_operation_args = {
+        "config_ref": config_struct,
+        "status_flags": status,
+        "command_flags": commands,
+        "hardware_wrapper_cls": CounterWrapperTest
+    }
+    print("init probe operation")
+    po = ProbeOperation(**probe_operation_args)
+    
+    # PROBE TESTS
+    print("MAKE PROBES")
+    P = ProbeFactory.ID
+    slp = po._ProbeOperation__create_probe_test(P.SLP)
+    dlp = po._ProbeOperation__create_probe_test(P.DLP)
+    hea = po._ProbeOperation__create_probe_test(P.HEA)
+    iea = po._ProbeOperation__create_probe_test(P.IEA)
+    tlc = po._ProbeOperation__create_probe_test(P.TLC)
+    tlv = po._ProbeOperation__create_probe_test(P.TLV)
+    
+
+
+
+    print()
+
