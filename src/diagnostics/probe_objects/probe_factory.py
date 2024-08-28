@@ -46,7 +46,7 @@ class PRB(Enum):
 
 class ProbeFactory:
     "<...>"
-    Ids:PRB = PRB   # package factory's valid IDs as class attribute
+    ID:PRB = PRB   # package factory's valid IDs as class attribute
     
     def __init__(self,
                  config_ref,
@@ -73,7 +73,6 @@ class ProbeFactory:
         probe_args = {"config_ref": self.config,
                       "shutdown": self.command_flags.shutdown,
                       "diagnose": self.command_flags.diagnose,
-                      "emergency": self.command_flags.emergency,
                       "operating": self.status_flags.operating,
                       "data_buff": Queue(),     # new queue every time a probe is instantiated
                       "sampling_rate": self.config.get("sampling_rate"),
