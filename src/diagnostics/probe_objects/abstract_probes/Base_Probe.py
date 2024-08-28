@@ -34,7 +34,7 @@ class BaseProbe(ABC):
         self.operating = operating      # indicate that diagnostics are being performed
         
         # PROBE INFO
-        self.config = config_ref        # dictionary containing relevant configuration data
+        self.config_ref = config_ref        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
         self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
