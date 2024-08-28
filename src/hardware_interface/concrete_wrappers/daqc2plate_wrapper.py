@@ -8,6 +8,9 @@
 import sys
 import os
 
+# external imports
+"""from <...> import <...>"""
+
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 2             # how many parent folders to reach /plasmetry/src
