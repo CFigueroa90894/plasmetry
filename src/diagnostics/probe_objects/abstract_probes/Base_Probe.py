@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod     # enforce abstraction
 class BaseProbe(ABC):
     """The top-level, abstract class for all probe implementations.
     Includes initialization for flags, data buffer, equations, config, and data buffer.
-    Defines abstract methods run(), _graceful_exit(), and _emergency_exit()."""
+    Defines abstract methods run(), and _graceful_exit()."""
     def __init__(self, 
                  config:dict,
                  shutdown:Event,
@@ -20,7 +20,7 @@ class BaseProbe(ABC):
                  data_buff:Queue,
                  sampling_rate:int,
                  relay_address:int,
-                 hardware_factory,
+                 hardware_factory_obj,
                  ):
         
         # SIGNAL FLAGS - Set externally, indicates an action this object must perform.
@@ -40,8 +40,8 @@ class BaseProbe(ABC):
         self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
 
         # HARDWARE FACTORY SETUP
-        self.hard = hardware_factory
-        self.HW = hardware_factory.IDs 
+        self.hard = hardware_factory_obj
+        self.HW = hardware_factory_obj.IDs 
         
         # pack arguments
         relay_args = {"address": relay_address,
