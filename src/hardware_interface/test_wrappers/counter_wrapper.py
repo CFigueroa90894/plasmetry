@@ -1,5 +1,5 @@
 # author: figueroa_90894@students.pupr
-# status: WIP
+# status: DONE
 
 # built-in imports
 import sys
