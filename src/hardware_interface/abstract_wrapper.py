@@ -8,6 +8,10 @@ from abc import ABC, abstractmethod
 
 class AbstractWrapper(ABC):
     """<...>"""
+    @abstractmethod
+    def __init__(self):
+        """<...>"""
+        raise NotImplementedError
     
     # ----- ANALOG I/0 ----- #
     @abstractmethod
