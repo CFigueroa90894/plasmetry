@@ -40,7 +40,3 @@ class TripleLangVoltage(BaseTLP):
         # PROBE SUBCOMPONENTS
         self.float_probe = self.hard.make(**float_args)     # get voltage difference from center probe down to floating probe
 
-    # TO DO
-    def run(self):
-        """<...>"""
-        raise NotImplementedError

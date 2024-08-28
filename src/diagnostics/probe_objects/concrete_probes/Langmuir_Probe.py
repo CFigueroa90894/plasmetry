@@ -31,8 +31,3 @@ class LangmuirProbe(SweeperProbe):
         """<...>"""
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
 
-
-    # TO DO
-    def run(self):
-        """<...>"""
-        raise NotImplementedError

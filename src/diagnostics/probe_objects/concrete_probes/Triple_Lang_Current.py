@@ -45,7 +45,3 @@ class TripleLangCurrent(BaseTLP):
         self._low_probe = self.hard.make(**probe_args)  # obtain voltage to calculate current through probe
         self._low_amp = self.hard.make(**amp_args)      # set applied voltage to lower source
 
-    # TO DO
-    def run(self):
-        "<...>"
-        raise NotImplementedError

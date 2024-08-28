@@ -44,7 +44,3 @@ class EnergyAnalyzer(SweeperProbe):
         self._rejector_bias = self.hard.make(**rejector_args)   # set voltage to reject particles at outer subcomponent
         self._collector_bias = self.hard.make(**bias_args)      # set voltage to attract particles at innermost subcomponent
 
-    def run(self):
-        """<...>"""
-        raise NotImplementedError
-
