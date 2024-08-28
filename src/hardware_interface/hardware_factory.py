@@ -23,6 +23,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 # local imports
 from abstract_wrapper import AbstractWrapper as interface
+from daqc2plate_wrapper import DAQC2plateWrapper
 from hardware_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
 
 # CHANNEL TYPES
@@ -39,7 +40,7 @@ class HardwareFactory:
     """<...>"""
     IDs:CHN = CHN   # package factory's valid IDs as class attribute
 
-    def __init__(self, wrapper_cls:interface):
+    def __init__(self, wrapper_cls:interface=DAQC2plateWrapper):
         """<...>
         <hardware must be class, not obj>"""
         self.hardware_wrapper = wrapper_cls()
