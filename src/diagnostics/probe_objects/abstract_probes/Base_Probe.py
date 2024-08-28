@@ -12,7 +12,7 @@ class BaseProbe(ABC):
     Includes initialization for flags, data buffer, equations, config, and data buffer.
     Defines abstract methods run(), and _graceful_exit()."""
     def __init__(self, 
-                 config:dict,
+                 config_ref:dict,
                  shutdown:Event,
                  diagnose:Event,
                  operating:Event,
@@ -34,7 +34,7 @@ class BaseProbe(ABC):
         self.operating = operating      # indicate that diagnostics are being performed
         
         # PROBE INFO
-        self.config = config        # dictionary containing relevant configuration data
+        self.config = config_ref        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
         self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
