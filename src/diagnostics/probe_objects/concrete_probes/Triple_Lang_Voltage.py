@@ -44,3 +44,7 @@ class TripleLangVoltage(BaseTLP):
     def run(self):
         """<...>"""
         raise NotImplementedError
+
+    def _graceful_exit(self):
+        """<...>"""
+        raise NotImplementedError

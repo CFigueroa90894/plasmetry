@@ -36,3 +36,7 @@ class LangmuirProbe(SweeperProbe):
     def run(self):
         """<...>"""
         raise NotImplementedError
+    
+    def _graceful_exit(self):
+        """<...>"""
+        raise NotImplementedError
