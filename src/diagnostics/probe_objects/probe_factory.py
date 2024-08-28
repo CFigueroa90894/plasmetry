@@ -70,20 +70,6 @@ class ProbeFactory:
         EQ = self.calculations_factory.IDs
         
         # General Probe Arguments - dictionary unpacking depends on named probe parameters
-<<<<<<< Updated upstream
-        probe_args = {"config_ref": self.config,
-=======
-<<<<<<< Updated upstream
-        probe_args = {"config": self.config,
->>>>>>> Stashed changes
-                      "shutdown": self.command_flags.shutdown,
-                      "diagnose": self.command_flags.diagnose,
-                      "operating": self.status_flags.operating,
-                      "data_buff": Queue(),     # new queue every time a probe is instantiated
-                      "sampling_rate": self.config.get("sampling_rate"),
-                      "hardware_factory": self.hardware_factory
-                      }
-=======
         probe_args = {
             "config_ref": self.config,
             "shutdown": self.command_flags.shutdown,
@@ -92,7 +78,6 @@ class ProbeFactory:
             "data_buff": Queue(),     # new queue every time a probe is instantiated
             "hardware_factory_obj": self.hardware_factory
         }
->>>>>>> Stashed changes
         
         # Specific Probe Arguments
         base_probe_args = {
