@@ -181,3 +181,82 @@ class ProbeFactory:
         return args
 
 
+# PROBE CREATION TESTS
+if __name__ == "__main__":
+    print("\n# ----- PROBE FACTORY TESTS ----- #\n")
+    
+    # local imports
+    print("importing...")
+    from counter_wrapper import CounterWrapperTest          # dummy hardware wrapper
+    from system_flags import StatusFlags, CommandFlags      # system control flags
+    from config_struct import ConfigStruct
+    from hardware_factory import HardwareFactory
+    from calculations_factory import CalculationsFactory
+    
+    # init system flags
+    print("init system flags...")
+    status = StatusFlags()
+    commands = CommandFlags()
+
+    # init probe config
+    print("init probe config...")
+    probe_config = {
+        "sampling_rate": 20,
+        "relay_address": 0,
+        "upper_probe_address": 1,
+        "upper_amp_address": 2,
+        "lower_probe_address": 3,
+        "lower_amp_address": 4,
+        "floating_probe_address": 5,
+        "num_samples": 10,
+        "sweeper_address": 6,
+        "collector_address": 7,
+        "rejector_address": 8,
+        "collector_bias_address": 9
+    }
+    
+    # init config struct (config_ref)
+    print("init config struct....")
+    config_struct = ConfigStruct(probe_config)
+
+    # init probe factory
+    print("init probe factory...")
+    factory_args = {
+        "config_ref": config_struct,
+        "status_flags": status,
+        "command_flags": commands,
+        "hardware_factory": HardwareFactory(CounterWrapperTest),
+        "calculations_factory": CalculationsFactory
+    }
+    factory = ProbeFactory(**factory_args)
+    # PROBE TESTS
+    print("making probes...")
+    slp = factory.make(PRB.SLP)
+    dlp = factory.make(PRB.DLP)
+    hea = factory.make(PRB.HEA)
+    iea = factory.make(PRB.IEA)
+    tlc = factory.make(PRB.TLC)
+    tlv = factory.make(PRB.TLV)
+    
+    # inspect probe states
+    print("inspecting probe states...")
+    def probe_state(probe):
+        state = list(vars(probe).items())
+        state.sort()
+        for pair in state:
+            print(f"\t{pair}")
+
+    print("SLP STATE")
+    probe_state(slp)
+    print("DLP STATE")
+    probe_state(dlp)
+    print("HEA STATE")
+    probe_state(hea)
+    print("IEA STATE")
+    probe_state(iea)
+    print("TLC STATE")
+    probe_state(tlc)
+    print("TLV STATE")
+    probe_state(tlv)
+
+    print()
