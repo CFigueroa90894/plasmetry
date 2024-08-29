@@ -105,7 +105,7 @@ class ProbeFactory:
             # Triple Langmuir Probe - Current Mode
             case PRB.TLC:
                 Probe_Class = TripleLangCurrent
-                probe_args = self._pack_tlpc
+                probe_args = self._pack_tlpc()
                 probe_args["equations"] = Equations(EQ.TLC_EQ)
             
             # Unknown Probe
