@@ -23,6 +23,8 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 
 # ----- LOCAL IMPORTS ----- #
+from probe_enum import PRB
+
 # PARAMETER EQUATIONS
 """ COMMENTED WHILE AWAITING IMPLEMENTATION
 from slp_plasma_parameters import get_equations as slp_equations
@@ -39,34 +41,25 @@ tlc_equations = None
 analyzers_equations = None
 
 
-# PARAMETER EQUATION IDENTIFIERS
-@unique # prevent duplicate values
-class EQ(Enum):
-    """<...>"""
-    SLP_EQ = 0  # SLP parameter equations
-    DLP_EQ = 1  # DLP parameter equation
-    TLV_EQ = 2  # TLP-V parameter equations
-    TLC_EQ = 3  # TLP-C parameter equations
-    HEA_EQ = 4  # HEA parameter equations
-    IEA_EQ = 5  # IEA parameter equations
-
-
 class CalculationsFactory:
     """<...>"""
-    ID:EQ = EQ     # package factory's valid IDs as class attribute
-
-    def __new__(cls, equation_type: EQ):
+    def __new__(cls, equation_type: PRB):
         """<...>"""
         match equation_type:
-            case EQ.SLP_EQ:
+            # Single Langmuir Probe
+            case PRB.SLP:
                 return slp_equations
-            case EQ.DLP_EQ:
+            # Double Langmuir Probe
+            case PRB.DLP:
                 return dlp_equations
-            case EQ.TLV_EQ:
+            # Triple Langmuir Probe - Voltage Mode
+            case PRB.TLV:
                 return tlv_equations
-            case EQ.TLC_EQ:
+            # Triple Langmuir Probe - Current Mode
+            case PRB.TLC:
                 return tlc_equations
-            case EQ.HEA_EQ | EQ.IEA_EQ:
+            # Hyperbolic and Ion Energy Analyzers
+            case PRB.HEA | PRB.IEA:
                 return analyzers_equations
             case _: # edge case handling
                 raise ValueError(f"Unknown equation type: {equation_type}")
