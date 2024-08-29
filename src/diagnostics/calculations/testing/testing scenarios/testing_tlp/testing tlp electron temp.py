@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 electron_charge = 1.60217657e-19
  
 
-number_of_iterations = 100
+number_of_iterations = 20
 def iteration(potential_difference, bias, estimated_guess):
     #declaring limit to avoid overflow
     LIMIT = 500  
@@ -83,7 +83,7 @@ def get_electron_temperature(parameters):
     #parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
 parameters = {}
 #applied bias, fixed
-max_voltage = 50
+max_voltage = 90
 
 #generating different measured voltages, to show how temperature calculations and number of iterations changes for each case.
 #each generated voltage shall be  an integer between 1 to n-1, where n is the applied voltage
@@ -118,5 +118,7 @@ plt.ylabel('Electron Temperature (eV)')
 plt.grid()
 
 plt.show()
+
+
 
 
