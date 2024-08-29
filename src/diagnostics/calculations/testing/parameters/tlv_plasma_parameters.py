@@ -4,34 +4,32 @@ electron_charge = 1.60217657e-19
 
  
 number_of_iterations = 100
+
+
 def iteration(potential_difference, bias, estimated_guess):
     #declaring limit to avoid overflow
     LIMIT = 500  
     
     #first exponential term, shall be used for function and derivative calculation
     first_exp_term = 2 *np.exp(np.clip(potential_difference*estimated_guess, None, LIMIT))
-    
     #second exponential term,  shall be used for function and derivative calculation
     second_exp_term = np.exp(np.clip(bias*estimated_guess, None, LIMIT))
-    
     #storing the function, to be used for the next estimated guess calculation
     function_output =  first_exp_term - second_exp_term - 1     
-    
     #storing the prime value, to be used for the next estimated guess calculation
     derivative_output = potential_difference * first_exp_term - bias *  second_exp_term    
-    
     #if result after the prime calculation is 0, returning 0 to trigger TypeError
     #since the value will be used as a denominator
     if derivative_output ==0:
         return 0
     return function_output, derivative_output
 
+
 def get_electron_temperature(parameters):
     global estimated_guess 
     potential_difference = parameters['Potential difference']
     bias =  parameters['Bias']
-    '''
-    This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
+    '''This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
     
     The Raphson-Newton method has been deployed as a function of 1/electron temperature in electron volts.
     
@@ -85,9 +83,7 @@ def get_electron_density(parameters):
     parameters['Electron density'] = numerator_of_equation/denominator_of_equation
 
 def get_equations():
-    '''
-    This function returns a reference to the equations
-    '''
+    '''This function returns a reference to the equations'''
     list_of_references = []
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
