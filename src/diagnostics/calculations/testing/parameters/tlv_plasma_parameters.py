@@ -3,7 +3,7 @@ import numpy as np
 electron_charge = 1.60217657e-19
 
  
-number_of_iterations = 10000
+number_of_iterations = 100
 def iteration(potential_difference, bias, estimated_guess):
     #declaring limit to avoid overflow
     LIMIT = 500  
@@ -35,7 +35,7 @@ def get_electron_temperature(parameters):
     
     The Raphson-Newton method has been deployed as a function of 1/electron temperature in electron volts.
     
-    The loop runs 1,000,000 iterations unless a value has been estimated, with an accuracy of 10^-5
+    The loop runs 100 iterations unless a value has been estimated, with an accuracy of 10^-5
     '''
     #storing the counter, shall be used to know the number of iterations
     counter = 0
@@ -44,6 +44,7 @@ def get_electron_temperature(parameters):
    
     #storing initial guess for raphson-newton approximation iterations implemented for electron temperature calculation
     estimated_guess = np.log(2)/ (bias - potential_difference)
+    
     #the raphson-newton approximation iterations occur in this while loop
     while abs(estimated_guess - previous_guess)>1e-4 and counter <number_of_iterations:
         #storing previous guess, to compare with the final value of each iteration
