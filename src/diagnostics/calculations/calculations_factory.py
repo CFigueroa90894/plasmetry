@@ -34,11 +34,11 @@ from tlc_plasma_parameters import get_equations as tlc_equations
 from global_parameters import get_equations as analyzers_equations
 """
 # TEMPORARY PLACE HOLDERS
-slp_equations = None
-dlp_equations = None
-tlv_equations = None
-tlc_equations = None
-analyzers_equations = None
+slp_equations = "slp_equations"
+dlp_equations = "dlp_equations"
+tlv_equations = "tlv_equations"
+tlc_equations = "tlc_equations"
+analyzers_equations = "analyzers_equations"
 
 
 class CalculationsFactory:
