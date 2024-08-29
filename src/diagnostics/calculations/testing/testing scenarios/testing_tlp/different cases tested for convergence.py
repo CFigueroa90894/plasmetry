@@ -56,7 +56,7 @@ def get_electron_temperature(parameters):
     #initial guess is 1/x
     estimated_guess =np.log(2)/ (parameters['Bias']-i)
     #the raphson-newton approximation iterations occur in this while loop
-    while abs(estimated_guess - previous_guess)>1e-4 and counter <number_of_iterations:
+    while abs(estimated_guess - previous_guess)>1e-6 and counter <number_of_iterations:
         #storing previous guess, to compare with the final value of each iteration
         previous_guess =estimated_guess
         
@@ -97,6 +97,15 @@ def ParametersToCsv(parameters_dict, fname):
                 row.append(lst[i] if i < len(lst) else "")
             writer.writerow(row)
             
+def consolidated_parameters(listOfParameters, fname):
+   keys = listOfParameters[0].keys()
+   
+
+   with open( fname, "w", newline='') as csv_file:
+       dict_writer= csv.DictWriter(csv_file, keys)
+       dict_writer.writeheader()
+       dict_writer.writerows(listOfParameters)
+       
 max_voltages = list(range(10, 300, 5))
 
 results = []
@@ -108,16 +117,16 @@ for max_voltage in max_voltages:
     
     else: 
         minumum_measured = max_voltage-14
-    length = range(minumum_measured, max_voltage)
-    parameters['Potential difference'] = list(length)
+    parameters['Potential difference'] = list(range(minumum_measured, max_voltage))
     parameters['Bias'] = max_voltage
     get_electron_temperature(parameters)
     parameters['bias - potential difference'] = [parameters['Bias']- a  for a in parameters['Potential difference']]
     
     ParametersToCsv(parameters, str(max_voltage)+'_bias_testing_tlp_.csv')
+    results.append(parameters)
 
 
-    
+consolidated_parameters(results, 'consolidated bias tested.csv') 
     
     
     
