@@ -9,11 +9,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 #storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
-#storing initial guess for raphson-newton approximation iterations implemented for electron temperature calculation
-estimated_guess = 1
  
 
-number_of_iterations = 1000
+number_of_iterations = 100
 def iteration(potential_difference, bias, estimated_guess):
     #declaring limit to avoid overflow
     LIMIT = 500  
@@ -53,8 +51,9 @@ def get_electron_temperature(parameters):
     counter = 0
     #variable storing the previous guess at the beginning of each iteration
     previous_guess = 0
-   
-    estimated_guess = 1
+    
+    #storing initial guess for raphson-newton approximation iterations implemented for electron temperature calculation
+    estimated_guess = 1/(parameters['Bias']-i)/np.log(2)
     #the raphson-newton approximation iterations occur in this while loop
     while abs(estimated_guess - previous_guess)>1e-4 and counter <number_of_iterations:
         #storing previous guess, to compare with the final value of each iteration
@@ -83,7 +82,7 @@ def get_electron_temperature(parameters):
     #parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
 parameters = {}
 #applied bias, fixed
-max_voltage = 100
+max_voltage = 50
 
 #generating different measured voltages, to show how temperature calculations and number of iterations changes for each case.
 #each generated voltage shall be  an integer between 1 to n-1, where n is the applied voltage
