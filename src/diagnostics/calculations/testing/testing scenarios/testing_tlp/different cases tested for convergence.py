@@ -6,10 +6,10 @@ Created on Fri Aug 23 15:26:51 2024
 """
 
 import numpy as np 
-import matplotlib.pyplot as plt
+import csv
 #storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
-import csv
+
 
 number_of_iterations = 20
 def iteration(potential_difference, bias, estimated_guess):
@@ -112,7 +112,6 @@ for max_voltage in max_voltages:
     parameters['Potential difference'] = list(length)
     parameters['Bias'] = max_voltage
     get_electron_temperature(parameters)
-    print (max_voltage)
     parameters['bias - potential difference'] = [parameters['Bias']- a  for a in parameters['Potential difference']]
     
     ParametersToCsv(parameters, str(max_voltage)+'_bias_testing_tlp_.csv')
