@@ -44,7 +44,7 @@ def get_electron_temperature(parameters):
     estimated_guess = np.log(2)/ (bias - potential_difference)
     
     #the raphson-newton approximation iterations occur in this while loop
-    while abs(estimated_guess - previous_guess)>1e-6 and counter <number_of_iterations:
+    while abs(estimated_guess - previous_guess)>1e-5 and counter <number_of_iterations:
         #storing previous guess, to compare with the final value of each iteration
         previous_guess =estimated_guess
         
