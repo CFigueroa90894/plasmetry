@@ -53,7 +53,7 @@ class EQ(Enum):
 
 class CalculationsFactory:
     """<...>"""
-    IDs:EQ = EQ     # package factory's valid IDs as class attribute
+    ID:EQ = EQ     # package factory's valid IDs as class attribute
 
     def __new__(cls, equation_type: EQ):
         """<...>"""

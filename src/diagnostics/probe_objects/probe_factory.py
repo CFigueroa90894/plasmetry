@@ -65,12 +65,65 @@ class ProbeFactory:
 
     def make(self, probe_type: PRB):
         """<...>"""
-        # Factory aliases
+
+        # Factory alias
         Equations = self.calculations_factory
-        EQ = self.calculations_factory.IDs
+        EQ = self.calculations_factory.ID
+
+        # Package probe config by ID
+        match probe_type:
+            # Single Langmuir Probe
+            case PRB.SLP:
+                Probe_Class = LangmuirProbe
+                probe_args = self._pack_lp()
+                probe_args["equations"] = Equations(EQ.SLP_EQ)
+            
+            # Double Langmuir Probe
+            case PRB.DLP:
+                Probe_Class = LangmuirProbe
+                probe_args = self._pack_lp()
+                probe_args["equations"] = Equations(EQ.DLP_EQ)
+            
+            # Hyperbolic Energy Analyzer
+            case PRB.HEA:
+                Probe_Class = EnergyAnalyzer
+                probe_args = self._pack_ea()
+                probe_args["equations"] = Equations(EQ.HEA_EQ)
+            
+            # Ion Energy Analyzer
+            case PRB.IEA:
+                Probe_Class = EnergyAnalyzer
+                probe_args = self._pack_ea()
+                probe_args["equations"] = Equations(EQ.IEA_EQ)
+            
+            # Triple Langmuir Probe - Voltage Mode
+            case PRB.TLV:
+                Probe_Class = TripleLangVoltage
+                probe_args = self._pack_tlpv()
+                probe_args["equations"] = Equations(EQ.TLV_EQ)
+            
+            # Triple Langmuir Probe - Current Mode
+            case PRB.TLC:
+                Probe_Class = TripleLangCurrent
+                probe_args = self._pack_tlpc()
+                probe_args["equations"] = Equations(EQ.TLC_EQ)
+            
+            # Unknown Probe
+            case _:
+                raise ValueError(f"Unknown probe type: {probe_type}")
         
-        # General Probe Arguments - dictionary unpacking depends on named probe parameters
-        probe_args = {
+        probe_args["probe_id"] = probe_type
+        
+        # Initialize and return Probe Object using packed arguments.
+        return Probe_Class(**probe_args)
+    
+
+    # ----- PROBE ARGUMENT PACKACKING ----- #
+    
+    # GENERAL CONFIG ARTIFACTS
+    def __pack_general(self) -> dict:
+        """<...>"""
+        args = {
             "config_ref": self.config,
             "shutdown": self.command_flags.shutdown,
             "diagnose": self.command_flags.diagnose,
@@ -78,84 +131,74 @@ class ProbeFactory:
             "data_buff": Queue(),     # new queue every time a probe is instantiated
             "hardware_factory_obj": self.hardware_factory
         }
-        
-        # Specific Probe Arguments
-        base_probe_args = {
+        return args
+
+    # BASE PROBE CONFIG (abstract)
+    def __pack_base_probe(self):
+        """<...>"""
+        args = {
             "sampling_rate": self.config.get("sampling_rate"),
-            "relay_address": self.config.get("relay_address")
+            "relay_address": self.config.get("relay_address"),
+            **self.__pack_general()     # inherit general args
         }
-        sweeper_args = {
+        return args
+    
+    # SWEEPER PROBE CONFIG (abstract)
+    def __pack_sweeper(self):
+        """<...>"""
+        args = {
             "num_samples": self.config.get("num_samples"),
             "sweeper_address": self.config.get("sweeper_address"),
             "collector_address": self.config.get("collector_address"),
-            **base_probe_args   # inherit from base probe
+            **self.__pack_base_probe()  # inherit base probe args
         }
-        base_tlp_args = {
+        return args
+    
+    # BASE TLP CONFIG (abstract)
+    def __pack_base_tlp(self):
+        """<...>"""
+        args = {
             "upper_probe_address": self.config.get("upper_probe_address"),
             "upper_amp_address": self.config.get("upper_amp_address"),
-            **base_probe_args   # inherit base probe args
+            **self.__pack_base_probe()  # inherit base probe args
         }
-        lp_args = {
-            **sweeper_args      # inherit sweeper args
+        return args
+
+    # LANGMUIR PROBE CONFIG (concrete)
+    def _pack_lp(self) -> dict:
+        """<...>"""
+        args = {
+            **self.__pack_sweeper()     # inherit sweeper args
         }
-        ea_args = {
+        return args
+    
+    # ENERGY ANALYZER CONFIG (concrete)
+    def _pack_ea(self) -> dict:
+        """<...>"""
+        args = {
             "rejector_address": self.config.get("rejector_address"),
             "collector_bias_address": self.config.get("collector_bias_address"),
-            **sweeper_args      # inherit sweeper args 
+            **self.__pack_sweeper()     # inherit sweeper args 
         }
-        tlpc_args = {
+        return args
+
+    # TRIPLE LANGMUIR PROBE - CURRENT MODE CONFIG (concrete)
+    def _pack_tlpc(self) -> dict:
+        """<...>"""
+        args = {
             "lower_probe_address": self.config.get("lower_probe_address"),
             "lower_amp_address": self.config.get("lower_amp_address"),
-            **base_tlp_args     # inherit base tlp args
+            **self.__pack_base_tlp()    # inherit base tlp args
         }
-        tlpv_args = {
-            "floating_probe_address": self.config.get("floating_probe_address"),
-            **base_tlp_args     # inherit base tlp args
-        }
+        return args
 
-        # Probe Specific Arguments and Instantiation
-        match probe_type:
-            # Single Langmuir Probe
-            case PRB.SLP:
-                Probe_Class = LangmuirProbe
-                probe_args["equations"] = Equations(EQ.SLP_EQ)
-                end_args = {**probe_args, **lp_args}
-            
-            # Double Langmuir Probe
-            case PRB.DLP:
-                Probe_Class = LangmuirProbe
-                probe_args["equations"] = Equations(EQ.DLP_EQ)
-                end_args = {**probe_args, **lp_args}
-            
-            # Hyperbolic Energy Analyzer
-            case PRB.HEA:
-                Probe_Class = EnergyAnalyzer
-                probe_args["equations"] = Equations(EQ.HEA_EQ)
-                end_args = {**probe_args, **ea_args}
-            
-            # Ion Energy Analyzer
-            case PRB.IEA:
-                Probe_Class = EnergyAnalyzer
-                probe_args["equations"] = Equations(EQ.IEA_EQ)
-                end_args = {**probe_args, **ea_args}
-            
-            # Triple Langmuir Probe - Voltage Mode
-            case PRB.TLV:
-                Probe_Class = TripleLangVoltage
-                probe_args["equations"] = Equations(EQ.TLV_EQ)
-                end_args = {**probe_args, **tlpv_args}
-            
-            # Triple Langmuir Probe - Current Mode
-            case PRB.TLC:
-                Probe_Class = TripleLangCurrent
-                probe_args["equations"] = Equations(EQ.TLC_EQ)
-                end_args = {**probe_args, **tlpc_args}
-            
-            # Unknown Probe
-            case _:
-                raise ValueError(f"Unknown probe type: {probe_type}")
-        
-        # Initialize and return Probe Object using packed arguments.
-        return Probe_Class(**end_args)
+    # TRIPLE LANGMUIR PROBE - VOLTAGE MODE CONFIG (concrete)
+    def _pack_tlpv(self) -> dict:
+        """<...>"""
+        args = {
+            "floating_probe_address": self.config.get("floating_probe_address"),
+            **self.__pack_base_tlp()    # inherit base tlp args
+        }
+        return args
 
 

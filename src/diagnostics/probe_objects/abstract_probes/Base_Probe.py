@@ -2,16 +2,35 @@
 # status: DONE
 
 # built-in imports
+import sys
+import os
+
 from threading import Event             # thread-safe signaling mechanisms
 from queue import Queue                 # thread-safe data buffer
 from abc import ABC, abstractmethod     # enforce abstraction
 
+# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 3             # how many parent folders to reach /plasmetry/src
+
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    print(f"Path Hammer: {src_abs}")
+    split = src_abs.split('\\')     # separate path into folders for validation
+    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+    
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
+    print(f"Path Hammer: subdirectories appended to python path")
+# ----- END PATH HAMMER ----- #
+
+# local imports
 
 class BaseProbe(ABC):
     """The top-level, abstract class for all probe implementations.
     Includes initialization for flags, data buffer, equations, config, and data buffer.
     Defines abstract methods run(), and _graceful_exit()."""
     def __init__(self, 
+                 probe_id,
                  config_ref:dict,
                  shutdown:Event,
                  diagnose:Event,
@@ -34,6 +53,7 @@ class BaseProbe(ABC):
         self.operating = operating      # indicate that diagnostics are being performed
         
         # PROBE INFO
+        self.id = probe_id                  # identifier for testing and validation
         self.config_ref = config_ref        # dictionary containing relevant configuration data
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
