@@ -16,18 +16,40 @@ def get_debye_length(parameters):
 
 
 
-def get_number_of_electrons(debye_length, electron_density):
+def get_number_of_electrons(parameters):
     
     '''
     DLP and SLP number of charged particles in the debye sphere is calculated from this function.
     '''
     
     #obtaining the number of electrons in the debye sphere
-    number_of_electrons = 4/3 * np.pi * debye_length * electron_density
+    number_of_electrons = 4/3 * np.pi * parameters['Debye length'] * parameters['Electron density']
     
     return int(number_of_electrons)
 
 
+def get_particle_density(parameters):
+    
+    '''
+    This function yields the electron  density for SLP, HEA,IEA in Kilograms per cubic meter.
+    
+    If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
+    
+    Otherwise, the particle mass should be the estimated ion mass of the ions in the plasma
+    '''
+    
+    if  'Electron saturation current' in parameters:
+        parameters['Particle saturation current'] = parameters['Electron saturation current']
+        parameters['Particle temperature (Joules)'] = parameters['Electron temperature (Joules)'] 
+
+    #acquiring electron density
+    parameters['Particle density'] =  abs(parameters['Particle saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Particle temperature (Joules)'] / (2 * np.pi * parameters['Particle mass']))))
+   
+    if  'Electron saturation current' in parameters:
+       parameters['Electron density'] = parameters['Particle density']
+       del parameters['Particle density']
+       del parameters['Particle temperature (Joules)']
+       
 def get_plasma_potential(parameters):
     
     '''
@@ -58,30 +80,6 @@ def get_particle_temperature(parameters):
     
     #multiplying the electron particle mass times the electron temperature in electron volts yields the electron temperature in Joules
     parameters['Particle temperature (Joules)']  = parameters['Particle temperature [eV]']  * electron_charge
-    
-
-   
-def get_particle_density(parameters):
-    
-    '''
-    This function yields the electron  density for SLP, HEA,IEA in Kilograms per cubic meter.
-    
-    If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
-    
-    Otherwise, the particle mass should be the estimated ion mass of the ions in the plasma
-    '''
-    
-    if  'Electron saturation current' in parameters:
-        parameters['Particle saturation current'] = ['Electron saturation current']
-        
-    #acquiring electron density
-    parameters['Particle density'] =  abs(parameters['Particle saturation current']/(electron_charge * parameters['Probe area'] * np.sqrt(parameters['Particle temperature(Joules)'] / (2 * np.pi * parameters['Particle mass']))))
-   
-    if  'Electron saturation current' in parameters:
-       parameters['Electron density'] = parameters['Particle density']
-       del parameters['Particle density']
-       
-        
     
 
 def get_equations():
