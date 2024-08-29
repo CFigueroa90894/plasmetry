@@ -9,7 +9,7 @@ import numpy as np
 import csv
 #storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
-
+number_of_cases= 0
 
 number_of_iterations = 20
 def iteration(potential_difference, bias, estimated_guess):
@@ -36,8 +36,10 @@ def iteration(potential_difference, bias, estimated_guess):
 
 def get_electron_temperature(parameters):
    global estimated_guess 
+   global number_of_cases
    parameters['Electron temperature (eV)'] = []
    parameters['Iterations'] = []
+   number_of_cases+=len(parameters['Potential difference'])
    for i in parameters['Potential difference']:
     bias =  parameters['Bias']
     '''
@@ -79,6 +81,7 @@ def get_electron_temperature(parameters):
     #storing the electron temperature in eV
     parameters['Electron temperature (eV)'].append( 1/estimated_guess)
     parameters['Iterations'].append(counter)
+     
     #storing the electron temperature in Joules
     #parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
 def ParametersToCsv(parameters_dict, fname):
@@ -106,19 +109,19 @@ def consolidated_parameters(listOfParameters, fname):
        dict_writer.writeheader()
        dict_writer.writerows(listOfParameters)
        
-max_voltages = list(range(10, 300, 5))
+max_voltages = list(range(10, 10000, 2))
 
 results = []
-
 for max_voltage in max_voltages:
     parameters = {}
     if max_voltage==10:
         minumum_measured = max_voltage - 6
     
     else: 
-        minumum_measured = max_voltage-14
+        minumum_measured = 1
     parameters['Potential difference'] = list(range(minumum_measured, max_voltage))
     parameters['Bias'] = max_voltage
+   
     get_electron_temperature(parameters)
     parameters['bias - potential difference'] = [parameters['Bias']- a  for a in parameters['Potential difference']]
     parameters['Average number of iterations'] = round(np.sum(parameters['Iterations'])/len(parameters['Iterations']))
@@ -127,6 +130,6 @@ for max_voltage in max_voltages:
 
 
 consolidated_parameters(results, 'consolidated bias tested.csv') 
-    
+print(number_of_cases) 
     
     
