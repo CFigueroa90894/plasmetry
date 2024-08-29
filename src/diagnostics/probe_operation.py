@@ -71,6 +71,7 @@ if __name__ == "__main__":
     from counter_wrapper import CounterWrapperTest          # dummy hardware wrapper
     from system_flags import StatusFlags, CommandFlags      # system control flags
     from config_struct import ConfigStruct
+    from probe_enum import PRB
     
     # init system flags
     status = StatusFlags()
@@ -135,13 +136,12 @@ if __name__ == "__main__":
     
     # PROBE TESTS
     print("MAKE PROBES")
-    P = ProbeFactory.ID
-    slp = po._ProbeOperation__create_probe_test(P.SLP)
-    dlp = po._ProbeOperation__create_probe_test(P.DLP)
-    hea = po._ProbeOperation__create_probe_test(P.HEA)
-    iea = po._ProbeOperation__create_probe_test(P.IEA)
-    tlc = po._ProbeOperation__create_probe_test(P.TLC)
-    tlv = po._ProbeOperation__create_probe_test(P.TLV)
+    slp = po._ProbeOperation__create_probe_test(PRB.SLP)
+    dlp = po._ProbeOperation__create_probe_test(PRB.DLP)
+    hea = po._ProbeOperation__create_probe_test(PRB.HEA)
+    iea = po._ProbeOperation__create_probe_test(PRB.IEA)
+    tlc = po._ProbeOperation__create_probe_test(PRB.TLC)
+    tlv = po._ProbeOperation__create_probe_test(PRB.TLV)
     
 
 
