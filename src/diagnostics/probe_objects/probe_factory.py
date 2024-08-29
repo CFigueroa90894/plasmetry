@@ -6,7 +6,6 @@
 # ----- BUILT-IN IMPORTS ----- #
 import sys
 import os
-from enum import Enum, unique
 from queue import Queue
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
@@ -25,6 +24,8 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 
 # ----- LOCAL IMPORTS ----- #
+from probe_enum import PRB
+
 # CONCRETE PROBE OBJECTS
 from Langmuir_Probe import LangmuirProbe
 from Triple_Lang_Voltage import TripleLangVoltage
@@ -32,21 +33,8 @@ from Triple_Lang_Current import TripleLangCurrent
 from Energy_Analyzer import EnergyAnalyzer
 
 
-# PROBE IDENTIFIERS
-@unique # prevent duplicate values
-class PRB(Enum):
-    """An enumarator class to represent probe types."""
-    SLP = 0     # Single Langmuir Probe
-    DLP = 1     # Double Langmuir Probe
-    HEA = 2     # Hyperbolic Energy Analyzer
-    IEA = 3     # Ion Energy Analyzer
-    TLC = 4     # Triple Langmuir Probe - Current Mode
-    TLV = 5     # Triple Langmuir Probe - Voltage Mode
-
-
 class ProbeFactory:
     "<...>"
-    ID:PRB = PRB   # package factory's valid IDs as class attribute
     
     def __init__(self,
                  config_ref,
@@ -66,53 +54,44 @@ class ProbeFactory:
     def make(self, probe_type: PRB):
         """<...>"""
 
-        # Factory alias
-        Equations = self.calculations_factory
-        EQ = self.calculations_factory.ID
-
         # Package probe config by ID
         match probe_type:
             # Single Langmuir Probe
             case PRB.SLP:
                 Probe_Class = LangmuirProbe
                 probe_args = self._pack_lp()
-                probe_args["equations"] = Equations(EQ.SLP_EQ)
             
             # Double Langmuir Probe
             case PRB.DLP:
                 Probe_Class = LangmuirProbe
                 probe_args = self._pack_lp()
-                probe_args["equations"] = Equations(EQ.DLP_EQ)
             
             # Hyperbolic Energy Analyzer
             case PRB.HEA:
                 Probe_Class = EnergyAnalyzer
                 probe_args = self._pack_ea()
-                probe_args["equations"] = Equations(EQ.HEA_EQ)
             
             # Ion Energy Analyzer
             case PRB.IEA:
                 Probe_Class = EnergyAnalyzer
                 probe_args = self._pack_ea()
-                probe_args["equations"] = Equations(EQ.IEA_EQ)
             
             # Triple Langmuir Probe - Voltage Mode
             case PRB.TLV:
                 Probe_Class = TripleLangVoltage
                 probe_args = self._pack_tlpv()
-                probe_args["equations"] = Equations(EQ.TLV_EQ)
             
             # Triple Langmuir Probe - Current Mode
             case PRB.TLC:
                 Probe_Class = TripleLangCurrent
                 probe_args = self._pack_tlpc()
-                probe_args["equations"] = Equations(EQ.TLC_EQ)
             
             # Unknown Probe
             case _:
                 raise ValueError(f"Unknown probe type: {probe_type}")
         
         probe_args["probe_id"] = probe_type
+        probe_args["equations"] = self.calculations_factory(probe_type)
         
         # Initialize and return Probe Object using packed arguments.
         return Probe_Class(**probe_args)
