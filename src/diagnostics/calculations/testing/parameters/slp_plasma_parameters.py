@@ -152,24 +152,24 @@ if __name__ == "__main__":
             
             return voltageSLP, current
     
-    #parameter dictionary, stores parameters
+    # Parameter dictionary, stores parameters
     parameters= {}
     
-    #storing bias and raw current from previous implementation
+    # Storing bias and raw current lists from previous implementation
     parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
     
-    #probe area of a previous implementation, simulating config values
+    # Probe area of a previous implementation, simulating config values
     parameters['Probe area'] =  30.3858e-06
     
-    #electron mass in Kilograms
+    # Electron mass in Kilograms
     parameters ['Particle mass'] = 9.10938356e-31
    
-    #running each equation
+    # Running each equation
     list_of_equations = get_equations()
     for i in list_of_equations:
         i(parameters)
         
-    #printing the parameters
+    # Printing the parameters
     for i in parameters.keys():
         if 'current' not in i and 'Bias' != i:
             print( i + ': ', parameters[i])
