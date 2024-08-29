@@ -83,16 +83,16 @@ print('\nsecond order derivative of the current vs bias:\n')
 
 #plotting bias vs second order derivative of the filtered current
 plt.plot(bias, second_deriv, marker='o', linestyle='-')
-plt.ylabel('bias')
-plt.xlabel('second order derivative')
+plt.xlabel('bias')
+plt.ylabel('second order derivative')
 plt.title('Plot of Y vs X')
 plt.grid(True)
 plt.show()
 
 
 plt.plot(cut_bias, cut_second_derivative, marker='o', linestyle='-')
-plt.ylabel('bias')
-plt.xlabel('second order derivative')
+plt.xlabel('bias')
+plt.ylabel('second order derivative')
 plt.title('Plot of Y vs X')
 plt.grid(True)
 plt.show()
