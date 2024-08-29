@@ -48,7 +48,13 @@ derivative = np.gradient(filtered_current, bias)
 #second derivative
 second_deriv = np.gradient(derivative, bias)
 
+#cutting the lists to have a 'zoom' of the graph
+cut_bias = [a for a in bias if 0 < a < 80]
+cut_filtered_current = filtered_current[401-99:len(filtered_current)-len(cut_bias)]
+cut_second_derivative = second_deriv[401-99:len(second_deriv)-len(cut_bias)]
+
 #plotting bias vs raw current 
+print('\nraw current vs bias:\n')
 plt.plot(bias, current, marker='o', linestyle='-')
 plt.xlabel('bias')
 plt.ylabel('current')
@@ -57,6 +63,7 @@ plt.grid(True)
 plt.show()
 
 #plotting bias vs filtered current 
+print('\nfiltered current vs bias:\n')
 
 plt.plot(bias, filtered_current, marker='o', linestyle='-')
 plt.xlabel('bias')
@@ -65,8 +72,32 @@ plt.title('Plot of Y vs X')
 plt.grid(True)
 plt.show()
 
+plt.plot(cut_bias, cut_filtered_current, marker='o', linestyle='-')
+plt.xlabel('bias')
+plt.ylabel('filtered current')
+plt.title('Plot of Y vs X')
+plt.grid(True)
+plt.show()
+
+print('\nsecond order derivative of the current vs bias:\n')
+
 #plotting bias vs second order derivative of the filtered current
 plt.plot(bias, second_deriv, marker='o', linestyle='-')
+plt.ylabel('bias')
+plt.xlabel('second order derivative')
+plt.title('Plot of Y vs X')
+plt.grid(True)
+plt.show()
+
+
+plt.plot(cut_bias, cut_second_derivative, marker='o', linestyle='-')
+plt.ylabel('bias')
+plt.xlabel('second order derivative')
+plt.title('Plot of Y vs X')
+plt.grid(True)
+plt.show()
+#plotting bias vs second order derivative of the filtered current
+plt.plot(bias, derivative, marker='o', linestyle='-')
 plt.ylabel('bias')
 plt.xlabel('second order derivative')
 plt.title('Plot of Y vs X')
