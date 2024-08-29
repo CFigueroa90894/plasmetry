@@ -119,6 +119,20 @@ if __name__ == "__main__":
     tlc = po._ProbeOperation__create_probe_test(PRB.TLC)
     tlv = po._ProbeOperation__create_probe_test(PRB.TLV)
 
+    # SLP HARDWARE TESTS
+    print("SLP RELAY TESTS")
+    name = "\tslp relay: "
+    print(name, slp._relay.write(True))
+    print(name, slp._relay.write(False))
+    print(name, slp._relay.write(True))
+    print("SLP SWEEPER TESTS")
+    name = "\tslp sweeper: "
+    print(name, slp._sweeper.write(10.0))
+    print(name, slp._sweeper.write(0.0))
+    print("SLP COLLECTOR TESTS")
+    name = "\tslp collector: "
+    print(name, slp._collector.read())
+    print(name, slp._collector.read())
 
     print()
 
