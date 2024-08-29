@@ -82,33 +82,28 @@ def get_electron_temperature(parameters):
     #storing the electron temperature in Joules
     #parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
 def ParametersToCsv(parameters_dict, fname):
-    # Extract only the lists from the dictionary
     lists = {key: value for key, value in parameters_dict.items() if isinstance(value, list)}
 
-    # Open the CSV file for writing
     with open(fname, "w", newline='') as csv_file:
         writer = csv.writer(csv_file)
         
-        # Write the header row
         writer.writerow(lists.keys())
         
-        # Get the maximum length of the lists to determine how many rows to write
         max_length = max(len(lst) for lst in lists.values())
         
-        # Write each row
         for i in range(max_length):
-            row = []  # Start with an empty row
+            row = []  
             for lst in lists.values():
-                # Append the element from the list if it exists, otherwise append an empty string
                 row.append(lst[i] if i < len(lst) else "")
             writer.writerow(row)
+            
 max_voltages = list(range(10, 300, 5))
 
 results = []
 
 for max_voltage in max_voltages:
     parameters = {}
-    if max_voltage<30:
+    if max_voltage==10:
         minumum_measured = max_voltage - 6
     
     else: 
