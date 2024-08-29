@@ -51,38 +51,44 @@ class CounterWrapperTest(AbstractWrapper):
 
     # ----- ANALOG I/O ----- #
     @enforce_type
-    def write_analog(self, address:int, value:float) -> None:
+    def write_analog(self, address:int, value:float) -> str:
         """Prints arguments.
         """
         self.analog_out_count += 1    # increment counter
+        debug_msg = f"analog out - address: {address}; value: {value}; count: {self.analog_out_count}"
         if self.debug:                # print debug message
-            self.say(f"analog out - address: {address}; value: {value}; count: {self.analog_out_count}")
+            self.say(debug_msg)
+        return debug_msg
 
     @enforce_type
-    def read_analog(self, address:int) -> float:
+    def read_analog(self, address:int) -> str:
         """Print arguments. Return count value as float."""
         self.analog_in_count += 1     # increment counter
+        debug_msg = f"analog in - address: {address}; count: {float(self.analog_in_count)}"
         if self.debug:                # print debug message
-            self.say(f"analog in - address: {address}; count: {self.analog_in_count}")
-        return float(self.analog_in_count)
+            self.say(debug_msg)
+        return debug_msg
 
 
     # ----- DIGITAL I/O ----- #
     @enforce_type
-    def write_digital(self, address: int, level: bool) -> None:
+    def write_digital(self, address: int, level: bool) -> str:
         """Prints arguments.
         """
         self.digital_out_count += 1    # increment counter
+        debug_msg = f"digital out - address: {address}; level: {level}; count: {self.digital_out_count}"
         if self.debug:
-            self.say(f"digital out - address: {address}; level: {level}; count: {self.digital_out_count}")
+            self.say(debug_msg)
+        return debug_msg
     
     @enforce_type
     def read_digital(self, address: int) -> bool:
         """Print arguments. Return count value as int."""
         self.digital_in_count += 1     # increment counter
+        debug_msg = f"digital in - address: {address}; count: {int(self.digital_in_count)}"
         if self.debug:                 # print debug message
-            self.say(f"digital in - address: {address}; count: {self.digital_in_count}")
-        return int(self.digital_in_count)
+            self.say(debug_msg)
+        return debug_msg
 
 
     # ----- UTILITIES ----- #

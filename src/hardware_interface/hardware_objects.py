@@ -40,8 +40,8 @@ class AnalogOut(BaseChannel):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-    def write(self, voltage:float) -> None:
-        self.hardware.write_analog(self.address, voltage)
+    def write(self, voltage:float) -> str:
+        return self.hardware.write_analog(self.address, voltage)
 
 
 class AnalogIn(BaseChannel):
@@ -50,7 +50,7 @@ class AnalogIn(BaseChannel):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-    def read(self) -> float:
+    def read(self) -> str:
         """<...>"""
         return self.hardware.read_analog(self.address)
     
@@ -61,8 +61,8 @@ class DigitalOut(BaseChannel):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-    def write(self, level:bool) -> None:
-        self.hardware.write_digital(self.address, level)
+    def write(self, level:bool) -> str:
+        return self.hardware.write_digital(self.address, level)
 
 
 class DigitalIn(BaseChannel):
@@ -71,6 +71,6 @@ class DigitalIn(BaseChannel):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-    def read(self) -> bool:
+    def read(self) -> str:
         """<...>"""
         return self.hardware.read_digital(self.address)
