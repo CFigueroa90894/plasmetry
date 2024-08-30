@@ -134,7 +134,7 @@ if __name__ == "__main__":
     parameters['Probe area'] =  30.3858e-06
     
     # Argon atomic mass mass in Kilograms
-    parameters ['Ion mass'] = 6.629e-26
+    parameters['Ion mass'] = 6.629e-26
    
     # Running each equation
     list_of_equations = get_equations()
