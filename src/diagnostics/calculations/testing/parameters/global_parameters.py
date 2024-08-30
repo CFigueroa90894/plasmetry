@@ -9,6 +9,7 @@ EPSILON_NAUGHT= 8.854e-12
 
 """TODO: verify particle saturation current calculations with Dr. Gonzalez"""
 
+
 def filter_current(parameters):
     
     # Extracted from Felix Cuadrado's code
@@ -70,6 +71,7 @@ def get_particle_density(parameters):
        del parameters['Particle density']
        del parameters['Particle temperature (Joules)']
        
+       
 def get_particle_saturation_current(parameters):
     
     """This function yields the saturation current for HEA and IEA."""
@@ -80,6 +82,7 @@ def get_particle_saturation_current(parameters):
     
     # Storing the charged particle saturation current
     parameters['Particle saturation current'] = np.min(abs(np.gradient(filtered_current, bias)))
+    
        
 def get_plasma_potential(parameters):
     
