@@ -41,7 +41,6 @@ def get_ion_saturation_current(parameters):
     parameters['Ion saturation current'] = np.min(parameters['Filtered current'] )
    
     
-    
 def get_electron_temperature( parameters):
     
     """This function calculates the electron temperature in both Joules and electron volts.
