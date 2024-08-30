@@ -125,23 +125,24 @@ for max_voltage in max_voltages:
     get_electron_temperature(parameters)
     parameters['bias - potential difference'] = [parameters['Bias']- a  for a in parameters['Potential difference']]
     parameters['Average number of iterations'] = round(np.sum(parameters['Iterations'])/len(parameters['Iterations']))
-    ParametersToCsv(parameters, str(max_voltage)+'_bias_testing_tlp_.csv')
+    parameters['number of missing measurements'] = len(parameters['Potential difference']) - len(parameters['Electron temperature (eV)'])
+
+    ParametersToCsv(parameters, 'different test cases results per applied bias/' + str(max_voltage)+'_bias_testing_tlp_.csv')
     results.append(parameters)
 
 
 print(number_of_cases) 
-    
+consolidated_parameters(results, str(number_of_cases) + '_cases_consolidated test.csv') 
+
 missing = 0    
 unique_biases = 0
 list_of_biases = []
 
 for i in results:
-    i['number of missing measurements'] = len(i['Potential difference'])- len(i['Electron temperature (eV)'])
     missing += i['number of missing measurements']
     if missing!= 0:
         list_of_biases.append((i['Bias'], i['number of missing measurements']))
         unique_biases +=1
         
-consolidated_parameters(results, str(number_of_cases) + '_cases_consolidated test.csv') 
 
 print(f'Number of missing measurements: {missing} \n\n Number of unique biases: {unique_biases}, \n\n bias applied and number of missing measurements per bias and voltage measured: {list_of_biases}')
