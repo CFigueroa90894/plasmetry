@@ -30,18 +30,21 @@ def filter_current(parameters):
     
 def get_ion_saturation_current(parameters):
     
+    
     """**TODO: find a better way to obtain ion saturation current.**
     
     The ion saturation current is yielded from this function.
     
     NOTE: This is a simple and crude way to obtain the value.
     """
+    
     # Storing the ion saturation current.
     parameters['Ion saturation current'] = np.min(parameters['Filtered current'] )
    
     
     
 def get_electron_temperature( parameters):
+    
     
     """This function calculates the electron temperature in both Joules and electron volts.
     
@@ -51,6 +54,7 @@ def get_electron_temperature( parameters):
     
     thus the value closet to 0 shall be used. 
     """
+    
     # Storing parameters used for calculations
     filtered_current_list = parameters['Filtered current'] 
     voltage_list =  parameters['Bias'] 
@@ -82,9 +86,9 @@ def get_electron_density(parameters):
 
 
 def get_equations():
-    """
-    This function returns a reference to the equations 
-    """
+    
+    """This function returns a reference to the equations """
+    
     # List containing the references
     list_of_references = []
     
