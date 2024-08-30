@@ -72,13 +72,14 @@ def get_particle_density(parameters):
        
 def get_particle_saturation_current(parameters):
     
-    """This function yields the saturation current for HEA and IEA.
+    """This function yields the saturation current for HEA and IEA."""
     
-    """
+    # Storing parameters used for calculations
     filtered_current = parameters['Filtered current']
     bias = parameters['Bias']
     
-    parameters['Particle saturation current'] = np.min(np.gradient(filtered_current, bias))
+    # Storing the charged particle saturation current
+    parameters['Particle saturation current'] = np.min(abs(np.gradient(filtered_current, bias)))
        
 def get_plasma_potential(parameters):
     
