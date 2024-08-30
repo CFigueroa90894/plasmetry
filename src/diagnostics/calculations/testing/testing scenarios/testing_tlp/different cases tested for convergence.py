@@ -109,7 +109,7 @@ def consolidated_parameters(listOfParameters, fname):
        dict_writer.writeheader()
        dict_writer.writerows(listOfParameters)
        
-max_voltages = list(range(10, 10000, 2))
+max_voltages = list(range(10, 2000, 2))
 
 results = []
 for max_voltage in max_voltages:
@@ -129,7 +129,19 @@ for max_voltage in max_voltages:
     results.append(parameters)
 
 
-consolidated_parameters(results, 'consolidated bias tested.csv') 
 print(number_of_cases) 
     
-    
+missing = 0    
+unique_biases = 0
+list_of_biases = []
+
+for i in results:
+    i['number of missing measurements'] = len(i['Potential difference'])- len(i['Electron temperature (eV)'])
+    missing += i['number of missing measurements']
+    if missing!= 0:
+        list_of_biases.append((i['Bias'], i['number of missing measurements']))
+        unique_biases +=1
+        
+consolidated_parameters(results, str(number_of_cases) + '_cases_consolidated test.csv') 
+
+print(f'Number of missing measurements: {missing} \n\n Number of unique biases: {unique_biases}, \n\n bias applied and number of missing measurements per bias and voltage measured: {list_of_biases}')
