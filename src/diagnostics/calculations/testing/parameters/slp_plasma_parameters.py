@@ -32,7 +32,6 @@ def filter_current(parameters):
 
 def get_floating_and_plasma_potential(parameters):
     
-    
     """This function yields two lists that contains the floating potential and plasma potential
     
     and their respective index within the filtered_current_list. 
@@ -50,7 +49,7 @@ def get_floating_and_plasma_potential(parameters):
     parameters['Floating potential index'] = np.argmin(abs(filtered_current_list)) 
     parameters['Floating potential'] = voltage_list[parameters['Floating potential index']]
     
-    
+
     """The plasma potential may be yielded from the value of the voltage where the 
 
     minimum value of the second order derivate occurs.
@@ -92,7 +91,6 @@ def get_electron_temperature(parameters):
     
     and  Joules is calculated by the slp_electron_temperature function.
     """
-    
     
     """Electron temperature is be yielded from the inverse value of the slope of the ln(I)-V values
     
