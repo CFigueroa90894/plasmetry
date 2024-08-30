@@ -195,6 +195,6 @@ if __name__ == "__main__":
         i(parameters)
         
     # Printing the parameters
-    for i in parameters.keys():
-        if 'current' not in i and 'Bias' != i:
-            print( i + ': ', parameters[i])
+    for key, value in parameters.items():
+        if 'current' not in key and 'Bias' != key:
+            print(key, ': ' ,value)
