@@ -30,7 +30,6 @@ def filter_current(parameters):
     
 def get_ion_saturation_current(parameters):
     
-    
     """**TODO: find a better way to obtain ion saturation current.**
     
     The ion saturation current is yielded from this function.
@@ -44,7 +43,6 @@ def get_ion_saturation_current(parameters):
     
     
 def get_electron_temperature( parameters):
-    
     
     """This function calculates the electron temperature in both Joules and electron volts.
     
