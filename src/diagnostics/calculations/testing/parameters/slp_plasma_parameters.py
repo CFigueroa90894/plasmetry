@@ -119,7 +119,6 @@ def get_electron_temperature(parameters):
     # The final point used to calculate the slope is the point with an index 3/4 of the distance 
     # between the floating potential and plasma potential. 
     final_index= int(np.ceil(points_number * 0.75 )) + parameters['Floating potential index']
-    
    
     # To calculate the slope, the numerator and denominator shall be acquired.
     numerator_of_slope = np.log(parameters['Filtered current'][final_index]) - \
@@ -143,7 +142,6 @@ def get_equations():
 
     # Local parameters
     list_of_references.append(filter_current)
-
     list_of_references.append(get_floating_and_plasma_potential)
     list_of_references.append(get_electron_saturation_current)
     list_of_references.append(get_electron_temperature)
