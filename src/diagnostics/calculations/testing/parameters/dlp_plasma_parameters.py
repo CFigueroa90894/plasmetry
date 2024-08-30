@@ -30,12 +30,12 @@ def filter_current(parameters):
     
 def get_ion_saturation_current(parameters):
     
-    '''**TODO: find a better way to obtain ion saturation current.**
+    """**TODO: find a better way to obtain ion saturation current.**
     
     The ion saturation current is yielded from this function.
     
     NOTE: This is a simple and crude way to obtain the value.
-    '''
+    """
     # Storing the ion saturation current.
     parameters['Ion saturation current'] = np.min(parameters['Filtered current'] )
    
@@ -43,14 +43,14 @@ def get_ion_saturation_current(parameters):
     
 def get_electron_temperature( parameters):
     
-    '''This function calculates the electron temperature in both Joules and electron volts.
+    """This function calculates the electron temperature in both Joules and electron volts.
     
     The value of  the derivative of the I-V values where the voltage applied is 0 is used 
     
     to calculate electron temperature, yet it is possible that the voltage applied is never 0, 
     
     thus the value closet to 0 shall be used. 
-    '''
+    """
     # Storing parameters used for calculations
     filtered_current_list = parameters['Filtered current'] 
     voltage_list =  parameters['Bias'] 
@@ -72,7 +72,7 @@ def get_electron_temperature( parameters):
 
 def get_electron_density(parameters):
     
-    '''This function yields the electron density in Kilograms per cubic meter. ''' 
+    """This function yields the electron density in Kilograms per cubic meter. """ 
     
     # Acquiring electron density 
     square_root_term =  np.sqrt(parameters['Ion mass'] / parameters['Electron temperature (Joules)'])
@@ -82,9 +82,9 @@ def get_electron_density(parameters):
 
 
 def get_equations():
-    '''
+    """
     This function returns a reference to the equations 
-    '''
+    """
     # List containing the references
     list_of_references = []
     
@@ -100,7 +100,7 @@ def get_equations():
     return list_of_references
 
 
-''' sample usage of the equations'''    
+""" sample usage of the equations"""    
 if __name__ == "__main__": 
 
     

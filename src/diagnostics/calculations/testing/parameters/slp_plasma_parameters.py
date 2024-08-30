@@ -155,7 +155,7 @@ def get_equations():
 
 
 
-''' sample usage of the equations'''    
+""" sample usage of the equations"""    
 if __name__ == "__main__": 
 
     
