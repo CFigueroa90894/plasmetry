@@ -81,8 +81,8 @@ def get_particle_saturation_current(parameters):
     bias = parameters['Bias']
     
     # Storing the charged particle saturation current
-    parameters['Particle saturation current'] = np.min(abs(np.gradient(filtered_current, bias)))
-    
+    saturation_index = np.argmin(abs(np.gradient(filtered_current, bias)))
+    parameters['Particle saturation current'] = filtered_current[saturation_index]
        
 def get_plasma_potential(parameters):
     
