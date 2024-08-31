@@ -104,7 +104,7 @@ def get_electron_temperature(parameters):
     
     that is formed between the floating potential and plasma potential of the ln(I)-V graph,
     
-    thus producing the expected slope.
+    thus ensuring the calculations are based on the expected slope.
     """
     
     # Storing the number of points between the plasma potential and floating potential.
