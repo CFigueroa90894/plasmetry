@@ -211,7 +211,11 @@ class PlasmetryTestSuite:
 def main():
     # Module names to test here
     test_mods = [
-        
+        "unittest_probe_factory",
+        "unittest_slp_dlp",
+        "unittest_hea_iea",
+        "unittest_tlc_tlv",
+        "unittest_probe_operation"
     ]
     suite = PlasmetryTestSuite(modules=test_mods)
     suite.execute()
