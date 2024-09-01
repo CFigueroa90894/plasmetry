@@ -92,21 +92,26 @@ class PlasmetryTestSuite:
         return str(test.__class__).split("'")[-2]
 
     def __get_module(self, mod_name):
-        module = __import__(mod_name)
-        status = module.test_ready
-        if status is False:
-            msg = f"ERROR: LOAD ABORTED BY MODULE"
-            load = False
-        elif status == "WIP":
-            msg = f"WARNING: WIP"
-            load = True
-        elif status is True:
-            msg = f"READY"
-            load = True
-        else:
-            msg = f"ERROR: UNKNOWN TEST CODE"
-            load = False
-        return {"msg":f"{msg}: {mod_name}", "load":load, "module": module}
+        msg = "!!!ERROR IN TEST SUITE!!!"
+        load = False
+        module = None
+        try:
+            module = __import__(mod_name)
+            status = module.test_ready
+            if status is False:
+                msg = f"ERROR: LOAD ABORTED BY MODULE"
+            elif status == "WIP":
+                msg = f"WARNING: WIP"
+                load = True
+            elif status is True:
+                msg = f"READY"
+                load = True
+            else:
+                msg = f"ERROR: UNKNOWN TEST CODE"
+        except ModuleNotFoundError:
+            msg = f"ERROR: MODULE NOT FOUND"
+        finally:
+            return {"msg":f"{msg}: {mod_name}", "load":load, "module": module}
 
     def __get_errors(self, results):
         err = {}
@@ -206,7 +211,7 @@ class PlasmetryTestSuite:
 def main():
     # Module names to test here
     test_mods = [
-
+        
     ]
     suite = PlasmetryTestSuite(modules=test_mods)
     suite.execute()
