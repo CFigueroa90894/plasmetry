@@ -37,11 +37,9 @@ from Triple_Lang_Voltage import TripleLangVoltage
 from Triple_Lang_Current import TripleLangCurrent
 
 
-class ProbeOperationTest(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        print("\n\n!!!WARNING: PROBE OPERATION TESTS ARE STILL WIP!!!\n\n")
+test_ready = 'WIP'
 
+class ProbeOperationTest(TestCase):
     # ----- TESTCASE CONFIG ----- #
     def setUp(self):
         self.status, self.commands = self.make_flags()

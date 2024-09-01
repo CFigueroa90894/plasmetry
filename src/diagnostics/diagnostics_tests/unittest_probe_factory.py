@@ -42,8 +42,10 @@ from Triple_Lang_Voltage import TripleLangVoltage
 from Triple_Lang_Current import TripleLangCurrent
 
 
+test_ready = 'WIP'
 
 class ProbeFactory_TestTemplate(TestCase):
+
     # ----- TESTCASE CONFIG ----- #
     def setUp(self):
         self.status, self.commands = self.make_flags()

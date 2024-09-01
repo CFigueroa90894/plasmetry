@@ -27,6 +27,7 @@ from Langmuir_Probe import LangmuirProbe
 from Sweeper_Probe import SweeperProbe
 from Base_Probe import BaseProbe
 
+test_ready = 'WIP'
 
 class SLP_Obj_Test(ProbeObj_TestTemplate):
     def setUp(self):

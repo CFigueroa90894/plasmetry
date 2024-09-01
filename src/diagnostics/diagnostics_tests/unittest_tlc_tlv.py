@@ -28,6 +28,8 @@ from Base_TLP import BaseTLP
 from Triple_Lang_Voltage import TripleLangVoltage
 from Triple_Lang_Current import TripleLangCurrent
 
+test_ready = "WIP"
+
 class TLV_Obj_Test(ProbeObj_TestTemplate):
     def setUp(self):
         super().setUp()

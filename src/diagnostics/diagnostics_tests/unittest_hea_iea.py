@@ -4,7 +4,7 @@
 import sys
 import os
 
-from unittest import main as RUNTESTS, skip
+from unittest import main as RUNTESTS, skip, expectedFailure
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
@@ -26,6 +26,8 @@ from probe_enum import PRB
 from Base_Probe import BaseProbe
 from Sweeper_Probe import SweeperProbe
 from Energy_Analyzer import EnergyAnalyzer
+
+test_ready = 'WIP'
 
 class HEA_Obj_Test(ProbeObj_TestTemplate):
     def setUp(self):
