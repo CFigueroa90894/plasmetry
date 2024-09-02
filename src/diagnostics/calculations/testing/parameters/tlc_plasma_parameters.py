@@ -4,8 +4,8 @@ from global_parameters import get_particle_density
 # Storing the charge of the electron particle, since it shall be used for calculation
 ELECTRON_CHARGE = 1.60217657e-19
 
-# Storing initial guess for Newton-Raphson approximation iterations implemented for electron temperature calculation
-estimated_guess = 0.1
+# Declaring limit to avoid overflow when running np.exp
+LIMIT = 500  
 
 # Max number of iterations to be run when executing the Newton-Raphson algorithm
 NUMBER_OF_ITERATIONS = 100
@@ -13,8 +13,9 @@ NUMBER_OF_ITERATIONS = 100
 # Storing the tolerance for the Newton-Raphson approximation
 TOLERANCE = 1e-5
 
-# Declaring limit to avoid overflow when running np.exp
-LIMIT = 500  
+# Storing initial guess for Newton-Raphson iterations
+estimated_guess = 0.1
+
 
 def iteration(parameters, estimated_guess):
     
@@ -62,6 +63,7 @@ def get_electron_temperature(parameters):
     # Variable storing the previous guess at the beginning of each iteration
     previous_guess = 0
    
+    
     # The Newton-Raphson approximation iterations occur in this loop
     while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
         
@@ -101,11 +103,16 @@ def get_electron_density(parameters):
     get_particle_density(parameters)
 
 
-def get_equations():
+def get_probe_current(parameters):
+    parameters['Probe 1 filtered current'] = -1 * (parameters['Probe 3 filtered current'] + \
+                                                 
+                                                   parameters['Probe 2 filtered current'])
+def get_equations(): 
     
-    """ This function returns a reference to the equations."""
+    """ This function returns a list containing a reference to the equations."""
     
     list_of_references = []
+    list_of_references.append(get_probe_current)
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
     return list_of_references
