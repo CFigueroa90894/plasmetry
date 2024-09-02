@@ -40,7 +40,7 @@ def get_electron_temperature(parameters):
     
     """This function calculates electron temperature in electron volts and Joules.
     
-    The Raphson-Newton method has been deployed to calculte the inverse value of the temperature.
+    The Newton-Raphson method has been deployed to calculte the inverse value of the temperature.
     
     The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
     """
