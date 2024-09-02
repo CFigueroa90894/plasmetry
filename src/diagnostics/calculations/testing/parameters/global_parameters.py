@@ -69,6 +69,7 @@ def get_particle_density(parameters):
     if  'Electron saturation current' in parameters:
        parameters['Electron density'] = parameters['Particle density']
        del parameters['Particle density']
+       del parameters['Particle saturation current'] 
        del parameters['Particle temperature (Joules)']
        
        
