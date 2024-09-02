@@ -17,6 +17,10 @@ TOLERANCE = 1e-5
 estimated_guess = 0.1
 
 
+def filter_current(parameters):
+    return 0
+
+
 def iteration(parameters, estimated_guess):
     
     # First exponential term, shall be used for function and derivative calculation
@@ -112,6 +116,7 @@ def get_equations():
     """ This function returns a list containing a reference to the equations."""
     
     list_of_references = []
+    list_of_references.append(filter_current)
     list_of_references.append(get_probe_current)
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)

@@ -8,6 +8,10 @@ NUMBER_OF_ITERATIONS = 100
 TOLERANCE = 1e-5
 
 
+def filter_current():
+    return 0
+
+
 def iteration(potential_difference, bias, estimated_guess):
     
     """This function performs the function and derivative calculation process in each iteration.
@@ -117,6 +121,7 @@ def get_equations():
     """This function returns a reference to the equations"""
     
     list_of_references = []
+    list_of_references.append(filter_current)
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
     return list_of_references
