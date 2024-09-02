@@ -89,8 +89,12 @@ class SpammerThread(BaseThread):
 class MainTestThread(BaseThread):
     def __init__(self, main_sleep=0, max_sleep=0, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._whisper = self._print_buff
         self.main_sleep = main_sleep
         self.max_sleep = max_sleep
+        self.console_buff = Queue()
+        self.kill = Event()
+        self.barr = Barrier(2)
 
     def run(self):
         """<...>"""
@@ -109,18 +113,15 @@ class MainTestThread(BaseThread):
 
     def _THREAD_MAIN_(self):
         """<...>"""
-        self.say("init...")
         kill = Event()
-        buff = Queue()
         barr = Barrier(2)
-        self.console_buff = buff
-        self._whisper = self._print_buff
+        self.say("init...")
 
         self.say("init children...")
         self.pause(self.main_sleep)
 
         printer = PrinterTestThread(
-            console_buff=buff,
+            console_buff=self.console_buff,
             daemon=True,
             name="Printer",
             kill=kill
@@ -128,7 +129,7 @@ class MainTestThread(BaseThread):
         alpha  = SpammerThread(
             start_barrier=barr,
             msg="HHHeeelllooo!!!",
-            console_buff=buff,
+            console_buff=self.console_buff,
             daemon=True,
             name="Alpha",
             kill=kill
@@ -136,7 +137,7 @@ class MainTestThread(BaseThread):
         beta  = SpammerThread(
             start_barrier=barr,
             msg="WWWooorrrlllddd!!!",
-            console_buff=buff,
+            console_buff=self.console_buff,
             daemon=True,
             name="Beta",
             kill=kill
