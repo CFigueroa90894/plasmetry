@@ -38,12 +38,12 @@ def iteration(potential_difference, bias, estimated_guess):
 def get_electron_temperature(parameters):
 
     
-    '''This function calculates electron temperature in electron volts and Joules.
+    """This function calculates electron temperature in electron volts and Joules.
     
     The Raphson-Newton method has been deployed to calculte the inverse value of the temperature.
     
     The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
-    '''
+    """
     
     global estimated_guess 
     
@@ -115,7 +115,7 @@ def get_electron_density(parameters):
 
 def get_equations():
     
-    '''This function returns a reference to the equations'''
+    """This function returns a reference to the equations"""
     list_of_references = []
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
