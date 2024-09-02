@@ -9,8 +9,6 @@ import numpy as np
 import csv
 #storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
-number_of_cases= 0
-
 number_of_iterations = 20
 def iteration(potential_difference, bias, estimated_guess):
     #declaring limit to avoid overflow
@@ -35,20 +33,15 @@ def iteration(potential_difference, bias, estimated_guess):
     return function_output, derivative_output
 
 def get_electron_temperature(parameters):
-   global estimated_guess 
-   global number_of_cases
+
+
    parameters['Electron temperature (eV)'] = []
+   
    parameters['Iterations'] = []
-   number_of_cases+=len(parameters['Potential difference'])
+   
+   
    for i in parameters['Potential difference']:
     bias =  parameters['Bias']
-    '''
-    This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
-    
-    The Raphson-Newton method has been deployed as a function of 1/electron temperature in electron volts.
-    
-    The loop runs 1,000,000 iterations unless a value has been estimated, with an accuracy of 10^-5
-    '''
     #storing the counter, shall be used to know the number of iterations
     counter = 0
     #variable storing the previous guess at the beginning of each iteration
@@ -108,30 +101,54 @@ def consolidated_parameters(listOfParameters, fname):
        dict_writer= csv.DictWriter(csv_file, keys)
        dict_writer.writeheader()
        dict_writer.writerows(listOfParameters)
-       
+
+# Storing biases with a value of 10V to 2000V, in a factor of 2. 
 max_voltages = list(range(10, 2000, 2))
 
+# List for parameter dictionaries
 results = []
+
+# Number of cases tested
+number_of_cases= 0
+
+#for every generated bias: 
 for max_voltage in max_voltages:
+    
+    
+    # Storing parameters in a dictionary
     parameters = {}
+    
+    # Verifying bias value to see how to set potential difference, done since at case with 10 applied bias, 
+    # The measured voltage is impossible to be below 4 
     if max_voltage==10:
         minumum_measured = max_voltage - 6
-    
     else: 
+        # For the rest of the cases, keeping the measured voltage at 1 to showcase how it behaves
         minumum_measured = 1
+    
+    # Storing measured voltages in parameters dictioanry, from 1 to n-1, n being the applied bias
     parameters['Potential difference'] = list(range(minumum_measured, max_voltage))
+    
+    number_of_cases+=len(parameters['Potential difference'])
+    
+    # Storing value for applied bias in parameters dictionary
     parameters['Bias'] = max_voltage
    
+    # Calculating electron temperature for each potential difference 
     get_electron_temperature(parameters)
-    parameters['bias - potential difference'] = [parameters['Bias']- a  for a in parameters['Potential difference']]
+    
+    # Storing info about the results
+    parameters['bias - potential difference'] = [parameters['Bias'] - a  for a in parameters['Potential difference']]
     parameters['Average number of iterations'] = round(np.sum(parameters['Iterations'])/len(parameters['Iterations']))
     parameters['number of missing measurements'] = len(parameters['Potential difference']) - len(parameters['Electron temperature (eV)'])
-
+    
+    # Storing the info in a parameter csv, this is done for each applied bias, since we are still in the loop. 
     ParametersToCsv(parameters, 'different test cases results per applied bias/' + str(max_voltage)+'_bias_testing_tlp_.csv')
     results.append(parameters)
 
 
-print(number_of_cases) 
+print(f'number of cases tested: {number_of_cases}') 
+
 consolidated_parameters(results, str(number_of_cases) + '_cases_consolidated test.csv') 
 
 missing = 0    
@@ -139,10 +156,11 @@ unique_biases = 0
 list_of_biases = []
 
 for i in results:
+    #if any electron temperature outputs are missing in the results, storing info of applied bias. 
     missing += i['number of missing measurements']
     if missing!= 0:
         list_of_biases.append((i['Bias'], i['number of missing measurements']))
         unique_biases +=1
         
 
-print(f'Number of missing measurements: {missing} \n\n Number of unique biases: {unique_biases}, \n\n bias applied and number of missing measurements per bias and voltage measured: {list_of_biases}')
+print(f'Number of missing temperatures: {missing} \n\nNumber of unique biases with missing temperatures: {unique_biases}, \n\nBias applied and number of missing temperatures: {list_of_biases}')
