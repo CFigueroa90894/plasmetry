@@ -1,90 +1,149 @@
 import numpy as np 
-#storing the charge of the electron particle, since it shall be used for calculation
+# Storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
 
  
-number_of_iterations = 100
+NUMBER_OF_ITERATIONS = 100
+
+TOLERANCE = 1e-5
 
 
 def iteration(potential_difference, bias, estimated_guess):
-    #declaring limit to avoid overflow
+    
+    """This function performs the function and derivative calculation process in each iteration.
+    
+       Returns the output of the expressions."""
+    
+    # Declaring limit to avoid overflow
     LIMIT = 500  
     
-    #first exponential term, shall be used for function and derivative calculation
-    first_exp_term = 2 *np.exp(np.clip(potential_difference*estimated_guess, None, LIMIT))
-    #second exponential term,  shall be used for function and derivative calculation
-    second_exp_term = np.exp(np.clip(bias*estimated_guess, None, LIMIT))
-    #storing the function, to be used for the next estimated guess calculation
+    # First exponential term, shall be used for function and derivative calculation
+    first_exp_term = 2 * np.exp(np.clip(potential_difference * estimated_guess, None, LIMIT))
+    # Second exponential term,  shall be used for function and derivative calculation
+    second_exp_term = np.exp(np.clip(bias * estimated_guess, None, LIMIT))
+    
+    # Storing the function, to be used for the next estimated guess calculation
     function_output =  first_exp_term - second_exp_term - 1     
-    #storing the prime value, to be used for the next estimated guess calculation
+    # Storing the prime value, to be used for the next estimated guess calculation
     derivative_output = potential_difference * first_exp_term - bias *  second_exp_term    
-    #if result after the prime calculation is 0, returning 0 to trigger TypeError
-    #since the value will be used as a denominator
-    if derivative_output ==0:
+    
+    # If the derivative calculation output is 0, returning 0 to trigger TypeError,
+    # since the output will be used as a denominator.
+    if derivative_output == 0:
         return 0
+    
     return function_output, derivative_output
 
 
 def get_electron_temperature(parameters):
-    global estimated_guess 
-    potential_difference = parameters['Potential difference']
-    bias =  parameters['Bias']
-    '''This function deploys the Raphson-Newton method to calculate electron temperature in electron volts for the Triple Langmuir Probe in electron volts.
+
     
-    The Raphson-Newton method has been deployed as a function of 1/electron temperature in electron volts.
+    '''This function calculates electron temperature in electron volts and Joules.
     
-    The loop runs 100 iterations unless a value has been estimated, with an accuracy of 10^-5
+    The Raphson-Newton method has been deployed to calculte the inverse value of the temperature.
+    
+    The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
     '''
-    #storing the counter, shall be used to know the number of iterations
+    
+    global estimated_guess 
+    
+    potential_difference = parameters['Potential difference']
+    
+    bias =  parameters['Bias']
+    
+    # Storing the counter, shall be used to know the number of iterations
     counter = 0
-    #variable storing the previous guess at the beginning of each iteration
+    
+    # Variable storing the previous guess at the beginning of each iteration
     previous_guess = 0
    
-    #storing initial guess for raphson-newton approximation iterations implemented for electron temperature calculation
-    estimated_guess = np.log(2)/ (bias - potential_difference)
+    # Storing initial guess for Newton-Raphson approximation iterations
+    estimated_guess = np.log(2) / (bias - potential_difference)
     
-    #the raphson-newton approximation iterations occur in this while loop
-    while abs(estimated_guess - previous_guess)>1e-5 and counter <number_of_iterations:
-        #storing previous guess, to compare with the final value of each iteration
-        previous_guess =estimated_guess
+    # The Newton-Raphson approximation iterations occur in this while loop
+    while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
         
-        #try/except clause to verify if the derivative is not 0.
-        #if derivative == 0, exiting function
+        # Storing previous guess, to compare with the final value of each iteration
+        previous_guess = estimated_guess
+        
+        # Try/except clause to verify if the derivative is not 0.
+        # If derivative == 0, exiting function
         try:
-            function_output, derivative_output = iteration(potential_difference, bias, estimated_guess)
-        except ValueError:
+            
+            function_output, derivative_output = iteration(potential_difference, 
+                                                           bias,
+                                                           estimated_guess)
+        except TypeError:
             return 'No Solution Found.'
         
-        #Storing the next estimated value
-        estimated_guess = (estimated_guess - function_output/derivative_output)
+        # Storing the next estimated value
+        estimated_guess = (estimated_guess - function_output / derivative_output)
         
         counter +=1
-        print(1/estimated_guess)
-    if counter ==number_of_iterations:
+        
+    if counter ==NUMBER_OF_ITERATIONS:
         
         return f'After {counter} iterations, no accurate value has been yielded.'
     
-    #storing the electron temperature in eV
+    # Storing the electron temperature in eV
     parameters['Electron temperature (eV)'] = 1/estimated_guess
     
-    #storing the electron temperature in Joules
+    # Storing the electron temperature in Joules
     parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
 
 
 def get_electron_density(parameters):
-    acquired_probe_current = parameters['Filtered current'] 
-    potential_difference = parameters['Potential difference']
-    electron_temperature_joules =  parameters['Electron temperature (Joules)']
-    probe_area =  parameters['Probe area']
-    ion_mass =parameters['Ion mass']
-    exponential_term=  np.exp(abs(electron_charge*potential_difference/electron_temperature_joules))
-    numerator_of_equation= abs(acquired_probe_current * exponential_term)
-    denominator_of_equation = abs(0.61 * probe_area *electron_charge * np.sqrt(electron_temperature_joules/ion_mass) * (1-exponential_term))
-    parameters['Electron density'] = numerator_of_equation/denominator_of_equation
+    
+    """This equation yields electron density in particles per cubic meter."""
+    
+    # Storing the electron temperature in Joules, to be used in calculations
+    electron_temperature =  parameters['Electron temperature (Joules)']
+    
+    # Exponential term found in equation
+    exponential_term=  np.exp(abs(electron_charge *  parameters['Potential difference'] / \
+                                  electron_temperature))
+                                 
+    # Since the density formula is composed of a division, yielding the numerator and denominator
+    numerator_of_equation= abs( parameters['Filtered current']  * exponential_term)
+    
+    denominator_of_equation = abs(0.61 * parameters['Probe area'] * electron_charge * \
+                                  np.sqrt(electron_temperature / parameters['Ion mass']) * \
+                                 (1 - exponential_term))
+    
+    # Storing electron density
+    parameters['Electron density'] = numerator_of_equation / denominator_of_equation
 
 def get_equations():
+    
     '''This function returns a reference to the equations'''
     list_of_references = []
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
     return list_of_references
+
+
+""" sample usage of the equations"""    
+if __name__ == "__main__": 
+
+    
+    # Parameter dictionary, stores parameters
+    parameters= {}
+    
+    # Storing bias, measured current, and measured voltage to test the implementation.
+    parameters['Bias'], parameters['Potential difference'] =  40, 32
+    parameters['Filtered current'] =  0.005176711239483604
+    
+    # Probe area of a previous implementation
+    parameters['Probe area'] =  30.3858e-06
+    
+    # Argon atomic mass mass in Kilograms
+    parameters['Ion mass'] = 6.629e-26
+    
+    # Running each equation
+    list_of_equations = get_equations()
+    for i in list_of_equations:
+        i(parameters)
+        
+    # Printing the parameters
+    for key, value in parameters.items():
+            print(key, ': ' ,value)
