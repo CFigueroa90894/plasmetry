@@ -112,10 +112,12 @@ def get_electron_density(parameters):
     
     # Storing electron density
     parameters['Electron density'] = numerator_of_equation / denominator_of_equation
+    
 
 def get_equations():
     
     """This function returns a reference to the equations"""
+    
     list_of_references = []
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
