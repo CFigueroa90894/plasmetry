@@ -86,10 +86,10 @@ def get_electron_temperature(parameters):
         return f'After {counter} iterations, no accurate value has been yielded.'
     
     # Storing the electron temperature in eV
-    parameters['Electron temperature (eV)'] = 1/estimated_guess
+    parameters['Electron temperature (eV)'] = 1 / estimated_guess
     
     # Storing the electron temperature in Joules
-    parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE *  parameters['Electron temperature (eV)']
+    parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE * parameters['Electron temperature (eV)']
 
 
 def get_electron_density(parameters):
