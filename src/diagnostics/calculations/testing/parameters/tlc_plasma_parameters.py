@@ -10,6 +10,9 @@ estimated_guess = 0.1
 # Max number of iterations to be run when executing the Newton-Raphson algorithm
 NUMBER_OF_ITERATIONS = 100
 
+# Storing the tolerance for the Newton-Raphson approximation
+TOLERANCE = 1e-5
+
 # Declaring limit to avoid overflow when running np.exp
 LIMIT = 500  
 
@@ -50,17 +53,17 @@ def get_electron_temperature(parameters):
      
     The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
     """
-    
+    # Initial guess
     global estimated_guess 
     
     # Storing the counter, shall be used to know the number of iterations
     counter = 0
+    
     # Variable storing the previous guess at the beginning of each iteration
     previous_guess = 0
    
-    
     # The Newton-Raphson approximation iterations occur in this loop
-    while abs(estimated_guess - previous_guess)>1e-5 and counter < NUMBER_OF_ITERATIONS:
+    while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
         
         # Storing previous guess, to compare with the final value of each iteration
         previous_guess = estimated_guess
