@@ -45,8 +45,6 @@ def get_electron_temperature(parameters):
     The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
     """
     
-    global estimated_guess 
-    
     potential_difference = parameters['Potential difference']
     
     bias =  parameters['Bias']
