@@ -1,5 +1,6 @@
 # author: figueroa_90894@students.pupr.edu
-# status: DONE
+# status: WIP
+#   - 
 
 # built-in imports
 import sys
@@ -24,12 +25,13 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # ----- END PATH HAMMER ----- #
 
 # local imports
+from base_thread import BaseThread
 
-class BaseProbe(ABC):
+class BaseProbe(ABC, BaseThread):
     """The top-level, abstract class for all probe implementations.
     Includes initialization for flags, data buffer, equations, config, and data buffer.
     Defines abstract methods run(), and _graceful_exit()."""
-    def __init__(self, 
+    def __init__(self,
                  probe_id,
                  config_ref:dict,
                  shutdown:Event,
