@@ -1,7 +1,7 @@
 import numpy as np 
+
 # Storing the charge of the electron particle, since it shall be used for calculation
 electron_charge = 1.60217657e-19
-
  
 NUMBER_OF_ITERATIONS = 100
 
