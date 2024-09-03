@@ -67,8 +67,8 @@ def get_floating_and_plasma_potential(parameters):
     # biases entered or data captured does not produce expected sigmoid.
     if parameters['Plasma potential'] <= 0: 
         return 'This sweep is not valid'
-
-
+    
+    
 def get_electron_saturation_current(parameters):    
     
     """The electron saturation current is yielded from this function.
