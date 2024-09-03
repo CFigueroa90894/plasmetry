@@ -50,6 +50,7 @@ def iteration(parameters, estimated_guess):
     
     return function_output, derivative_output
 
+
 def get_electron_temperature(parameters):
     
     """This function calculates electron temperature in electron volts and Joules.
