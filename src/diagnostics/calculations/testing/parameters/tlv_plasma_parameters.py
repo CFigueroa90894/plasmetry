@@ -98,6 +98,11 @@ def get_electron_density(parameters):
     
     """This equation yields electron density in particles per cubic meter."""
     
+    # Configuration object stored, in order to get 'Probe Area'
+    config_object = parameters['config_ref']
+    probe_area = config_object['Probe area']
+    ion_mass =  config_object['Particle mass']
+    
     # Storing the electron temperature in Joules, to be used in calculations
     electron_temperature =  parameters['Electron temperature (Joules)']
     
@@ -108,8 +113,8 @@ def get_electron_density(parameters):
     # Since the density formula is composed of a division, yielding the numerator and denominator
     numerator_of_equation= abs( parameters['Filtered current']  * exponential_term)
     
-    denominator_of_equation = abs(0.61 * parameters['Probe area'] * electron_charge * \
-                                  np.sqrt(electron_temperature / parameters['Ion mass']) * \
+    denominator_of_equation = abs(0.61 * probe_area * electron_charge * \
+                                  np.sqrt(electron_temperature / ion_mass) * \
                                  (1 - exponential_term))
     
     # Storing electron density
@@ -121,7 +126,7 @@ def get_equations():
     """This function returns a reference to the equations"""
     
     list_of_references = []
-    list_of_references.append(filter_current)
+    #list_of_references.append(filter_current)
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
     return list_of_references
@@ -138,11 +143,9 @@ if __name__ == "__main__":
     parameters['Bias'], parameters['Potential difference'] =  40, 32
     parameters['Filtered current'] =  0.005176711239483604
     
-    # Probe area of a previous implementation
-    parameters['Probe area'] =  30.3858e-06
-    
-    # Argon atomic mass mass in Kilograms
-    parameters['Ion mass'] = 6.629e-26
+    # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26}
+
     
     # Running each equation
     list_of_equations = get_equations()

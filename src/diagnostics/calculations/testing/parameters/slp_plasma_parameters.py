@@ -8,9 +8,6 @@ from global_parameters import (
 )
 """TODO: get best way to yield ion saturation current"""
 
-# Storing the charge of the electron particle, since it shall be used for calculation
-ELECTRON_CHARGE = 1.60217657e-19
-
 
 def filter_current(parameters):
     
@@ -106,7 +103,10 @@ def get_electron_temperature(parameters):
     
     thus ensuring the calculations are based on the expected slope.
     """
-    
+       
+    # Storing the charge of the electron particle, since it shall be used for calculation
+    ELECTRON_CHARGE = 1.60217657e-19
+
     # Storing the number of points between the plasma potential and floating potential.
     points_number = parameters['Plasma potential index'] - parameters['Floating potential index']
     
@@ -183,12 +183,9 @@ if __name__ == "__main__":
     # Storing bias and raw current lists from previous implementation
     parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
     
-    # Probe area of a previous implementation, simulating config values
-    parameters['Probe area'] =  30.3858e-06
-    
-    # Electron mass in Kilograms
-    parameters['Particle mass'] = 9.10938356e-31
-   
+    # Storing Probe area of a previous implementation, and electron mass in kg, simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
+
     # Running each equation
     list_of_equations = get_equations()
     for i in list_of_equations:

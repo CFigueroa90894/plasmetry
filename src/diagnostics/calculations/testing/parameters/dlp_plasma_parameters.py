@@ -75,10 +75,15 @@ def get_electron_density(parameters):
     
     """This function yields the electron density in Kilograms per cubic meter. """ 
     
+    # Configuration object stored, in order to get 'Probe Area' and 'Ion mass'
+    config_object = parameters['config_ref']
+    probe_area = config_object['Probe area']
+    ion_mass = config_object['Particle mass']
+    
     # Acquiring electron density 
-    square_root_term =  np.sqrt(parameters['Ion mass'] / parameters['Electron temperature (Joules)'])
+    square_root_term =  np.sqrt(ion_mass / parameters['Electron temperature (Joules)'])
     parameters['Electron density'] = abs(parameters['Ion saturation current'] / \
-                                        (ELECTRON_CHARGE *  parameters['Probe area']) * \
+                                        (ELECTRON_CHARGE *  probe_area) * \
                                         (square_root_term * np.exp(0.5)))
 
 
@@ -128,24 +133,18 @@ if __name__ == "__main__":
     # Parameter dictionary, stores parameters
     parameters= {}
     
+    # Storing Probe area of a previous implementation, and ion mass in kg of argon, simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26 }
+    
     # Storing bias and raw current lists from previous implementation
     parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
     
-    # Probe area of a previous implementation, simulating config values
-    parameters['Probe area'] =  30.3858e-06
-    
-    # Argon atomic mass mass in Kilograms
-    parameters['Ion mass'] = 6.629e-26
-   
     # Running each equation
     list_of_equations = get_equations()
+    
     for i in list_of_equations:
         i(parameters)
         
-    # Printing the parameters
+    # Printing the yielded parameters 
     for key, value in parameters.items():
-        if 'current' not in key and 'Bias' != key:
             print(key, ': ' ,value)
-        
-    
-    

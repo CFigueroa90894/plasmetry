@@ -1,11 +1,6 @@
 import numpy as np
 from scipy import signal
 
-# Storing the charge of the electron particle, since it shall be used for calculation
-ELECTRON_CHARGE = 1.60217657e-19
-
-# Storing the permittivity of free space constant in F/m, since it shall be used for calculation
-EPSILON_NAUGHT= 8.854e-12
 
 """TODO: verify particle saturation current calculations with Dr. Gonzalez"""
 
@@ -32,6 +27,12 @@ def get_debye_length(parameters):
     
     """DLP and SLP Debye length is calculated from this function in meters."""
     
+    # Storing the charge of the electron particle in Coulumb
+    ELECTRON_CHARGE = 1.60217657e-19
+    
+    # Storing the permittivity of free space constant in F/m
+    EPSILON_NAUGHT= 8.854e-12
+    
     # Acquiring Debye length
     parameters['Debye length'] = np.sqrt(2 * EPSILON_NAUGHT *  \
                                          parameters['Electron temperature (Joules)'] /  \
@@ -56,16 +57,26 @@ def get_particle_density(parameters):
     Otherwise, the particle mass should be the estimated mass of the ions in the plasma
     """
     
+    # Storing the charge of the electron particle in Coulumb
+    ELECTRON_CHARGE = 1.60217657e-19
+    
+    # Configuration object stored, in order to get 'Probe Area'
+    config_object = parameters['config_ref']
+    probe_area = config_object['Probe area']
+    particle_mass =  config_object['Particle mass']
+    
+    # Creating temporary keys for SLP in order to use the same equation
     if  'Electron saturation current' in parameters:
         parameters['Particle saturation current'] = parameters['Electron saturation current']
         parameters['Particle temperature (Joules)'] = parameters['Electron temperature (Joules)'] 
 
     # Acquiring electron density
     parameters['Particle density'] =  abs(parameters['Particle saturation current'] / \
-                                         (ELECTRON_CHARGE * parameters['Probe area'] * \
+                                         (ELECTRON_CHARGE * probe_area * \
                                           np.sqrt(abs(parameters['Particle temperature (Joules)'] / \
-                                         (np.pi * parameters['Particle mass'] * 2)))))
+                                         (np.pi * particle_mass * 2)))))
    
+    # Deleting the temporary keys created for SLP
     if  'Electron saturation current' in parameters:
        parameters['Electron density'] = parameters['Particle density']
        del parameters['Particle density']
@@ -85,6 +96,7 @@ def get_particle_saturation_current(parameters):
     saturation_index = np.argmin(abs(np.gradient(filtered_current, bias)))
     parameters['Particle saturation current'] = filtered_current[saturation_index]
        
+    
 def get_plasma_potential(parameters):
     
     """HEA and IEA plasma potential is yielded by the applied bias where dI/dV = 0"""
@@ -111,6 +123,10 @@ def get_particle_temperature(parameters):
     
     1/ (d(ln(I))/dV) where the plasma potential occurs.
     """
+    
+    # Storing the charge of the electron particle in in Coulumb
+    ELECTRON_CHARGE = 1.60217657e-19
+    
     # Storing parameters used to calculate temperature
     plasma_potential_index = parameters['Plasma potential index']
     filtered_current_list = parameters['Filtered current'] 
@@ -177,17 +193,15 @@ if __name__ == "__main__":
     # Storing bias and raw current lists from previous implementation
     parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
     
-    # Probe area of a previous implementation, simulating config values
-    parameters['Probe area'] =  30.3858e-06
+    # Storing Probe area of a previous implementation, and ion mass in kg of argon, simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26}
     
-    # Electron mass in Kilograms
-    parameters ['Particle mass'] = 9.10938356e-31
-   
     # Running each equation
     list_of_equations = get_equations()
     for i in list_of_equations:
         i(parameters)
-        
+
+
     # Printing the parameters
     for key, value in parameters.items():
         if 'Raw current'!= key and 'Filtered current' != key and 'Bias' != key:
