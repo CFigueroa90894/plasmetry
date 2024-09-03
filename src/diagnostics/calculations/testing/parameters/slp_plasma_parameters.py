@@ -187,7 +187,7 @@ if __name__ == "__main__":
     parameters['Probe area'] =  30.3858e-06
     
     # Electron mass in Kilograms
-    parameters ['Particle mass'] = 9.10938356e-31
+    parameters['Particle mass'] = 9.10938356e-31
    
     # Running each equation
     list_of_equations = get_equations()
