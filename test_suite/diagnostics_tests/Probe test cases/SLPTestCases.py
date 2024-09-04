@@ -5,9 +5,9 @@ sys.path.insert(0, os.path.abspath('parameters'))
 
 import slp_plasma_parameters
 import global_parameters
+from BaseCase import BaseCase
 
-
-class SLPTestCases(unittest.TestCase):    
+class SLPTestCases(BaseCase):    
     parameters = {}
         
     @classmethod
@@ -18,6 +18,7 @@ class SLPTestCases(unittest.TestCase):
     
 
     def test_1_filter_current(self):
+        
         """Test the filter_current function"""
         slp_plasma_parameters.filter_current(SLPTestCases.parameters)
         self.assertIn('Filtered current', SLPTestCases.parameters)
