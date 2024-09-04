@@ -12,6 +12,12 @@ import os
 sys.path.insert(0, os.path.abspath('Probe test cases'))
 from SLPTestCases import SLPTestCases
 
+class OrderedTestLoader(unittest.TestLoader):
+    
+    def getTestCaseNames(self, testCaseClass):
+        # Overriding to return tests in the order they appear in the probe testcases script
+        test_names = super().getTestCaseNames(testCaseClass)
+        return test_names
 
 def LoadPreviousData():
     
@@ -33,22 +39,16 @@ def LoadPreviousData():
         return voltageSLP, current
 
 
-def set_initial_parameters(test_suite):
-    
-    for test_case in test_suite:
-        test_case.set_parameters(raw_current, bias)
-        
 
-def run_test_suite(raw_current, bias, probe_test_cases):
+
+def run_test_suite(probe_test_cases):
+    
+    loader = OrderedTestLoader()
     
     suite = unittest.TestSuite()
     
-    test_loader = unittest.TestLoader()
-    
-    suite.addTests(test_loader.loadTestsFromTestCase(probe_test_cases))
-    
-    set_initial_parameters(suite)
-    
+    suite.addTests(loader.loadTestsFromTestCase(probe_test_cases))
+        
     runner = unittest.TextTestRunner(verbosity=2)
     
     runner.run(suite)
@@ -58,5 +58,5 @@ if __name__ == '__main__':
     
     # Storing bias and raw current lists from previous implementation
     bias, raw_current =  LoadPreviousData()
-    
-    run_test_suite(raw_current, bias, SLPTestCases)
+    SLPTestCases.set_parameters(raw_current, bias)
+    run_test_suite(SLPTestCases)
