@@ -3,9 +3,6 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath('Probe test cases'))
 from GlobalTestCases import GlobalTestCases
-sys.path.insert(0, os.path.abspath('parameters'))
-from slp_plasma_parameters import get_equations
-
 
 
 def generate_suite(equations, probe_test_cases):
@@ -25,11 +22,9 @@ def generate_suite(equations, probe_test_cases):
 
     return suite
 
-
     
 def run_test_suite(suite):
     
-        
     runner = unittest.TextTestRunner(verbosity=2)
     
     runner.run(suite)
@@ -59,7 +54,10 @@ if __name__ == '__main__':
                     None    
             
             return voltageSLP, current
-
+        
+    
+    sys.path.insert(0, os.path.abspath('parameters'))
+    from slp_plasma_parameters import get_equations
     
     # Storing bias and raw current lists from previous implementation
     bias, raw_current =  LoadPreviousData()
@@ -68,5 +66,5 @@ if __name__ == '__main__':
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
 
     GlobalTestCases.set_parameters(parameters)
-    suite=  generate_suite(get_equations(), GlobalTestCases)
+    suite = generate_suite(get_equations(), GlobalTestCases)
     run_test_suite(suite)
