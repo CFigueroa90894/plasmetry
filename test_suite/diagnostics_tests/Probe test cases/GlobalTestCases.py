@@ -17,6 +17,7 @@ class GlobalTestCases(BaseCase):
     def test_1_filter_current(self):
         
         """Test the filter_current function"""
+        
         for equation in GlobalTestCases.probe_equations:
             if 'filter_current' == equation.__name__:
                 equation(GlobalTestCases.parameters)
@@ -24,7 +25,9 @@ class GlobalTestCases(BaseCase):
                 break
 
     def test_2_get_floating_and_plasma_potential(self):
+        
         """Test the get_floating_and_plasma_potential function"""
+        
         for equation in GlobalTestCases.probe_equations:
             if 'get_floating_and_plasma_potential' == equation.__name__:
                 equation(GlobalTestCases.parameters)
@@ -41,6 +44,7 @@ class GlobalTestCases(BaseCase):
                 break
             
     def test_3_get_electron_saturation_current(self):
+        
         """Test the get_electron_saturation_current function"""
 
         for equation in GlobalTestCases.probe_equations:
@@ -52,6 +56,7 @@ class GlobalTestCases(BaseCase):
                 break
                 
     def test_4_get_ion_saturation_current(self):
+        
         """Test the get_electron_saturation_current function"""
 
         for equation in GlobalTestCases.probe_equations:
@@ -61,7 +66,9 @@ class GlobalTestCases(BaseCase):
                 self.assertLess(GlobalTestCases.parameters['Ion saturation current'],0, "Electron saturation current should be positive.")
                 
     def test_5_get_electron_temperature(self):
+        
         """Test the get_electron_temperature function"""
+        
         for equation in GlobalTestCases.probe_equations:
             if 'get_electron_temperature' == equation.__name__:
                 equation(GlobalTestCases.parameters)
@@ -72,7 +79,9 @@ class GlobalTestCases(BaseCase):
                 break
        
     def test_6_get_particle_density(self):
+        
         """Test the get_particle_density global function"""
+        
         for equation in GlobalTestCases.probe_equations:
             if 'get_particle_density' == equation.__name__:
                 equation(GlobalTestCases.parameters)
