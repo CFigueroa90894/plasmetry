@@ -6,14 +6,11 @@ Created on Wed Sep  4 12:44:30 2024
 """
 import unittest
 import numpy as np
+
 import sys 
 import os
-
 sys.path.insert(0, os.path.abspath('Probe test cases'))
-
-
 from SLPTestCases import SLPTestCases
-
 
 
 def LoadPreviousData():
@@ -35,11 +32,12 @@ def LoadPreviousData():
         
         return voltageSLP, current
 
-#Setting initial parameters 
+
 def set_initial_parameters(test_suite):
     
     for test_case in test_suite:
         test_case.set_parameters(raw_current, bias)
+        
 
 def run_test_suite(raw_current, bias, probe_test_cases):
     
