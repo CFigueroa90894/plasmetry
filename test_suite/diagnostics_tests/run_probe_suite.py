@@ -2,8 +2,9 @@ import unittest
 import sys 
 import os
 sys.path.insert(0, os.path.abspath('Probe test cases'))
-from SLPTestCases import SLPTestCases
-    
+from GlobalTestCases import GlobalTestCases
+sys.path.insert(0, os.path.abspath('parameters'))
+from dlp_plasma_parameters import get_equations
 
 def run_test_suite(probe_test_cases):
     
@@ -46,5 +47,6 @@ if __name__ == '__main__':
     
     # Storing bias and raw current lists from previous implementation
     bias, raw_current =  LoadPreviousData()
-    SLPTestCases.set_parameters(raw_current, bias)
-    run_test_suite(SLPTestCases)
+    GlobalTestCases.set_parameters(raw_current, bias)
+    GlobalTestCases.set_probe_type(get_equations())
+    run_test_suite(GlobalTestCases)
