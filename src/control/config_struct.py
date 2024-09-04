@@ -103,42 +103,48 @@ class ConfigStruct:
     # ----- Dictionary Overload ----- #
     def keys(self):
         """<...>
-        <guarantees mutual exclusion>"""
+        <guarantees mutual exclusion>
+        <usage: obj.keys()>"""
         self.__validate_readable()
         with self.__thread_lock:
             return self.__config.keys()
 
     def __setitem__(self, key: str, value):
         """<...>
-        <guarantees mutual exclusion>"""
+        <guarantees mutual exclusion>
+        <usage: obj[key] = value>"""
         self.__validate_writeable()
         with self.__thread_lock:
             self.__config[key] = value
 
     def __getitem__(self, key:str):
         """<...>
-        <guarantees mutual exclusion>"""
+        <guarantees mutual exclusion>
+        <usage: x = obj[key]"""
         self.__validate_readable()
         with self.__thread_lock:
             return self.__config[key]
         
     def __len__(self):
         """<...>
-        <guarantees mutual exclusion>"""
+        <guarantees mutual exclusion>
+        <usage: len(obj)>"""
         self.__validate_readable()
         with self.__thread_lock:
             return len(self.__config)
 
     def __delitem__(self, key:str):
         """<...>
-        <guarantees mutual exclusion>"""
+        <guarantees mutual exclusion>
+        <usage: del obj[key]>"""
         self.__validate_writeable()
         with self.__thread_lock:
             del self.__config[key]
 
     def __contains__(self, key:str):
         """<...>
-        <guarantees mutual exclusion>"""
+        <guarantees mutual exclusion>
+        <usage: key in obj>"""
         self.__validate_readable()
         with self.__thread_lock:
             return key in self.__config
