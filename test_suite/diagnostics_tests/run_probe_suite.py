@@ -20,7 +20,7 @@ def run_test_suite(probe_test_cases):
 
 if __name__ == '__main__':
     
-    """SLP sample run"""
+    """SLP test cases sample run"""
     
     def LoadPreviousData():
         
