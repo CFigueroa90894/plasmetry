@@ -49,7 +49,7 @@ class SLPTestCases(BaseCase):
         self.assertIn('Electron temperature (eV)', self.parameters)
         self.assertIn('Electron temperature (Joules)', self.parameters)
         self.assertGreater(self.parameters['Electron temperature (eV)'], 0, "Electron temperature (eV) should be positive")
-        self.assertGreater(self.parameters['Electron temperature (Joules)'], 0, "Electron temperature (Joules) should be positive")
+        self.assertGreater(self.parameters['Electron temperature (Joules)'], 0, "Electron temperature (Joules) should be a positive value.")
     
           
     def test_get_particle_density(self):
@@ -61,7 +61,9 @@ class SLPTestCases(BaseCase):
         slp_plasma_parameters.get_electron_temperature(self.parameters)
         global_parameters.get_particle_density(self.parameters)
         self.assertIn('Electron  density', self.parameters)
-
+        self.assertGreater(self.parameters['Electron  density'], 0, "Electron density should be a positive value.")
+        
+        
     def test_get_debye_length(self):
         print('aaa')
         
