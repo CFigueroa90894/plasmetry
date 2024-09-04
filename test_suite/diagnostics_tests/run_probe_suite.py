@@ -1,12 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep  4 12:44:30 2024
-
-@author: ajco2
-"""
 import unittest
-import numpy as np
-
 import sys 
 import os
 sys.path.insert(0, os.path.abspath('Probe test cases'))
@@ -18,6 +10,8 @@ def LoadPreviousData():
     """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
     
     import csv as csv_library
+    import numpy as np
+    
     with open('initial data for test cases/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
         dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
         next(dataReader)  # Skip the header row
