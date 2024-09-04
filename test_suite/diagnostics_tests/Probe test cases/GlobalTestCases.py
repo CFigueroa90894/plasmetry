@@ -4,11 +4,10 @@ from BaseCase import BaseCase
 class GlobalTestCases(BaseCase):    
     parameters = {}
     probe_equations = []
+    
     @classmethod
-    def set_parameters(cls, raw_current, bias):
-        GlobalTestCases.parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
-        GlobalTestCases.parameters['Raw current'] = raw_current
-        GlobalTestCases.parameters['Bias'] = bias
+    def set_parameters(cls, parameters):
+        GlobalTestCases.parameters = parameters
         
     @classmethod
     def set_probe_type(cls, equations):
