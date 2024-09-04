@@ -4,15 +4,31 @@ import os
 sys.path.insert(0, os.path.abspath('Probe test cases'))
 from GlobalTestCases import GlobalTestCases
 sys.path.insert(0, os.path.abspath('parameters'))
-from dlp_plasma_parameters import get_equations
+from global_parameters import get_equations
 
-def run_test_suite(probe_test_cases):
-    
+
+
+def generate_suite(equations, probe_test_cases):
+
     suite = unittest.TestSuite()
-    
+
     test_loader = unittest.TestLoader()
+
+    all_test_cases = test_loader.loadTestsFromTestCase(probe_test_cases)
+
+    equation_names = {eq.__name__ for eq in equations}
+
+    for test_case in all_test_cases:
+        for eq in equation_names:  
+          if eq in test_case._testMethodName:
+           suite.addTest(probe_test_cases(test_case._testMethodName))
+
+    return suite
+
+
     
-    suite.addTests(test_loader.loadTestsFromTestCase(probe_test_cases))
+def run_test_suite(suite):
+    
         
     runner = unittest.TextTestRunner(verbosity=2)
     
@@ -48,5 +64,5 @@ if __name__ == '__main__':
     # Storing bias and raw current lists from previous implementation
     bias, raw_current =  LoadPreviousData()
     GlobalTestCases.set_parameters(raw_current, bias)
-    GlobalTestCases.set_probe_type(get_equations())
-    run_test_suite(GlobalTestCases)
+    suite=  generate_suite(get_equations(), GlobalTestCases)
+    run_test_suite(suite)
