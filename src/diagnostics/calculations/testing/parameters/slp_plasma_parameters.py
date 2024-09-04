@@ -1,12 +1,10 @@
 import numpy as np
 from scipy import signal
-
 from global_parameters import (
     get_debye_length,
     get_number_of_electrons,
     get_particle_density
 )
-"""TODO: get best way to yield ion saturation current"""
 
 
 def filter_current(parameters):
