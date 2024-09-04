@@ -64,7 +64,7 @@ class SLPTestCases(unittest.TestCase):
     def test_6_get_debye_length(self):
         
         print()
-    def test_get_number_of_electrons(self):
+    def test_7_get_number_of_electrons(self):
         print()
         
 if __name__ == '__main__':
