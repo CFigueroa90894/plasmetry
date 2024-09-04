@@ -57,6 +57,8 @@ if __name__ == '__main__':
         
     
     sys.path.insert(0, os.path.abspath('parameters'))
+    
+    # Simply change from where the equations are imported, config values, and raw data to test other probe equations
     from slp_plasma_parameters import get_equations
     
     # Storing bias and raw current lists from previous implementation
