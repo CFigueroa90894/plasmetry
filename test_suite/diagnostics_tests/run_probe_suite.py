@@ -35,7 +35,6 @@ def LoadPreviousData():
 
 def run_test_suite(probe_test_cases):
     
-    
     suite = unittest.TestSuite()
     
     test_loader = unittest.TestLoader()
