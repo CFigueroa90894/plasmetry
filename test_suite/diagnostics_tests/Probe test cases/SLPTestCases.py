@@ -13,7 +13,6 @@ class SLPTestCases(unittest.TestCase):
     @classmethod
     def set_parameters(cls, raw_current, bias):
         SLPTestCases.parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
-
         SLPTestCases.parameters['Raw current'] = raw_current
         SLPTestCases.parameters['Bias'] = bias
     
@@ -44,7 +43,7 @@ class SLPTestCases(unittest.TestCase):
         slp_plasma_parameters.get_electron_saturation_current(SLPTestCases.parameters)
         self.assertIn('Electron saturation current', SLPTestCases.parameters)
         self.assertEqual(SLPTestCases.parameters['Electron saturation current'], SLPTestCases.parameters['Filtered current'][SLPTestCases.parameters['Plasma potential index']])
-        #self.assertGreater(SLPTestCases.parameters['Electron saturation current'], "Electron saturation current should be positive.")
+        self.assertGreater(SLPTestCases.parameters['Electron saturation current'],0, "Electron saturation current should be positive.")
 
     def test_4_get_electron_temperature(self):
         """Test the get_electron_temperature function"""
