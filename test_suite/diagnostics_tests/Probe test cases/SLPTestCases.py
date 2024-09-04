@@ -1,11 +1,10 @@
 import unittest
 import sys 
 import os
+from BaseCase import BaseCase
 sys.path.insert(0, os.path.abspath('parameters'))
-
 import slp_plasma_parameters
 import global_parameters
-from BaseCase import BaseCase
 
 class SLPTestCases(BaseCase):    
     parameters = {}
