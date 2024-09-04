@@ -11,13 +11,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath('Probe test cases'))
 from SLPTestCases import SLPTestCases
-
-class OrderedTestLoader(unittest.TestLoader):
     
-    def getTestCaseNames(self, testCaseClass):
-        # Overriding to return tests in the order they appear in the probe testcases script
-        test_names = super().getTestCaseNames(testCaseClass)
-        return test_names
 
 def LoadPreviousData():
     
@@ -39,15 +33,14 @@ def LoadPreviousData():
         return voltageSLP, current
 
 
-
-
 def run_test_suite(probe_test_cases):
     
-    loader = OrderedTestLoader()
     
     suite = unittest.TestSuite()
     
-    suite.addTests(loader.loadTestsFromTestCase(probe_test_cases))
+    test_loader = unittest.TestLoader()
+    
+    suite.addTests(test_loader.loadTestsFromTestCase(probe_test_cases))
         
     runner = unittest.TextTestRunner(verbosity=2)
     
