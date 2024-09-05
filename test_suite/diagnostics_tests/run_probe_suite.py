@@ -80,9 +80,7 @@ if __name__ == '__main__':
                     None    
             
             return voltageSLP, current
-    
-   
-    
+
     # Storing bias and raw current lists from previous implementation
     # For slp, dlp, or EA testing, may use this data to test the parameter methods.
     # Only must change particle mass and the imported equations reference
@@ -92,7 +90,7 @@ if __name__ == '__main__':
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
 
     # Setting the GlobalTestCases paramaters atribute 
-    GlobalTestCases.set_parameters(parameters)
+    GlobalTestCases.set_probe_type(get_equations(), parameters)
     
     # Generating test suite with test cases
     suite = generate_suite(get_equations(), GlobalTestCases)
