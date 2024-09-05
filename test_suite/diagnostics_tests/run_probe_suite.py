@@ -1,11 +1,11 @@
 import sys 
 import os
 
-# ----- PATH HAMMER 2 v1.0 ----- resolve absolute imports for test_suite ----- #
+# ----- PATH HAMMER 2 v1.0 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 1    # how many parent folders to reach /plasmetry/test_suite
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/test_suite
    # print(f"Path Hammer: {src_abs}")
     split = src_abs.split('\\')     # separate path into folders for validation
     assert split[-2] == 'plasmetry' and split[-1] == 'test_suite'  # validate correct top folder
