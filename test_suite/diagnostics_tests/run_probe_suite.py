@@ -1,9 +1,23 @@
-import unittest
 import sys 
 import os
-sys.path.insert(0, os.path.abspath('Probe test cases'))
-from GlobalTestCases import GlobalTestCases
 
+# ----- PATH HAMMER 2 v1.0 ----- resolve absolute imports for test_suite ----- #
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 1    # how many parent folders to reach /plasmetry/test_suite
+
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+   # print(f"Path Hammer: {src_abs}")
+    split = src_abs.split('\\')     # separate path into folders for validation
+    assert split[-2] == 'plasmetry' and split[-1] == 'test_suite'  # validate correct top folder
+    
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
+    #print(f"Path Hammer: subdirectories appended to python path")
+# ----- END PATH HAMMER ----- #
+
+import unittest
+from slp_plasma_parameters import get_equations
+from GlobalTestCases import GlobalTestCases
 
 def generate_suite(equations, probe_test_cases):
     """This function returns am instantiated TestSuite object. 
@@ -33,14 +47,18 @@ def generate_suite(equations, probe_test_cases):
     
 def run_test_suite(suite):
     
+    """THis function runs the test cases in the test suite."""
+    
+    # Instantiating TextTestRunner object with enough verbosity
     runner = unittest.TextTestRunner(verbosity=2)
     
+    # Running the test cases in the suite
     runner.run(suite)
 
 
 if __name__ == '__main__':
     
-    """SLP test cases sample run"""
+    """SLP test cases sample run."""
     
     def LoadPreviousData():
         
@@ -63,12 +81,11 @@ if __name__ == '__main__':
             
             return voltageSLP, current
     
-    # Simply change from where the equations are imported, the config values, and raw data to test other probe equations
-    sys.path.insert(0, os.path.abspath('parameters'))
-    from dlp_plasma_parameters import get_equations
+   
     
     # Storing bias and raw current lists from previous implementation
-    # For slp, dlp, or EA testing, may use this data, only must change particle mass
+    # For slp, dlp, or EA testing, may use this data to test the parameter methods.
+    # Only must change particle mass and the imported equations reference
     bias, raw_current =  LoadPreviousData()
     
     parameters = {'Bias': bias, 'Raw current': raw_current}
@@ -80,5 +97,5 @@ if __name__ == '__main__':
     # Generating test suite with test cases
     suite = generate_suite(get_equations(), GlobalTestCases)
     
-    # Running the test suite
+    # Invoking run_test_suite with the test cases as an argument
     run_test_suite(suite)
