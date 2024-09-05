@@ -33,9 +33,9 @@ def generate_suite(equations, probe_test_cases):
     # Loading every test case from GlobalTestCases
     all_test_cases = test_loader.loadTestsFromTestCase(probe_test_cases)
     
-    # Nested for loops, going through each test case and method reference
+    # Nested loops, going through each test case and method reference
     # If the methdod name characters are in test case method name, aggregating
-    # the equation to the suite
+    # the test case method to the suite
     for test_case in all_test_cases:
         for eq in equations:  
           if eq.__name__ in test_case._testMethodName:
