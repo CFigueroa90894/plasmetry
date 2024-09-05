@@ -6,11 +6,10 @@ class GlobalTestCases(BaseCase):
     parameters = {}
     probe_equations = []
     
-          
     @classmethod
-    def set_probe_type(cls, equations, parameters):
+    def set_probe_type(cls, equations, parameter):
         GlobalTestCases.probe_equations = equations
-        GlobalTestCases.parameters = parameters
+        GlobalTestCases.parameters = parameter
         
     def test_1_filter_current(self):
         
@@ -136,7 +135,6 @@ class GlobalTestCases(BaseCase):
                     self.assertGreater(GlobalTestCases.parameters['Electron density'], 0, "Electron density should be a positive value.")
             
                 else:
-                    print(GlobalTestCases.parameters['Particle density'])
                     # Verifying that the expected parameter key was generated
                     self.assertIn('Particle density', GlobalTestCases.parameters)
                     
