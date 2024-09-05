@@ -6,19 +6,27 @@ from GlobalTestCases import GlobalTestCases
 
 
 def generate_suite(equations, probe_test_cases):
-
+    """This function returns am instantiated TestSuite object. 
+    
+    The suite contains the tests to be extracted from the GlobalTestCases class"""
+    
+    # Instantiating TestSuite object
     suite = unittest.TestSuite()
-
+    
+    # Instantiating loader
     test_loader = unittest.TestLoader()
-
+    
+    # Loading every test case from GlobalTestCases
     all_test_cases = test_loader.loadTestsFromTestCase(probe_test_cases)
-
-    equation_names = {eq.__name__ for eq in equations}
-
+    
+    # Nested for loops, going through each test case and method reference
+    # If the methdod name characters are in test case method name, aggregating
+    # the equation to the suite
     for test_case in all_test_cases:
-        for eq in equation_names:  
-          if eq in test_case._testMethodName:
-           suite.addTest(probe_test_cases(test_case._testMethodName))
+        for eq in equations:  
+          if eq.__name__ in test_case._testMethodName:
+              suite.addTest(probe_test_cases(test_case._testMethodName))
+              break
 
     return suite
 
@@ -54,19 +62,23 @@ if __name__ == '__main__':
                     None    
             
             return voltageSLP, current
-        
     
+    # Simply change from where the equations are imported, the config values, and raw data to test other probe equations
     sys.path.insert(0, os.path.abspath('parameters'))
-    
-    # Simply change from where the equations are imported, config values, and raw data to test other probe equations
-    from slp_plasma_parameters import get_equations
+    from dlp_plasma_parameters import get_equations
     
     # Storing bias and raw current lists from previous implementation
+    # For slp, dlp, or EA testing, may use this data, only must change particle mass
     bias, raw_current =  LoadPreviousData()
     
     parameters = {'Bias': bias, 'Raw current': raw_current}
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
 
+    # Setting the GlobalTestCases paramaters atribute 
     GlobalTestCases.set_parameters(parameters)
+    
+    # Generating test suite with test cases
     suite = generate_suite(get_equations(), GlobalTestCases)
+    
+    # Running the test suite
     run_test_suite(suite)
