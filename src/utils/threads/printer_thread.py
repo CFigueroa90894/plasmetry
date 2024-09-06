@@ -50,11 +50,11 @@ class PrinterThread(BaseThread):
         super().run()
 
     # ---- LIFE CYCLE ----- #
-    def _setup(self):
+    def _thread_setup_(self):
         """<...>"""
         super()._setup()    # use parent implementation
 
-    def _cleanup(self):
+    def _thread_cleanup_(self):
         """<...>"""
         self._whisper = self._print_stdout
         super()._cleanup()  # use parent implementation
