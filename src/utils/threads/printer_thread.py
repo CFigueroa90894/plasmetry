@@ -56,6 +56,7 @@ class PrinterThread(BaseThread):
 
     def _cleanup(self):
         """<...>"""
+        self._whisper = self._print_stdout
         super()._cleanup()  # use parent implementation
 
     # ----- PRINT UTILS ----- #
