@@ -46,12 +46,13 @@ class ProbeFactory:
         # Save argument references
         self.config = None
         self.system = None
+        self.probe_name
         self.status_flags = status_flags
         self.command_flags = command_flags
         self.hardware_factory = hardware_factory
         self.calculations_factory = calculations_factory
 
-    def make(self, probe_type: PRB, config_ref, sys_ref):
+    def make(self, probe_type: PRB, config_ref:dict, sys_ref:dict, probe_name="PROBE"):
         """<...>"""
         self.config = config_ref
         self.system = sys_ref
@@ -104,8 +105,6 @@ class ProbeFactory:
     def __pack_general(self) -> dict:
         """<...>"""
         args = {
-            "sys_ref": self.system,
-            "config_ref": self.config,
             "shutdown": self.command_flags.shutdown,
             "diagnose": self.command_flags.diagnose,
             "operating": self.status_flags.operating,
@@ -118,8 +117,8 @@ class ProbeFactory:
     def __pack_base_probe(self):
         """<...>"""
         args = {
-            "sampling_rate": self.config.get("sampling_rate"),
-            "relay_address": self.system.get("relay_address"),
+            "sampling_rate": self.config["sampling_rate"],
+            "relay_address": self.system["relay_address"],
             **self.__pack_general()     # inherit general args
         }
         return args
@@ -128,9 +127,9 @@ class ProbeFactory:
     def __pack_sweeper(self):
         """<...>"""
         args = {
-            "num_samples": self.config.get("num_samples"),
-            "sweeper_address": self.system.get("sweeper_address"),
-            "collector_address": self.system.get("collector_address"),
+            "num_samples": self.config["num_samples"],
+            "sweeper_address": self.system["sweeper_address"],
+            "collector_address": self.system["collector_address"],
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -139,8 +138,8 @@ class ProbeFactory:
     def __pack_base_tlp(self):
         """<...>"""
         args = {
-            "upper_probe_address": self.system.get("upper_probe_address"),
-            "upper_amp_address": self.system.get("upper_amp_address"),
+            "upper_probe_address": self.system["upper_probe_address"],
+            "upper_amp_address": self.system["upper_amp_address"]
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -157,8 +156,8 @@ class ProbeFactory:
     def _pack_ea(self) -> dict:
         """<...>"""
         args = {
-            "rejector_address": self.system.get("rejector_address"),
-            "collector_bias_address": self.system.get("collector_bias_address"),
+            "rejector_address": self.system["rejector_address"],
+            "collector_bias_address": self.system["collector_bias_address"],
             **self.__pack_sweeper()     # inherit sweeper args 
         }
         return args
@@ -167,8 +166,8 @@ class ProbeFactory:
     def _pack_tlpc(self) -> dict:
         """<...>"""
         args = {
-            "lower_probe_address": self.system.get("lower_probe_address"),
-            "lower_amp_address": self.system.get("lower_amp_address"),
+            "lower_probe_address": self.system["lower_probe_address"],
+            "lower_amp_address": self.system["lower_amp_address"],
             **self.__pack_base_tlp()    # inherit base tlp args
         }
         return args
@@ -177,7 +176,7 @@ class ProbeFactory:
     def _pack_tlpv(self) -> dict:
         """<...>"""
         args = {
-            "floating_probe_address": self.system.get("floating_probe_address"),
+            "floating_probe_address": self.system["floating_probe_address"],
             **self.__pack_base_tlp()    # inherit base tlp args
         }
         return args
