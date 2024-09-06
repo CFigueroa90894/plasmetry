@@ -44,8 +44,6 @@ from daqc2plate_wrapper import DAQC2plateWrapper
 class ProbeOperation(AbstractDiagnostics, BaseThread):
     """<...>"""
     def __init__(self,
-                 sys_ref,
-                 config_ref,
                  status_flags,
                  command_flags,
                  results_buffer,
@@ -58,8 +56,6 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         super().__init__(*args, **kwargs)
 
         # Save arguments
-        self.sys_ref = sys_ref              # system settings
-        self.config_ref = config_ref        # user settings
         self.status_flags = status_flags    # system state indicators
         self.command_flags = command_flags  # action triggers
         self.results_buffer = results_buffer    # returns experiment results to System Control
@@ -68,7 +64,6 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         
         # Instantiate Probe Factory
         probe_factory_args = {
-            "config_ref": self.config_ref,
             "status_flags": self.status_flags,
             "command_flags": self.command_flags,
             "hardware_factory": HardwareFactory(self.hardware_wrapper_cls),
@@ -105,9 +100,13 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
 
     # ----- Overloaded Layer Methods ----- #
     # TO DO
-    def setup_experiment(self):
+    def setup_experiment(self, sys_ref:dict, config_ref:dict):
         """<...>"""
-        self.probe = self.probe_factory.make(self.config_ref['probe_id'])
+        self.probe = self.probe_factory.make(
+            probe_type=config_ref['probe_id'],
+            config_ref=config_ref,
+            sys_ref=sys_ref
+        )
         self.data_buff = self.probe.data_buff
 
     # TO DO
