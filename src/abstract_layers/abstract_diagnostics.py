@@ -3,10 +3,10 @@
 #   - add docstrings
 
 # built-in imports
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 
-class AbstractDiagnostics(ABC):
+class AbstractDiagnostics(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self,
                  config_ref,            # ProtectedDictionary object containing user-settings
