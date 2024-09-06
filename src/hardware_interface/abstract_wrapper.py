@@ -3,10 +3,10 @@
 #   - add docstrings
 
 # built-in imports
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 
-class AbstractWrapper(ABC):
+class AbstractWrapper(metaclass=ABCMeta):
     """<...>"""
     @abstractmethod
     def __init__(self):
