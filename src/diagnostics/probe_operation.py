@@ -5,15 +5,13 @@ Layer 3 - Diagnostics
 
 author: figueroa_90894@students.pupr.edu
 status: WIP
-  - add docstrings
-  - comment init
-  - integrate with system control
-  - resolve placeholder probe attribute
-  - when done, delete basic tests
+  - add docstrings: shutdown(), start_diagnostics()
+  - validate all methods
   - correct keys used to access dictionaries
+  - move tests to a unittest file
 
 classes:
-    ProbeOperation - Control probe objects 
+    ProbeOperation - Control probe objects and perform general layer functions. 
 
 """
 # built-in imports
@@ -24,12 +22,13 @@ from threading import Event
 from queue import Queue, Empty
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
-def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:  # execute snippet if current script was run directly 
-    """Resolve absolute imports by recusring into subdirectories and appending them to python path."""
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recusring into subdirs and appending them to the python path."""
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
     
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude] # get subdirs, exclude unwanted
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude]
     for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: {src_abs}")
 
@@ -61,18 +60,69 @@ MAX_ATTR_ERR = 5    # threshold for AttributeErrors before breaking from _THREAD
 
 
 class ProbeOperation(AbstractDiagnostics, BaseThread):
-    """<...>"""
+    """The top boundary of the Diagnostics Layer.
+    
+    ProbeOperation implements the `AbstractDiagnostics` interface, and inherits utils from
+    `BaseThread`. During diagnostics, the ProbeOperation thread collects data samples from
+    Probe Objects, calculates plasma parameters, updates parameters to display, and aggregates
+    samples as results. When diagnostics halt, results are returned pushed to the results buffer.
+    
+    Public Attributes:
+        status_flags: `StatusFlags` - system state indicators
+        command_flags: `CommandFlags` - action triggers
+        results_buffer: `Queue` - sends experiment results to Control Layer
+        real_time_param: `ProtectedDictionary` - sends to UI parameters to display
+
+    Protected Attributes:
+        _probe_factory: instantiates various probe objects
+        _probe: `BaseProbe` subclass - instantiated probe object
+        _ready: indicate ProbeOperation is awaiting to begin diagnostics
+        _fail: bool - indicates error during operations
+        _data_buff: `Queue` - recieves data samples Probe Object
+        _aggregate_samples: list - collected samples and plasma parameters
+
+    Public Methods:
+        run(): invoked by calling thread's start(); overloads BaseThread
+        say(): thread-safe printing; inherited from BaseThread
+        setup_experiment(): prepares diagnostic layer for operations
+        shutdown(): invoked during system-wide shutdown
+        start_diagnostics(): begin operatios
+        stop_diagnostics(): halt operations and request results
+
+    Protected Methods:
+        _calculate_params(): calculate plasma parameters from data samples
+            return: Two ProtectedDictionary objects, containing plasma parameters
+        _THREAD_MAIN_(): controls probe objects and processes data samples
+        _setup(): thread related initialization
+        _cleanup(): thread related cleanup
+    """
     def __init__(self,
                  status_flags,
                  command_flags,
-                 results_buffer,
-                 real_time_param,
-                 name="PRB_OP",
-                 daemon=True,
+                 results_buffer:Queue,
+                 real_time_param:dict,
+                 name:str="PRB_OP",
+                 daemon:bool=True,
                  hardware_wrapper_cls=DAQC2plateWrapper,
                  *args, **kwargs
         ):
-        """"<...>"""
+        """"Use keyword arguments to correctly invoke parent constructors.
+
+        Keyword Arguments:
+            status_flags: `StatusFlags` - indicators for subsystem states 
+            command_flags: `CommandFlags` - triggers for subsystem behavior
+            results_buffer: `Queue` thread-safe queue to pass results to Control Layer
+            real_time_param: `ProtectedDictionary` - container to forward paramaters to display
+            name: str - thread name for probe operation
+                from: BaseThread
+                default: "PRB_OP"
+            daemon: bool - makes thread daemonic, see `threading` documentation
+                from: BaseThread
+                default: True
+            hardware_wrapper_cls: interface wrapper passed to ProbeFactory
+                type: `AbstractWrapper` subclass 
+                default: `DAQC2plateWrapper`
+        """
         # Invoke BaseThread constructor; AbstractDiagnostics has no constructor.
         super().__init__(*args, daemon=daemon, name=name, **kwargs)
 
@@ -81,122 +131,158 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         self.command_flags = command_flags  # action triggers
         self.results_buffer = results_buffer    # returns experiment results to System Control
         self.real_time_param = real_time_param  # paramater container for real-time display
-        self.hardware_wrapper_cls = hardware_wrapper_cls    # generates hardware objects
         
         # Instantiate Probe Factory
         probe_factory_args = {
             "status_flags": self.status_flags,
             "command_flags": self.command_flags,
-            "hardware_factory": HardwareFactory(self.hardware_wrapper_cls),
+            "hardware_factory": HardwareFactory(hardware_wrapper_cls),
             "calculations_factory": CalculationsFactory
         }
-        self.probe_factory = ProbeFactory(**probe_factory_args)
+        self._probe_factory = ProbeFactory(**probe_factory_args)
 
         # None values until setup_experiment() instatiates the required probe object.
-        self.probe = None       # the probe object with specific data acquisition algorithms
-        self.data_buff:Queue = None   # container to recieve data samples from probe object
-        self.aggregate_samples:list = None   # stores probe data samples to return to control layer
+        self._probe = None       # the probe object with specific data acquisition algorithms
+        self._ready = False      # configuration is set and probe object was created
+        self._fail = False       # indicate errors during data acquisition
+        self._data_buff:Queue = None   # container to recieve data samples from probe object
+        self._aggregate_samples:list = None   # stores probe data samples to return to control layer
 
+    # TO DO - validate
+    def _calculate_params(self, samples):
+        """Calculates plasma paramaters with the equations packaged in the probe object.
+        Returns two ProtectDictionaries, the first with all data samples and plasma parameters,
+        the second with plasma parameters that must be displayed by the UI.
 
+        samples: `ProtectedDictionary` containing applied biases and measured voltages.
+        """
+        # setup
+        self.status_flags.calculating.set()     # indicate calculations are being performed
+        self.say("calculating paramaters...")
+        params = ProtectedDictionary(samples)   # argument for calculations
+
+        # perform all calculations except last one
+        for calculation in range(len(self._probe.equations)-1):
+            calculation(params)    # in-place operations
+
+        # last calculation returns parameters specifically for display
+        display_params = self._probe.equation[-1](params)
+        
+        # cleanup
+        self.status_flags.calculating.clear()   # indicate calculations are completed
+        self.say("calculations complete")
+        return params, display_params
+    
     # ----- Overloaded Thread Methods ----- #
+    # thread launch script
+    def run(self):
+        """Invoked when the start() method is called."""
+        self._setup()
+        self._THREAD_MAIN_()
+        self._cleanup()
+
     # TO DO - validate
     def _THREAD_MAIN_(self):
-        """<...>"""
-        attribute_errors = 0         # count raised attribute errors
-        self.aggregate_samples = []  # store samples and calculated params of a single experiment
-        fail = False
-        while self.status_flags.operating or not self.data_buff.empty():
+        """Main thread script for ProbeOperation.
+        Aggregates results, calculates plasma parameters, updates display values, and sends
+        result to the Control Layer.
+        """
+        attribute_errors = 0  # count raised attribute errors
+        while self.status_flags.operating or not self._data_buff.empty():
             try:
                 # get data samples sent by Probe Object through data buffer
-                samples:dict = self.data_buff.get(timeout=BUFF_TIMEOUT)
+                samples:dict = self._data_buff.get(timeout=BUFF_TIMEOUT)
                 self.say(err)
 
                 # sequentially apply calculations to obtain plasma paramaters
-                samples = ProtectedDictionary(samples)  # apply mutex
-                params, display_params = self.calculate_params(samples)  # perform all calculations
+                samples = ProtectedDictionary(samples)  # enforce mutex
+                params, display_params = self._calculate_params(samples)  # perform all calculations
 
                 # update real-time parameter container for display
                 self.real_time_param.update(display_params)  # read by UI layer
                 self.command_flags.refresh.set()        # indicate new data for display
-                self.aggregate_samples.append(params)   # append new samples
-
+                self._aggregate_samples.append(params)   # append new samples
             except Empty:   # do nothing while data buffer is empty
                 pass
 
+            # TO DO - DELETE - temporary for basic tests
             except AttributeError as err:
                 self.say(f"{err} in _THREAD_MAIN_")
                 attribute_errors += 1
                 if attribute_errors >= MAX_ATTR_ERR:
                     self.say("attribute errors exceeded threshold!")
-                    fail = True
+                    self._fail = True
                     break
                 else:
                     self.pause(BUFF_TIMEOUT)
                     continue
-        if not fail:
-            self.results_buffer.put(self.aggregate_samples)
-            self.say("pushed new samples set to control")
-
-    # TO DO -validate
-    def calculate_params(self, samples):
-        """<...>"""
-        self.say("calculating paramaters...")
-        self.status_flags.calculating.set()     # prevent shutdown while still calculating
-        params = ProtectedDictionary(samples)
-        for calculation in range(len(self.probe.equations)-1):  # run perform all calculations except last one
-            calculation(params)    # in-place operations
-        display_params = self.probe.equation[-1](params)  # last calculation returns parameters specifically to display
-        self.status_flags.calculating.clear()
-        self.say("calculations complete")
-        return params, display_params
-
-    # Invokes _setup(), then _THREAD_MAIN_(), and lastly _cleanup()
-    def run(self):
-        """<...>"""
-        super().run()   # call parents run() method
-        self.probe.start()
 
     # TO DO - validate
     # threading setup
     def _setup(self):
-        """<...>"""
-        # SET PROBE STATUS FLAGS
+        """Initialize values and perform entry actions for threaded operations."""
+        self._aggregate_samples = []  # clear list
+        self._fail = False            # reset indicator
+
+        # TO DO - SET PROBE STATUS FLAGS
+
+        # launch probe object thread and wait for it to start
+        self._probe.start()  # launch thread
         self.say("waiting for Probe Object to start...")
-        result = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT)
-        if result: self.say("Probe Object never exited!")
-        super()._setup() # basic print
+        result = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT) # wait for thread
+        if not result: self.say("Probe Object thread never started!")   # error message
+
+        super()._setup() # basic print from parent
 
     # TO DO - validate
     # threading cleanup
     def _cleanup(self):
-        """<...>"""
-        # CLEAR PROBE STATUS FLAGS
-        # <...>
+        """Clear values and perform exit actions after threaded operations."""
+        # Send aggregated results to Control Layer
+        if not self._fail:
+            self.results_buffer.put(self._aggregate_samples)
+            self.say("pushed new samples set to control")
+
+        # Wait until probe object thread stops
         self.say("waiting for Probe Object to exit...")
         try:
-            self.probe.join()
+            self._probe.join()   # wait until thread exits
+            self._probe = None   # clear probe object
         except AttributeError as err:
             self.say(f"{err} in _cleanup")
+        
+        # TO DO - CLEAR PROBE STATUS FLAGS
+
         super()._cleanup()
 
     # thread-safe printing
-    def say(self, msg):
-        """<...>"""
+    def say(self, msg:str):
+        """Prints to directly to console (unsafe), or to PrinterThread (thread-safe) depending on
+        configuration.
+        """
         super().say(msg)
 
     # ----- Overloaded Layer Methods ----- #
     # User confirms config and prepares to begin experiment
     def setup_experiment(self, sys_ref:dict, config_ref:dict, probe_thread_name="PROBE"):
-        """<...>"""
+        """Initializes probe object and prepare to launch threads.
+        
+        Arguments:
+            sys_ref: `ProtectedDictionary` containing system settings
+            config_ref: `ProtectedDictionary` containing user settings
+            probe_thread_name: str - name assigned to probe object's thread
+                default: "PROBE"
+        """
         # Initialize Probe Object through Probe Factory
-        self.probe = self.probe_factory.make(
+        self._probe = self._probe_factory.make(
             probe_type=config_ref['probe_id'],
             config_ref=config_ref,
             sys_ref=sys_ref,
             probe_name=probe_thread_name
         )
         # acquire probe's data sample buffer
-        self.data_buff = self.probe.data_buff
+        self._data_buff = self._probe.data_buff
+        self._ready = True
 
     # TO DO - Entire system is terminating
     def shutdown(self):
@@ -205,7 +291,12 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
 
     # TO DO - User starts experiment, launch ProbeOperation thread
     def start_diagnostics(self):
-        """<...>"""
+        """Launches ProbeOperation's thread.
+        Raises a RuntimeError if `setup_experiment()` was not invoked first."""
+        if not self._ready:
+            raise RuntimeError("Cannot begin diagnostics before setup_experiment() is called!")
+        else:
+            self._ready = False  # clear ready value to prevent recurring calls to this method
         self.start()    # launch Probe Operation thread
 
     # TO DO - User stops experiment, called by _cleanup()
@@ -243,7 +334,9 @@ if __name__ == "__main__":
         results_buffer=results_buff,
         name='PRB_OP'
     )
-
+    from unittest.mock import MagicMock
+    po._probe = MagicMock()
+    # a = ProbeOperation(status_flags=0, real_time_param=0)
     # v = vars(po)
     # for key in v:
     #     print(f"{key} : {v[key]}")
