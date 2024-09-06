@@ -8,7 +8,7 @@ import os
 
 from threading import Event             # thread-safe signaling mechanisms
 from queue import Queue                 # thread-safe data buffer
-from abc import ABC, abstractmethod     # enforce abstraction
+from abc import ABCMeta, abstractmethod     # enforce abstraction
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
@@ -27,7 +27,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # local imports
 from base_thread import BaseThread
 
-class BaseProbe(ABC, BaseThread):
+class BaseProbe(BaseThread, metaclass=ABCMeta):
     """The top-level, abstract class for all probe implementations.
     Includes initialization for flags, data buffer, equations, config, and data buffer.
     Defines abstract methods run(), and _graceful_exit()."""
