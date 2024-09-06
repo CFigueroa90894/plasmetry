@@ -6,6 +6,7 @@
 #   - integrate with system control
 #   - resolve placeholder probe attribute
 #   - when done, delete basic tests
+#   - correct key used to access dictionaries
 
 # built-in imports
 import sys
@@ -53,15 +54,17 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
                  *args, **kwargs
                  ):
         """"<...>"""
+        # Invoke BaseThread constructor; AbstractDiagnostics has no constructor.
         super().__init__(*args, **kwargs)
+
         # Save arguments
-        self.sys_ref = sys_ref
-        self.config_ref = config_ref
-        self.status_flags = status_flags
-        self.command_flags = command_flags
-        self.results_buffer = results_buffer
-        self.real_time_param = real_time_param
-        self.hardware_wrapper_cls = hardware_wrapper_cls
+        self.sys_ref = sys_ref              # system settings
+        self.config_ref = config_ref        # user settings
+        self.status_flags = status_flags    # system state indicators
+        self.command_flags = command_flags  # action triggers
+        self.results_buffer = results_buffer    # returns experiment results to System Control
+        self.real_time_param = real_time_param  # paramater container for real-time display
+        self.hardware_wrapper_cls = hardware_wrapper_cls    # wrapper class for generating hardware objects
         
         # Instantiate Probe Factory
         probe_factory_args = {
@@ -73,8 +76,14 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         }
         self.probe_factory = ProbeFactory(**probe_factory_args)
 
-    # ----- Inherited Thread Methods ----- #
+        # None values until setup_experiment() instatiates the required probe object.
+        self.probe = None       # the probe object with specific data acquisition algorithms
+        self.data_buff = None   # container to recieve data samples from probe object
+
+
+    # ----- Overloaded Thread Methods ----- #
     def _THREAD_MAIN_(self):
+        """<...>"""
         self.say('1')
         self.pause(1)
         self.say('2')
@@ -94,17 +103,26 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
     def say(self, msg):
         super().say(msg)
 
-    # ----- Inherited Layer Methods ----- #
+    # ----- Overloaded Layer Methods ----- #
+    # TO DO
     def setup_experiment(self):
-        pass
+        """<...>"""
+        self.probe = self.probe_factory.make(self.config_ref['probe_id'])
+        self.data_buff = self.probe.data_buff
 
+    # TO DO
     def shutdown(self):
+        """<...>"""
         pass
 
+    # TO DO
     def start_diagnostics(self):
+        """<...>"""
         pass
 
+    # TO DO
     def stop_diagnostics(self):
+        """<...>"""
         pass
 
 if __name__ == "__main__":
