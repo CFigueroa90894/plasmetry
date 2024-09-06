@@ -46,7 +46,6 @@ class ProbeFactory:
         # Save argument references
         self.config = None
         self.system = None
-        self.probe_name
         self.status_flags = status_flags
         self.command_flags = command_flags
         self.hardware_factory = hardware_factory
