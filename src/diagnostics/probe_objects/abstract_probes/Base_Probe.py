@@ -33,6 +33,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     Defines abstract methods run(), and _graceful_exit()."""
     def __init__(self,
                  probe_id,
+                 sys_ref:dict,
                  config_ref:dict,
                  shutdown:Event,
                  diagnose:Event,
@@ -56,7 +57,8 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         
         # PROBE INFO
         self.id = probe_id                  # identifier for testing and validation
-        self.config_ref = config_ref        # dictionary containing relevant configuration data
+        self.sys_ref = sys_ref              # dictionary with system settings
+        self.config_ref = config_ref        # dictionary with user settings
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
         self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
