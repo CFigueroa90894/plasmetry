@@ -28,13 +28,12 @@ class BaseThread(Thread, metaclass=ABCMeta):
                  *args, **kwargs
         ):
         """<...>"""
-        super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
+        super().__init__(*args, daemon=daemon, **kwargs)   # initialize attributes inherited from parent
         assert start_delay is None or start_barrier is None, f"Cannot instantiate with both: delay: {start_delay}, barrier: {start_barrier}"     # validate start conditions
 
         self.delay = start_delay            # delay run() by specified amount of time
         self.barrier = start_barrier        # delay run() until all threads are waiting at the barrier
         self.console_buff = console_buff        # select how to print console messages, by default uses built-in print
-        self.dameon = daemon                # if set, forcibly terminate thread if main thread exits
 
         self.pause_sig = Event()            # local signal used to pause thread
 
