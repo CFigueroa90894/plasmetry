@@ -8,9 +8,9 @@ import sys
 
 from threading import Thread, Event, Timer, Barrier
 from queue import Queue, Full
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
-class BaseThread(ABC, Thread):
+class BaseThread(Thread, metaclass=ABCMeta):
     """<...>
     <required override methods>
         _THREAD_MAIN_
