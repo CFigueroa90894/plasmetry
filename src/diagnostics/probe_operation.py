@@ -1,13 +1,21 @@
-# author: figueroa_90894@students.pupr.edu
-# status: WIP
-#   - add docstrings
-#   - comment init
-#   - public methods
-#   - integrate with system control
-#   - resolve placeholder probe attribute
-#   - when done, delete basic tests
-#   - correct key used to access dictionaries
+""" G3 - Plasma Devs
+Layer 3 - Diagnostics
+    Provides the main implementation for the Diagnostics Layer, controlling probes and calculating
+    plasma parameters. Accesses the Hardware Interface Layer through a set of hardware objects.
 
+author: figueroa_90894@students.pupr.edu
+status: WIP
+  - add docstrings
+  - comment init
+  - integrate with system control
+  - resolve placeholder probe attribute
+  - when done, delete basic tests
+  - correct keys used to access dictionaries
+
+classes:
+    ProbeOperation - Control probe objects 
+
+"""
 # built-in imports
 import sys
 import os
@@ -15,18 +23,18 @@ import os
 from threading import Event
 from queue import Queue, Empty
 
-# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 1             # how many parent folders to reach /plasmetry/src
-
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
-    print(f"Path Hammer: {src_abs}")
-    split = src_abs.split('\\')     # separate path into folders for validation
-    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:  # execute snippet if current script was run directly 
+    """Resolve absolute imports by recusring into subdirectories and appending them to python path."""
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
+    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
-    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: subdirectories appended to python path")
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude] # get subdirs, exclude unwanted
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+    print(f"Path Hammer: {src_abs}")
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(1, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 
@@ -48,7 +56,9 @@ from daqc2plate_wrapper import DAQC2plateWrapper
 
 # Constants - local config
 BUFF_TIMEOUT = 3    # wait for data samples no more than three seconds
-WAIT_TIMEOUT = 5
+JOIN_TIMEOUT = 5    # wait for Probe Object thread to exit
+MAX_ATTR_ERR = 5    # threshold for AttributeErrors before breaking from _THREAD_MAIN_
+
 
 class ProbeOperation(AbstractDiagnostics, BaseThread):
     """<...>"""
@@ -66,12 +76,12 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         # Invoke BaseThread constructor; AbstractDiagnostics has no constructor.
         super().__init__(*args, daemon=daemon, name=name, **kwargs)
 
-        # Save arguments
+        # --- Save arguments --- #
         self.status_flags = status_flags    # system state indicators
         self.command_flags = command_flags  # action triggers
         self.results_buffer = results_buffer    # returns experiment results to System Control
         self.real_time_param = real_time_param  # paramater container for real-time display
-        self.hardware_wrapper_cls = hardware_wrapper_cls    # wrapper class for generating hardware objects
+        self.hardware_wrapper_cls = hardware_wrapper_cls    # generates hardware objects
         
         # Instantiate Probe Factory
         probe_factory_args = {
@@ -85,25 +95,47 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         # None values until setup_experiment() instatiates the required probe object.
         self.probe = None       # the probe object with specific data acquisition algorithms
         self.data_buff:Queue = None   # container to recieve data samples from probe object
-        self.aggregate_samples:list = None   # stores data samples from probes; returns to control when stoppping
+        self.aggregate_samples:list = None   # stores probe data samples to return to control layer
 
 
     # ----- Overloaded Thread Methods ----- #
     # TO DO - validate
     def _THREAD_MAIN_(self):
         """<...>"""
-        self.aggregate_samples = []
+        attribute_errors = 0         # count raised attribute errors
+        self.aggregate_samples = []  # store samples and calculated params of a single experiment
+        fail = False
         while self.status_flags.operating or not self.data_buff.empty():
             try:
-                samples = self.data_buff.get(timeout=BUFF_TIMEOUT)  # get data samples sent by Probe Object
-                params, display_params = self.calculate_params(ProtectedDictionary(samples))    # sequentially apply obtain plasma paramaters
-                self.real_time_param.update(display_params)         # update real-time parameter container for display
-                self.command_flags.refresh.set()    # indicate new data for display
-                self.aggregate_samples.append(params)
+                # get data samples sent by Probe Object through data buffer
+                samples:dict = self.data_buff.get(timeout=BUFF_TIMEOUT)
+                self.say(err)
+
+                # sequentially apply calculations to obtain plasma paramaters
+                samples = ProtectedDictionary(samples)  # apply mutex
+                params, display_params = self.calculate_params(samples)  # perform all calculations
+
+                # update real-time parameter container for display
+                self.real_time_param.update(display_params)  # read by UI layer
+                self.command_flags.refresh.set()        # indicate new data for display
+                self.aggregate_samples.append(params)   # append new samples
+
             except Empty:   # do nothing while data buffer is empty
                 pass
-        self.results_buffer.put(self.aggregate_samples)
-        self.say("pushed new samples set to control")
+
+            except AttributeError as err:
+                self.say(f"{err} in _THREAD_MAIN_")
+                attribute_errors += 1
+                if attribute_errors >= MAX_ATTR_ERR:
+                    self.say("attribute errors exceeded threshold!")
+                    fail = True
+                    break
+                else:
+                    self.pause(BUFF_TIMEOUT)
+                    continue
+        if not fail:
+            self.results_buffer.put(self.aggregate_samples)
+            self.say("pushed new samples set to control")
 
     # TO DO -validate
     def calculate_params(self, samples):
@@ -130,7 +162,7 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         """<...>"""
         # SET PROBE STATUS FLAGS
         self.say("waiting for Probe Object to start...")
-        result = self.status_flags.operating.wait(timeout=WAIT_TIMEOUT)
+        result = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT)
         if result: self.say("Probe Object never exited!")
         super()._setup() # basic print
 
@@ -141,7 +173,10 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         # CLEAR PROBE STATUS FLAGS
         # <...>
         self.say("waiting for Probe Object to exit...")
-        self.probe.join()
+        try:
+            self.probe.join()
+        except AttributeError as err:
+            self.say(f"{err} in _cleanup")
         super()._cleanup()
 
     # thread-safe printing
