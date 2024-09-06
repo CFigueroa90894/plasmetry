@@ -93,8 +93,8 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         _calculate_params(): calculate plasma parameters from data samples
             return: Two ProtectedDictionary objects, containing plasma parameters
         _THREAD_MAIN_(): controls probe objects and processes data samples
-        _setup(): thread related initialization
-        _cleanup(): thread related cleanup
+        _thread_setup_(): thread related initialization
+        _thread_cleanup_(): thread related cleanup
     """
     def __init__(self,
                  status_flags,
@@ -177,9 +177,9 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
     # thread launch script
     def run(self):
         """Invoked when the start() method is called."""
-        self._setup()
+        self._thread_setup_()
         self._THREAD_MAIN_()
-        self._cleanup()
+        self._thread_cleanup_()
 
     # TO DO - validate
     def _THREAD_MAIN_(self):
@@ -219,7 +219,7 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
 
     # TO DO - validate
     # threading setup
-    def _setup(self):
+    def _thread_setup_(self):
         """Initialize values and perform entry actions for threaded operations."""
         self._aggregate_samples = []  # clear list
         self._fail = False            # reset indicator
@@ -236,7 +236,7 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
 
     # TO DO - validate
     # threading cleanup
-    def _cleanup(self):
+    def _thread_cleanup_(self):
         """Clear values and perform exit actions after threaded operations."""
         # Send aggregated results to Control Layer
         if not self._fail:
