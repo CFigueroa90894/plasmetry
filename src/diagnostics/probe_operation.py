@@ -27,13 +27,14 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 
 # local imports
+from abstract_diagnostics import AbstractDiagnostics
 from probe_factory import ProbeFactory
 from hardware_factory import HardwareFactory
 from calculations_factory import CalculationsFactory
 from daqc2plate_wrapper import DAQC2plateWrapper
 
 
-class ProbeOperation:
+class ProbeOperation(AbstractDiagnostics):
     """<...>"""
     def __init__(self,
                  config_ref,
