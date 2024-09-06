@@ -37,8 +37,6 @@ class ProbeFactory:
     "<...>"
     
     def __init__(self,
-                 sys_ref,
-                 config_ref,
                  status_flags,
                  command_flags,
                  hardware_factory,
@@ -46,16 +44,17 @@ class ProbeFactory:
                  ):
         """<...>"""
         # Save argument references
-        self.system = sys_ref
-        self.config = config_ref
+        self.config = None
+        self.system = None
         self.status_flags = status_flags
         self.command_flags = command_flags
         self.hardware_factory = hardware_factory
         self.calculations_factory = calculations_factory
 
-    def make(self, probe_type: PRB):
+    def make(self, probe_type: PRB, config_ref, sys_ref):
         """<...>"""
-
+        self.config = config_ref
+        self.system = sys_ref
         # Package probe config by ID
         match probe_type:
             # Single Langmuir Probe
