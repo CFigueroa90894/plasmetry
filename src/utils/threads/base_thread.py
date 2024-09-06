@@ -15,8 +15,8 @@ class BaseThread(Thread, metaclass=ABCMeta):
     <required override methods>
         _THREAD_MAIN_
         run
-        _setup
-        _cleanup
+        _setup_
+        _cleanup_
         say
     """
     
@@ -66,7 +66,7 @@ class BaseThread(Thread, metaclass=ABCMeta):
 
     # ----- LIFE CYCLE UTILS ----- #
     @abstractmethod
-    def _setup(self):
+    def _thread_setup_(self):
         """<...>"""
         # assumes constructor already validated that barrier and delay are not both specified for this instance
         if self.delay is not None:
@@ -76,7 +76,7 @@ class BaseThread(Thread, metaclass=ABCMeta):
         self.say("running...")
 
     @abstractmethod
-    def _cleanup(self):
+    def _thread_cleanup_(self):
         """<...>"""
         self.say("exiting...")
         sys.exit(0)
