@@ -234,7 +234,7 @@ if __name__ == "__main__":
     
     # Running each equation
     list_of_equations = get_equations()
-    for i in list_of_equations[:len(list_of_equations)-2]:
+    for i in list_of_equations[:len(list_of_equations)-1]:
         i(parameters)
     
     parameters_to_display = list_of_equations[-1](parameters)
