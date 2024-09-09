@@ -1,6 +1,7 @@
 
 import os
 import sys
+
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 4            # how many parent folders to reach /plasmetry/src
@@ -230,7 +231,7 @@ if __name__ == "__main__":
     
     # Running each equation
     list_of_equations = get_equations()
-    for i in list_of_equations[0:len(list_of_equations)-2]:
+    for i in list_of_equations[:len(list_of_equations)-2]:
         i(parameters)
     
     parameters_to_display = list_of_equations[-1](parameters)
