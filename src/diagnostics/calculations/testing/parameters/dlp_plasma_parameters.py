@@ -3,11 +3,10 @@ from global_parameters import (
     filter_current,
     get_debye_length,
     get_number_of_electrons,
-    get_langmuir_display_parameters
+    get_display_parameters
 )
 
-# Storing the charge of the electron particle, since it shall be used for calculation
-ELECTRON_CHARGE = 1.60217657e-19
+
     
     
 def get_ion_saturation_current(parameters):
@@ -33,6 +32,8 @@ def get_electron_temperature( parameters):
     
     thus the value closet to 0 shall be used. 
     """
+    # Storing the charge of the electron particle, since it shall be used for calculation
+    ELECTRON_CHARGE = 1.60217657e-19
     
     # Storing parameters used for calculations
     filtered_current_list = parameters['Filtered current'] 
@@ -56,6 +57,9 @@ def get_electron_temperature( parameters):
 def get_electron_density(parameters):
     
     """This function yields the electron density in Kilograms per cubic meter. """ 
+    
+    # Storing the charge of the electron particle, since it shall be used for calculation
+    ELECTRON_CHARGE = 1.60217657e-19
     
     # Configuration object stored, in order to get 'Probe Area' and 'Ion mass'
     config_object = parameters['config_ref']
@@ -85,7 +89,7 @@ def get_equations():
     # Global parameters
     list_of_references.append(get_debye_length)
     list_of_references.append(get_number_of_electrons)
-    list_of_references.append(get_langmuir_display_parameters)
+    list_of_references.append(get_display_parameters)
     return list_of_references
 
 
