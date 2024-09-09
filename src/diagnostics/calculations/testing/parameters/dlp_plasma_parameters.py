@@ -7,8 +7,6 @@ from global_parameters import (
 )
 
 
-    
-    
 def get_ion_saturation_current(parameters):
     
     """**TODO: find a better way to obtain ion saturation current.**
@@ -129,7 +127,7 @@ if __name__ == "__main__":
     # Running each equation
     list_of_equations = get_equations()
     
-    for i in list_of_equations[0:len(list_of_equations)-2]:
+    for i in list_of_equations[:len(list_of_equations)-2]:
         i(parameters)
     
     parameters_to_display = list_of_equations[-1](parameters)
