@@ -1,31 +1,13 @@
 import numpy as np 
-from scipy import signal
-
 from global_parameters import (
+    filter_current,
     get_debye_length,
-    get_number_of_electrons
+    get_number_of_electrons,
+    get_langmuir_display_parameters
 )
 
 # Storing the charge of the electron particle, since it shall be used for calculation
 ELECTRON_CHARGE = 1.60217657e-19
-
-
-def filter_current(parameters):
-    
-    # Extracted from Felix Cuadrado's code
-    """Filters a signal using a butterworth digital filter. 
-    
-    Inputs:
-        rawSignal = an array of raw data captured by the sensor.
-        
-    Outputs:
-        filteredSignal = signal after being processed by a butterworth digital filter.
-    """
-    
-    sos = signal.butter(2, 0.03, output='sos')
-    filteredSignal = signal.sosfiltfilt(sos, parameters['Raw current'])
-    
-    parameters['Filtered current'] = filteredSignal
     
     
 def get_ion_saturation_current(parameters):
@@ -103,6 +85,7 @@ def get_equations():
     # Global parameters
     list_of_references.append(get_debye_length)
     list_of_references.append(get_number_of_electrons)
+    list_of_references.append(get_langmuir_display_parameters)
     return list_of_references
 
 
@@ -116,7 +99,7 @@ if __name__ == "__main__":
         
         import csv as csv_library
         
-        with open('../initial data for test cases/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+        with open('../testing scenarios/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
@@ -142,9 +125,13 @@ if __name__ == "__main__":
     # Running each equation
     list_of_equations = get_equations()
     
-    for i in list_of_equations:
+    for i in list_of_equations[0:len(list_of_equations)-2]:
         i(parameters)
+    
+    parameters_to_display = list_of_equations[-1](parameters)
+    
+    keys = parameters_to_display.keys()
+    
+    for i in keys: 
+        print(i, ':', parameters_to_display[i])
         
-    # Printing the yielded parameters 
-    for key, value in parameters.items():
-            print(key, ': ' ,value)
