@@ -133,22 +133,59 @@ class GlobalTestCases(BaseCase):
                     
                     # Verifying that the calculated density is a positive values
                     self.assertGreater(GlobalTestCases.parameters['Electron density'], 0, "Electron density should be a positive value.")
-            
+
                 else:
                     # Verifying that the expected parameter key was generated
                     self.assertIn('Particle density', GlobalTestCases.parameters)
                     
-                    # Verifying that the calculated density is a positive values
+                    # Verifying that the calculated density is a positive value
                     self.assertGreater(GlobalTestCases.parameters['Particle density'], 0, "Particle density should be a positive value.")
                     
                     
        
     def test_7_get_debye_length(self):
-        print()
+        
+        """Test the get_debye_length global function"""
+        for equation in GlobalTestCases.probe_equations:
+            if 'get_debye_length' == equation.__name__:
+                
+                # Running equation with parameters attribute as argument
+                equation(GlobalTestCases.parameters)
+                
+                # Verifying that the expected parameter key was generated
+                self.assertIn('Debye length', GlobalTestCases.parameters)
+                
+                # Verifying that the calculated Debye length is a positive value
+                self.assertGreater(GlobalTestCases.parameters['Debye length'], 0, "Debye length should be a positive value.")
+                
+                # Verifying that the calculated Debye length is a float value
+                self.assertIsInstance(GlobalTestCases.parameters['Debye length'], float, "Debye length should be an float value.")
+                
+                
+                    
         
         
     def test_8_get_number_of_electrons(self):
-        print()
+        
+        """Test the get_number_of_electrons global function"""
+        for equation in GlobalTestCases.probe_equations:
+            if 'get_number_of_electrons' == equation.__name__:
+                
+                # Running equation with parameters attribute as argument
+                equation(GlobalTestCases.parameters)
+                
+                # Verifying that the expected parameter key was generated
+                self.assertIn('Number of electrons', GlobalTestCases.parameters)
+                
+                # Verifying that the calculated Number of electrons is a positive value
+                self.assertGreater(GlobalTestCases.parameters['Number of electrons'], 0, "Number of electrons should be a positive value.")
+                
+                # Verifying that the calculated Number of electronsh is an integer
+                self.assertIsInstance(GlobalTestCases.parameters['Number of electrons'], int, "Number of electrons should be an integer.")
+                
+                
+                
+                    
         
 if __name__ == '__main__':
     unittest.main(verbosity=2)
