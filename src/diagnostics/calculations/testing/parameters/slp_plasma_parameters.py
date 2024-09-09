@@ -1,3 +1,20 @@
+
+import sys
+import os
+
+# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 4             # how many parent folders to reach /plasmetry/src
+
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    print(f"Path Hammer: {src_abs}")
+    split = src_abs.split('\\')     # separate path into folders for validation
+    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+    
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
+   # print(f"Path Hammer: subdirectories appended to python path")
+# ----- END PATH HAMMER ----- #
 import numpy as np
 from scipy import signal
 from global_parameters import (
@@ -5,7 +22,19 @@ from global_parameters import (
     get_number_of_electrons,
     get_particle_density
 )
+from protected_dictionary import ProtectedDictionary
 
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display."""
+    
+    display_parameters = ProtectedDictionary(parameters)
+    
+    del display_parameters['Bias']
+    del display_parameters['Filtered current']
+    del display_parameters['Raw current']
+    del display_parameters['config_ref']
+    return display_parameters
 
 def filter_current(parameters):
     
@@ -146,7 +175,7 @@ def get_equations():
     list_of_references.append(get_particle_density) 
     list_of_references.append(get_debye_length)
     list_of_references.append(get_number_of_electrons)
-
+    list_of_references.append(get_display_parameters)
     return list_of_references
 
 
@@ -186,10 +215,15 @@ if __name__ == "__main__":
 
     # Running each equation
     list_of_equations = get_equations()
-    for i in list_of_equations:
+    
+    for i in list_of_equations[0:len(list_of_equations)-2]:
         i(parameters)
+    
+    parameters_to_display = list_of_equations[-1](parameters)
+    
+    keys = parameters_to_display.keys()
+    
+    for i in keys: 
+        print(i, ':', parameters_to_display[i])
         
-    # Printing the parameters
-    for key, value in parameters.items():
-       # if 'current' not in key and 'Bias' != key:
-            print(key, ': ' ,value)
+   
