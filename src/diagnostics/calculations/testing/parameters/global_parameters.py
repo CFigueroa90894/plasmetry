@@ -1,6 +1,23 @@
+
+import os
+import sys
+# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
+if __name__ == "__main__":  # execute snippet if current script was run directly 
+    num_dir = 4             # how many parent folders to reach /plasmetry/src
+
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    print(f"Path Hammer: {src_abs}")
+    split = src_abs.split('\\')     # separate path into folders for validation
+    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+    
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
+   # print(f"Path Hammer: subdirectories appended to python path")
+# ----- END PATH HAMMER ----- #
+
 import numpy as np
 from scipy import signal
-
+from protected_dictionary import ProtectedDictionary
 
 """TODO: verify particle saturation current calculations with Dr. Gonzalez"""
 
@@ -140,6 +157,18 @@ def get_particle_temperature(parameters):
     # Storing the particle temperature in Joules
     parameters['Particle temperature (Joules)'] = parameters['Particle temperature (eV)'] * ELECTRON_CHARGE
     
+
+def get_langmuir_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for slp and dlp display."""
+    
+    display_parameters = ProtectedDictionary(parameters)
+    
+    del display_parameters['Bias']
+    del display_parameters['Filtered current']
+    del display_parameters['Raw current']
+    del display_parameters['config_ref']
+    return display_parameters
 
 def get_equations():
     
