@@ -3,7 +3,7 @@ import os
 import sys
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 4             # how many parent folders to reach /plasmetry/src
+    num_dir = 4            # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -158,9 +158,11 @@ def get_particle_temperature(parameters):
     parameters['Particle temperature (Joules)'] = parameters['Particle temperature (eV)'] * ELECTRON_CHARGE
     
 
-def get_langmuir_display_parameters(parameters):
+def get_display_parameters(parameters):
     
-    """This function returns a ProtectedDictionary object containing the parameters used for slp and dlp display."""
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for slp, dlp, HEA, and IEA parameters."""
     
     display_parameters = ProtectedDictionary(parameters)
     
@@ -183,6 +185,8 @@ def get_equations():
     list_of_references.append(get_plasma_potential)
     list_of_references.append(get_particle_temperature)
     list_of_references.append(get_particle_density)
+    list_of_references.append(get_display_parameters)
+
     return list_of_references
 
 
@@ -226,11 +230,12 @@ if __name__ == "__main__":
     
     # Running each equation
     list_of_equations = get_equations()
-    for i in list_of_equations:
+    for i in list_of_equations[0:len(list_of_equations)-2]:
         i(parameters)
-
-
-    # Printing the parameters
-    for key, value in parameters.items():
-        if 'Raw current'!= key and 'Filtered current' != key and 'Bias' != key:
-            print(key, ': ' ,value)
+    
+    parameters_to_display = list_of_equations[-1](parameters)
+    
+    keys = parameters_to_display.keys()
+    
+    for i in keys: 
+        print(i, ':', parameters_to_display[i])
