@@ -44,8 +44,8 @@ def get_number_of_electrons(parameters):
     """DLP and SLP number of particles in the debye sphere is yielded from this function."""
     
     # Obtaining the number of electrons in the debye sphere 
-    parameters['Number of electrons'] = 4/3 * np.pi * parameters['Debye length'] * \
-                                                      parameters['Electron density']
+    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length'] * \
+                                            parameters['Electron density'])
 
 
 def get_particle_density(parameters):
