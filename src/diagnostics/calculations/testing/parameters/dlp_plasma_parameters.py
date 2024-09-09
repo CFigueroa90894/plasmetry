@@ -91,7 +91,7 @@ def get_equations():
     return list_of_references
 
 
-""" sample usage of the equations"""    
+""" Sample usage of the equations. Requires protected_dictionary to be loaded in memory."""    
 if __name__ == "__main__": 
 
     
@@ -130,6 +130,7 @@ if __name__ == "__main__":
     for i in list_of_equations[:len(list_of_equations)-2]:
         i(parameters)
     
+    # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
     keys = parameters_to_display.keys()
