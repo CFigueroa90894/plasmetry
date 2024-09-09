@@ -4,7 +4,7 @@ from global_parameters import (
     get_debye_length,
     get_number_of_electrons,
     get_particle_density,
-    get_langmuir_display_parameters
+    get_display_parameters
 )
     
 
@@ -129,7 +129,7 @@ def get_equations():
     list_of_references.append(get_particle_density) 
     list_of_references.append(get_debye_length)
     list_of_references.append(get_number_of_electrons)
-    list_of_references.append(get_langmuir_display_parameters)
+    list_of_references.append(get_display_parameters)
     return list_of_references
 
 
