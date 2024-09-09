@@ -20,8 +20,6 @@ import numpy as np
 from scipy import signal
 from protected_dictionary import ProtectedDictionary
 
-"""TODO: verify particle saturation current calculations with Dr. Gonzalez"""
-
 
 def filter_current(parameters):
     
