@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -20,6 +19,12 @@ import numpy as np
 from scipy import signal
 from protected_dictionary import ProtectedDictionary
 
+# Normalized cutoff frequency for the butterworth filter
+CUTOFF_FREQUENCY = 0.03
+
+# Order of the butterworth filter
+FILTER_ORDER = 2
+
 
 def filter_current(parameters):
     
@@ -33,7 +38,7 @@ def filter_current(parameters):
         filteredSignal = signal after being processed by a butterworth digital filter.
     """
     
-    sos = signal.butter(2, 0.03, output='sos')
+    sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
     filteredSignal = signal.sosfiltfilt(sos, parameters['Raw current'])
     
     parameters['Filtered current'] = filteredSignal
