@@ -166,13 +166,15 @@ def get_display_parameters(parameters):
     
     """This function returns a ProtectedDictionary object containing the parameters used for display.
     
-    Intended for slp, dlp, HEA, and IEA parameters."""
+    Intended for all probe parameters."""
     
     display_parameters = ProtectedDictionary(parameters)
     
-    del display_parameters['Bias']
-    del display_parameters['Filtered current']
-    del display_parameters['Raw current']
+    if 'Bias' in parameters: 
+        del display_parameters['Bias']
+        del display_parameters['Filtered current']
+        del display_parameters['Raw current']
+        
     del display_parameters['config_ref']
     return display_parameters
 
