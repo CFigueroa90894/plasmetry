@@ -69,8 +69,11 @@ class DigitalOut(BaseChannel):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-    def write(self, level:bool) -> None:
-        self._hardware.write_digital(self._address, level)
+    def set(self):
+        self._hardware.write_digital(self._address, True)
+
+    def clear(self):
+        self._hardware.write_digital(self._address, False)
 
 
 class DigitalIn(BaseChannel):
