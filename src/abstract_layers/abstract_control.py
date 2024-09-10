@@ -19,9 +19,12 @@ class AbstractControl(metaclass=ABCMeta):
     start/stop/setup functions for experiments, getters for control objects, and a 
     system-wide shutdown method.
 
-    All Control Layer objects MUST be instantiable without arguments. Concrete implementations may
+    The Control Layer MUST be instantiable without arguments. Concrete implementations may
     implement optional arguments for customizable behavior.
     
+    Layer Setup:
+        __init__() - initializes this layer, its subcomponents, and the lower layer
+
     Config Methods:
         set_config() - save a config value to memory
         get_config() - read a config value from memory
@@ -40,6 +43,15 @@ class AbstractControl(metaclass=ABCMeta):
         get_command_flags() - returns action triggers
         get_keysets() - returns all used key sets
     """
+
+    @abstractmethod
+    def __init__(self):
+        """Called by upper layers to instantiate this layer.
+        
+        Default or custom subcomponents will be instantiated and assembled as a whole, as well as
+        initializing the lower layers.
+        """
+        raise NotImplementedError("This function was not overloaded in the subclass!")
 
     @abstractmethod
     def set_config(self, key:str, value: any) -> bool:
@@ -161,7 +173,10 @@ class AbstractControl(metaclass=ABCMeta):
     def stop_experiment(self) -> None:
         """Called by upper layers to halt plasma diagnostic operations in lower layers.
         
-        Lower layers will attempt to complete pending operations, then return to idle states.
+        This layer will attempt to complete all pending operations. It will signal lower layers
+        that they must halt diagnsotics, then await the results of the experiment returned by the
+        diagnostic layer. These results will be formatted and stored by this layer, before
+        returning to its idle state.
 
         Exceptions:
             RuntimeError: `stop_experiment()` was called while:
@@ -176,6 +191,8 @@ class AbstractControl(metaclass=ABCMeta):
         
         Lower layers will attempt to complete pending operations, then terminate their processes.
         * NOTE: this call blocks until lower layers have terminated to prevent corruption.
+        This layer should await until all buffered results are saved to files before terminating
+        its subcomponents.
         """
         raise NotImplementedError("This function was not overloaded in the subclass!")
     
@@ -192,5 +209,5 @@ class AbstractControl(metaclass=ABCMeta):
     @abstractmethod
     def get_keysets(self) -> object:
         """Returns the system's key sets. Used for accessing a variety of objects, including
-        but not limited to config value keys."""
+        but not limited to config value keys and other structured data."""
         raise NotImplementedError("This function was not overloaded in the subclass!")
