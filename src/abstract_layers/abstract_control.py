@@ -1,9 +1,10 @@
-""" G3 - Plasma Devs
+"""G3 - Plasma Devs
 Layer 2 - Control Interface
     Defines the required public functionality for concrete implementations of the Control Layer.
 
 author: figueroa_90894@students.pupr.edu
 status: WIP
+    - confirm and agree with team on interface specifications
 """
 
 # built-in imports
