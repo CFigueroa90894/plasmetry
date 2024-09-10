@@ -10,6 +10,7 @@ status: WIP
 # built-in imports
 from abc import ABCMeta, abstractmethod
 from threading import Event
+from typing import Tuple
 
 class AbstractControl(metaclass=ABCMeta):
     """This class defines all public methods that 'Layer 2 - Control' implementations must
@@ -124,7 +125,7 @@ class AbstractControl(metaclass=ABCMeta):
     
 
     @abstractmethod
-    def get_real_time_container(self) -> tuple(dict, Event):
+    def get_real_time_container(self) -> Tuple[dict, Event]:
         """Returns a tuple consisting of a thread-safe dictionary and an Event object from the
         built-in threading module.
         
