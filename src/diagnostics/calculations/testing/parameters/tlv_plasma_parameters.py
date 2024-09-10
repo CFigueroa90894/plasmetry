@@ -1,7 +1,10 @@
 import numpy as np 
+from global_parameters import get_display_parameters
+
+
 
 # Storing the charge of the electron particle, since it shall be used for calculation
-electron_charge = 1.60217657e-19
+ELECTRON_CHARGE = 1.60217657e-19
  
 NUMBER_OF_ITERATIONS = 100
 
@@ -91,7 +94,7 @@ def get_electron_temperature(parameters):
     parameters['Electron temperature (eV)'] = 1/estimated_guess
     
     # Storing the electron temperature in Joules
-    parameters['Electron temperature (Joules)'] = electron_charge *  parameters['Electron temperature (eV)']
+    parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE *  parameters['Electron temperature (eV)']
 
 
 def get_electron_density(parameters):
@@ -107,13 +110,13 @@ def get_electron_density(parameters):
     electron_temperature =  parameters['Electron temperature (Joules)']
     
     # Exponential term found in equation
-    exponential_term=  np.exp(abs(electron_charge *  parameters['Potential difference'] / \
+    exponential_term=  np.exp(abs(ELECTRON_CHARGE *  parameters['Potential difference'] / \
                                   electron_temperature))
                                  
     # Since the density formula is composed of a division, yielding the numerator and denominator
     numerator_of_equation= abs( parameters['Filtered current']  * exponential_term)
     
-    denominator_of_equation = abs(0.61 * probe_area * electron_charge * \
+    denominator_of_equation = abs(0.61 * probe_area * ELECTRON_CHARGE * \
                                   np.sqrt(electron_temperature / ion_mass) * \
                                  (1 - exponential_term))
     
@@ -129,6 +132,8 @@ def get_equations():
     list_of_references.append(filter_current)
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
+    list_of_references.append(get_display_parameters)
+
     return list_of_references
 
 
@@ -142,6 +147,7 @@ if __name__ == "__main__":
     # Storing bias, measured current, and measured voltage to test the implementation.
     parameters['Bias'], parameters['Potential difference'] =  40, 32
     parameters['Filtered current'] =  0.005176711239483604
+    parameters['Raw current']= 0.005176711239483604 * 2
     
     # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26}
@@ -149,9 +155,14 @@ if __name__ == "__main__":
     
     # Running each equation
     list_of_equations = get_equations()
-    for i in list_of_equations:
+   
+    for i in list_of_equations[:len(list_of_equations)-1]:
         i(parameters)
-        
-    # Printing the parameters
-    for key, value in parameters.items():
-            print(key, ': ' ,value)
+    
+    # Requires protected_dictionary to be loaded in memory
+    parameters_to_display = list_of_equations[-1](parameters)
+    
+    keys = parameters_to_display.keys()
+    
+    for i in keys: 
+        print(i, ':', parameters_to_display[i])
