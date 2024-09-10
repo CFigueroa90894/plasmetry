@@ -11,46 +11,69 @@ from enum import Enum, unique
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 1             # how many parent folders to reach /plasmetry/src
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    # absolute path to plasmetry/src
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..')
     print(f"Path Hammer: {src_abs}")
     split = src_abs.split('\\')     # separate path into folders for validation
     assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    # get subdirs, exclude __pycache__
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__']
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
 
 # local imports
 from abstract_wrapper import AbstractWrapper as interface
-from daqc2plate_wrapper import DAQC2plateWrapper
-from hardware_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
+from channel_objects import AnalogIn, AnalogOut, DigitalIn, DigitalOut
 
 # CHANNEL TYPES
 @unique
 class CHN(Enum):
-    """<...>"""
+    """Enumerator to identify channel types; argument to the factory's make() method."""
     DO = 0
     AO = 1
     DI = 2
     AI = 3
 
 
-class HardwareFactory:
-    """<...>"""
+class ChannelFactory:
+    """The ChannelFactory generates channel objects associated with analog and digital I/O ports.
+    
+    The ChannelFactory class abstracts away need to directly import and instantiate the various
+    channel classes supported by the Hardware Interface Layer. It must be instantiated by passing
+    a hardware wrapper object.
+    """
     IDs:CHN = CHN   # package factory's valid IDs as class attribute
 
-    def __init__(self, wrapper_cls:interface=DAQC2plateWrapper):
-        """<...>
-        <hardware must be class, not obj>"""
-        self.hardware_wrapper = wrapper_cls()
+    def __init__(self, hardware_wrapper:interface):
+        """Instantiates a ChannelFactory object with the given hardware wrapper.
+        
+        Arguments:
+            hardware_wrapper: subclass of AbstractWrapper - passed to channel objects
+        """
+        # Validate given argument subclasses the AbstractWrapper class
+        if not issubclass(type(hardware_wrapper), interface):
+            err_msg = f"hardware_wrapper must subclass AbstractWrapper!"
+            err_msg += f" Given {type(hardware_wrapper)}"
+            raise TypeError(err_msg)
+        
+        # Save arguments
+        self._wrapper = hardware_wrapper
 
     def make(self, address:int, type:CHN):
-        """<...>"""
+        """Generates a channel for the given type with given address.
         
-        # Pack hardware object's arguments
-        hardware_args = {"address": address,
-                         "hardware_wrapper": self.hardware_wrapper}
+        Arguments:
+            address: int - associated address for the required channel object
+            type: Enum - type of the channel to be created
+
+        Returns:
+            channel object - subclassed from BaseChannel
+        """
+        # Pack channel object's arguments
+        channel_args = {"address": address,
+                         "hardware_wrapper": self._wrapper}
 
         # Select class to instantiate channel
         match type:
@@ -71,4 +94,4 @@ class HardwareFactory:
                 raise ValueError(f"Unknown channel type: {type}")
 
         # Initialize and return Channel Object using packed arguments.
-        return Channel_Class(**hardware_args)
+        return Channel_Class(**channel_args)
