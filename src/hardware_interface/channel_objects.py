@@ -1,6 +1,12 @@
-# author: figueroa_90894@students.pupt.edu
-# status: WIP
-#   - add docstrings
+"""G3 - Plasma Devs
+Layer 4 - Hardware Interface - Channel Objects
+    Defines classes for basic hardware channels, including analog and digital I/O channels.
+
+author: figueroa_90894@students.pupt.edu
+status: WIP
+  - add docstrings
+  - modify channel classes to match new, incoming hardware component classes
+"""
 
 # built-in imports
 import sys
