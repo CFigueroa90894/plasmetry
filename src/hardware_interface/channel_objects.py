@@ -53,10 +53,13 @@ class BaseChannel:
             address: int - hardware port address associated with the channel
             hardware_wrapper: subclass of AbstractWrapper - I/O functions specific to the ADC/DAC
         """
+        # Validate given argument subclasses the AbstractWrapper class
         if not issubclass(type(hardware_wrapper), interface):
             err_msg = f"hardware_wrapper must subclass AbstractWrapper!"
             err_msg += f" Given {type(hardware_wrapper)}"
             raise TypeError(err_msg)
+        
+        # Save arguments
         self._address = address
         self._hardware = hardware_wrapper
 
