@@ -4,8 +4,7 @@ Layer 4 - Hardware Interface - Channel Objects
 
 author: figueroa_90894@students.pupt.edu
 status: WIP
-  - add docstrings
-  - modify channel classes to match new, incoming hardware component classes
+  - validate with team
 """
 
 # built-in imports
