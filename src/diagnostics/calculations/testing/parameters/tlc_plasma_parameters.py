@@ -1,5 +1,8 @@
 import numpy as np 
-from global_parameters import get_particle_density
+from global_parameters import (
+    get_particle_density,
+    get_display_parameters
+)
 
 # Storing the charge of the electron particle, since it shall be used for calculation
 ELECTRON_CHARGE = 1.60217657e-19
@@ -121,6 +124,8 @@ def get_equations():
     list_of_references.append(get_probe_current)
     list_of_references.append(get_electron_temperature)
     list_of_references.append(get_electron_density)
+    list_of_references.append(get_display_parameters)
+
     return list_of_references
 
 
