@@ -37,6 +37,9 @@ class BaseChannel:
     """<...>"""
     def __init__(self, address:int, hardware_wrapper:interface):
         """<...>"""
+        if not issubclass(type(hardware_wrapper), interface):
+            err_msg = f"hardware_wrapper must subclass AbstractWrapper! Given {type(hardware_wrapper)}"
+            raise TypeError(err_msg)
         self._address = address
         self._hardware = hardware_wrapper
 
@@ -70,9 +73,11 @@ class DigitalOut(BaseChannel):
         super().__init__(*args, **kwargs)
 
     def set(self):
+        """<...>"""
         self._hardware.write_digital(self._address, True)
 
     def clear(self):
+        """<...>"""
         self._hardware.write_digital(self._address, False)
 
 
