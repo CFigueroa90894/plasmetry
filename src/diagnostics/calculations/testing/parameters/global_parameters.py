@@ -198,7 +198,7 @@ def get_equations():
 
 """ Sample usage of the equations. 
 
-Must note, since HEA nor IEA expect a sigmoid, calculation results will not make sense, 
+Must note, since  the EAs do not expect a sigmoid, calculation results will not make sense, 
 
 yet they still highlight that the algorithms are running."""    
 
