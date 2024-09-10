@@ -20,7 +20,7 @@ class AbstractDiagnostics(metaclass=ABCMeta):
         raise NotImplementedError("This function was not overloaded in the subclass!")
     
     @abstractmethod
-    def setup_experiment(self):
+    def setup_diagnostics(self):
         """<...>"""
         raise NotImplementedError("This function was not overloaded in the subclass!")
     
