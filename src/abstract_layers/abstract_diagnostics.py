@@ -4,7 +4,7 @@ Layer 3 - Diagnostics Interface
 
 author: figueroa_90894@students.pupr.edu
 status: WIP
-  - confirm and agree with team on interface specifications
+    - confirm and agree with team on interface specifications
 """
   
 # built-in imports
