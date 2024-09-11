@@ -5,7 +5,7 @@ Layer 4 - Hardware Interface - Component Objects
 author: figueroa_90894@students.pupt.edu
 status: WIP
     - add docstrings
-    - finish classes
+    - finish RelaySet class
 """
 
 # built-in imports
@@ -88,7 +88,8 @@ class VoltageSensor:
     def _no_division_read(self) -> float:
         """Returns voltage as is, without correcting for gain."""
         return self._input.read()
-    
+
+ 
 # ----- OUTPUT SUBCOMPONENTS ----- #
 class BaseAmp:
     """Parent class for amplifier subclasses.
@@ -174,7 +175,6 @@ class HighVoltAmp(BaseAmp):
     def zero(self):
         zero_val = self._translate(0)   # low-volt stimulus to drive the amp's output to zero volts
         self._output.write(zero_val)
-
 
 
 class VoltageSweeper(HighVoltAmp):
