@@ -85,23 +85,26 @@ def get_particle_density(parameters):
     probe_area = config_object['Probe area']
     particle_mass =  config_object['Particle mass']
     
-    # Creating temporary keys for SLP in order to use the same equation
+    # Verifying the argument keys in order to store variables
     if  'Electron saturation current' in parameters:
-        parameters['Particle saturation current'] = parameters['Electron saturation current']
-        parameters['Particle temperature (Joules)'] = parameters['Electron temperature (Joules)'] 
-
+        particle_saturation_current = parameters['Electron saturation current']
+        particle_temperature = parameters['Electron temperature (Joules)'] 
+     
+    else:
+        particle_temperature = parameters['Particle temperature (Joules)']
+        particle_saturation_current = parameters['Particle saturation current']
+        
     # Acquiring electron density
-    parameters['Particle density'] =  abs(parameters['Particle saturation current'] / \
+    parameters['Particle density'] =  abs(particle_saturation_current / \
                                          (ELECTRON_CHARGE * probe_area * \
-                                          np.sqrt(abs(parameters['Particle temperature (Joules)'] / \
+                                          np.sqrt(abs(particle_temperature / \
                                          (np.pi * particle_mass * 2)))))
    
-    # Deleting the temporary keys created for SLP
+    # Deleting the temporary key created for SLP
     if  'Electron saturation current' in parameters:
        parameters['Electron density'] = parameters['Particle density']
        del parameters['Particle density']
-       del parameters['Particle saturation current'] 
-       del parameters['Particle temperature (Joules)']
+       
        
        
 def get_particle_saturation_current(parameters):
@@ -231,7 +234,8 @@ if __name__ == "__main__":
     # Storing bias and raw current lists from previous implementation
     parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
     
-    # Storing Probe area of a previous implementation, and ion mass in kg of argon, simulating config values
+    # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
+    # simulating config values
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26}
     
     # Running each equation
