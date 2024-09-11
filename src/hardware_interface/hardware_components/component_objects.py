@@ -5,6 +5,13 @@ Layer 4 - Hardware Interface - Component Objects
 author: figueroa_90894@students.pupr.edu
 status: WIP
     - validate with team
+
+Classes:
+    VoltageSensor
+    BaseAmp
+    HighVoltAmp
+    VoltageSweeper
+    RelaySet
 """
 
 # built-in imports

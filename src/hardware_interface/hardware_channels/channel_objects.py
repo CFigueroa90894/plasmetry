@@ -4,7 +4,14 @@ Layer 4 - Hardware Interface - Channel Objects
 
 author: figueroa_90894@students.pupr.edu
 status: WIP
-  - validate with team
+    - validate with team
+
+Classes:
+    BaseChannel
+    AnalogOut
+    AnalogIn
+    DigitalOut
+    DigitalIn
 """
 
 # built-in imports
