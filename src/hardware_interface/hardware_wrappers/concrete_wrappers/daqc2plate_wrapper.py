@@ -58,3 +58,7 @@ class DAQC2plateWrapper(AbstractWrapper):
     def read_digital(self, address:int) -> bool:
         """<...>"""
         raise NotImplementedError
+    
+
+# WRAPPER EXPORT
+wrapper = DAQC2plateWrapper

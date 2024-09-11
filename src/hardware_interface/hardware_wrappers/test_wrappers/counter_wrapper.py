@@ -114,6 +114,9 @@ class CounterWrapperTest(AbstractWrapper):
             new.append(f"{num*sym}{line}")
         return new
 
+# WRAPPER EXPORT
+wrapper = CounterWrapperTest
+
 
 # ----- BASIC TESTS ----- #
 if __name__ == "__main__":
