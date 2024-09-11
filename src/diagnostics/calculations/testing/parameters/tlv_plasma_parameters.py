@@ -54,7 +54,7 @@ def get_electron_temperature(parameters):
     
     potential_difference = parameters['Potential difference']
     
-    bias =  parameters['Bias']
+    bias =  parameters['Bias 1']
     
     # Storing the counter, shall be used to know the number of iterations
     counter = 0
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias, measured current, and measured voltage to test the implementation.
-    parameters['Bias'], parameters['Potential difference'] =  40, 32
+    parameters['Bias 1'], parameters['Potential difference'] =  40, 32
     parameters['Filtered current'] =  0.005176711239483604
     parameters['Raw current']= 0.005176711239483604 * 2
     

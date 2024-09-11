@@ -52,7 +52,7 @@ def get_electron_temperature( parameters):
     
     # Storing parameters used for calculations
     filtered_current_list = parameters['Filtered current'] 
-    voltage_list =  parameters['Bias'] 
+    voltage_list =  parameters['Bias 1'] 
     ion_saturation_current = parameters['Ion saturation current'] 
     
     # Storing the index where the voltage is closest to 0.
@@ -139,7 +139,7 @@ if __name__ == "__main__":
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26 }
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Raw current'] =  LoadPreviousData()
     
     # Running each equation
     list_of_equations = get_equations()

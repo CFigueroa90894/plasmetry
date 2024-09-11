@@ -38,7 +38,7 @@ def get_floating_and_plasma_potential(parameters):
     
     # Storing filtered current and applied bias 
     filtered_current_list = parameters['Filtered current'] 
-    voltage_list = parameters['Bias']
+    voltage_list = parameters['Bias 1']
 
     # Storing the index of the floating potential and its value
     parameters['Floating potential index'] = np.argmin(abs(filtered_current_list)) 
@@ -119,7 +119,7 @@ def get_electron_temperature(parameters):
     # To calculate the slope, the numerator and denominator shall be acquired.
     numerator_of_slope = np.log(parameters['Filtered current'][final_index]) - \
     np.log(abs(parameters['Filtered current'] [starting_index]))
-    denominator_of_slope = parameters['Bias'][final_index] - parameters['Bias'][starting_index]
+    denominator_of_slope = parameters['Bias 1'][final_index] - parameters['Bias 1'][starting_index]
     
     # Denominator / numerator is being performed 
     parameters['Electron temperature (eV)'] = denominator_of_slope / numerator_of_slope
@@ -179,7 +179,7 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Raw current'] =  LoadPreviousData()
     
     # Storing Probe area of a previous implementation, and electron mass in kg, simulating config values
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}

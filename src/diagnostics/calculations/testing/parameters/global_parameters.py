@@ -113,7 +113,7 @@ def get_particle_saturation_current(parameters):
     
     # Storing parameters used for calculations
     filtered_current = parameters['Filtered current']
-    bias = parameters['Bias']
+    bias = parameters['Bias 1']
     
     # Storing the charged particle saturation current
     saturation_index = np.argmin(abs(np.gradient(filtered_current, bias)))
@@ -126,7 +126,7 @@ def get_plasma_potential(parameters):
     
     # Storing I-V values
     filtered_current_list = parameters['Filtered current'] 
-    voltage_list =  parameters['Bias']
+    voltage_list =  parameters['Bias 1']
     
     # Storing dI/dV
     derivative = np.gradient(filtered_current_list, voltage_list)
@@ -153,7 +153,7 @@ def get_particle_temperature(parameters):
     # Storing parameters used to calculate temperature
     plasma_potential_index = parameters['Plasma potential index']
     filtered_current_list = parameters['Filtered current'] 
-    voltage_list =  parameters['Bias']
+    voltage_list =  parameters['Bias 1']
     
     # Storing the derivative of the ln(I)-V values
     log_I_V_derivative=  np.gradient(np.log(abs(filtered_current_list)), voltage_list )
@@ -173,10 +173,11 @@ def get_display_parameters(parameters):
     
     display_parameters = ProtectedDictionary(parameters)
     
-    if 'Bias' in parameters: 
-        del display_parameters['Bias']
-        del display_parameters['Filtered current']
-        del display_parameters['Raw current']
+    if 'Bias 1' in parameters:
+        if  len(parameters['Bias 1' ]) >1:
+            del display_parameters['Bias 1']
+            del display_parameters['Filtered current']
+            del display_parameters['Raw current']
         
     del display_parameters['config_ref']
     return display_parameters
@@ -232,7 +233,7 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias'], parameters['Raw current'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Raw current'] =  LoadPreviousData()
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
