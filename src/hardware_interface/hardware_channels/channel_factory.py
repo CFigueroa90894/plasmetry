@@ -49,7 +49,7 @@ class ChannelFactory:
     channel classes supported by the Hardware Interface Layer. It must be instantiated by passing
     a hardware wrapper object.
     """
-    IDs:CHN = CHN   # package factory's valid IDs as class attribute
+    ID:CHN = CHN   # package factory's valid IDs as class attribute
 
     def __init__(self, hardware_wrapper:interface):
         """Instantiates a ChannelFactory object with the given hardware wrapper.
