@@ -120,3 +120,22 @@ class DiagnosticsLayer(AbstractDiagnostics):
             probe_factory=self.__probe_fac
         )
 
+    # TO DO
+    def setup_diagnostics(self):
+        """<...>"""
+        raise NotImplementedError
+    
+    # TO DO
+    def start_diagnostics(self):
+        """<...>"""
+        raise NotImplementedError
+    
+    # TO DO
+    def stop_diagnostics(self):
+        """<...>"""
+        raise NotImplementedError
+    
+    # TO DO
+    def diagnostics_shutdown(self):
+        """<...>"""
+        raise NotImplementedError
