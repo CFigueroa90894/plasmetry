@@ -29,8 +29,8 @@ class SweeperProbe(BaseProbe):
     """<...>"""
     def __init__(self,
                  num_samples:int,
-                 sweeper_address:int,
-                 collector_address:int,
+                 sweeper,
+                 collector,
                  *args, **kwargs
                  ):
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
@@ -38,16 +38,9 @@ class SweeperProbe(BaseProbe):
         # PROBE INFO
         self.num_samples = num_samples      # number of samples to obtain per sweep
 
-        # pack subcomponent arguments
-        sweeper_args = {"address": sweeper_address,
-                        "type": self.HW.AO}
-        
-        collector_args = {"address": collector_address,
-                          "type": self.HW.AI}
-
         # PROBE SUBCOMPONENTS
-        self._sweeper = self.hard.make(**sweeper_args)      # output voltages to sweeper source
-        self._collector = self.hard.make(**collector_args)  # obtain voltage samples to calculate probe current
+        self.sweeper = sweeper      # output voltages to sweeper source
+        self.collector = collector  # obtain voltage samples to calculate probe current
 
     # TO DO
     def sweep(self) -> dict:
