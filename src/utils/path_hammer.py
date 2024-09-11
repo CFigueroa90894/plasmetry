@@ -38,13 +38,17 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 
 
 # ----- LOCAL IMPORT TESTS ----- #
-print("\nPath Hammer absolute import tests...")
-import placeholder_layers
-from system_flags import StatusFlags, CommandFlags
-# calc still needs concrete equations has
-# from calculations import placeholder_calc
-from probe_factory import ProbeFactory
-from hardware_factory import HardwareFactory
-import placeholder_ui
-from type_enforcer import enforce_type
-print("Path Hammer: absolute import tests successful\n")
+if __name__ == "__main__":
+    print("\nPath Hammer absolute import tests...")
+    import abstract_control
+    import abstract_diagnostics
+    import abstract_hardware
+    from system_flags import StatusFlags, CommandFlags
+    # import calculations_factory  # commented while awaiting equations
+    import probe_operation
+    import channel_factory
+    import component_factory
+    import placeholder_ui
+    from type_enforcer import enforce_type
+    print("Path Hammer: absolute import tests successful\n")
+

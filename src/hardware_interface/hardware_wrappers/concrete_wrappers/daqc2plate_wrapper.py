@@ -1,4 +1,4 @@
-# author: figueroa_90894@students.pupr
+# author: figueroa_90894@students.pupr.edu
 # status: WIP
 #   - import DAQC2plate library
 #   - override abstract parent's methods
@@ -13,7 +13,7 @@ import os
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 2             # how many parent folders to reach /plasmetry/src
+    num_dir = 3             # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -58,3 +58,7 @@ class DAQC2plateWrapper(AbstractWrapper):
     def read_digital(self, address:int) -> bool:
         """<...>"""
         raise NotImplementedError
+    
+
+# WRAPPER EXPORT
+wrapper = DAQC2plateWrapper
