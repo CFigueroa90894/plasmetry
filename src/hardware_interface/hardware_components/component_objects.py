@@ -4,8 +4,7 @@ Layer 4 - Hardware Interface - Component Objects
 
 author: figueroa_90894@students.pupt.edu
 status: WIP
-    - add docstrings
-    - finish RelaySet class
+    - validate with team
 """
 
 # built-in imports
@@ -265,5 +264,36 @@ class VoltageSweeper(HighVoltAmp):
 
 
 class RelaySet:
-    """<...>"""
-    pass
+    """Defines a collection of relays as a set of digital output channels.
+    
+    Attributes:
+        # relays: Tuple[DigitalOut] - collection of output channels for various relays
+
+    Methods:
+        + __init__() - initialize the object
+        + set() - enable all relays in the collection
+        + clear() - disable all relays in the collection
+        # _validate_args(tuple) - verify all elements in args are valid
+    """
+    def __init__(self, digital_outputs: Tuple[DigitalOut]):
+        """Initialize the RelaySet object with given tuple of digital output channels."""
+        self._validate_args(digital_outputs)    # raise error if any element is not DigitalOut
+        self._relays = digital_outputs          # save tuple to attribute
+
+    def set(self):
+        """Enable all relays in the set."""
+        for relay in self._relays:
+            relay.set()
+
+    def clear(self):
+        """Disable all relays in the set."""
+        for relay in self._relays:
+            relay.clear()
+
+    def _validate_args(self, digital_outputs):
+        """Iterate over args and raise an error if an item other than DigitalOut is found."""
+        for item in digital_outputs:
+            if not isinstance(item, DigitalOut):
+                err_msg = f"RelaySet arguments only accept DigitalOut objects!"
+                err_msg += f" Given {type(item)}"
+                raise ValueError(err_msg)
