@@ -12,6 +12,8 @@ status: WIP
 import sys
 import os
 
+from typing import Tuple
+
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recusring into subdirs and appending them to python path."""
@@ -37,19 +39,16 @@ from range_map import high_to_low
 class VoltageSensor:
     """Implements a voltage sensor based on a differential amplifier.
     
-    Public Methods:
-        __init__() - initialize the sensor object
-        read(): float - return voltage measured by analog input
+    Attributes:
+        # _input: AnalogIn - associated input channel
+        # _gain: float - gain of associated diff amp
 
-    Protected Methods:
-        _division_read(): float - returns voltage divided by gain
-        _no_division_read(): float - returns the voltage, without dividing by gain
-
-    Protected Attributes:
-        _input: AnalogIn - associated input channel
-        _gain: float - gain of associated diff amp
+    Methods:
+        + __init__() - initialize the sensor object
+        + read(): float - return voltage measured by analog input
+        # _division_read(): float - returns voltage divided by gain
+        # _no_division_read(): float - returns the voltage, without dividing by gain
     """
-
     def __init__(self, gain:float, analog_in: AnalogIn):
         """Constructor for VoltageSensor, saves the given channel and gain.
         
@@ -94,16 +93,15 @@ class VoltageSensor:
 class BaseAmp:
     """Parent class for amplifier subclasses.
     
-    Public Methods:
-        __init__() - initialize the object
+    Attributes:
+        # _output: AnalogOut - the associated output channel
+        # _dac_min: float - the minimum value expected by the amp's input
+        # _dac_max: float - the maximum value expected by the amp's input
+        # _amp_min: float - the minimum value produced at the amp's output
+        # _amp_max: float - the maximum value produced at the amp's output
 
-    Protected Attributes:
-        _output: AnalogOut - the associated output channel
-        _dac_min: float - the minimum value expected by the amp's input
-        _dac_max: float - the maximum value expected by the amp's input
-        _amp_min: float - the minimum value produced at the amp's output
-        _amp_max: float - the maximum value produced at the amp's output
-
+    Methods:
+        + __init__() - initialize the object
     """
     def __init__(self, dac_range:dict, amp_range: dict, analog_out: AnalogOut):
         """Constructor for BaseAmp and its subclasses.
@@ -132,13 +130,27 @@ class BaseAmp:
 class HighVoltAmp(BaseAmp):
     """Subclass of BaseAmp, associated with a high voltage amplifier.
     
-    Public Methods:
-        __init__() - constructor inherited from parent
-        write(float) - produce the desired voltage at the HV-amp's output
+    Attributes:
+        ^# _output: AnalogOut - the associated output channel
+        ^# _dac_min: float - the min volt expected by the amp's input
+        ^# _dac_max: float - the max volt expected by the amp's input
+        ^# _amp_min: float - the min volt produced at the amp's output
+        ^# _amp_max: float - the max volt produced at the amp's output
+
+    Methods:
+        ^+ __init__() - constructor inherited from parent
+        + write(float) - produce the desired voltage at the HV-amp's output
+        + zero() - reset the amp's output to zero volts
     """
 
     def __init__(self, *args, **kwargs):
-        """Constructor for HVAMP class, inherited from BaseAmp"""
+        """Constructor for HighVoltAmp class, inherited from BaseAmp
+        
+        Arguments:
+            dac_range: dict - min and max of the DAC's output
+            amp_range: dict - min and max of the amp's output
+            analog_out: AnalogOut - output channel to the amplifier
+        """
         super().__init__(*args, **kwargs)   # invoke parent constructor
 
     def write(self, voltage: float):
@@ -158,15 +170,98 @@ class HighVoltAmp(BaseAmp):
             high_max=self._amp_max
         )
         return low_volt
+    
+    def zero(self):
+        zero_val = self._translate(0)   # low-volt stimulus to drive the amp's output to zero volts
+        self._output.write(zero_val)
+
 
 
 class VoltageSweeper(HighVoltAmp):
-    """Subclass of BaseAmp, associated with a high voltage amplifier to perform voltage sweeps.
+    """Subclass of HighVoltAmp, associated with a high voltage amplifier to perform voltage sweeps.
     
     The VoltageSweeper pre-computes the values of its voltage steps in order to save performance
     during diagnostics, avoiding calls to translate desired high voltage to required low voltage.
+
+    Attributes:
+        ^# _output: AnalogOut - the associated output channel, inherited from parent
+        ^# _dac_min: float - the minimum value expected by the amp's input, inherited from parent
+        ^# _dac_max: float - the maximum value expected by the amp's input, inherited from parent
+        ^# _amp_min: float - the minimum value produced at the amp's output, inherited from parent
+        ^# _amp_max: float - the maximum value produced at the amp's output, inherited from parent
+        # _num_samples: int - steps voltage steps per sweep
+        # _min_volt: float - the minimum voltage applied by the sweeper amp
+        # _max_volt: float - the maximum voltage applied by the sweeper amp
+        # _premap: Tuple[float] - premapped low voltage values to stimulate the sweeper amp's input 
+    
+    Methods:
+        + __init__() - sweeper constructor
+        ^+ zero() - reset the amp's output to zero volts
+        + write(int) - produces the premapped high-voltage at the given index at the amp's output
+        # _map_volts() - returns tuple of premapped low-voltage values
     """
-    pass
+    def __init__(self, num_samples:int, sweep_min:float, sweep_max, *args, **kwargs):
+        """Constructor for VoltageSweeper class, saves own args and calls parent constructor.
+        
+        Arguments:
+            dac_range: dict - min and max of the DAC's output
+            amp_range: dict - min and max of the amp's output
+            analog_out: AnalogOut - output channel to the amplifier
+            num_samples: int - number of voltage steps to be performed by a single sweep
+            sweep_min: float - the minimum voltage produced the start of a sweep
+            sweep_max: float - the maximum voltage produced the end of a sweep
+        """
+        super().__init__(*args, **kwargs) # invoke parent constructor
+        
+        # Save arguments
+        self._num_samples = num_samples
+        self._min_volt = sweep_min
+        self._max_volt = sweep_max
+
+        # Pre-map desired high-volt steps to required low-volt steps
+        self._premap = self._map_volts()
+
+    def write(self, index: int) -> float:
+        """Outputs the required low-voltage through the associated DAC channel, and returns
+        the desired high-voltage that it will produce at the amp's output.
+        
+        Arguments:
+            index: int - index to the corresponding, premapped voltage-value pair 
+        """
+        step = self._premap[index]  # access premapped value pairs
+        low_volt = step[0]          # get the amp's required low-volt stimulus
+        high_volt = step[1]         # get the amp's desired high-volt output
+
+        self._output.write(low_volt)    # drive the amp's input through the associated channel
+        return high_volt                # return the applied high voltage for calculations
+
+    def _map_volts(self) -> Tuple[float, float]:
+        """Return a tuple of low-voltage and high-voltage value pairs.
+        
+        In each pair, index:0 corresponds to the required low-voltage, and index:1 to the desired
+        high-voltage. To produce the desired high-voltage at the amp's output, its input must be
+        driven with the required low-voltage.
+        """
+        # access protected attributes, makes reading the function easier
+        high_max = self._max_volt
+        high_min = self._min_volt
+        num_samples = self._num_samples
+
+        sweep_width = high_max - high_min   # width of sweep in volts; calculates increment
+        num_increments = num_samples - 1    # number of increments per sweep
+        hv_increment = sweep_width / num_increments     # desired high volt increment per step
+        
+        # list LV-HV step value pairs
+        steps = []  # calculated value of each desired HV step and required LV step
+        
+        # generate each high voltage step and corresponding low voltage step
+        for index in range(self._num_samples):
+            high_volt_step = index*hv_increment + high_min  # calculate HV value of step
+            low_volt_step = self._translate(high_volt_step) # translate into LV value of step
+            steps.append((low_volt_step, high_volt_step))   # append steps to list
+
+        # cast list to tuple and return
+        return tuple(steps)
 
 
 class RelaySet:
