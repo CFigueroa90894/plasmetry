@@ -88,7 +88,7 @@ class AbstractDiagnostics(metaclass=ABCMeta):
         raise NotImplementedError("This function was not overloaded in the subclass!")
         
     @abstractmethod
-    def diagnostic_shutdown(self):
+    def diagnostics_shutdown(self):
         """Called by upper layers to initiates this layer's shutdown process.
         
         This Diagnostic Layer will attempt to complete all pending operations before finally
