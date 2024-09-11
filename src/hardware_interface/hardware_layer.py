@@ -3,7 +3,7 @@ Layer 4 - Hardware Interface - Concrete Implementation
     Implements the interface specified by AbstractHardware class.
     <...>
 
-author: figueroa_90894@students.pupt.edu
+author: figueroa_90894@students.pupr.edu
 status: WIP
   - add docstrings
   - implement reset_components() method

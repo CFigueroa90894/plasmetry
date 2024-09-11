@@ -2,7 +2,7 @@
 Layer 4 - Hardware Interface - Channel Objects
     Defines classes for basic hardware channels, including analog and digital I/O channels.
 
-author: figueroa_90894@students.pupt.edu
+author: figueroa_90894@students.pupr.edu
 status: WIP
   - validate with team
 """

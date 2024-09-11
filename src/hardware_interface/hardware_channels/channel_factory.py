@@ -2,7 +2,7 @@
 Layer 4 - Hardware Interface - Channel Factory
     Defines the ChannelFactory class, used to generate channel objects.
 
-author: figueroa_90894@students.pupt.edu
+author: figueroa_90894@students.pupr.edu
 status: WIP
   - validate with team
 """

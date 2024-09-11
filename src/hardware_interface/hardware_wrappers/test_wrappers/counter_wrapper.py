@@ -1,4 +1,4 @@
-# author: figueroa_90894@students.pupr
+# author: figueroa_90894@students.pupr.edu
 # status: DONE
 
 # built-in imports

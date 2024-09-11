@@ -2,7 +2,7 @@
 Layer 4 - Hardware Interface - Component Objects
     Defines classes for probe subcomponents, including basic sensors and amplifiers.
 
-author: figueroa_90894@students.pupt.edu
+author: figueroa_90894@students.pupr.edu
 status: WIP
     - validate with team
 """

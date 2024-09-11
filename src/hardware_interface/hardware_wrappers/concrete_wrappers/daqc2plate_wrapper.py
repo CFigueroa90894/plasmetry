@@ -1,4 +1,4 @@
-# author: figueroa_90894@students.pupr
+# author: figueroa_90894@students.pupr.edu
 # status: WIP
 #   - import DAQC2plate library
 #   - override abstract parent's methods
