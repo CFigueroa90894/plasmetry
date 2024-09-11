@@ -94,7 +94,7 @@ class ComponentFactory:
     def _make_volt_sweeper(self, address:int, *args, **kwargs):
         """<...>"""
         output_channel = self.__make_analog_out(address)
-        return HighVoltAmp(analog_out=output_channel, *args, **kwargs)
+        return VoltageSweeper(analog_out=output_channel, *args, **kwargs)
 
 
     def _make_volt_sensor(self, address:int, *args, **kwargs):
