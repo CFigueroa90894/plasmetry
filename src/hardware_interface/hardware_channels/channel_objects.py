@@ -38,12 +38,12 @@ class BaseChannel:
     Defines the basic constructor for all channels, taking as arguments the address and 
     hardware_wrapper object that all channels require.
 
-    Public Methods:
-        __init__() - constructor to initialize objects of this class
+    Attributes:
+        # _address: int - address of the channel's associated port
+        # _hardware: subclass of AbstractWrapper - provides access to I/O ports
 
-    Protected Attributes:
-        _address: int
-        _hardware: subclass of AbstractWrapper
+    Methods:
+        + __init__() - constructor to initialize objects of this class
     """
     def __init__(self, address:int, hardware_wrapper:interface):
         """The constructor for BaseChannel and all of its subclasses.
@@ -67,9 +67,13 @@ class BaseChannel:
 class AnalogOut(BaseChannel):
     """Subclass of BaseChannel, associated with analog output ports.
     
-    Public Methods:
-        __init__() - initialize object, inherited
-        write(float) - sets the out of the associated DAC port
+    Attributes
+        ^# _address: int
+        ^# _hardware
+
+    Methods:
+        ^+ __init__() - initialize object, inherited
+        + write(float) - sets the out of the associated DAC port
     """
     def __init__(self, *args, **kwargs):
         """Constructor for AnalogOut class, invokes the inherited parent constructor."""
@@ -83,8 +87,13 @@ class AnalogOut(BaseChannel):
 class AnalogIn(BaseChannel):
     """Subclass of BaseChannel, associated with analog input ports.
     
-        __init__() - initialize object, inherited
-        read(): float - return measured voltage
+    Attributes:
+        ^# _address: int
+        ^# _hardware
+    
+    Methods:
+        ^+ __init__() - initialize object, inherited
+        + read(): float - return measured voltage
     """
     def __init__(self, *args, **kwargs):
         """Constructor for AnalogIn class, invokes inherited parent constructor."""
@@ -98,10 +107,15 @@ class AnalogIn(BaseChannel):
 # ----- DIGITAL CHANNELS ----- #
 class DigitalOut(BaseChannel):
     """Subclass of BaseChannel, associated with digital output pins.
+
+    Attributes:
+        ^# _address: int
+        ^# _hardware
     
-        __init__() - initialize object, inherited
-        set() - output HIGH signal
-        clear() - output LOW signal
+    Methods:
+        ^+ __init__() - initialize object, inherited
+        + set() - output HIGH signal
+        + clear() - output LOW signal
     """
     def __init__(self, *args, **kwargs):
         """Constructor for DigitalOut class, invokes inherited parent constructor."""
@@ -119,8 +133,13 @@ class DigitalOut(BaseChannel):
 class DigitalIn(BaseChannel):
     """Subclass of BaseChannel, associated with digital input pins.
     
-        __init__() - initialize object, inherited
-        read(): bool - return value from associated pin
+    Attributes:
+        ^# _address: int
+        ^# _hardware
+    
+    Methods:
+        ^+ __init__() - initialize object, inherited
+        + read(): bool - return value from associated pin
     """
     def __init__(self, *args, **kwargs):
         """Constructor for DigitalIn class, invokes inherited parent constructor."""
