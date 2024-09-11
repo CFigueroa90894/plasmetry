@@ -28,15 +28,11 @@ from Base_TLP import BaseTLP
 class TripleLangVoltage(BaseTLP):
     "<...>"
     def __init__(self,
-                 floating_probe_address:int,
+                 float_collector,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # pack subcomponent arguments
-        float_args = {"address": floating_probe_address,
-                      "type": self.HW.AI}
-
         # PROBE SUBCOMPONENTS
-        self.float_probe = self.hard.make(**float_args)     # get voltage difference from center probe down to floating probe
+        self.float_collector = float_collector     # get voltage difference from center probe down to floating probe
 
