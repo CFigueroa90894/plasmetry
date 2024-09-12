@@ -69,11 +69,12 @@ if __name__ == "__main__":
     
     list_of_parameters = []
     NUMBER_OF_SWEEPS = 3
+    
     for i in range(NUMBER_OF_SWEEPS):
     
-     parameters = set_params()
+        parameters = set_params()
     
-     list_of_parameters.append(calc_params(parameters))
+        list_of_parameters.append(calc_params(parameters))
         
     upload_object = FileUpload('testing path/testing ', list_of_parameters)
     
