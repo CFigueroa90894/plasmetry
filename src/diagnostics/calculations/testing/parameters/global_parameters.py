@@ -42,9 +42,29 @@ def filter_current(parameters):
     
     filteredSignal = np.array(signal.sosfiltfilt(sos, parameters['Raw voltage 1']))
     
-    parameters['Filtered current'] =filteredSignal / parameters['config_ref']['Shunt 1']
+    parameters['Filtered current'] = filteredSignal / parameters['config_ref']['Shunt 1']
+ 
     
+def get_display_parameters(parameters):
     
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    
+    display_parameters = ProtectedDictionary(parameters)
+    
+    if 'Bias 1' in parameters:
+        if  not isinstance(parameters['Bias 1'], int):
+            del display_parameters['Bias 1']
+            del display_parameters['Filtered current']
+        else:
+            del display_parameters['Raw voltage 2']
+            
+    del display_parameters['Raw voltage 1']
+    del display_parameters['config_ref']
+    return display_parameters
+
+
 def get_debye_length(parameters):
     
     """DLP and SLP Debye length is calculated from this function in meters."""
@@ -165,23 +185,6 @@ def get_particle_temperature(parameters):
     # Storing the particle temperature in Joules
     parameters['Particle temperature (Joules)'] = parameters['Particle temperature (eV)'] * ELECTRON_CHARGE
     
-
-def get_display_parameters(parameters):
-    
-    """This function returns a ProtectedDictionary object containing the parameters used for display.
-    
-    Intended for all probe parameters."""
-    
-    display_parameters = ProtectedDictionary(parameters)
-    
-    if 'Bias 1' in parameters:
-        if  not isinstance(parameters['Bias 1'], int):
-            del display_parameters['Bias 1']
-            del display_parameters['Filtered current']
-            del display_parameters['Raw voltage 1']
-        
-    del display_parameters['config_ref']
-    return display_parameters
 
 def get_equations():
     
