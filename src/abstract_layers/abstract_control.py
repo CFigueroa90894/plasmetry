@@ -55,7 +55,7 @@ class AbstractControl(metaclass=ABCMeta):
         raise NotImplementedError("This function was not overloaded in the subclass!")
 
     @abstractmethod
-    def set_config(self, key:str, value: any) -> bool:
+    def set_config(self, probe_id, key:str, value: any) -> bool:
         """Modifies a config value or object in memory specified by the given key. Returns True if
         the value was successfully committed to memory.
 
@@ -79,7 +79,7 @@ class AbstractControl(metaclass=ABCMeta):
     
 
     @abstractmethod
-    def get_config(self, key:str) -> any:
+    def get_config(self, probe_id, key:str) -> any:
         """Returns a config value or object in memory, specified by the given key.
         
         Arguments:

@@ -162,8 +162,8 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         params = ProtectedDictionary(samples)   # argument for calculations
 
         # perform all calculations except last one
-        for calculation in range(len(self._probe.equations)-1):
-            calculation(params)    # in-place operations
+        for eq_index in range(len(self._probe.equations)-1):
+            self._probe.equations[eq_index](params)    # in-place operations
 
         # last calculation returns parameters specifically for display
         display_params = self._probe.equation[-1](params)
