@@ -1,4 +1,5 @@
 
+
 def is_tlp(unformatted_data):
     
     """"""
@@ -7,8 +8,7 @@ def is_tlp(unformatted_data):
         return True
     else:
         return None
-
-
+    
     
 def process_data(unformatted_data):
         
