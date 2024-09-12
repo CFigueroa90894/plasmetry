@@ -28,17 +28,17 @@ from Base_TLP import BaseTLP
 class TripleLangCurrent(BaseTLP):
     "<...>"
     def __init__(self,
-                 low_amp_bias:float,
-                 low_amp,
-                 low_collector,
+                 down_amp_bias:float,
+                 down_amp,
+                 down_collector,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
         # PROBE CONFIG
-        self.low_amp_bias = low_amp_bias
+        self.down_amp_bias = down_amp_bias
         
         # PROBE SUBCOMPONENTS
-        self.low_amp = low_amp              # set applied voltage to lower source
-        self.low_collector = low_collector  # obtain voltage to calculate current through probe
+        self.down_amp = down_amp              # set applied voltage to lower source
+        self.down_collector = down_collector  # obtain voltage to calculate current through probe
 
