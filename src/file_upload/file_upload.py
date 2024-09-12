@@ -1,15 +1,14 @@
-from protected_dictionary import ProtectedDictionary
 import csv
 
 class FileUpload:
     
-    def __init__(self, parameters):
+    def __init__(self, unformatted_data=None):
         
         """FileUpload construtor"""
         
-        if parameters:
+        if unformatted_data:
             # Storing unformatted parameters dictionary
-            self.process_data(parameters)
+            self.process_data(unformatted_data)
             
         self.offsite_credentials = self.path_to_credentials
                 
