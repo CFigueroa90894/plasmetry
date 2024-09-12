@@ -59,7 +59,7 @@ class ProbeFactory:
         self.config = config_ref
         self.system = sys_ref
         
-        # Package probe config by ID
+        # Package probe specific config by ID
         match probe_type:
             # Single Langmuir Probe
             case PRB.SLP:
@@ -95,8 +95,10 @@ class ProbeFactory:
             case _:
                 raise ValueError(f"Unknown probe type: {probe_type}")
         
+        # pack general config
         probe_args["probe_id"] = probe_type
         probe_args["equations"] = self.calculations_factory(probe_type)
+        probe_args["name"] = probe_name
         
         # Initialize and return Probe Object using packed arguments.
         return Probe_Class(**probe_args)
