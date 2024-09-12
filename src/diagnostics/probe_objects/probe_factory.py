@@ -12,12 +12,14 @@ from queue import Queue
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 2             # how many parent folders to reach /plasmetry/src
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    # absolute path to plasmetry/src
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..')
     print(f"Path Hammer: {src_abs}")
     split = src_abs.split('\\')     # separate path into folders for validation
     assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    # get subdirs, exclude __pycache__
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__']
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
@@ -49,6 +51,7 @@ class ProbeFactory:
         self.status_flags = status_flags
         self.command_flags = command_flags
         self.hardware_factory = hardware_factory
+        self.COMP = hardware_factory.ID
         self.calculations_factory = calculations_factory
 
     def make(self, probe_type: PRB, config_ref:dict, sys_ref:dict, probe_name="PROBE"):
@@ -98,37 +101,62 @@ class ProbeFactory:
         return Probe_Class(**probe_args)
     
 
-    # ----- PROBE ARGUMENT PACKACKING ----- #
+    # ----- PROBE ARGUMENT PACKAGING ----- #
     
     # GENERAL CONFIG ARTIFACTS
     def __pack_general(self) -> dict:
         """<...>"""
         args = {
-            "shutdown": self.command_flags.shutdown,
-            "diagnose": self.command_flags.diagnose,
-            "operating": self.status_flags.operating,
-            "data_buff": Queue(),     # new queue every time a probe is instantiated
-            "hardware_factory_obj": self.hardware_factory
+            "sys_ref": self.system,
+            "config_ref": self.config,
+            "status_flags": self.status_flags,
+            "command_flags": self.command_flags,
+            "data_buff": Queue()     # new queue every time a probe is instantiated
         }
         return args
 
     # BASE PROBE CONFIG (abstract)
     def __pack_base_probe(self):
         """<...>"""
-        args = {
+
+        # make relay subcomponent
+        relays = self.__make_relays(
+            addresses=self.system["relay_addresses"]
+        )
+        # pack probe args
+        probe_args = {
             "sampling_rate": self.config["sampling_rate"],
-            "relay_address": self.system["relay_address"],
+            "relay_set": relays,
             **self.__pack_general()     # inherit general args
         }
-        return args
+        return probe_args
     
     # SWEEPER PROBE CONFIG (abstract)
     def __pack_sweeper(self):
         """<...>"""
+
+        # shared argument
+        num_samples = self.config["num_samples"]
+
+        # make sweeper subcomponent
+        sweeper = self.__make_sweeper(
+            address=self.system["sweeper_address"],
+            dac_range=self.config["dac_range"],
+            amp_range=self.config["sweep_amp_range"],
+            num_samples=num_samples,
+            sweep_min=self.config["sweep_min"],
+            sweep_max=self.config["sweep_max"]
+        )
+        # make collector subcomponent
+        collector = self.__make_volt_sens(
+            address=self.system["collector_address"],
+            gain=self.config["collector_gain"]
+        )
+        # pack probe args
         args = {
-            "num_samples": self.config["num_samples"],
-            "sweeper_address": self.system["sweeper_address"],
-            "collector_address": self.system["collector_address"],
+            "num_samples": num_samples,
+            "sweeper": sweeper,
+            "collector": collector,
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -136,9 +164,23 @@ class ProbeFactory:
     # BASE TLP CONFIG (abstract)
     def __pack_base_tlp(self):
         """<...>"""
+
+        # make upper probe bias amp
+        up_amp = self.__make_hv_amp(
+            address=self.system["up_amp_address"],
+            dac_range=self.config["dac_range"],
+            amp_range=self.config["up_amp_range"]
+        )
+        # make upper probe collector
+        up_collector = self.__make_volt_sens(
+            address=self.system["up_collector_address"],
+            gain=self.config["up_collector_gain"]
+        )
+        # pack probe args
         args = {
-            "upper_probe_address": self.system["upper_probe_address"],
-            "upper_amp_address": self.system["upper_amp_address"]
+            "up_amp_bias": self.config["up_amp_bias"],
+            "up_amp": up_amp,
+            "up_collector": up_collector,
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -154,9 +196,24 @@ class ProbeFactory:
     # ENERGY ANALYZER CONFIG (concrete)
     def _pack_ea(self) -> dict:
         """<...>"""
+        # make rejector bias amp
+        rejector_amp = self.__make_hv_amp(
+            address=self.system["rejector_address"],
+            dac_range=self.config["dac_range"],
+            amp_range=self.config["rejector_range"]
+        )
+        # make collector bias amp
+        collector_amp = self.__make_hv_amp(
+            address=self.system["collector_bias_address"],
+            dac_range=self.config["dac_range"],
+            amp_range=self.config["collector_bias_range"]
+        )
+        # pack probe args
         args = {
-            "rejector_address": self.system["rejector_address"],
-            "collector_bias_address": self.system["collector_bias_address"],
+            "rejector_bias": self.config["rejector_bias"],
+            "rejector_amp": rejector_amp,
+            "collector_bias": self.system["collector_bias"],
+            "collector_amp": collector_amp,
             **self.__pack_sweeper()     # inherit sweeper args 
         }
         return args
@@ -164,9 +221,23 @@ class ProbeFactory:
     # TRIPLE LANGMUIR PROBE - CURRENT MODE CONFIG (concrete)
     def _pack_tlpc(self) -> dict:
         """<...>"""
+
+        # make down probe bias amp
+        down_amp = self.__make_hv_amp(
+            address=self.system["down_amp_address"],
+            dac_range=self.config["dac_range"],
+            amp_range=self.config["down_amp_range"]
+        )
+        # make down probe collector
+        down_collector = self.__make_volt_sens(
+            address=self.system["down_collector_address"],
+            gain=self.config["down_collector_gain"]
+        )
+        # pack probe args
         args = {
-            "lower_probe_address": self.system["lower_probe_address"],
-            "lower_amp_address": self.system["lower_amp_address"],
+            "down_amp_bias": self.config["down_amp_bias"],
+            "down_amp": down_amp,
+            "down_collector": down_collector,
             **self.__pack_base_tlp()    # inherit base tlp args
         }
         return args
@@ -174,10 +245,65 @@ class ProbeFactory:
     # TRIPLE LANGMUIR PROBE - VOLTAGE MODE CONFIG (concrete)
     def _pack_tlpv(self) -> dict:
         """<...>"""
+        # make floating probe collector
+        float_collector = self.__make_volt_sens(
+            address=self.system["float_collector_address"],
+            gain=self.config["float_collector_gain"]
+        )
         args = {
-            "floating_probe_address": self.system["floating_probe_address"],
+            "float_collector": float_collector,
             **self.__pack_base_tlp()    # inherit base tlp args
         }
         return args
+    
+    # ----- SUBCOMPONENT INSTANTIATION ----- #
+    
+    # Generic component factory call
+    def __make_component(self, args):
+        return self.hardware_factory.make(**args)
+
+    # VoltageSensor
+    def __make_volt_sens(self, address, gain):
+        """<...>"""
+        args = {
+            "type": self.COMP.VSENS,
+            "address": address,
+            "gain": gain
+        }
+        return self.__make_component(args)
+        
+    # HighVoltAmp
+    def __make_hv_amp(self, address, dac_range, amp_range):
+        """<...>"""
+        args = {
+            "type": self.COMP.HVAMP,
+            "address": address,
+            "dac_range": dac_range,
+            "amp_range": amp_range
+        }
+        return self.__make_component(args)
+
+    # VoltageSweeper
+    def __make_sweeper(self, address, dac_range, amp_range, num_samples, sweep_min, sweep_max):
+        """<...>"""
+        args = {
+            "type": self.COMP.SWEEP,
+            "address": address,
+            "dac_range": dac_range,
+            "amp_range": amp_range,
+            "num_samples": num_samples,
+            "sweep_min": sweep_min,
+            "sweep_max": sweep_max
+        }
+        return self.__make_component(args)
+
+    # RelaySet
+    def __make_relays(self, addresses):
+        """<...>"""
+        args = {
+            "type": self.COMP.RLSET,
+            "address": addresses
+        }
+        return self.__make_component(args)
 
 
