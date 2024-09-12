@@ -12,9 +12,10 @@ TOLERANCE = 1e-5
 
 
 def filter_current(parameters):
-    return 0
-
-
+    parameters['Potential difference'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
+    raw_current = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
+    parameters['Filtered current'] = raw_current / parameters['config_ref']['Shunt 1']
+    
 def iteration(potential_difference, bias, estimated_guess):
     
     """This function performs the function and derivative calculation process in each iteration.
@@ -146,9 +147,8 @@ if __name__ == "__main__":
     
     # Storing bias, measured current, and measured voltage to test the implementation.
     parameters['Bias 1'], parameters['Potential difference'] =  40, 32
-    parameters['Filtered current'] =  0.005176711239483604
-    parameters['Raw voltage 1']= 0.005176711239483604 * 2
-    
+    parameters['Raw voltage 1']= [0.005176711239483604 for i in range(1,10)]
+    parameters['Raw voltage 2'] =  [0.005176711239483604 for i in range(1,10)]
     # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26, 'Shunt 1': 1}
 
