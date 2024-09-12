@@ -47,9 +47,7 @@ class FileUpload:
         self.local_file_write(self.calculated_parameters, self.local_path + ' parameters.csv' )
         if  self.sweep_data: 
             self.local_file_write(self.sweep_data, self.local_path + ' sweeps data.csv')
-            
         
-            
     def local_file_write(self, data, path_name):
         
         """"""
@@ -61,13 +59,12 @@ class FileUpload:
             dict_writer.writerows(data)
 
     
-        
-    
 """ Sample usage of the equations and local file upload. """    
 if __name__ == "__main__": 
     
     import numpy as np
     from slp_plasma_parameters import get_equations
+    
     
     def LoadPreviousData():
         
@@ -101,6 +98,7 @@ if __name__ == "__main__":
         parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
         return parameters
     
+    
     def calc_params(parameters):
         # Running each equation
         list_of_equations = get_equations()
@@ -109,6 +107,7 @@ if __name__ == "__main__":
             i(parameters)
             
         return parameters
+    
     
     list_of_parameters = []
         
