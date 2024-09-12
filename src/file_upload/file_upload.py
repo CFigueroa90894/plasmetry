@@ -9,34 +9,33 @@ class FileUpload:
         
         if parameters:
             # Storing unformatted parameters dictionary
-            self.unformatted_data = ProtectedDictionary(parameters)
+            self.process_data(parameters)
             
-        self.sweep_data = []
-        self.calculated_parameters = []
         self.offsite_credentials = self.path_to_credentials
                 
     def new_upload(self, parameters):
         
         """"""
-        
         # Storing unformatted parameters dictionary
-        self.unformatted_data = ProtectedDictionary(parameters)
+        self.process_data(parameters)
     
-    def tlp_check(self):
+    def is_tlp(self, unformatted_data):
         
         """"""
         
-        if 'Bias 2' in self.unformatted_data:
+        if 'Bias 2' in unformatted_data:
             return True
         else:
             return None
             
-    def process_data(self):
+    def process_data(self, unformatted_data):
         
         """"""
+        self.sweep_data = []
+        self.calculated_parameters = []
         
-        for experiment_run in self.unformatted_data:
-            if not self.tlp_check():
+        for experiment_run in unformatted_data:
+            if not self.is_tlp():
                self.sweep_data.append({'Bias' : experiment_run['Bias 1'], \
                                        'Raw Signal' : experiment_run['Raw voltage 1'],\
                                        'Filtered current': experiment_run['Filtered current']})
@@ -64,9 +63,6 @@ class FileUpload:
             dict_writer= csv.DictWriter(csv_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(data)
-            
-
-        
             
     
 
