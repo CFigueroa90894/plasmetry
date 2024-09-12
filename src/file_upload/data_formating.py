@@ -7,6 +7,8 @@ def is_tlp(unformatted_data):
         return True
     else:
         return None
+
+
     
 def process_data(unformatted_data):
         
@@ -15,7 +17,6 @@ def process_data(unformatted_data):
         calculated_parameters = []
         tlp = is_tlp(unformatted_data)
         for experiment_run in unformatted_data:
-            print (experiment_run)
             if not tlp:
                sweep_data.append({'Bias' : experiment_run['Bias 1'], \
                                        'Raw Signal' : experiment_run['Raw voltage 1'],\
