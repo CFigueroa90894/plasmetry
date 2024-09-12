@@ -18,6 +18,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 import csv
 from data_formating import process_data
+from datetime import datetime
 
 class FileUpload:
       
@@ -35,7 +36,6 @@ class FileUpload:
     def new_upload(self, parameters):
         
         """"""
-        
         # Storing unformatted parameters dictionary
         self.sweep_data, self.calculated_parameters = process_data(parameters)
     
@@ -43,8 +43,8 @@ class FileUpload:
         
         """"""
         
-        time_stamp = 2
-        self.local_path = self.local_path + str(time_stamp)
+        current_datetime = datetime.now()
+        self.local_path = f'{self.local_path}{current_datetime.date()}'
         self.write_file(self.calculated_parameters, self.local_path + ' parameters.csv' )
         if  self.sweep_data: 
             self.write_file(self.sweep_data, self.local_path + ' sweeps data.csv')
@@ -58,12 +58,4 @@ class FileUpload:
             dict_writer= csv.DictWriter(csv_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(data)
-
-    
-
- 
-        
-        
-        
-        
         
