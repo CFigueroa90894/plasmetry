@@ -42,11 +42,13 @@ class FileUpload:
         
         """"""
         
-        time_stamp = 1
-        self.local_path = self.local_path + str(time_stamp) + ' testing'
+        time_stamp = 2
+        self.local_path = self.local_path + ' testing ' + str(time_stamp)
         self.local_file_write(self.calculated_parameters, self.local_path + ' parameters.csv' )
         if  self.sweep_data: 
-            self.local_file_write(self.sweep_data, self.local_path + ' sweepdata.csv')
+            self.local_file_write(self.sweep_data, self.local_path + ' sweeps data.csv')
+            
+        
             
     def local_file_write(self, data, path_name):
         
