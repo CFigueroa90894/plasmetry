@@ -39,9 +39,10 @@ def filter_current(parameters):
     """
     
     sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
-    filteredSignal = signal.sosfiltfilt(sos, parameters['Raw current'])
     
-    parameters['Filtered current'] = filteredSignal
+    filteredSignal = np.array(signal.sosfiltfilt(sos, parameters['Raw voltage 1']))
+    
+    parameters['Filtered current'] =filteredSignal / parameters['config_ref']['Shunt']
     
     
 def get_debye_length(parameters):
@@ -177,7 +178,7 @@ def get_display_parameters(parameters):
         if  not isinstance(parameters['Bias 1'], int):
             del display_parameters['Bias 1']
             del display_parameters['Filtered current']
-            del display_parameters['Raw current']
+            del display_parameters['Raw voltage 1']
         
     del display_parameters['config_ref']
     return display_parameters
@@ -233,11 +234,11 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias 1'], parameters['Raw current'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt': 1}
     
     # Running each equation
     list_of_equations = get_equations()
