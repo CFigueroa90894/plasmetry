@@ -9,7 +9,7 @@ class FileUpload:
         
         if unformatted_data:
             # Storing unformatted parameters dictionary
-            process_data(unformatted_data)
+            self.sweep_data, self.calculated_parameters = process_data(unformatted_data)
             
         self.local_path = local_path
         self.offsite_credentials = credentials_path
@@ -18,8 +18,19 @@ class FileUpload:
         
         """"""
         # Storing unformatted parameters dictionary
-        process_data(parameters)
+        self.sweep_data, self.calculated_parameters = process_data(parameters)
     
+    def local_upload(self):
+        
+        """"""
+        
+        time_stamp = 10
+        self.local_path = self.local_path + str(time_stamp)
+        self.local_file_write(self.calculated_parameters)
+        
+        if  self.sweep_data: 
+            self.local_file_write(self.sweep_data)
+            
     def local_file_write(self, data):
         
         """"""
@@ -29,16 +40,8 @@ class FileUpload:
             dict_writer= csv.DictWriter(csv_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(data)
+            
     
-    def local_upload(self, local_path_name):
-        
-        """"""
-        
-        time_stamp = 10
-        self.local_path = self.local_path + str(time_stamp)
-        self.local_file_write(self.calculated_parameters)
-        if  self.sweep_data: 
-            self.local_file_write(self.sweep_data)
         
     
             
