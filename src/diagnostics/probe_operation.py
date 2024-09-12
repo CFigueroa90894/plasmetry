@@ -258,13 +258,18 @@ class ProbeOperation(BaseThread):
 
         # TO DO - SET PROBE STATUS FLAGS
 
-        # launch probe object thread and wait for it to start
-        self._probe.start()  # launch thread
+        # launch probe and clock threads
+        self._probe.start()
+        self._clock.start()
+
+        # wait until probe probe thread starts
         self.say("waiting for Probe Object to start...")
         result = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT) # wait for thread
-        if not result: self.say("Probe Object thread never started!")   # error message
 
-        super()._setup() # basic print from parent
+        # print error message if probe could not start
+        if not result: self.say("Probe Object thread never started!")
+
+        super()._thread_setup_() # basic print from parent
 
     # TO DO - validate
     # threading cleanup
@@ -273,7 +278,9 @@ class ProbeOperation(BaseThread):
         # Send aggregated results to Control Layer
         if not self._fail:
             self.results_buffer.put(self._aggregate_samples)
-            self.say("pushed new samples set to control")
+            self.say("pushed new sample set to control layer")
+        else:
+            self.say("Failure in diagnostics! Did not send samples to control layer.")
 
         # Wait until probe object thread stops
         self.say("waiting for Probe Object to exit...")
@@ -281,11 +288,19 @@ class ProbeOperation(BaseThread):
             self._probe.join()   # wait until thread exits
             self._probe = None   # clear probe object
         except AttributeError as err:
-            self.say(f"{err} in _cleanup")
+            self.say(f"{err} in _thread_cleanup_")
+
+        # Stop clock thread and wait until it exits
+        self._clock.kill.set()  # attempt to stop clock
+        self.say("waiting for Clock Thread to exit...")
+        self._clock.join()      # wait until clock exits
+        self._clock = None
         
         # TO DO - CLEAR PROBE STATUS FLAGS
 
-        super()._cleanup()
+        # reset probe operation's ready flag
+        self._ready = False
+        super()._thread_cleanup_()
 
     # thread-safe printing
     def say(self, msg:str):
