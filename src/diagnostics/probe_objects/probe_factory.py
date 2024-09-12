@@ -58,6 +58,7 @@ class ProbeFactory:
         """<...>"""
         self.config = config_ref
         self.system = sys_ref
+        
         # Package probe config by ID
         match probe_type:
             # Single Langmuir Probe
@@ -157,6 +158,7 @@ class ProbeFactory:
             "num_samples": num_samples,
             "sweeper": sweeper,
             "collector": collector,
+            "sweeper_shunt": self.config["sweeper_shunt"]
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -181,6 +183,7 @@ class ProbeFactory:
             "up_amp_bias": self.config["up_amp_bias"],
             "up_amp": up_amp,
             "up_collector": up_collector,
+            "up_shunt": self.config["up_shunt"]
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -238,6 +241,7 @@ class ProbeFactory:
             "down_amp_bias": self.config["down_amp_bias"],
             "down_amp": down_amp,
             "down_collector": down_collector,
+            "down_shunt": self.config["down_shunt"]
             **self.__pack_base_tlp()    # inherit base tlp args
         }
         return args
