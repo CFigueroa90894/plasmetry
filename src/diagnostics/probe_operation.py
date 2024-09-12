@@ -20,7 +20,7 @@ classes:
 import sys
 import os
 
-from threading import Event
+from threading import Event, Barrier
 from queue import Queue, Empty
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -42,13 +42,15 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 # local imports
 from base_thread import BaseThread
 from protected_dictionary import ProtectedDictionary
+from clock_thread import ClockThread
 
 
 # Constants - local config
 BUFF_TIMEOUT = 3    # wait for data samples no more than three seconds
 JOIN_TIMEOUT = 5    # wait for Probe Object thread to exit
 MAX_ATTR_ERR = 5    # threshold for AttributeErrors before breaking from _THREAD_MAIN_
-
+BARR_PARTIES = 2    # number of threads that trigger clock barrier, including clock thread
+DEBUG = True        # defines clock and probe threads' print behavior
 
 class ProbeOperation(BaseThread):
     """The main thread of the Diagnsotics Layer.
@@ -127,14 +129,57 @@ class ProbeOperation(BaseThread):
 
     # ----- PROBE CONTROL METHODS ----- #
     # TO DO
-    def arm(self, sys_ref, config_ref):
+    def arm(self, sys_ref, config_ref, print_buff:Queue=None):
         """Prepares probe operation for impending plasma diagnostic operations. Instantiates probe,
-        clock thread, """
+        clock thread, and other control artifacts.
+        """
         self.say("arming...")
-        # make barrier
-        # make probe
-        # make clock thread
-        pass
+
+        # extract config
+        probe_id = config_ref["probe_id"]
+        sampling_rate = config_ref["sampling_rate"]
+
+        # initialize synchronization objects
+        probe_clock_barrier = Barrier(BARR_PARTIES)     # block thread's until all are ready
+        sample_trigger = Event()    # set by clock when a new data point should be acquired
+        kill = Event()              # set to stop clock thread
+        
+        # reset flags
+        sample_trigger.clear()
+        kill.clear()
+
+        # initialize clock thread
+        self._clock = ClockThread(
+            tick_rate=sampling_rate,
+            trigger=sample_trigger,
+            kill=kill,
+            debug=DEBUG
+        )
+        # initialize Probe Object thread through Probe Factory
+        self._probe = self._probe_factory.make(
+            probe_type=probe_id,
+            config_ref=config_ref,
+            sys_ref=sys_ref,
+            probe_name=probe_id
+        )
+
+        # configure thread print mode
+        self._clock.console_buff = print_buff
+        self._probe.console_buff = print_buff
+
+        # set start barrier to delay probe and clock from starting until both are ready
+        self._clock.start_barrier = probe_clock_barrier
+        self._probe.start_barrier = probe_clock_barrier
+
+        # pass sample trigger to probe
+        self._probe.sample_trig = sample_trigger
+
+        # acquire probe's data sample buffer
+        self._data_buff = self._probe.data_buff
+
+        # mark probe operation is ready for plasma diagnostics
+        self._ready = True
+
 
     def _calculate_params(self, samples):
         """Calculates plasma paramaters with the equations packaged in the probe object.
