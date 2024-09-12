@@ -38,17 +38,17 @@ class FileUpload:
         # Storing unformatted parameters dictionary
         self.sweep_data, self.calculated_parameters = process_data(parameters)
     
-    def local_upload(self):
+    def upload_data(self):
         
         """"""
         
         time_stamp = 2
         self.local_path = self.local_path + str(time_stamp)
-        self.local_file_write(self.calculated_parameters, self.local_path + ' parameters.csv' )
+        self.write_file(self.calculated_parameters, self.local_path + ' parameters.csv' )
         if  self.sweep_data: 
-            self.local_file_write(self.sweep_data, self.local_path + ' sweeps data.csv')
+            self.write_file(self.sweep_data, self.local_path + ' sweeps data.csv')
         
-    def local_file_write(self, data, path_name):
+    def write_file(self, data, path_name):
         
         """"""
 
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     list_of_parameters.append(calc_params(parameters))
         
     upload_object = FileUpload('testing path/testing ', list_of_parameters)
-    upload_object.local_upload()
+    upload_object.upload_data()
     
  
         
