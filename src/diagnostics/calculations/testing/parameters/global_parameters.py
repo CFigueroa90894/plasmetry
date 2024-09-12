@@ -80,6 +80,7 @@ def get_debye_length(parameters):
                                          parameters['Electron temperature (Joules)'] /  \
                                         (parameters['Electron density'] * ELECTRON_CHARGE ** 2))
 
+
 def get_number_of_electrons(parameters):
     
     """DLP and SLP number of particles in the debye sphere is yielded from this function."""
