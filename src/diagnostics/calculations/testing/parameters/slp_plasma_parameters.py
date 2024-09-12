@@ -179,11 +179,12 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias 1'], parameters['Raw current'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
     
-    # Storing Probe area of a previous implementation, and electron mass in kg, simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
-
+    # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
+    # simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt': 1}
+    
     # Running each equation
     list_of_equations = get_equations()
     

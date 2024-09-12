@@ -147,10 +147,10 @@ if __name__ == "__main__":
     # Storing bias, measured current, and measured voltage to test the implementation.
     parameters['Bias 1'], parameters['Potential difference'] =  40, 32
     parameters['Filtered current'] =  0.005176711239483604
-    parameters['Raw current']= 0.005176711239483604 * 2
+    parameters['Raw voltage 1']= 0.005176711239483604 * 2
     
     # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26, 'Shunt': 1}
 
     
     # Running each equation
