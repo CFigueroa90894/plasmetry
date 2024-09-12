@@ -61,7 +61,7 @@ class FileUpload:
     
         
     
-""" Sample usage of the equations. Requires protected_dictionary to be loaded in memory."""    
+""" Sample usage of the equations and local file upload. """    
 if __name__ == "__main__": 
     
     import numpy as np
@@ -107,13 +107,10 @@ if __name__ == "__main__":
             i(parameters)
             
         return parameters
-            
-        
-        
+    
+    list_of_parameters = []
         
     parameters = set_params()
-
-    list_of_parameters = []
     
     list_of_parameters.append(calc_params(parameters))
     
