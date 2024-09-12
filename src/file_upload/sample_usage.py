@@ -68,8 +68,8 @@ if __name__ == "__main__":
     
     
     list_of_parameters = []
-        
-    for i in range(2):
+    NUMBER_OF_SWEEPS = 3
+    for i in range(NUMBER_OF_SWEEPS):
     
      parameters = set_params()
     
