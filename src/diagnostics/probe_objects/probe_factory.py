@@ -138,12 +138,19 @@ class ProbeFactory:
 
         # shared argument
         num_samples = self.config["num_samples"]
-
+        dac_range = {
+            "min": self.config["dac_min"],
+            "max": self.config["dac_max"]
+        }
         # make sweeper subcomponent
+        sweep_amp_range = {
+            "min": self.config["sweep_amp_min"],
+            "max": self.config["sweep_amp_max"]
+        }
         sweeper = self.__make_sweeper(
             address=self.system["sweeper_address"],
-            dac_range=self.config["dac_range"],
-            amp_range=self.config["sweep_amp_range"],
+            dac_range=dac_range,
+            amp_range=sweep_amp_range,
             num_samples=num_samples,
             sweep_min=self.config["sweep_min"],
             sweep_max=self.config["sweep_max"]
@@ -166,12 +173,19 @@ class ProbeFactory:
     # BASE TLP CONFIG (abstract)
     def __pack_base_tlp(self):
         """<...>"""
-
         # make upper probe bias amp
+        dac_range = {
+            "min": self.config["dac_min"],
+            "max": self.config["dac_max"]
+        }
+        up_amp_range = {
+            "min": self.config["up_amp_min"],
+            "max": self.config["up_amp_max"]
+        }
         up_amp = self.__make_hv_amp(
             address=self.system["up_amp_address"],
-            dac_range=self.config["dac_range"],
-            amp_range=self.config["up_amp_range"]
+            dac_range=dac_range,
+            amp_range=up_amp_range
         )
         # make upper probe collector
         up_collector = self.__make_volt_sens(
@@ -199,17 +213,31 @@ class ProbeFactory:
     # ENERGY ANALYZER CONFIG (concrete)
     def _pack_ea(self) -> dict:
         """<...>"""
+        
+        # pack DAC range arguments (shared for all amps)
+        dac_range = {
+            "min": self.config["dac_min"],
+            "max": self.config["dac_max"]
+        }
         # make rejector bias amp
+        rejector_range = {
+            "min": self.config["rejector_min"],
+            "max": self.config["rejector_max"]
+        }
         rejector_amp = self.__make_hv_amp(
             address=self.system["rejector_address"],
-            dac_range=self.config["dac_range"],
-            amp_range=self.config["rejector_range"]
+            dac_range=dac_range,
+            amp_range=rejector_range
         )
         # make collector bias amp
+        collector_bias_range = {
+            "min": self.config["collector_bias_min"],
+            "max": self.config["collector_bias_max"]
+        }
         collector_amp = self.__make_hv_amp(
             address=self.system["collector_bias_address"],
-            dac_range=self.config["dac_range"],
-            amp_range=self.config["collector_bias_range"]
+            dac_range=dac_range,
+            amp_range=collector_bias_range
         )
         # pack probe args
         args = {
@@ -224,12 +252,20 @@ class ProbeFactory:
     # TRIPLE LANGMUIR PROBE - CURRENT MODE CONFIG (concrete)
     def _pack_tlpc(self) -> dict:
         """<...>"""
-
+        # pack DAC range arguments (shared for all amps)
+        dac_range = {
+            "min": self.config["dac_min"],
+            "max": self.config["dac_max"]
+        }
         # make down probe bias amp
+        down_amp_range = {
+            "min": self.config["down_amp_min"],
+            "max": self.config["down_amp_max"]
+        }
         down_amp = self.__make_hv_amp(
             address=self.system["down_amp_address"],
-            dac_range=self.config["dac_range"],
-            amp_range=self.config["down_amp_range"]
+            dac_range=dac_range,
+            amp_range=down_amp_range
         )
         # make down probe collector
         down_collector = self.__make_volt_sens(
