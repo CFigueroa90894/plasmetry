@@ -8,7 +8,6 @@ status: WIP
     - add docstrings
     - remove relative import (added so docstrings are displayed)
     - validate with team
-
 """
 # built-in imports
 import sys
@@ -50,8 +49,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
     hardware_layer_modname = 'hardware_layer'
 
 
-    def __init__(self, 
-                 status_flags, 
+    def __init__(self,
+                 status_flags,
                  command_flags,
                  results_buffer:Queue=None,
                  real_time_param:dict=None,
