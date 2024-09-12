@@ -1,0 +1,79 @@
+from protected_dictionary import ProtectedDictionary
+import csv
+
+class FileUpload:
+    
+    def __init__(self, parameters):
+        
+        """FileUpload construtor"""
+        
+        if parameters:
+            # Storing unformatted parameters dictionary
+            self.unformatted_data = ProtectedDictionary(parameters)
+            
+        self.sweep_data = []
+        self.calculated_parameters = []
+        self.offsite_credentials = self.path_to_credentials
+                
+    def new_upload(self, parameters):
+        
+        """"""
+        
+        # Storing unformatted parameters dictionary
+        self.unformatted_data = ProtectedDictionary(parameters)
+    
+    def tlp_check(self):
+        
+        """"""
+        
+        if 'Bias 2' in self.unformatted_data:
+            return True
+        else:
+            return None
+            
+    def process_data(self):
+        
+        """"""
+        
+        for experiment_run in self.unformatted_data:
+            if not self.tlp_check():
+               self.sweep_data.append({'Bias' : experiment_run['Bias 1'], \
+                                       'Raw Signal' : experiment_run['Raw voltage 1'],\
+                                       'Filtered current': experiment_run['Filtered current']})
+               del experiment_run['Bias 1']
+               del experiment_run['Raw voltage 1']
+               del experiment_run['Filtered current']
+            self.calculated_parameters.append(experiment_run)
+            
+    def local_upload(self, local_path_name):
+        
+        """"""
+        
+        time_stamp = 10
+        local_path = local_path_name + str(time_stamp)
+        self.local_file_write(self.calculated_parameters, local_path)
+        if  self.sweep_data: 
+            self.local_file_write(self.sweep_data, local_path)
+        
+    def local_file_write(self, data, local_path):
+        
+        """"""
+
+        keys = list(data[0].keys())
+        with open(local_path, "w", newline='') as csv_file:
+            dict_writer= csv.DictWriter(csv_file, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(data)
+            
+
+        
+            
+    
+
+
+ 
+        
+        
+        
+        
+        
