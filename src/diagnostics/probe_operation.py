@@ -1,17 +1,19 @@
 """ G3 - Plasma Devs
 Layer 3 - Diagnostics
-    Provides the main implementation for the Diagnostics Layer, controlling probes and calculating
-    plasma parameters. Accesses the Hardware Interface Layer through a set of hardware objects.
+    Provides the main implementation for the Diagnostics Layer's thread, controlling probes and 
+    calculating plasma parameters. Creates Probe Objects that access the Hardware Interface Layer
+    through a set of hardware objects.
 
 author: figueroa_90894@students.pupr.edu
 status: WIP
-  - add docstrings: shutdown(), start_diagnostics()
+  - add docstrings
+  - move layer logic to DiagnosticsLayer
   - validate all methods
   - correct keys used to access dictionaries
   - move tests to a unittest file
 
 classes:
-    ProbeOperation - Control probe objects and perform general layer functions. 
+    ProbeOperation - Control probe objects and perform general data acquisition control functions. 
 
 """
 # built-in imports
@@ -37,20 +39,9 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 # ----- END PATH HAMMER ----- #
 
 
-# ----- local imports ----- #
-from protected_dictionary import ProtectedDictionary
-
-# subclassing
-from abstract_diagnostics import AbstractDiagnostics
+# local imports
 from base_thread import BaseThread
-
-# probe instantiation
-from probe_factory import ProbeFactory
-from calculations_factory import CalculationsFactory
-
-# hardware interfacing (lower layer)
-from hardware_factory import HardwareFactory
-from daqc2plate_wrapper import DAQC2plateWrapper
+from protected_dictionary import ProtectedDictionary
 
 
 # Constants - local config
@@ -59,8 +50,8 @@ JOIN_TIMEOUT = 5    # wait for Probe Object thread to exit
 MAX_ATTR_ERR = 5    # threshold for AttributeErrors before breaking from _THREAD_MAIN_
 
 
-class ProbeOperation(AbstractDiagnostics, BaseThread):
-    """The top boundary of the Diagnostics Layer.
+class ProbeOperation(BaseThread):
+    """The main thread of the Diagnsotics Layer.
     
     ProbeOperation implements the `AbstractDiagnostics` interface, and inherits utils from
     `BaseThread`. During diagnostics, the ProbeOperation thread collects data samples from
@@ -84,10 +75,6 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
     Public Methods:
         run(): invoked by calling thread's start(); overloads BaseThread
         say(): thread-safe printing; inherited from BaseThread
-        setup_experiment(): prepares diagnostic layer for operations
-        shutdown(): invoked during system-wide shutdown
-        start_diagnostics(): begin operatios
-        stop_diagnostics(): halt operations and request results
 
     Protected Methods:
         _calculate_params(): calculate plasma parameters from data samples
@@ -101,9 +88,9 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
                  command_flags,
                  results_buffer:Queue,
                  real_time_param:dict,
+                 probe_factory,
                  name:str="PRB_OP",
                  daemon:bool=True,
-                 hardware_wrapper_cls=DAQC2plateWrapper,
                  *args, **kwargs
         ):
         """"Use keyword arguments to correctly invoke parent constructors.
@@ -113,15 +100,13 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
             command_flags: `CommandFlags` - triggers for subsystem behavior
             results_buffer: `Queue` thread-safe queue to pass results to Control Layer
             real_time_param: `ProtectedDictionary` - container to forward paramaters to display
+            probe_factory: `ProbeFactory` - makes specific types of probes
             name: str - thread name for probe operation
                 from: BaseThread
                 default: "PRB_OP"
             daemon: bool - makes thread daemonic, see `threading` documentation
                 from: BaseThread
                 default: True
-            hardware_wrapper_cls: interface wrapper passed to ProbeFactory
-                type: `AbstractWrapper` subclass 
-                default: `DAQC2plateWrapper`
         """
         # Invoke BaseThread constructor; AbstractDiagnostics has no constructor.
         super().__init__(*args, daemon=daemon, name=name, **kwargs)
@@ -131,15 +116,7 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         self.command_flags = command_flags  # action triggers
         self.results_buffer = results_buffer    # returns experiment results to System Control
         self.real_time_param = real_time_param  # paramater container for real-time display
-        
-        # Instantiate Probe Factory
-        probe_factory_args = {
-            "status_flags": self.status_flags,
-            "command_flags": self.command_flags,
-            "hardware_factory": HardwareFactory(hardware_wrapper_cls),
-            "calculations_factory": CalculationsFactory
-        }
-        self._probe_factory = ProbeFactory(**probe_factory_args)
+        self.probe_factory = probe_factory      # generates probe objects from config values
 
         # None values until setup_experiment() instatiates the required probe object.
         self._probe = None       # the probe object with specific data acquisition algorithms
@@ -148,7 +125,17 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         self._data_buff:Queue = None   # container to recieve data samples from probe object
         self._aggregate_samples:list = None   # stores probe data samples to return to control layer
 
-    # TO DO - validate
+    # ----- PROBE CONTROL METHODS ----- #
+    # TO DO
+    def arm(self, sys_ref, config_ref):
+        """Prepares probe operation for impending plasma diagnostic operations. Instantiates probe,
+        clock thread, """
+        self.say("arming...")
+        # make barrier
+        # make probe
+        # make clock thread
+        pass
+
     def _calculate_params(self, samples):
         """Calculates plasma paramaters with the equations packaged in the probe object.
         Returns two ProtectDictionaries, the first with all data samples and plasma parameters,
@@ -262,88 +249,46 @@ class ProbeOperation(AbstractDiagnostics, BaseThread):
         """
         super().say(msg)
 
-    # ----- Overloaded Layer Methods ----- #
-    # User confirms config and prepares to begin experiment
-    def setup_experiment(self, sys_ref:dict, config_ref:dict, probe_thread_name="PROBE"):
-        """Initializes probe object and prepare to launch threads.
-        
-        Arguments:
-            sys_ref: `ProtectedDictionary` containing system settings
-            config_ref: `ProtectedDictionary` containing user settings
-            probe_thread_name: str - name assigned to probe object's thread
-                default: "PROBE"
-        """
-        # Initialize Probe Object through Probe Factory
-        self._probe = self._probe_factory.make(
-            probe_type=config_ref['probe_id'],
-            config_ref=config_ref,
-            sys_ref=sys_ref,
-            probe_name=probe_thread_name
-        )
-        # acquire probe's data sample buffer
-        self._data_buff = self._probe.data_buff
-        self._ready = True
 
-    # TO DO - Entire system is terminating
-    def shutdown(self):
-        """<...>"""
-        pass
-
-    # TO DO - User starts experiment, launch ProbeOperation thread
-    def start_diagnostics(self):
-        """Launches ProbeOperation's thread.
-        Raises a RuntimeError if `setup_experiment()` was not invoked first."""
-        if not self._ready:
-            raise RuntimeError("Cannot begin diagnostics before setup_experiment() is called!")
-        else:
-            self._ready = False  # clear ready value to prevent recurring calls to this method
-        self.start()    # launch Probe Operation thread
-
-    # TO DO - User stops experiment, called by _cleanup()
-    # Return aggregated results
-    def stop_diagnostics(self):
-        """<...>"""
-        pass
-
-if __name__ == "__main__":
-    from counter_wrapper import CounterWrapperTest
-    from printer_thread import PrinterThread
-    from system_flags import StatusFlags, CommandFlags
-    from threading import Event
-    from queue import Queue
+# if __name__ == "__main__":
+#     from counter_wrapper import CounterWrapperTest
+#     from printer_thread import PrinterThread
+#     from system_flags import StatusFlags, CommandFlags
+#     from threading import Event
+#     from queue import Queue
     
-    kill = Event()
-    printing_buff = Queue()
-    results_buff = Queue()
-    status = StatusFlags()
-    commands = CommandFlags()
-    rt_container = ProtectedDictionary()
+#     kill = Event()
+#     printing_buff = Queue()
+#     results_buff = Queue()
+#     status = StatusFlags()
+#     commands = CommandFlags()
+#     rt_container = ProtectedDictionary()
 
-    printer = PrinterThread(
-        name="PRINTR",
-        kill=kill,
-        console_buff=printing_buff,
-    )
-    po = ProbeOperation(
-        start_delay=3,
-        console_buff=printing_buff,
-        status_flags=status,
-        command_flags=commands,
-        hardware_wrapper_cls=CounterWrapperTest,
-        real_time_param=rt_container,
-        results_buffer=results_buff,
-        name='PRB_OP'
-    )
-    from unittest.mock import MagicMock
-    po._probe = MagicMock()
-    # a = ProbeOperation(status_flags=0, real_time_param=0)
-    # v = vars(po)
-    # for key in v:
-    #     print(f"{key} : {v[key]}")
-    printer.start()
-    po.start()
-    po.join()
-    kill.set()
-    printer.join()
-    print('done')
+#     printer = PrinterThread(
+#         name="PRINTR",
+#         kill=kill,
+#         console_buff=printing_buff,
+#     )
+#     po = ProbeOperation(
+#         start_delay=3,
+#         console_buff=printing_buff,
+#         status_flags=status,
+#         command_flags=commands,
+#         hardware_wrapper_cls=CounterWrapperTest,
+#         real_time_param=rt_container,
+#         results_buffer=results_buff,
+#         name='PRB_OP'
+#     )
+#     from unittest.mock import MagicMock
+#     po._probe = MagicMock()
+#     # a = ProbeOperation(status_flags=0, real_time_param=0)
+#     # v = vars(po)
+#     # for key in v:
+#     #     print(f"{key} : {v[key]}")
+#     printer.start()
+#     po.start()
+#     po.join()
+#     kill.set()
+#     printer.join()
+#     print('done')
 

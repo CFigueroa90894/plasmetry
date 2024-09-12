@@ -34,7 +34,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 
 # TO DO - remove relative imports
 # local imports
-from abstract_layers.abstract_diagnostics import AbstractDiagnostics
+from abstract_diagnostics import AbstractDiagnostics
 
 
 # TO TO
@@ -46,7 +46,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
     probe_factory_modname = 'probe_factory'
     probe_operation_modname = 'probe_operation'
 
-    # Default lower layer
+    # Default lower layer module name
     hardware_layer_modname = 'hardware_layer'
 
 
@@ -57,14 +57,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  real_time_param:dict=None,
         ):
         """<...>"""
-        # --- Save Arguments --- #
-        """
-        NOTE: I'm wishing there was a way to instantiate flags with defaults without
-        needing to violate the principle of not importing modules from other layers.
-
-        Perhaps its for the best, we might not realize the layer is using different
-        flags, making debugging layer integrations harder.
-        """
+        # ----- Save Arguments ----- #
         self.__status = status_flags     # system state indicators
         self.__command = command_flags   # action triggers
 
@@ -72,15 +65,84 @@ class DiagnosticsLayer(AbstractDiagnostics):
         if results_buffer is not None:
             self.__result_buff = results_buffer
         else:
-            self.__result_buff = Queue() # create default Queue
+            # create default Queue
+            self.__result_buff = Queue() 
 
         # validate real_time_param
         if real_time_param is not None:
             self.__real_time_param = real_time_param
         else:
-            self.__real_time_param = {}  # create default dictionary
+            # create default dictionary
+            self.__real_time_param = {}
 
-        # ----- LOAD LAYER COMPONENTS ----- #
+
+        # ----- Assemble Diagnostic Layer ----- #
+        sub = self.__load_subcomponents_cls()   # import subcomponents, returned in a dict
+        
+        # unpack subcomponent classes
+        hardware_layer = sub["hardware_layer"]
+        calcs_factory = sub["calc_fac"]
+        probe_factory = sub["probe_fac"]
+        probe_operation = sub["probe_op"]
+        
+        # instantiate lower layer
+        self.__hardware = hardware_layer()  # lower layer interface
+        self.__comp_fac = self.__hardware.get_component_factory() # makes hardware components
+
+        # instantiate subcomponents
+        self.__calc_fac = calcs_factory  # makes probe specific equations
+        self.__probe_fac = probe_factory(**self.__probe_factory_args()) # makes specific probes
+        self.__probe_op = probe_operation(**self.__probe_op_args())     # controls probes
+        
+
+    # ----- LAYER PUBLIC METHODS ----- #
+    # User confirms config and prepares to begin experiment
+    def setup_diagnostics(self, sys_ref:dict, config_ref:dict, probe_thread_name="PROBE"):
+        """Initializes probe object and prepare to launch threads.
+        
+        Arguments:
+            sys_ref: `ProtectedDictionary` containing system settings
+            config_ref: `ProtectedDictionary` containing user settings
+            probe_thread_name: str - name assigned to probe object's thread
+                default: "PROBE"
+        """
+        # Initialize Probe Object through Probe Factory
+        self._probe = self._probe_factory.make(
+            probe_type=config_ref['probe_id'],
+            config_ref=config_ref,
+            sys_ref=sys_ref,
+            probe_name=probe_thread_name
+        )
+        # acquire probe's data sample buffer
+        self._data_buff = self._probe.data_buff
+        self._ready = True
+    
+    # TO DO
+    def start_diagnostics(self):
+        """Launches ProbeOperation's thread.
+
+        Raises a RuntimeError if `setup_diagnostics()` was not invoked first.
+        """
+        if not self._ready:
+            raise RuntimeError("Cannot begin diagnostics before setup_experiment() is called!")
+        else:
+            self._ready = False  # clear ready value to prevent recurring calls to this method
+        self.start()    # launch Probe Operation thread
+    
+    # TO DO
+    def stop_diagnostics(self):
+        """<...>"""
+        raise NotImplementedError
+    
+    # TO DO
+    def diagnostics_shutdown(self):
+        """<...>"""
+        raise NotImplementedError
+    
+
+    # ----- PRIVATE UTILS ----- #
+    def __load_subcomponents_cls(self):
+        """<...>"""
         # load subcomponent modules
         calculations_factory_mod = __import__(self.calculations_factory_modname)
         probe_factory_mod = __import__(self.probe_factory_modname)
@@ -95,47 +157,32 @@ class DiagnosticsLayer(AbstractDiagnostics):
         hardware_layer_mod = __import__(self.hardware_layer_modname)
         hardware_layer_cls = hardware_layer_mod.HardwareLayer
 
-        # ---- LAYER ASSEMBLY ---- #
-        # lower layer
-        self.__hardware = hardware_layer_cls()  # lower layer interface
-        self.__comp_fac = self.__hardware.get_component_factory() # hardware component factory
-
-        # calculations factory subcomponent
-        self.__calc_fac = calc_fac_cls      # calculations factory is not instantiable
-        
-        # probe factory subcomponent
-        self.__probe_fac = probe_fac_cls(
-            status_flags=self.__status,
-            command_flags=self.__command,
-            hardware_factory=self.__comp_fac,
-            calculations_factory=self.__calc_fac
-        )
-
-        # probe operation subcomponent
-        self.__probe_op = probe_op_cls(
-            status_flags=self.__status,
-            command_flags=self.__command,
-            results_buffer=self.__result_buff,
-            real_time_param=self.__real_time_param,
-            probe_factory=self.__probe_fac
-        )
-
-    # TO DO
-    def setup_diagnostics(self):
-        """<...>"""
-        raise NotImplementedError
+        # pack and return subcomponent classes
+        classes = {
+            "calc_fac": calc_fac_cls,
+            "probe_fac": probe_fac_cls,
+            "probe_op": probe_op_cls,
+            "hardware_layer": hardware_layer_cls
+        }
+        return classes
     
-    # TO DO
-    def start_diagnostics(self):
+    def __probe_factory_args(self):
         """<...>"""
-        raise NotImplementedError
-    
-    # TO DO
-    def stop_diagnostics(self):
+        probe_factory_args = {
+            "status_flags": self.__status,
+            "command_flags": self.__command,
+            "hardware_factory": self.__comp_fac,
+            "calculations_factory": self.__calc_fac
+        }
+        return probe_factory_args
+
+    def __probe_op_args(self):
         """<...>"""
-        raise NotImplementedError
-    
-    # TO DO
-    def diagnostics_shutdown(self):
-        """<...>"""
-        raise NotImplementedError
+        probe_op_args = {
+            "status_flags": self.__status,
+            "command_flags": self.__command,
+            "results_buffer": self.__result_buff,
+            "real_time_param": self.__real_time_param,
+            "probe_factory": self.__probe_fac
+        }
+        return probe_op_args
