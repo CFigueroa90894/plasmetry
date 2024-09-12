@@ -2,7 +2,7 @@ import csv
 
 class FileUpload:
     
-    def __init__(self, unformatted_data=None):
+    def __init__(self, local_path, unformatted_data=None, credentials_path=None):
         
         """FileUpload construtor"""
         
@@ -10,7 +10,8 @@ class FileUpload:
             # Storing unformatted parameters dictionary
             self.process_data(unformatted_data)
             
-        self.offsite_credentials = self.path_to_credentials
+        self.local_path = local_path
+        self.offsite_credentials = credentials_path
                 
     def new_upload(self, parameters):
         
@@ -48,17 +49,17 @@ class FileUpload:
         """"""
         
         time_stamp = 10
-        local_path = local_path_name + str(time_stamp)
-        self.local_file_write(self.calculated_parameters, local_path)
+        self.local_path = self.local_path + str(time_stamp)
+        self.local_file_write(self.calculated_parameters)
         if  self.sweep_data: 
-            self.local_file_write(self.sweep_data, local_path)
+            self.local_file_write(self.sweep_data)
         
-    def local_file_write(self, data, local_path):
+    def local_file_write(self, data):
         
         """"""
 
         keys = list(data[0].keys())
-        with open(local_path, "w", newline='') as csv_file:
+        with open(self.local_path, "w", newline='') as csv_file:
             dict_writer= csv.DictWriter(csv_file, keys)
             dict_writer.writeheader()
             dict_writer.writerows(data)
