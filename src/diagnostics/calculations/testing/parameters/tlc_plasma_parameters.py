@@ -21,8 +21,12 @@ estimated_guess = 0.1
 
 
 def filter_current(parameters):
-    return 0
-
+    
+    probe_2_raw_voltage = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
+    probe_3_raw_voltage = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
+    parameters['Probe 2 filtered current'] = probe_2_raw_voltage / parameters['Shunt 1']
+    parameters['Probe 3 filtered current'] = probe_3_raw_voltage / parameters['Shunt 2']
+    
 
 def iteration(parameters, estimated_guess):
     
@@ -60,8 +64,9 @@ def get_electron_temperature(parameters):
      
     The Newton-Raphson method has been deployed to calculte the inverse value of the temperature.
      
-    The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
+    The loop runs 100 iterations unless a value has been approximated, with a base tolerance of 1e-5.
     """
+    
     # Initial guess
     global estimated_guess 
     
@@ -112,6 +117,7 @@ def get_electron_density(parameters):
 
 
 def get_probe_current(parameters):
+    "This function returns "
     parameters['Probe 1 filtered current'] = -1 * (parameters['Probe 3 filtered current'] + \
                                                  
                                                    parameters['Probe 2 filtered current'])
