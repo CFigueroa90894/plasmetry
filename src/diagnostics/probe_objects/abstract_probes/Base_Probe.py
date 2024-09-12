@@ -56,7 +56,8 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
                  equations:list,
                  data_buff:Queue,
                  sampling_rate:int,
-                 relay_set:int
+                 relay_set:int,
+                 sample_trig:Event=None,
                  ):
         """<...>"""
         # PROBE INFO
@@ -72,6 +73,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         self.equations = equations  # list of callables to calculate plasma parameters
         self.data_buff = data_buff  # thread-safe queue, pass data samples to probe operation
         self.sampling_rate = sampling_rate      # samples to obtain per second, Hertz (Hz)
+        self.sample_trig = sample_trig          # indicates when the next sample should be obtained
 
         # PROBE SUBCOMPONENTS
         self.relay_set = relay_set          # collection of relays that select probe operating mode
