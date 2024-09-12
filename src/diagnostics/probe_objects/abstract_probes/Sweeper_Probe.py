@@ -31,12 +31,14 @@ class SweeperProbe(BaseProbe):
                  num_samples:int,
                  sweeper,
                  collector,
+                 sweeper_shunt:float,
                  *args, **kwargs
                  ):
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
         
         # PROBE INFO
         self.num_samples = num_samples      # number of samples to obtain per sweep
+        self.sweeper_shunt = sweeper_shunt
 
         # PROBE SUBCOMPONENTS
         self.sweeper = sweeper      # output voltages to sweeper source

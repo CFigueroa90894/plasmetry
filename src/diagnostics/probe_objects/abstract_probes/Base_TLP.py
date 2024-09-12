@@ -30,12 +30,14 @@ class BaseTLP(BaseProbe):
                  up_amp_bias: float,
                  up_amp,
                  up_collector,
+                 up_shunt:float,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
         # PROBE CONFIG
         self.up_amp_bias = up_amp_bias  # fixed voltage bias applied to the upper probe
+        self.up_shunt = up_shunt
 
         # PROBE SUBCOMPONENTS
         self.up_amp = up_amp               # Set voltage source output
