@@ -174,7 +174,7 @@ def get_display_parameters(parameters):
     display_parameters = ProtectedDictionary(parameters)
     
     if 'Bias 1' in parameters:
-        if  len(parameters['Bias 1' ]) >1:
+        if  not isinstance(parameters['Bias 1'], int):
             del display_parameters['Bias 1']
             del display_parameters['Filtered current']
             del display_parameters['Raw current']
