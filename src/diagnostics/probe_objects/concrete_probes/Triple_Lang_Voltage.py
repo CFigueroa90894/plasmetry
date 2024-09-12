@@ -3,6 +3,17 @@
 #   - add docstrings
 #   - add hardware interface objects
 #   - implement run
+"""
+Triple Langmuir Probe - Voltage Mode
+            - V1 +                          V1 - 'Raw Voltage 1'       (sampled across shunt_1)
+    - |-------S1------- up probe            S1 - 'Shunt 1': shunt_1    (shunt resistor)
+  B1  A1                                    A1 - Up Probe Amp          (up_amp)
+    + |                                     B1 - 'Bias 1': up_amp_bias (applied bias)
+      |---------------- center probe        
+          +                                 V2 - 'Raw Voltage 2'       (sampled center to floating)
+          - V2
+       ---------------- floating probe
+"""
 
 # built-in imports
 import sys

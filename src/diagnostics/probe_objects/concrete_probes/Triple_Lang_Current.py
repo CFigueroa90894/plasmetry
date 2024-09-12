@@ -3,6 +3,18 @@
 #   - add docstrings
 #   - add hardware interface objects
 #   - implement run
+"""
+Triple Langmuir Probe - Current Mode
+            - V1 +                          V1 - 'Raw Voltage 1'         (sampled across shunt_1)
+    - |-------S1------- up probe            S1 - 'Shunt 1': shunt_1      (shunt resistor)
+  B1  A1                                    A1 - Up Probe Amp            (up_amp)
+    + |                                     B1 - 'Bias 1': up_amp_bias   (applied bias)
+      |---------------- center probe        
+    + |                                     B2 - 'Bias 2': down_amp_bias (applied bias)
+  B2  A2                                    A2 - Down Probe Amp          (down_amp)
+    - |-------S2------- down probe          S2 - 'Shunt 2': shunt_2      (shunt resistor)
+            - V2 +                          V2 - 'Raw Voltage 2'         (sampled across shunt_2)
+"""
 
 # built-in imports
 import sys
