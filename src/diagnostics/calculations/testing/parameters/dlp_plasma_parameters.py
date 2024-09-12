@@ -140,7 +140,7 @@ if __name__ == "__main__":
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
     
     
     # Running each equation
