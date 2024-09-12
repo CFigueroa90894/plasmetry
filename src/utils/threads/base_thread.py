@@ -28,25 +28,45 @@ class BaseThread(Thread, metaclass=ABCMeta):
                  *args, **kwargs
         ):
         """<...>"""
-        super().__init__(*args, daemon=daemon, **kwargs)   # initialize attributes inherited from parent
-        assert start_delay is None or start_barrier is None, f"Cannot instantiate with both: delay: {start_delay}, barrier: {start_barrier}"     # validate start conditions
+        super().__init__(*args, daemon=daemon, **kwargs)   # initialize attributes from parent
+        
+        # Define variable with custom setters and getters
+        self._console_buff = None   # protected attribute to store mirrored public console_buff
 
+        # Validate arguments
+        assert_msg = f"Cannot instantiate with both: delay: {start_delay}, barrier: {start_barrier}"
+        assert start_delay is None or start_barrier is None, assert_msg
+
+        # Save Arguments
         self.delay = start_delay            # delay run() by specified amount of time
-        self.barrier = start_barrier        # delay run() until all threads are waiting at the barrier
-        self.console_buff = console_buff        # select how to print console messages, by default uses built-in print
+        self.barrier = start_barrier        # delay run() until all threads are at the barrier
+        self.console_buff = console_buff    # select how to print, by default uses built-in print
 
         self.pause_sig = Event()            # local signal used to pause thread
 
+    # console buffer definition and getter
+    @property
+    def console_buff(self):
+        return self._console_buff
+    
+    # console buffer setter
+    @console_buff.setter
+    def console_buff(self, buff):
+        """<...>"""
         # Overload say() with appropriate output
         # default value
-        if self.console_buff is None:
+        if buff is None:
             self._whisper = self._print_stdout
+            self._console_buff = buff
+            self.say(f"prints set to default for {self}")
         # PrinterThread buffer
-        elif isinstance(console_buff, Queue):
+        elif isinstance(buff, Queue):
             self._whisper = self._print_buff
+            self._console_buff = buff
+            self.say(f"prints set to buffer for {self}")
         # Error Handling
         else:
-            raise AttributeError(f"{self.__class__}'s constructor could not overload the __say() instance method.")
+            raise AttributeError(f"{self.__class__}'s could not overload the __say() method.")
 
 
     # ----- MAIN ----- #
@@ -60,9 +80,9 @@ class BaseThread(Thread, metaclass=ABCMeta):
     def run(self):
         """<...>
         <the method invoked when calling start()>"""
-        self._setup()
+        self._thread_setup_()
         self._THREAD_MAIN_()
-        self._cleanup()
+        self._thread_cleanup_()
 
     # ----- LIFE CYCLE UTILS ----- #
     @abstractmethod

@@ -52,13 +52,14 @@ class PrinterThread(BaseThread):
     # ---- LIFE CYCLE ----- #
     def _thread_setup_(self):
         """<...>"""
-        super()._setup()    # use parent implementation
+        super()._thread_setup_()    # use parent implementation
 
     def _thread_cleanup_(self):
         """<...>"""
         self._whisper = self._print_stdout
-        super()._cleanup()  # use parent implementation
+        super()._thread_cleanup_()  # use parent implementation
 
     # ----- PRINT UTILS ----- #
     def say(self, msg):
         super().say(msg)
+
