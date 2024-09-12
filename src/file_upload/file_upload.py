@@ -43,7 +43,7 @@ class FileUpload:
         """"""
         
         time_stamp = 2
-        self.local_path = self.local_path + ' testing ' + str(time_stamp)
+        self.local_path = self.local_path + str(time_stamp)
         self.local_file_write(self.calculated_parameters, self.local_path + ' parameters.csv' )
         if  self.sweep_data: 
             self.local_file_write(self.sweep_data, self.local_path + ' sweeps data.csv')
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     
     list_of_parameters.append(calc_params(parameters))
         
-    upload_object = FileUpload('testing path/', list_of_parameters)
+    upload_object = FileUpload('testing path/testing ', list_of_parameters)
     upload_object.local_upload()
     
  
