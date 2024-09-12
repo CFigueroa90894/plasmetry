@@ -20,6 +20,7 @@ from file_upload import FileUpload
 if __name__ == "__main__": 
     
     import numpy as np
+    
     from slp_plasma_parameters import get_equations
     
     
@@ -68,14 +69,13 @@ if __name__ == "__main__":
     
     list_of_parameters = []
         
-    parameters = set_params()
+    for i in range(2):
     
-    list_of_parameters.append(calc_params(parameters))
+     parameters = set_params()
     
-    parameters = set_params()
-    
-    list_of_parameters.append(calc_params(parameters))
+     list_of_parameters.append(calc_params(parameters))
         
     upload_object = FileUpload('testing path/testing ', list_of_parameters)
+    
     upload_object.upload_data()
     
