@@ -96,26 +96,19 @@ class DiagnosticsLayer(AbstractDiagnostics):
         
 
     # ----- LAYER PUBLIC METHODS ----- #
+
+    # TO DO
     # User confirms config and prepares to begin experiment
-    def setup_diagnostics(self, sys_ref:dict, config_ref:dict, probe_thread_name="PROBE"):
+    def setup_diagnostics(self, sys_ref:dict, config_ref:dict):
         """Initializes probe object and prepare to launch threads.
         
         Arguments:
-            sys_ref: `ProtectedDictionary` containing system settings
-            config_ref: `ProtectedDictionary` containing user settings
+            sys_ref: `ProtectedDictionary` containing probe specific system settings
+            config_ref: `ProtectedDictionary` containing probe specific user settings
             probe_thread_name: str - name assigned to probe object's thread
                 default: "PROBE"
         """
-        # Initialize Probe Object through Probe Factory
-        self._probe = self._probe_factory.make(
-            probe_type=config_ref['probe_id'],
-            config_ref=config_ref,
-            sys_ref=sys_ref,
-            probe_name=probe_thread_name
-        )
-        # acquire probe's data sample buffer
-        self._data_buff = self._probe.data_buff
-        self._ready = True
+        pass
     
     # TO DO
     def start_diagnostics(self):
