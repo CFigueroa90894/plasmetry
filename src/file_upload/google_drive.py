@@ -26,7 +26,7 @@ class GoogleDrive(OffsiteUpload):
     def __init__(self, credentials_path='client_secrets.json'):
         
         self.credentials_path = credentials_path
-        self.authenticate_connection()
+        self.creds = self.authenticate_connection()
     
     def authenticate_connection(self):
         SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -35,8 +35,7 @@ class GoogleDrive(OffsiteUpload):
 
     def put_request(self, csv_obj, file_name):
         PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
-        creds = self.authenticate_connection()
-        service = build('drive', 'v3', credentials=creds)
+        service = build('drive', 'v3', credentials= self.creds)
 
         file_metadata = {
             'name' : file_name,
