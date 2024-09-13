@@ -47,33 +47,32 @@ class FileUpload:
         self.current_datetime = datetime.now()
         self.local_path = f'{original_path}{self.current_datetime.date()}'
         
-    def offsite_upload(self):
-        
-        """"""
-
-        self.offsite_wrapper.put_request(self.sweep_csv, f'{self.current_datetime.date()} sweeps data.csv')
-        self.offsite_wrapper.put_request(self.parameters_csv, f'{self.current_datetime.date()} parameters.csv')
-        
     def upload_data(self):
         """"""
         self.local_upload()
         if self.offsite_wrapper.credentials_path:
             self.offsite_upload()
+        
+    def offsite_upload(self):
+        
+        """"""
+
+        self.offsite_wrapper.put_request(self.sweep_csv, \
+                                         f'{self.current_datetime.date()} sweeps data.csv')
+            
+        self.offsite_wrapper.put_request(self.parameters_csv, \
+                                         f'{self.current_datetime.date()} parameters.csv')
             
     def local_upload(self):
         
         """"""
-        self.write_local(self.parameters_csv, self.local_path + ' parameters.csv' )
+        self.write_file(self.parameters_csv, self.local_path + ' parameters.csv' )
         if  self.sweep_csv: 
-            self.write_local(self.sweep_csv, self.local_path + ' sweeps data.csv')
+            self.write_file(self.sweep_csv, self.local_path + ' sweeps data.csv')
         
-    def write_local(self, csv_obj, path_name):
+    def write_file(self, csv_obj, path_name):
         
         """"""
-        with open(path_name, 'w', newline='', encoding='utf-8') as f:
-            f.write(csv_obj)
-                
-    
-
-
+        with open(path_name, 'w', newline='', encoding='utf-8') as file:
+            file.write(csv_obj)
             
