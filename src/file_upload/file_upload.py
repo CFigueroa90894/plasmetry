@@ -21,7 +21,7 @@ from data_formating import process_data
 from datetime import datetime
 
 class FileUpload:
-      
+    
     def __init__(self, local_path, unformatted_data='', credentials_path=''):
         
         """FileUpload construtor"""
@@ -38,18 +38,22 @@ class FileUpload:
         """"""
         # Storing unformatted parameters dictionary
         self.sweep_data, self.calculated_parameters = process_data(parameters)
-    
+        
     def upload_data(self):
         
         """"""
-        
         current_datetime = datetime.now()
-        self.local_path = f'{self.local_path}{current_datetime.date()}'
-        self.write_file(self.calculated_parameters, self.local_path + ' parameters.csv' )
-        if  self.sweep_data: 
-            self.write_file(self.sweep_data, self.local_path + ' sweeps data.csv')
+        self.local_upload(current_datetime)
+            
+    def local_upload(self, current_datetime):
         
-    def write_file(self, data, path_name):
+        self.local_path = f'{self.local_path}{current_datetime.date()}'
+        self.write_local(self.calculated_parameters, self.local_path + ' parameters.csv' )
+        if  self.sweep_data: 
+            self.write_local(self.sweep_data, self.local_path + ' sweeps data.csv')
+        
+        
+    def write_local(self, data, path_name):
         
         """"""
 
