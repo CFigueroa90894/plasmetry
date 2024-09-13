@@ -31,13 +31,14 @@ class GoogleDrive(OffsiteUpload):
         
         self.credentials_path = credentials_path
         self.creds = self.authenticate_connection()
+        self.port= 443
         
     def valid_internet_connection(self):
         
         """"""
         
         try:
-            socket.getaddrinfo('google.com', 443)
+            socket.getaddrinfo('google.com', self.port)
             return True
         except socket.gaierror:
             print('Cannot connect to Google.com, verify your internet connection.')
