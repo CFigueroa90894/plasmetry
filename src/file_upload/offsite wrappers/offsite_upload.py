@@ -14,6 +14,10 @@ class OffsiteUpload(ABC):
         """Off-site file uploads must be implemented here"""
         
         raise NotImplementedError
-
+        
+    @abstractmethod
+    def valid_internet_connection(self):
+        
+        raise NotImplementedError
     
     
