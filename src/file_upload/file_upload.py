@@ -54,15 +54,16 @@ class FileUpload:
         # Check if the directory exists 
         if  os.path.exists(local_path):
 
-            self.path_is_set = True
             self.storage_path = local_path
             # Setting the local path name with the current time
-            self.set_path()
+            # Datetime object with date and time of execution
+            self.current_datetime = datetime.now()
             
+            return True
+           
         else:
-            self.path_is_set = False
-            print('Local path set to a directory that does not exist!')
             
+            return False
                 
     def new_data(self, parameters):
         
@@ -71,37 +72,28 @@ class FileUpload:
         #Setting the csv content objects containing sweep and parameters data
         # If no sweep data, the object will remain empty.
         self.parameters_csv, self.sweep_csv = process_data(parameters)
-        
-        # Setting the local path name with the current time
-        self.set_path(self)
-       
-    def set_path(self):
-        
-        """This method sets the current date(time*) to the local path."""
-        
+
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
-        
-        # Setting the local path
-        self.local_path = f'{self.storage_path}{self.current_datetime.date()}'
+       
         
     def local_upload(self):
         
         """Local storage data uploading."""
+        self.folder_change(f'{self.storage_path}/{self.current_datetime.date()}', self.validate_path, self.create_local_folder)
         
-        # Creating the csv containing parameters data
-        self.write_file(self.parameters_csv, self.local_path + ' parameters.csv' )
-        
+        # Creating the csv containing parameters date
+        self.write_file(self.parameters_csv, f'{self.storage_path}/ parameters.csv' )
         # Verifying if there is sweep data
         if  self.sweep_csv: 
             # Creating the csv containing the sweep data
-            self.write_file(self.sweep_csv, self.local_path + ' sweeps data.csv')
+            self.write_file(self.sweep_csv, f'{self.storage_path}/ sweeps data.csv')
             
     def upload_data(self):
         
         """Upload data locally and offsite when invoked."""
         
-        if self.path_is_set:
+        if self.validate_path(self.storage_path):
             
             self.local_upload()
             
@@ -114,6 +106,8 @@ class FileUpload:
             # Printing that credentials path must be set
             else:
                 print('No credentials path set!')
+        else:
+            print('Local path set to a directory that does not exist!')
             
     def offsite_upload(self):
         
@@ -121,8 +115,8 @@ class FileUpload:
         
         # Verifying if there is a connection with the offsite storage to commence upload requests
         if self.offsite_wrapper.validate_connection():
-            if not self.offsite_wrapper.check_folder_exists(f'{self.current_datetime.date()}'):
-                self.offsite_wrapper.create_folder(f'{self.current_datetime.date()}')
+            
+            self.folder_change(f'{self.current_datetime.date()}',self.offsite_wrapper.check_folder_exists,self.offsite_wrapper.create_folder )
             
             # Storing the parameters csv object
             self.offsite_wrapper.put_request(self.parameters_csv, \
@@ -144,4 +138,19 @@ class FileUpload:
         with open(file_name, 'w', newline='', encoding='utf-8') as file:
             # Writing csv ocntents
             file.write(csv_obj)
+            
+    def create_local_folder(self, folder_name):
+        
+        os.mkdir(folder_name)
+        self.storage_path = folder_name
+        print(folder_name)
+        
+    def local_folder_exists(self, folder_name):
+        self.validate_path(folder_name)
+            
+    def folder_change(self, folder_name, check_if_exist, create_folder):
+        """Folder for upload"""
+        if not check_if_exist(folder_name):
+            create_folder(folder_name)
+        
             
