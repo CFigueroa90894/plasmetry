@@ -58,12 +58,13 @@ class FileUpload:
         
         """"""
         if self.offsite_wrapper.valid_internet_connection():
-        
-            self.offsite_wrapper.put_request(self.sweep_csv, \
-                                             f'{self.current_datetime.date()} sweeps data.csv')
-                
+                    
             self.offsite_wrapper.put_request(self.parameters_csv, \
                                              f'{self.current_datetime.date()} parameters.csv')
+                
+            if  self.sweep_csv:
+                self.offsite_wrapper.put_request(self.sweep_csv, \
+                                                 f'{self.current_datetime.date()} sweeps data.csv')
             
     def local_upload(self):
         
