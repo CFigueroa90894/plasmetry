@@ -35,12 +35,8 @@ class FileUpload:
 
         
         self.offsite_wrapper = GoogleDrive(credentials_path)
-   
-        
-
-
                 
-    def new_upload(self, parameters):
+    def new_data(self, parameters):
         
         """"""
         self.sweep_csv, self.parameters_csv = process_data(parameters)
@@ -51,6 +47,7 @@ class FileUpload:
         """"""
         self.current_datetime = datetime.now()
         self.local_path = f'{original_path}{self.current_datetime.date()}'
+        
     def offsite_upload(self):
         
         """"""
@@ -62,7 +59,6 @@ class FileUpload:
         """"""
         self.local_upload()
         self.offsite_upload()
-    
             
     def local_upload(self):
         
