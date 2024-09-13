@@ -16,7 +16,6 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 import io
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
-
 from google.oauth2 import service_account
 from offsite_upload import OffsiteUpload
 
