@@ -31,22 +31,21 @@ class FileUpload:
 
         if unformatted_data:
             self.sweep_csv, self.parameters_csv = process_data(unformatted_data)
-            self.set_path(self.original_path)
+            self.set_path()
 
         self.offsite_wrapper = GoogleDrive(credentials_path)
-        
                 
     def new_data(self, parameters):
         
         """"""
         self.sweep_csv, self.parameters_csv = process_data(parameters)
-        self.set_path(self.original_path)
+        self.set_path(self)
        
-    def set_path(self, original_path):
+    def set_path(self):
         
         """"""
         self.current_datetime = datetime.now()
-        self.local_path = f'{original_path}{self.current_datetime.date()}'
+        self.local_path = f'{self.original_path}{self.current_datetime.date()}'
         
     def upload_data(self):
         """"""
