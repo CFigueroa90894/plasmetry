@@ -25,7 +25,7 @@ def LoadPreviousData():
     """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
     
     import csv as csv_library
-    with open('../testing path/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+    with open('testing path/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
         dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
         next(dataReader)  # Skip the header row
         current = []
@@ -64,8 +64,10 @@ def calc_params(parameters):
 """ Sample usage of the equations and file upload. """    
 if __name__ == "__main__": 
     
+    # Get the current working directory
+    current_directory = os.getcwd()
     
-    LOCAL_PATH = '../testing path/testing '
+    LOCAL_PATH = str(current_directory) + '/testing path/'
     CREDENTIALS_PATH = '../credentials/plasma-software-data-upload-d6f40f4fefdc.json'
     NUMBER_OF_SWEEPS = 3
     
@@ -82,5 +84,5 @@ if __name__ == "__main__":
     upload_object = FileUpload(LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
     
     upload_object.upload_data()
-  
+    
     
