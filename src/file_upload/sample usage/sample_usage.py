@@ -82,6 +82,5 @@ if __name__ == "__main__":
     upload_object = FileUpload(LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
     
     upload_object.upload_data()
-    
-    print('data uploaded locally and in google drive')
+  
     
