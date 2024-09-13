@@ -13,16 +13,19 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
    # print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
-
+import io
 from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseUpload
+
 from google.oauth2 import service_account
 from offsite_upload import OffsiteUpload
 
-class GoogleDriveUpload(OffsiteUpload):
+
+class GoogleDrive(OffsiteUpload):
     
     def __init__(self, credentials_path='client_secrets.json'):
         
-        OffsiteUpload.credentials_path = credentials_path
+        self.credentials_path = credentials_path
         self.authenticate_connection()
     
     def authenticate_connection(self):
@@ -30,21 +33,20 @@ class GoogleDriveUpload(OffsiteUpload):
         creds = service_account.Credentials.from_service_account_file(self.credentials_path, scopes=SCOPES)
         return creds
 
-    def put_request(self, file_path):
+    def put_request(self, csv_obj, file_name):
         PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
         creds = self.authenticate_connection()
         service = build('drive', 'v3', credentials=creds)
 
         file_metadata = {
-            'name' : "Demonstration",
-            'parents' : [PARENT_FOLDER_ID]
+            'name' : file_name,
+            'parents' : [PARENT_FOLDER_ID],
+            'mimeType': 'text/csv'
         }
+       
+        media = MediaIoBaseUpload(io.BytesIO(csv_obj.encode('utf-8')), mimetype='text/csv', resumable=True)
 
         file = service.files().create(
             body=file_metadata,
-            media_body=file_path
+            media_body=media
         ).execute()
-        
-if __name__ == "__main__": 
-     uploader = GoogleDriveUpload('C:/Users/ajco2/Downloads/plasma-software-data-upload-d6f40f4fefdc.json')
-     uploader.put_request('testing path/testing 2024-09-12 parameters.csv')
