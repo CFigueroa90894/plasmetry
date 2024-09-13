@@ -27,14 +27,17 @@ from data_formating import process_data
 # Offsite wrapper import
 from google_drive import GoogleDrive
 
+from pathlib import Path
+
 class FileUpload:
     
-    def __init__(self, local_path,  credentials_path='', unformatted_data=''):
+    def __init__(self, local_path,  credentials_path='', unformatted_data=[]):
         
         """FileUpload construtor"""
         
-        # This is the local path where the files are stored
-        self.storage_path = local_path
+        # Validating the local path
+        self.validate_path(local_path)
+        
 
         # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
@@ -43,12 +46,29 @@ class FileUpload:
             # If no sweep data, the object will remain empty.
             self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
             
-            # Setting the local path name with the current time
-            self.set_path()
         
         # Storing wrapper for offsite data uploading
         self.offsite_wrapper = GoogleDrive(credentials_path)
+        
+    def validate_path(self, local_path):
+        
+        """Validates if the received path is valid."""
+        # Create a Path object for the directory
+        dir_path = Path(local_path)
 
+        # Check if the directory exists 
+        if  dir_path.exists():
+
+            self.path_is_set = True
+            self.storage_path = local_path
+            # Setting the local path name with the current time
+            self.set_path()
+            
+            
+        else:
+            self.path_is_set = False
+            print('Local path set to a directory that does not exist!')
+            
                 
     def new_data(self, parameters):
         
@@ -71,23 +91,35 @@ class FileUpload:
         # Setting the local path
         self.local_path = f'{self.storage_path}{self.current_datetime.date()}'
         
+    def local_upload(self):
+        
+        """Local storage data uploading."""
+        
+        # Creating the csv containing parameters data
+        self.write_file(self.parameters_csv, self.local_path + ' parameters.csv' )
+        
+        # Verifying if there is sweep data
+        if  self.sweep_csv: 
+            # Creating the csv containing the sweep data
+            self.write_file(self.sweep_csv, self.local_path + ' sweeps data.csv')
     def upload_data(self):
         
         """Upload data locally and offsite when invoked."""
         
-        # Local data upload
-        self.local_upload()
-        
-        # Verifying if the credentials path is set
-        if self.offsite_wrapper.credentials_path:
+        if self.path_is_set:
             
-            # If set, commencing offsite upload
-            self.offsite_upload()
+            self.local_upload()
             
-        # Printing that credentials path must be set
-        else:
-            print('No credentials path set!')
-        
+            # Verifying if the credentials path is set
+            if self.offsite_wrapper.credentials_path:
+                
+                # If set, commencing offsite upload
+                self.offsite_upload()
+                
+            # Printing that credentials path must be set
+            else:
+                print('No credentials path set!')
+            
     def offsite_upload(self):
         
         """Offsite storage data uploading."""
@@ -106,17 +138,6 @@ class FileUpload:
                 self.offsite_wrapper.put_request(self.sweep_csv, \
                                                  f'{self.current_datetime.date()} sweeps data.csv')
             
-    def local_upload(self):
-        
-        """Local storage data uploading."""
-        
-        # Creating the csv containing parameters data
-        self.write_file(self.parameters_csv, self.local_path + ' parameters.csv' )
-        
-        # Verifying if there is sweep data
-        if  self.sweep_csv: 
-            # Creating the csv containing the sweep data
-            self.write_file(self.sweep_csv, self.local_path + ' sweeps data.csv')
         
     def write_file(self, csv_obj, file_name):
         
