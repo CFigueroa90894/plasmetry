@@ -40,6 +40,7 @@ def LoadPreviousData():
         return voltageSLP, current
     
 def set_params():
+    
     # Parameter dictionary, stores parameters
     parameters= {}
     
@@ -53,6 +54,7 @@ def set_params():
 
 
 def calc_params(parameters):
+    
     # Running each equation
     list_of_equations = get_equations()
     
@@ -78,7 +80,6 @@ if __name__ == "__main__":
         parameters = set_params()
     
         list_of_parameters.append(calc_params(parameters))
-
     
     
     upload_object = FileUpload(LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
