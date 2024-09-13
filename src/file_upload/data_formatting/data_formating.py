@@ -47,7 +47,7 @@ def process_data(unformatted_data):
     
     sweep_csv = create_csv_object(sweep_data)
     parameters_csv= create_csv_object(calculated_parameters)
-    return sweep_csv, parameters_csv
+    return parameters_csv, sweep_csv
 
 
 
