@@ -23,17 +23,16 @@ from google_drive import GoogleDrive
 
 class FileUpload:
     
-    def __init__(self, path,  credentials_path='', unformatted_data=''):
+    def __init__(self, local_path,  credentials_path='', unformatted_data=''):
         
         """FileUpload construtor"""
         
-        self.original_path = path
+        self.original_path = local_path
 
         if unformatted_data:
             self.sweep_csv, self.parameters_csv = process_data(unformatted_data)
             self.set_path(self.original_path)
 
-        
         self.offsite_wrapper = GoogleDrive(credentials_path)
                 
     def new_data(self, parameters):
@@ -58,7 +57,8 @@ class FileUpload:
     def upload_data(self):
         """"""
         self.local_upload()
-        self.offsite_upload()
+        if self.offsite_wrapper.credentials_path:
+            self.offsite_upload()
             
     def local_upload(self):
         
