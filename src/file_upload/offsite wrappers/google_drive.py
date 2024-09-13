@@ -41,7 +41,7 @@ class GoogleDrive(OffsiteUpload):
         
         # Parent folder ID, extracted from URL of the google drive folder
         self.PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
-        
+    
     def validate_connection(self):
         
         """Internet connection validation."""
@@ -100,38 +100,56 @@ class GoogleDrive(OffsiteUpload):
         ).execute()
         
     def check_folder_exists(self, folder_name):
-        
+        """Returns boolean, verifies if folder_name exists"""
+
         # Object used to interact with the Google Drive API
         service = build('drive', 'v3', credentials= self.creds)
         
+        # Setting Google Drive API query to list folder names
         query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' and trashed=false"
+        
+        # Querying file names and ids to find if folder_name exists
         results = service.files().list(
             q=query, 
             fields="files(id, name)"
             ).execute()
+        
+        # Storing the file results in a list
         items = results.get('files', [])
     
+        # Verifying that the list is not empty
         if items:
-            self.PARENT_FOLDER_ID = items[0]['id']
+            
+            # Setting the parent id
+            self.set_folder_id(items[0]['id'])
             return True
         
         else:
             return False
         
-    
+        
     def create_folder(self, folder_name):
+        
+        """Function creates folders in Google drive named by folder_name data."""
+        
         # Object used to interact with the Google Drive API
         service = build('drive', 'v3', credentials= self.creds)
         
-        file_metadata = {'name': folder_name,
-                         'mimeType': 'application/vnd.google-apps.folder'}
-        
-        if self.PARENT_FOLDER_ID:
-             file_metadata['parents'] = [self.PARENT_FOLDER_ID]
-        
+        # File metadata, must be defined as such to use service.files().create
+        file_metadata = {'name':folder_name,
+                         'mimeType':'application/vnd.google-apps.folder',
+                         'parents':self.PARENT_FOLDER_ID}
+       
+        # Creating the new file
         file = service.files().create(body=file_metadata,
                                       fields='id').execute()
         
-        print(f"Folder '{folder_name}' created with ID: {file.get('id')}")
-        self.PARENT_FOLDER_ID = file.get('id')
+        # Setting the parent id
+        self.set_folder_id(file.get('id'))
+     
+    def set_folder_id(self, folder_id):
+        
+        """Sets the id of folder for storage."""
+        
+        self.PARENT_FOLDER_ID = folder_id
 
