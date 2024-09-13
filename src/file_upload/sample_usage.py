@@ -19,9 +19,15 @@ from file_upload import FileUpload
 """ Sample usage of the equations and local file upload. """    
 if __name__ == "__main__": 
     
+    
     import numpy as np
     
     from slp_plasma_parameters import get_equations
+    
+    LOCAL_PATH = 'testing path/testing '
+    CREDENTIALS = 'credentials/plasma-software-data-upload-d6f40f4fefdc.json'
+    NUMBER_OF_SWEEPS = 3
+
     
     
     def LoadPreviousData():
@@ -68,15 +74,16 @@ if __name__ == "__main__":
     
     
     list_of_parameters = []
-    NUMBER_OF_SWEEPS = 3
     
     for i in range(NUMBER_OF_SWEEPS):
     
         parameters = set_params()
     
         list_of_parameters.append(calc_params(parameters))
-        
-    upload_object = FileUpload('testing path/testing ',  'credentials/plasma-software-data-upload-d6f40f4fefdc.json', list_of_parameters)
+
+    
+    
+    upload_object = FileUpload(LOCAL_PATH, CREDENTIALS , list_of_parameters)
     
     upload_object.upload_data()
     
