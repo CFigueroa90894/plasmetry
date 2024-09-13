@@ -3,7 +3,7 @@ import sys
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 1           # how many parent folders to reach /plasmetry/src
+    num_dir = 2          # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -25,7 +25,7 @@ def LoadPreviousData():
     """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
     
     import csv as csv_library
-    with open('testing path/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+    with open('../testing path/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
         dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
         next(dataReader)  # Skip the header row
         current = []
@@ -65,8 +65,8 @@ def calc_params(parameters):
 if __name__ == "__main__": 
     
     
-    LOCAL_PATH = 'testing path/testing '
-    CREDENTIALS = 'credentials/plasma-software-data-upload-d6f40f4fefdc.json'
+    LOCAL_PATH = '../testing path/testing '
+    CREDENTIALS = '../credentials/plasma-software-data-upload-d6f40f4fefdc.json'
     NUMBER_OF_SWEEPS = 3
     
     list_of_parameters = []
