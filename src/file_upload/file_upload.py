@@ -67,7 +67,7 @@ class FileUpload:
         if  self.sweep_csv: 
             self.write_local(self.sweep_csv, self.local_path + ' sweeps data.csv')
         
-    def write_local(self,csv_obj, path_name):
+    def write_local(self, csv_obj, path_name):
         
         """"""
         with open(path_name, 'w', newline='', encoding='utf-8') as f:
