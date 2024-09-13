@@ -2,6 +2,7 @@
 import os
 import sys
 
+
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 1           # how many parent folders to reach /plasmetry/src
@@ -16,50 +17,55 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
    # print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
 
-import csv
 from data_formating import process_data
 from datetime import datetime
+from google_drive import GoogleDrive
 
 class FileUpload:
     
-    def __init__(self, local_path, unformatted_data='', credentials_path=''):
+    def __init__(self, local_path,  credentials_path='', unformatted_data=''):
         
         """FileUpload construtor"""
-        
+        self.current_datetime = datetime.now()
         if unformatted_data:
-            # Storing unformatted parameters dictionary
-            self.sweep_data, self.calculated_parameters = process_data(unformatted_data)
+            self.sweep_csv, self.parameters_csv = process_data(unformatted_data)
             
-        self.local_path = local_path
-        self.offsite_credentials = credentials_path
+        self.offsite_wrapper = GoogleDrive(credentials_path)
+        self.local_path = f'{local_path}{self.current_datetime.date()}'
+
                 
     def new_upload(self, parameters):
         
         """"""
-        # Storing unformatted parameters dictionary
-        self.sweep_data, self.calculated_parameters = process_data(parameters)
+        self.sweep_csv, self.parameters_csv = process_data(parameters)
         
-    def upload_data(self):
-        
-        """"""
-        current_datetime = datetime.now()
-        self.local_upload(current_datetime)
-            
-    def local_upload(self, current_datetime):
-        
-        self.local_path = f'{self.local_path}{current_datetime.date()}'
-        self.write_local(self.calculated_parameters, self.local_path + ' parameters.csv' )
-        if  self.sweep_data: 
-            self.write_local(self.sweep_data, self.local_path + ' sweeps data.csv')
-        
-        
-    def write_local(self, data, path_name):
+    def offsite_upload(self):
         
         """"""
 
-        keys = list(data[0].keys())
-        with open(path_name, "w", newline='') as csv_file:
-            dict_writer= csv.DictWriter(csv_file, keys)
-            dict_writer.writeheader()
-            dict_writer.writerows(data)
+        self.offsite_wrapper.put_request(self.sweep_csv, f'{self.current_datetime.date()} sweeps data.csv')
+        self.offsite_wrapper.put_request(self.parameters_csv, f'{self.current_datetime.date()} parameters.csv')
         
+    def upload_data(self):
+        """"""
+        self.local_upload()
+        self.offsite_upload()
+    
+            
+    def local_upload(self):
+        
+        """"""
+        self.write_local(self.parameters_csv, self.local_path + ' parameters.csv' )
+        if  self.sweep_csv: 
+            self.write_local(self.sweep_csv, self.local_path + ' sweeps data.csv')
+        
+    def write_local(self,csv_obj, path_name):
+        
+        """"""
+        with open(path_name, 'w', newline='', encoding='utf-8') as f:
+            f.write(csv_obj)
+                
+    
+
+
+            
