@@ -6,7 +6,7 @@
 # built-in imports
 import sys
 
-from threading import Thread, Event, Timer, Barrier
+from threading import Thread, Event, Timer, Barrier, BrokenBarrierError
 from queue import Queue, Full
 from abc import ABCMeta, abstractmethod
 
@@ -58,12 +58,10 @@ class BaseThread(Thread, metaclass=ABCMeta):
         if buff is None:
             self._whisper = self._print_stdout
             self._console_buff = buff
-            self.say(f"prints set to default for {self}")
         # PrinterThread buffer
         elif isinstance(buff, Queue):
             self._whisper = self._print_buff
             self._console_buff = buff
-            self.say(f"prints set to buffer for {self}")
         # Error Handling
         else:
             raise AttributeError(f"{self.__class__}'s could not overload the __say() method.")
@@ -89,11 +87,16 @@ class BaseThread(Thread, metaclass=ABCMeta):
     def _thread_setup_(self):
         """<...>"""
         # assumes constructor already validated that barrier and delay are not both specified for this instance
-        if self.delay is not None:
-            self._delay_start()
-        if self.barrier is not None:
-            self._barrier_wait()
-        self.say("running...")
+        try:
+            if self.delay is not None:
+                self._delay_start()
+            if self.barrier is not None:
+                self._barrier_wait()
+            self.say("running...")
+        except BrokenBarrierError:
+            self.say("barrier broken, aborting...")
+            self._thread_cleanup_()
+            
 
     @abstractmethod
     def _thread_cleanup_(self):
