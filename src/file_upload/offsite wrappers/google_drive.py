@@ -16,6 +16,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 import socket
 import io
+import json
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from google.oauth2 import service_account
@@ -27,7 +28,7 @@ class GoogleDrive(OffsiteUpload):
     
     def __init__(self, credentials_path='client_secrets.json'):
         
-        """Offsite wrapper constructor"""
+        """Offsite wrapper constructor."""
         
         # Storing the path to Google API credentials file
         self.credentials_path = credentials_path
@@ -38,11 +39,14 @@ class GoogleDrive(OffsiteUpload):
         # Storing port for https traffic
         self.port= 443
         
-    def valid_internet_connection(self):
+        # Parent folder ID, extracted from URL of the google drive folder
+        self.PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
         
-        """Internet connection with googleapis.com validation"""
+    def validate_connection(self):
         
-        # Verifying that the connection may be established
+        """Internet connection validation."""
+        
+        # Verifying that the connection to googleapis.com may be established
         try:
             #
             socket.getaddrinfo('googleapis.com', self.port)
@@ -57,7 +61,7 @@ class GoogleDrive(OffsiteUpload):
             
     def authenticate_connection(self):
         
-        """Returns credentials object used for authentication."""
+        """Returns credentials object used for Google Drive API authentication."""
         
         # Scope of the account (TEMPORARY PLACE, WILL REMOVE)
         SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -72,18 +76,16 @@ class GoogleDrive(OffsiteUpload):
         
         """Uploads data to google drive folder"""
         
-        # Parent folder ID, extracted from URL of the google drive folder
-        PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
         
         # Object used to interact with the Google Drive API
         service = build('drive', 'v3', credentials= self.creds)
 
         # File metadata, must be defined as such to use service.files().create
         file_metadata = {
-            'name' : file_name,
-            'parents' : [PARENT_FOLDER_ID],
-            'mimeType': 'text/csv'
-        }
+        'name':file_name,
+        'parents':[self.PARENT_FOLDER_ID],
+        'mimeType':'text/csv'
+         }
        
         # Encoding the csv to a bytes-like object, necessary to invoke MediaIoBaseUpload 
         encoded_data= csv_obj.encode('utf-8')
@@ -91,11 +93,45 @@ class GoogleDrive(OffsiteUpload):
         # Creating csv media object from the endoded data
         media = MediaIoBaseUpload(io.BytesIO(encoded_data), mimetype='text/csv', resumable=True)
         
-        # Uploading the csv media object, must be defined as such to execute the uplaod
+        # Uploading the csv media object, must be invoked as such to execute the upload
         file = service.files().create(
             body=file_metadata,
             media_body=media
         ).execute()
         
+    def check_folder_exists(self, folder_name):
+        
+        # Object used to interact with the Google Drive API
+        service = build('drive', 'v3', credentials= self.creds)
+        
+        query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' and trashed=false"
+        results = service.files().list(
+            q=query, 
+            fields="files(id, name)"
+            ).execute()
+        items = results.get('files', [])
     
+        if items:
+            self.PARENT_FOLDER_ID = items[0]['id']
+            return True
+        
+        else:
+            return False
+        
+    
+    def create_folder(self, folder_name):
+        # Object used to interact with the Google Drive API
+        service = build('drive', 'v3', credentials= self.creds)
+        
+        file_metadata = {'name': folder_name,
+                         'mimeType': 'application/vnd.google-apps.folder'}
+        
+        if self.PARENT_FOLDER_ID:
+             file_metadata['parents'] = [self.PARENT_FOLDER_ID]
+        
+        file = service.files().create(body=file_metadata,
+                                      fields='id').execute()
+        
+        print(f"Folder '{folder_name}' created with ID: {file.get('id')}")
+        self.PARENT_FOLDER_ID = file.get('id')
 
