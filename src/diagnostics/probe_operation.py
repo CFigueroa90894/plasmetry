@@ -124,6 +124,9 @@ class ProbeOperation(BaseThread):
         self._probe = None       # the probe object with specific data acquisition algorithms
         self._ready = False      # configuration is set and probe object was created
         self._fail = False       # indicate errors during data acquisition
+        self._sys_ref = None
+        self._config_ref = None
+        self._print_buff = None
         self._data_buff:Queue = None   # container to recieve data samples from probe object
         self._aggregate_samples:list = None   # stores probe data samples to return to control layer
 
@@ -134,13 +137,15 @@ class ProbeOperation(BaseThread):
         clock thread, and other control artifacts.
         """
         self.say("arming...")
-
+        self._sys_ref = sys_ref
+        self._config_ref = config_ref
+        self._print_buff = print_buff
         # extract config
         probe_id = config_ref["probe_id"]
         sampling_rate = config_ref["sampling_rate"]
 
         # initialize synchronization objects
-        probe_clock_barrier = Barrier(BARR_PARTIES)     # block thread's until all are ready
+        self._clock_barrier = Barrier(BARR_PARTIES)     # block thread's until all are ready
         sample_trigger = Event()    # set by clock when a new data point should be acquired
         kill = Event()              # set to stop clock thread
         
@@ -153,10 +158,12 @@ class ProbeOperation(BaseThread):
             tick_rate=sampling_rate,
             trigger=sample_trigger,
             kill=kill,
-            debug=DEBUG
+            debug=DEBUG,
+            start_barrier=self._clock_barrier,
+            name="Clock"
         )
         # initialize Probe Object thread through Probe Factory
-        self._probe = self._probe_factory.make(
+        self._probe = self.probe_factory.make(
             probe_type=probe_id,
             config_ref=config_ref,
             sys_ref=sys_ref,
@@ -168,8 +175,8 @@ class ProbeOperation(BaseThread):
         self._probe.console_buff = print_buff
 
         # set start barrier to delay probe and clock from starting until both are ready
-        self._clock.start_barrier = probe_clock_barrier
-        self._probe.start_barrier = probe_clock_barrier
+        self._clock.start_barrier = self._clock_barrier
+        self._probe.start_barrier = self._clock_barrier
 
         # pass sample trigger to probe
         self._probe.sample_trig = sample_trigger
@@ -209,9 +216,10 @@ class ProbeOperation(BaseThread):
     # thread launch script
     def run(self):
         """Invoked when the start() method is called."""
-        self._thread_setup_()
-        self._THREAD_MAIN_()
-        self._thread_cleanup_()
+        while self.command_flags.diagnose.is_set() and not self.command_flags.shutdown.is_set():
+            self._thread_setup_()
+            self._THREAD_MAIN_()
+            self._thread_cleanup_()
 
     # TO DO - validate
     def _THREAD_MAIN_(self):
@@ -220,11 +228,10 @@ class ProbeOperation(BaseThread):
         result to the Control Layer.
         """
         attribute_errors = 0  # count raised attribute errors
-        while self.status_flags.operating or not self._data_buff.empty():
+        while self.status_flags.operating.is_set() or not self._data_buff.empty():
             try:
                 # get data samples sent by Probe Object through data buffer
                 samples:dict = self._data_buff.get(timeout=BUFF_TIMEOUT)
-                self.say(err)
 
                 # sequentially apply calculations to obtain plasma paramaters
                 samples = ProtectedDictionary(samples)  # enforce mutex
@@ -235,7 +242,7 @@ class ProbeOperation(BaseThread):
                 self.command_flags.refresh.set()        # indicate new data for display
                 self._aggregate_samples.append(params)   # append new samples
             except Empty:   # do nothing while data buffer is empty
-                pass
+                self.say("data buff empty...")
 
             # TO DO - DELETE - temporary for basic tests
             except AttributeError as err:
@@ -255,26 +262,30 @@ class ProbeOperation(BaseThread):
         """Initialize values and perform entry actions for threaded operations."""
         self._aggregate_samples = []  # clear list
         self._fail = False            # reset indicator
-
         # TO DO - SET PROBE STATUS FLAGS
 
         # launch probe and clock threads
+        self.say("launching threads...")
         self._probe.start()
         self._clock.start()
 
         # wait until probe probe thread starts
         self.say("waiting for Probe Object to start...")
-        result = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT) # wait for thread
+        success = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT) # wait for thread
 
         # print error message if probe could not start
-        if not result: self.say("Probe Object thread never started!")
-
-        super()._thread_setup_() # basic print from parent
+        if not success: 
+            self.say("Probe Object thread never started!")
+            self.say("aborting...")
+            self._fail = True
+        else:
+            super()._thread_setup_() # basic print from parent
 
     # TO DO - validate
     # threading cleanup
     def _thread_cleanup_(self):
         """Clear values and perform exit actions after threaded operations."""
+
         # Send aggregated results to Control Layer
         if not self._fail:
             self.results_buffer.put(self._aggregate_samples)
@@ -282,11 +293,13 @@ class ProbeOperation(BaseThread):
         else:
             self.say("Failure in diagnostics! Did not send samples to control layer.")
 
+        # Break barrier to prevent deadlocks
+        self._clock_barrier.abort()
+
         # Wait until probe object thread stops
         self.say("waiting for Probe Object to exit...")
         try:
             self._probe.join()   # wait until thread exits
-            self._probe = None   # clear probe object
         except AttributeError as err:
             self.say(f"{err} in _thread_cleanup_")
 
@@ -294,13 +307,24 @@ class ProbeOperation(BaseThread):
         self._clock.kill.set()  # attempt to stop clock
         self.say("waiting for Clock Thread to exit...")
         self._clock.join()      # wait until clock exits
-        self._clock = None
         
         # TO DO - CLEAR PROBE STATUS FLAGS
 
         # reset probe operation's ready flag
         self._ready = False
-        super()._thread_cleanup_()
+
+        # Attempt restart
+        if self.command_flags.diagnose.is_set():
+            self.say("Reattempting diagnostics...")
+            self.arm(self._sys_ref, self._config_ref, self._print_buff)
+        else:
+            # clear objects
+            self._clock = None
+            self._probe = None
+            self._sys_ref = None
+            self._config_ref = None
+            self._print_buff = None
+            super()._thread_cleanup_()  # this cleanup calls sys.exit(0) and breaks out of the loop
 
     # thread-safe printing
     def say(self, msg:str):
@@ -311,11 +335,14 @@ class ProbeOperation(BaseThread):
 
 
 # if __name__ == "__main__":
-#     from counter_wrapper import CounterWrapperTest
+#     # from counter_wrapper import CounterWrapperTest
 #     from printer_thread import PrinterThread
 #     from system_flags import StatusFlags, CommandFlags
+
 #     from threading import Event
 #     from queue import Queue
+#     from unittest.mock import MagicMock
+#     import time
     
 #     kill = Event()
 #     printing_buff = Queue()
@@ -330,24 +357,38 @@ class ProbeOperation(BaseThread):
 #         console_buff=printing_buff,
 #     )
 #     po = ProbeOperation(
-#         start_delay=3,
 #         console_buff=printing_buff,
 #         status_flags=status,
 #         command_flags=commands,
-#         hardware_wrapper_cls=CounterWrapperTest,
 #         real_time_param=rt_container,
 #         results_buffer=results_buff,
+#         probe_factory=MagicMock(),
 #         name='PRB_OP'
 #     )
-#     from unittest.mock import MagicMock
-#     po._probe = MagicMock()
-#     # a = ProbeOperation(status_flags=0, real_time_param=0)
-#     # v = vars(po)
-#     # for key in v:
-#     #     print(f"{key} : {v[key]}")
+#     sys_ref = MagicMock(spec=ProtectedDictionary)
+#     config_ref = {
+#         "probe_id": "TESTPROBE",
+#         "sampling_rate": 2,
+#     }
+#     po.arm(sys_ref=sys_ref,
+#            config_ref=config_ref,
+#            print_buff=printing_buff)
+    
+#     # reconfigure probe op for test with no probe
+#     po._data_buff = Queue()
+#     po._clock.barrier = None
+
+#     commands.diagnose.set()
+#     commands.shutdown.clear()
 #     printer.start()
 #     po.start()
+
+#     time.sleep(5)
+#     status.operating.clear()
+#     time.sleep(15)
+#     commands.diagnose.clear()
 #     po.join()
+
 #     kill.set()
 #     printer.join()
 #     print('done')
