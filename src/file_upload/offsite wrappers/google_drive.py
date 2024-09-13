@@ -29,7 +29,7 @@ class GoogleDrive(OffsiteUpload):
         
         """Offsite wrapper constructor"""
         
-        # Storing the path to Google API credentials
+        # Storing the path to Google API credentials file
         self.credentials_path = credentials_path
         
         # Storing credentials object, used to authenticate API requests
@@ -49,10 +49,10 @@ class GoogleDrive(OffsiteUpload):
             return True
         
         # Error handling if socket.gaierror is raised
-        # Usually due to network issues, DNS problems 
+        # Usually raised due to network issues, DNS problems 
         # and firewall or proxy settings that block the request
         except socket.gaierror:
-            print('Cannot connect to Google.com, verify your internet connection.')
+            print('Cannot connect to Google Drive. Verify your internet connection')
             return None
             
     def authenticate_connection(self):
@@ -85,7 +85,7 @@ class GoogleDrive(OffsiteUpload):
             'mimeType': 'text/csv'
         }
        
-        # Encoding the csv to a bytes-like object, necessary for MediaIoBaseUpload
+        # Encoding the csv to a bytes-like object, necessary to invoke MediaIoBaseUpload 
         encoded_data= csv_obj.encode('utf-8')
         
         # Creating csv media object from the endoded data
