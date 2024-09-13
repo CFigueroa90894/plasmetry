@@ -53,11 +53,9 @@ class FileUpload:
     def validate_path(self, local_path):
         
         """Validates if the received path is valid."""
-        # Create a Path object for the directory
-        dir_path = Path(local_path)
 
         # Check if the directory exists 
-        if  dir_path.exists():
+        if  os.path.exists(local_path):
 
             self.path_is_set = True
             self.storage_path = local_path
