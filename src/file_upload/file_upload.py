@@ -27,8 +27,6 @@ from data_formating import process_data
 # Offsite wrapper import
 from google_drive import GoogleDrive
 
-from pathlib import Path
-
 class FileUpload:
     
     def __init__(self, local_path,  credentials_path='', unformatted_data=[]):
@@ -37,7 +35,6 @@ class FileUpload:
         
         # Validating the local path
         self.validate_path(local_path)
-        
 
         # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
@@ -61,7 +58,6 @@ class FileUpload:
             self.storage_path = local_path
             # Setting the local path name with the current time
             self.set_path()
-            
             
         else:
             self.path_is_set = False
@@ -100,6 +96,7 @@ class FileUpload:
         if  self.sweep_csv: 
             # Creating the csv containing the sweep data
             self.write_file(self.sweep_csv, self.local_path + ' sweeps data.csv')
+            
     def upload_data(self):
         
         """Upload data locally and offsite when invoked."""
@@ -123,8 +120,10 @@ class FileUpload:
         """Offsite storage data uploading."""
         
         # Verifying if there is a connection with the offsite storage to commence upload requests
-        if self.offsite_wrapper.valid_internet_connection():
-                    
+        if self.offsite_wrapper.validate_connection():
+            if not self.offsite_wrapper.check_folder_exists(f'{self.current_datetime.date()}'):
+                self.offsite_wrapper.create_folder(f'{self.current_datetime.date()}')
+            
             # Storing the parameters csv object
             self.offsite_wrapper.put_request(self.parameters_csv, \
                                              f'{self.current_datetime.date()} parameters.csv')
