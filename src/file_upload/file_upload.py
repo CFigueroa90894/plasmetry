@@ -39,7 +39,7 @@ class FileUpload:
         # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
             
-            #Setting the csv objects containing sweep and parameters data
+            #Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
             self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
             
@@ -52,9 +52,9 @@ class FileUpload:
                 
     def new_data(self, parameters):
         
-        """Receives new unformatted data to create new csv objects."""
+        """Receives new unformatted data to create new csv content objects."""
         
-        #Setting the csv objects containing sweep and parameters data
+        #Setting the csv content objects containing sweep and parameters data
         # If no sweep data, the object will remain empty.
         self.parameters_csv, self.sweep_csv = process_data(parameters)
         
