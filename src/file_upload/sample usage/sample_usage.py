@@ -66,7 +66,7 @@ if __name__ == "__main__":
     
     
     LOCAL_PATH = '../testing path/testing '
-    CREDENTIALS = '../credentials/plasma-software-data-upload-d6f40f4fefdc.json'
+    CREDENTIALS_PATH = '../credentials/plasma-software-data-upload-d6f40f4fefdc.json'
     NUMBER_OF_SWEEPS = 3
     
     list_of_parameters = []
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     
     
-    upload_object = FileUpload(LOCAL_PATH, CREDENTIALS , list_of_parameters)
+    upload_object = FileUpload(LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
     
     upload_object.upload_data()
     
