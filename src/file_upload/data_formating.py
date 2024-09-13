@@ -1,4 +1,5 @@
-
+import io
+import csv
 
 def is_tlp(unformatted_data):
     
@@ -19,6 +20,21 @@ def process_sweep(sweep_data, experiment_run):
     del experiment_run['Raw voltage 1']
     del experiment_run['Filtered current']
     
+def create_csv_object(data):
+    
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    header = data[0].keys() 
+    writer.writerow(header)
+
+    for experiment_run in data:
+        writer.writerow(experiment_run.values())
+
+    output.seek(0)
+    
+    return output.getvalue()
+    
 def process_data(unformatted_data):
         
     """"""
@@ -28,5 +44,11 @@ def process_data(unformatted_data):
         if not is_tlp(unformatted_data):
             process_sweep(sweep_data, experiment_run)
         calculated_parameters.append(experiment_run)
-    return sweep_data, calculated_parameters
+    
+    sweep_csv = create_csv_object(sweep_data)
+    parameters_csv= create_csv_object(calculated_parameters)
+    return sweep_csv, parameters_csv
+
+
+
     
