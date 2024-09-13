@@ -16,7 +16,16 @@ class OffsiteUpload(ABC):
         raise NotImplementedError
         
     @abstractmethod
-    def valid_internet_connection(self):
+    def validate_connection(self):
+        
+        raise NotImplementedError
+        
+    @abstractmethod
+    def create_folder(self):
+        
+        raise NotImplementedError
+    @abstractmethod
+    def check_folder_exists(self):
         
         raise NotImplementedError
     
