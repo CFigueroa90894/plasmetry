@@ -17,8 +17,14 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
    # print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
 
-from data_formating import process_data
+
+# Datetime import for current time verification
 from datetime import datetime
+
+# Contains method for data processing
+from data_formating import process_data
+
+# Offsite wrapper import
 from google_drive import GoogleDrive
 
 class FileUpload:
@@ -27,54 +33,97 @@ class FileUpload:
         
         """FileUpload construtor"""
         
-        self.original_path = local_path
+        # This is the local path where the files are stored
+        self.storage_path = local_path
 
+        # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
-            self.sweep_csv, self.parameters_csv = process_data(unformatted_data)
+            
+            #Setting the csv objects containing sweep and parameters data
+            # If no sweep data, the object will remain empty.
+            self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
+            
+            # Setting the local path name with the current time
             self.set_path()
-
+        
+        # Storing wrapper for offsite data uploading
         self.offsite_wrapper = GoogleDrive(credentials_path)
+
                 
     def new_data(self, parameters):
         
-        """"""
-        self.sweep_csv, self.parameters_csv = process_data(parameters)
+        """Receives new unformatted data to create new csv objects."""
+        
+        #Setting the csv objects containing sweep and parameters data
+        # If no sweep data, the object will remain empty.
+        self.parameters_csv, self.sweep_csv = process_data(parameters)
+        
+        # Setting the local path name with the current time
         self.set_path(self)
        
     def set_path(self):
         
-        """"""
+        """This method sets the current date(time*) to the local path."""
+        
+        # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
-        self.local_path = f'{self.original_path}{self.current_datetime.date()}'
+        
+        # Setting the local path
+        self.local_path = f'{self.storage_path}{self.current_datetime.date()}'
         
     def upload_data(self):
-        """"""
+        
+        """Upload data locally and offsite when invoked."""
+        
+        # Local data upload
         self.local_upload()
+        
+        # Verifying if the credentials path is set
         if self.offsite_wrapper.credentials_path:
+            
+            # If set, commencing offsite upload
             self.offsite_upload()
+            
+        # Printing that credentials path must be set
+        else:
+            print('No credentials path set!')
         
     def offsite_upload(self):
         
-        """"""
+        """Offsite storage data uploading."""
+        
+        # Verifying if there is a connection with the offsite storage to commence upload requests
         if self.offsite_wrapper.valid_internet_connection():
                     
+            # Storing the parameters csv object
             self.offsite_wrapper.put_request(self.parameters_csv, \
                                              f'{self.current_datetime.date()} parameters.csv')
                 
+            # Verifying if there is sweep data
             if  self.sweep_csv:
+                
+                # Storing the sweep csv object
                 self.offsite_wrapper.put_request(self.sweep_csv, \
                                                  f'{self.current_datetime.date()} sweeps data.csv')
             
     def local_upload(self):
         
-        """"""
+        """Local storage data uploading."""
+        
+        # Creating the csv containing parameters data
         self.write_file(self.parameters_csv, self.local_path + ' parameters.csv' )
+        
+        # Verifying if there is sweep data
         if  self.sweep_csv: 
+            # Creating the csv containing the sweep data
             self.write_file(self.sweep_csv, self.local_path + ' sweeps data.csv')
         
-    def write_file(self, csv_obj, path_name):
+    def write_file(self, csv_obj, file_name):
         
-        """"""
-        with open(path_name, 'w', newline='', encoding='utf-8') as file:
+        """Local storage file creation."""
+        
+        # Creating csv
+        with open(file_name, 'w', newline='', encoding='utf-8') as file:
+            # Writing csv ocntents
             file.write(csv_obj)
             
