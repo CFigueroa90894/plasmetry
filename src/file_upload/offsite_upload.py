@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 
 class OffsiteUpload(ABC):
     
-    credentials_path = ''
-    
     @abstractmethod
     def authenticate_connection(self):
         
