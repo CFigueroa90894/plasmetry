@@ -16,66 +16,58 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # ----- END PATH HAMMER ----- #
 
 
-
-
+import numpy as np
+from slp_plasma_parameters import get_equations
 from file_upload import FileUpload
+
+def LoadPreviousData():
+    
+    """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
+    
+    import csv as csv_library
+    with open('Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+        dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
+        next(dataReader)  # Skip the header row
+        current = []
+        voltageSLP = []
+        for row in dataReader:
+            try:
+                current = np.append(current, float(row[0]))
+                voltageSLP = np.append(voltageSLP, float(row[1]))
+            except:
+                None    
+        
+        return voltageSLP, current
+    
+def set_params():
+    # Parameter dictionary, stores parameters
+    parameters= {}
+    
+    # Storing bias and raw current lists from previous implementation
+    parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
+    
+    # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
+    # simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
+    return parameters
+
+
+def calc_params(parameters):
+    # Running each equation
+    list_of_equations = get_equations()
+    
+    for i in list_of_equations[:len(list_of_equations)-1]:
+        i(parameters)
+        
+    return parameters
 
 """ Sample usage of the equations and file upload. """    
 if __name__ == "__main__": 
     
     
-    import numpy as np
-    
-    from slp_plasma_parameters import get_equations
-    
     LOCAL_PATH = 'testing path/testing '
     CREDENTIALS = 'credentials/plasma-software-data-upload-d6f40f4fefdc.json'
     NUMBER_OF_SWEEPS = 3
-
-    
-    
-    def LoadPreviousData():
-        
-        """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
-        
-        import csv as csv_library
-        with open('Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
-            dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
-            next(dataReader)  # Skip the header row
-            current = []
-            voltageSLP = []
-            for row in dataReader:
-                try:
-                    current = np.append(current, float(row[0]))
-                    voltageSLP = np.append(voltageSLP, float(row[1]))
-                except:
-                    None    
-            
-            return voltageSLP, current
-    
-    
-    def set_params():
-        # Parameter dictionary, stores parameters
-        parameters= {}
-        
-        # Storing bias and raw current lists from previous implementation
-        parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
-        
-        # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
-        # simulating config values
-        parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
-        return parameters
-    
-    
-    def calc_params(parameters):
-        # Running each equation
-        list_of_equations = get_equations()
-        
-        for i in list_of_equations[:len(list_of_equations)-1]:
-            i(parameters)
-            
-        return parameters
-    
     
     list_of_parameters = []
     
