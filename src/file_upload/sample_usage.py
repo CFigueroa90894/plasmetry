@@ -14,9 +14,13 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
    # print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
+
+
+
+
 from file_upload import FileUpload
 
-""" Sample usage of the equations and local file upload. """    
+""" Sample usage of the equations and file upload. """    
 if __name__ == "__main__": 
     
     
