@@ -76,7 +76,9 @@ if __name__ == "__main__":
     
         list_of_parameters.append(calc_params(parameters))
         
-    upload_object = FileUpload('testing path/testing ', list_of_parameters)
+    upload_object = FileUpload('testing path/testing ',  'credentials/plasma-software-data-upload-d6f40f4fefdc.json', list_of_parameters)
     
     upload_object.upload_data()
+    
+    print('data uploaded locally and in google drive')
     
