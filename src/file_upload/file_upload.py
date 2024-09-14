@@ -105,8 +105,10 @@ class FileUpload:
             if self.offsite_wrapper.validate_connection():
                 
                 # Switching to folder with current date for uploading
-                self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()} {self.probe_folder}')
-              
+                self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()}')
+            
+                self.folder_change(self.offsite_wrapper, f'{self.probe_folder}')
+
                 # Storing the parameters csv object
                 self.offsite_wrapper.put_request(self.parameters_csv, \
                                                  'parameters.csv')
