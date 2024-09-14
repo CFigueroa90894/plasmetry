@@ -81,7 +81,6 @@ if __name__ == "__main__":
     
         list_of_parameters.append(calc_params(parameters))
     
-    
     upload_object = FileUpload(LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
     
     upload_object.upload_data()
