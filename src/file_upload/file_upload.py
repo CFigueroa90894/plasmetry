@@ -106,8 +106,8 @@ class FileUpload:
             if self.offsite_wrapper.validate_connection():
                 
                 # Switching to folder with current date for uploading
-                self.folder_change(self.offsite_wrapper, '2024-09-29')
-                self.folder_change(self.offsite_wrapper, self.probe_folder)
+                self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()} {self.probe_folder}')
+              
                 
    
                 # Storing the parameters csv object
@@ -120,6 +120,7 @@ class FileUpload:
                     # Storing the sweep csv object
                     self.offsite_wrapper.put_request(self.sweep_csv, \
                                                      'sweeps data.csv')
+                        
                     
         else: print('No credentials path set!')
         

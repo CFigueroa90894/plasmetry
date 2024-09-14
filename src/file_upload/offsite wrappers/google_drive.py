@@ -34,7 +34,7 @@ class GoogleDrive(OffsiteUpload):
         self.creds = self.authenticate_connection()
         
         # Parent folder ID, extracted from URL of the google drive folder
-        self.parent_folder = "1jdFEKlzlpeAY7dEQwoKgKT0CIZW909AO"
+        self.parent_folder = "1S2Mgdg2mYHTfx46-rcClnhwOMm6fXnUO"
     
     def validate_connection(self):
         
@@ -68,9 +68,9 @@ class GoogleDrive(OffsiteUpload):
         return creds
 
     def put_request(self, csv_obj, file_name):
-        
+        self.creds = self.authenticate_connection()
+
         """Uploads data to google drive folder"""
-        
         # Object used to interact with the Google Drive API
         service = build('drive', 'v3', credentials= self.creds)
 
@@ -96,9 +96,9 @@ class GoogleDrive(OffsiteUpload):
         
         
     def folder_exists(self, folder_name):
-        
         """Check if the folder exists in the Google Drive."""
-        
+        self.creds = self.authenticate_connection()
+
         service = build('drive', 'v3', credentials=self.creds)
         
         query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' or trashed=True"
@@ -113,6 +113,7 @@ class GoogleDrive(OffsiteUpload):
         items = results.get('files', [])
         
         if items:
+            self.authenticate_connection()
             self.set_folder_id(items[0]['id'])
             return True
         else:
@@ -120,6 +121,7 @@ class GoogleDrive(OffsiteUpload):
 
         
     def create_folder(self, folder_name):
+        self.creds = self.authenticate_connection()
         """Create a new folder in Google Drive."""
         service = build('drive', 'v3', credentials=self.creds)
         
@@ -139,7 +141,8 @@ class GoogleDrive(OffsiteUpload):
          
          
     def set_folder_id(self, folder_id):
-            
+            self.creds = self.authenticate_connection()
+
             """Sets the id of folder for storage."""
             
             self.parent_folder = folder_id
