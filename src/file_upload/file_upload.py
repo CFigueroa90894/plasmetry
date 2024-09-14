@@ -27,44 +27,32 @@ from data_formating import process_data
 # Offsite wrapper import
 from google_drive import GoogleDrive
 
-class FileUpload:
+from local_upload import LocalUpload
+
+class FileUpload():
     
-    def __init__(self, local_path,  credentials_path='', unformatted_data=[]):
+    def __init__(self, local_path = '',  credentials_path='', unformatted_data=[], *args, **kwargs):
+        
         
         """FileUpload construtor"""
         
-        # Validating the local path
-        self.validate_path(local_path)
-
+        # Datetime object with date and time of execution
+        self.current_datetime = datetime.now()
+        
         # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
             
-            #Setting the csv contents objects containing sweep and parameters data
+            # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
             self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
             
-        
         # Storing wrapper for offsite data uploading
         self.offsite_wrapper = GoogleDrive(credentials_path)
         
-    def validate_path(self, local_path):
+        self.local_uploader = LocalUpload(local_path) 
         
-        """Validates if the received path is valid."""
-
-        # Check if the directory exists 
-        if  os.path.exists(local_path):
-
-            self.storage_path = local_path
-            # Setting the local path name with the current time
-            # Datetime object with date and time of execution
-            self.current_datetime = datetime.now()
-            
-            return True
-           
-        else:
-            
-            return False
-                
+        
+                    
     def new_data(self, parameters):
         
         """Receives new unformatted data to create new csv content objects."""
@@ -75,40 +63,53 @@ class FileUpload:
 
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
-       
+        
+    def folder_change(self, folder_name, check_if_exist, create_folder):
+        
+        """Args: string, method reference, method reference
+        
+        Changes to folder for upload."""
+        
+        if not check_if_exist(folder_name):
+            create_folder(folder_name)
+            
+    def upload_data(self):
+        
+        """Uploads data locally and offsite when invoked."""
+        
+        # Valdating the path for storage
+        if self.local_uploader.validate_path(self.local_uploader.storage_path):
+            
+            # Store locally
+            self.local_upload()
+            
+        else:
+            print('Local path set to a directory that does not exist!')
+            
+        # Verifying if the credentials path is set
+        if self.offsite_wrapper.credentials_path:
+                
+        # If set, commencing offsite upload
+            self.offsite_upload()
+                
+            # Printing that credentials path must be set
+        else:
+            print('No credentials path set!')
         
     def local_upload(self):
         
         """Local storage data uploading."""
-        self.folder_change(f'{self.storage_path}/{self.current_datetime.date()}', self.validate_path, self.create_local_folder)
+        
+        # Switching to folder with current date for uploading
+        self.folder_change(f'{self.local_uploader.storage_path}/{self.current_datetime.date()}', self.local_uploader.validate_path, self.local_uploader.create_local_folder)
         
         # Creating the csv containing parameters date
-        self.write_file(self.parameters_csv, f'{self.storage_path}/ parameters.csv' )
+        self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.storage_path}/ parameters.csv' )
         # Verifying if there is sweep data
         if  self.sweep_csv: 
             # Creating the csv containing the sweep data
-            self.write_file(self.sweep_csv, f'{self.storage_path}/ sweeps data.csv')
-            
-    def upload_data(self):
-        
-        """Upload data locally and offsite when invoked."""
-        
-        if self.validate_path(self.storage_path):
-            
-            self.local_upload()
-            
-            # Verifying if the credentials path is set
-            if self.offsite_wrapper.credentials_path:
+            self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.storage_path}/ sweeps data.csv')
                 
-                # If set, commencing offsite upload
-                self.offsite_upload()
-                
-            # Printing that credentials path must be set
-            else:
-                print('No credentials path set!')
-        else:
-            print('Local path set to a directory that does not exist!')
-            
     def offsite_upload(self):
         
         """Offsite storage data uploading."""
@@ -116,6 +117,7 @@ class FileUpload:
         # Verifying if there is a connection with the offsite storage to commence upload requests
         if self.offsite_wrapper.validate_connection():
             
+            # Switching to folder with current date for uploading
             self.folder_change(f'{self.current_datetime.date()}',self.offsite_wrapper.check_folder_exists,self.offsite_wrapper.create_folder )
             
             # Storing the parameters csv object
@@ -128,29 +130,4 @@ class FileUpload:
                 # Storing the sweep csv object
                 self.offsite_wrapper.put_request(self.sweep_csv, \
                                                  f'{self.current_datetime.date()} sweeps data.csv')
-            
-        
-    def write_file(self, csv_obj, file_name):
-        
-        """Local storage file creation."""
-        
-        # Creating csv
-        with open(file_name, 'w', newline='', encoding='utf-8') as file:
-            # Writing csv ocntents
-            file.write(csv_obj)
-            
-    def create_local_folder(self, folder_name):
-        
-        os.mkdir(folder_name)
-        self.storage_path = folder_name
-        print(folder_name)
-        
-    def local_folder_exists(self, folder_name):
-        self.validate_path(folder_name)
-            
-    def folder_change(self, folder_name, check_if_exist, create_folder):
-        """Folder for upload"""
-        if not check_if_exist(folder_name):
-            create_folder(folder_name)
-        
             
