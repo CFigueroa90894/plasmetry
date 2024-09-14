@@ -1,7 +1,6 @@
 import io
 import csv
 
-
 def is_tlp(unformatted_data):
     
     """Returns a boolean value. True if the probe implemented is Triple Langmuir, False if other wise."""
@@ -92,7 +91,3 @@ def process_data(unformatted_data):
     
     # Returning csv contents objects
     return parameters_csv, sweep_csv
-
-
-
-     
