@@ -68,7 +68,6 @@ class GoogleDrive(OffsiteUpload):
         return creds
 
     def put_request(self, csv_obj, file_name):
-        self.creds = self.authenticate_connection()
 
         """Uploads data to google drive folder"""
         # Object used to interact with the Google Drive API
@@ -93,12 +92,8 @@ class GoogleDrive(OffsiteUpload):
             media_body=media
         ).execute()
         
-        
-        
     def folder_exists(self, folder_name):
         """Check if the folder exists in the Google Drive."""
-        self.creds = self.authenticate_connection()
-
         service = build('drive', 'v3', credentials=self.creds)
         
         query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' or trashed=True"
@@ -119,9 +114,7 @@ class GoogleDrive(OffsiteUpload):
         else:
             return False
 
-        
     def create_folder(self, folder_name):
-        self.creds = self.authenticate_connection()
         """Create a new folder in Google Drive."""
         service = build('drive', 'v3', credentials=self.creds)
         
@@ -139,10 +132,7 @@ class GoogleDrive(OffsiteUpload):
                     
         self.set_folder_id(folder.get('id'))
          
-         
     def set_folder_id(self, folder_id):
-            self.creds = self.authenticate_connection()
-
             """Sets the id of folder for storage."""
             
             self.parent_folder = folder_id
