@@ -22,8 +22,6 @@ from googleapiclient.http import MediaIoBaseUpload
 from google.oauth2 import service_account
 from offsite_upload import OffsiteUpload
 
-
-
 class GoogleDrive(OffsiteUpload):
     
     def __init__(self, credentials_path='client_secrets.json'):
@@ -126,7 +124,6 @@ class GoogleDrive(OffsiteUpload):
         
         else:
             return False
-        
         
     def create_folder(self, folder_name):
         
