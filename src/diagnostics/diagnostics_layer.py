@@ -16,6 +16,8 @@ import os
 import inspect
 from queue import Queue
 
+from threading import Event
+
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recusring into subdirs and appending them to the python path."""
@@ -71,24 +73,24 @@ class DiagnosticsLayer(AbstractDiagnostics):
         self._result_buff = results_buffer         # buffer to pass experiment results up the stack
         self._real_time_param = real_time_param
 
-
         # ----- Assemble Diagnostic Layer ----- #
         sub = self._load_all_subcomponents()   # import subcomponents, returned in a dict
         
-        # unpack subcomponent classes
-        hardware_layer = sub["hardware_layer"]
-        calcs_factory = sub["calc_fac"]
-        probe_factory = sub["probe_fac"]
-        probe_operation = sub["probe_op"]
-        
         # instantiate lower layer
-        self._hardware = hardware_layer()  # lower layer interface
+        self._hardware = sub["hardware_layer"]()  # lower layer interface
         self._comp_fac = self._hardware.get_component_factory() # makes hardware components
 
-        # instantiate subcomponents
-        self._calc_fac = calcs_factory  # makes probe specific equations
-        self._probe_fac = probe_factory(**self.__probe_factory_args()) # makes specific probes
-        self._probe_op = probe_operation(**self.__probe_op_args())     # controls probes
+        # prepare factories
+        self._calc_fac = sub["calc_fac"]  # makes probe equation sets, callable, not instantiable
+        self._probe_fac = sub["probe_fac"](**self.__probe_factory_args()) # makes specific probes
+        
+        # prepare probe op for later instantiation
+        self._probe_op_cls = sub["probe_op"]  # reference to class, NOT the object
+        self._probe_op = None # probe operation is instantiated during setup
+
+        # local state indicators
+        self._ready = Event()
+        self._ready.clear()
         
 
     # ----- LAYER PUBLIC METHODS ----- #
@@ -96,15 +98,38 @@ class DiagnosticsLayer(AbstractDiagnostics):
     # TO DO
     # User confirms config and prepares to begin experiment
     def setup_diagnostics(self, sys_ref:dict, config_ref:dict):
-        """Initializes probe object and prepare to launch threads.
+        """Called by upper layers to prepare the diagnostic layer for plasma diagnostic operations.
         
+        Instantiates and primes all required plasma diagnostic objects, then awaits until this
+        interface's `start_diagnostics()` method is called to proceed.
+
         Arguments:
             sys_ref: `ProtectedDictionary` containing probe specific system settings
             config_ref: `ProtectedDictionary` containing probe specific user settings
-            probe_thread_name: str - name assigned to probe object's thread
-                default: "PROBE"
+
+        Exceptions:
+            RuntimeError: `setup_diagnostics()` was called while:
+                - plasma diagnostics are being performed, or
+                - system shutdown is underway
         """
-        pass
+        # validate system is not operating before proceeding
+        if self._status.operating.is_set():
+            raise RuntimeError("Cannot call 'setup_diagnostics' while data sampling in underway!")
+        
+        # validate system is not undergoing shutdown before proceeding
+        if self._command.shutdown.is_set():
+            raise RuntimeError("Cannot call 'setup_diagnostics' while data sampling in underway!")
+
+        # prepare the probe operation thread
+        args = self.__probe_op_args()                # prepared from instance attributes
+        self._probe_op = self._probe_op_cls(**args)  # instantiate ProbeOperation
+        self._probe_op.arm(sys_ref, config_ref)      # prepare thread for diagnostics
+
+        # confirm subcomponents are ready for diagnostics
+        if self._probe_op._ready.is_set():
+            self._ready.set()
+        else:
+            raise RuntimeError("Could not arm Probe Operation!")
     
     # TO DO
     def start_diagnostics(self):
