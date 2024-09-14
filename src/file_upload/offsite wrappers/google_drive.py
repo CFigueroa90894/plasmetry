@@ -24,7 +24,7 @@ from offsite_upload import OffsiteUpload
 
 class GoogleDrive(OffsiteUpload):
     
-    def __init__(self, credentials_path='client_secrets.json'):
+    def __init__(self, credentials_path=''):
         
         """Offsite wrapper constructor."""
         
@@ -34,20 +34,18 @@ class GoogleDrive(OffsiteUpload):
         # Storing credentials object, used to authenticate API requests
         self.creds = self.authenticate_connection()
         
-        # Storing port for https traffic
-        self.port= 443
-        
         # Parent folder ID, extracted from URL of the google drive folder
         self.PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
     
     def validate_connection(self):
         
         """Internet connection validation."""
-        
+        # Storing port for communication, in this case for https traffic
+        PORT = 443
         # Verifying that the connection to googleapis.com may be established
         try:
             #
-            socket.getaddrinfo('googleapis.com', self.port)
+            socket.getaddrinfo('googleapis.com', PORT)
             return True
         
         # Error handling if socket.gaierror is raised
