@@ -13,6 +13,7 @@ status: WIP
 import sys
 import os
 
+import inspect
 from queue import Queue
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -41,12 +42,12 @@ class DiagnosticsLayer(AbstractDiagnostics):
     """<...>"""
 
     # Default subcomponent module names
-    calculations_factory_modname = 'calculations_factory'
-    probe_factory_modname = 'probe_factory'
-    probe_operation_modname = 'probe_operation'
+    calculations_factory_mod = 'calculations_factory'
+    probe_factory_mod = 'probe_factory'
+    probe_operation_mod = 'probe_operation'
 
     # Default lower layer module name
-    hardware_layer_modname = 'hardware_layer'
+    hardware_layer_mod = 'hardware_layer'
 
 
     def __init__(self,
@@ -56,27 +57,23 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  real_time_param:dict=None,
         ):
         """<...>"""
+        # default buffer if none was specified
+        if results_buffer is None:
+            results_buffer = Queue()    # redefine arg variable
+        
+        # default dict if none was specified
+        if real_time_param is None:
+            real_time_param = {}        # redefine arg variable
+
         # ----- Save Arguments ----- #
-        self.__status = status_flags     # system state indicators
-        self.__command = command_flags   # action triggers
-
-        # validate results_buffer
-        if results_buffer is not None:
-            self.__result_buff = results_buffer
-        else:
-            # create default Queue
-            self.__result_buff = Queue() 
-
-        # validate real_time_param
-        if real_time_param is not None:
-            self.__real_time_param = real_time_param
-        else:
-            # create default dictionary
-            self.__real_time_param = {}
+        self._status = status_flags     # system state indicators
+        self._command = command_flags   # action triggers
+        self._result_buff = results_buffer         # buffer to pass experiment results up the stack
+        self._real_time_param = real_time_param
 
 
         # ----- Assemble Diagnostic Layer ----- #
-        sub = self.__load_subcomponents_cls()   # import subcomponents, returned in a dict
+        sub = self._load_all_subcomponents()   # import subcomponents, returned in a dict
         
         # unpack subcomponent classes
         hardware_layer = sub["hardware_layer"]
@@ -85,13 +82,13 @@ class DiagnosticsLayer(AbstractDiagnostics):
         probe_operation = sub["probe_op"]
         
         # instantiate lower layer
-        self.__hardware = hardware_layer()  # lower layer interface
-        self.__comp_fac = self.__hardware.get_component_factory() # makes hardware components
+        self._hardware = hardware_layer()  # lower layer interface
+        self._comp_fac = self._hardware.get_component_factory() # makes hardware components
 
         # instantiate subcomponents
-        self.__calc_fac = calcs_factory  # makes probe specific equations
-        self.__probe_fac = probe_factory(**self.__probe_factory_args()) # makes specific probes
-        self.__probe_op = probe_operation(**self.__probe_op_args())     # controls probes
+        self._calc_fac = calcs_factory  # makes probe specific equations
+        self._probe_fac = probe_factory(**self.__probe_factory_args()) # makes specific probes
+        self._probe_op = probe_operation(**self.__probe_op_args())     # controls probes
         
 
     # ----- LAYER PUBLIC METHODS ----- #
@@ -132,13 +129,15 @@ class DiagnosticsLayer(AbstractDiagnostics):
         raise NotImplementedError
     
 
-    # ----- PRIVATE UTILS ----- #
-    def __load_subcomponents_cls(self):
+    # ----- UTILS ----- #
+    def _load_all_subcomponents(self):
         """<...>"""
         # load subcomponent modules
-        calculations_factory_mod = __import__(self.calculations_factory_modname)
-        probe_factory_mod = __import__(self.probe_factory_modname)
-        probe_operation_mod = __import__(self.probe_operation_modname)
+        calculations_factory_mod = self._load_mod(self.calculations_factory_mod)
+        probe_factory_mod = self._load_mod(self.probe_factory_mod)
+        probe_operation_mod = self._load_mod(self.probe_operation_mod)
+
+        print(type(calculations_factory_mod))
 
         # load subcomponent classes
         calc_fac_cls = calculations_factory_mod.CalculationsFactory
@@ -146,7 +145,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         probe_op_cls = probe_operation_mod.ProbeOperation
 
         # load lower layer
-        hardware_layer_mod = __import__(self.hardware_layer_modname)
+        hardware_layer_mod = self._load_mod(self.hardware_layer_mod)
         hardware_layer_cls = hardware_layer_mod.HardwareLayer
 
         # pack and return subcomponent classes
@@ -158,23 +157,72 @@ class DiagnosticsLayer(AbstractDiagnostics):
         }
         return classes
     
+    def _load_mod(self, mod):
+        """<...>"""
+        # check the module was specified as a string
+        if inspect.ismodule(mod):
+            pass
+        elif isinstance(mod, str):
+            mod = __import__(mod)
+        else:
+            raise TypeError(f"Class attribute {mod} must be module or string! Given {type(mod)}")
+        return mod
+    
+    # TO DO
+    def _info(self):
+        """<...>"""
+        sub = [
+            ("Diagnostics", "Calculations Factory", str(self._calc_fac)),
+            ("Diagnostics", "Probe Factory", str(self._probe_fac)),
+            ("Diagnostics", "Probe Operation", str(self._probe_op)),
+            ("Diagnostics", "Hardware Interface", str(self._hardware))
+        ]
+        sub.extend(self._hardware._info())
+        return sub
+
     def __probe_factory_args(self):
         """<...>"""
         probe_factory_args = {
-            "status_flags": self.__status,
-            "command_flags": self.__command,
-            "hardware_factory": self.__comp_fac,
-            "calculations_factory": self.__calc_fac
+            "status_flags": self._status,
+            "command_flags": self._command,
+            "hardware_factory": self._comp_fac,
+            "calculations_factory": self._calc_fac
         }
         return probe_factory_args
 
     def __probe_op_args(self):
         """<...>"""
         probe_op_args = {
-            "status_flags": self.__status,
-            "command_flags": self.__command,
-            "results_buffer": self.__result_buff,
-            "real_time_param": self.__real_time_param,
-            "probe_factory": self.__probe_fac
+            "status_flags": self._status,
+            "command_flags": self._command,
+            "results_buffer": self._result_buff,
+            "real_time_param": self._real_time_param,
+            "probe_factory": self._probe_fac
         }
         return probe_op_args
+
+# # Basic tests
+# if __name__ == "__main__":
+    
+#     # local imports
+#     from system_flags import StatusFlags, CommandFlags
+#     import hardware_interface.hardware_layer
+    
+#     # init control objects
+#     status = StatusFlags()
+#     commands = CommandFlags()
+
+#     # configure hardware layer for test
+#     custom_h = hardware_interface.hardware_layer
+#     custom_h.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+
+#     # init diagnostics layer
+#     diagnostics_args = {
+#         "status_flags": status,
+#         "command_flags": CommandFlags
+#     }
+#     a = DiagnosticsLayer
+#     a.hardware_layer_mod = custom_h
+#     a = a(**diagnostics_args)
+#     for sub in a._info():
+#         print(sub)
