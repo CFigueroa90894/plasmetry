@@ -12,8 +12,6 @@ class LocalUpload:
         # Validating the local path
         if not self.validate_path(local_path):
             print('Local path not valid.')
-
-
         
     def validate_path(self, local_path):
         
@@ -26,7 +24,6 @@ class LocalUpload:
             self.storage_path = local_path
             
             return True
-        
         else:
             return False
             
