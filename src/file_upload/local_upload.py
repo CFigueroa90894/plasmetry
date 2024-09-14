@@ -40,7 +40,7 @@ class LocalUpload:
             # Writing csv ocntents
             file.write(csv_obj)
             
-    def create_local_folder(self, folder_name):
+    def create_folder(self, folder_name):
         
         """Create new folder where local data will be uploaded"""
         
@@ -50,9 +50,9 @@ class LocalUpload:
         # Setting new directory as folder path
         self.storage_path = folder_name
         
-    def local_folder_exists(self, folder_name):
+    def folder_exists(self, folder_name):
         
         """Validating that the directory argument exists locally."""
         
-        self.validate_path(folder_name)
+        return self.validate_path(folder_name)
     
