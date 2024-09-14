@@ -24,6 +24,7 @@ class OffsiteUpload(ABC):
     def create_folder(self):
         
         raise NotImplementedError
+        
     @abstractmethod
     def check_folder_exists(self):
         
