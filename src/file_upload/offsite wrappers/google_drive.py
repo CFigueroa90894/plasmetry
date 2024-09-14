@@ -34,7 +34,7 @@ class GoogleDrive(OffsiteUpload):
         self.creds = self.authenticate_connection()
         
         # Parent folder ID, extracted from URL of the google drive folder
-        self.PARENT_FOLDER_ID = "17q9inqrXiG9TSLRkPErM5993wsiBJj5i"
+        self.parent_folder = "1jdFEKlzlpeAY7dEQwoKgKT0CIZW909AO"
     
     def validate_connection(self):
         
@@ -71,14 +71,13 @@ class GoogleDrive(OffsiteUpload):
         
         """Uploads data to google drive folder"""
         
-        
         # Object used to interact with the Google Drive API
         service = build('drive', 'v3', credentials= self.creds)
 
         # File metadata, must be defined as such to use service.files().create
         file_metadata = {
         'name':file_name,
-        'parents':[self.PARENT_FOLDER_ID],
+        'parents':[self.parent_folder],
         'mimeType':'text/csv'
          }
        
@@ -94,56 +93,54 @@ class GoogleDrive(OffsiteUpload):
             media_body=media
         ).execute()
         
+        
+        
     def folder_exists(self, folder_name):
-        """Returns boolean, verifies if folder_name exists"""
-
-        # Object used to interact with the Google Drive API
-        service = build('drive', 'v3', credentials= self.creds)
         
-        # Setting Google Drive API query to list folder names
-        query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' and trashed=false"
+        """Check if the folder exists in the Google Drive."""
         
-        # Querying file names and ids to find if folder_name exists
+        service = build('drive', 'v3', credentials=self.creds)
+        
+        query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' or trashed=True"
+        
         results = service.files().list(
-            q=query, 
-            fields="files(id, name)"
-            ).execute()
+            q=query,
+            fields="files(id, name)",
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True
+        ).execute()
         
-        # Storing the file results in a list
         items = results.get('files', [])
-    
-        # Verifying that the list is not empty
+        
         if items:
-            
-            # Setting the parent id
             self.set_folder_id(items[0]['id'])
             return True
-        
         else:
             return False
+
         
     def create_folder(self, folder_name):
+        """Create a new folder in Google Drive."""
+        service = build('drive', 'v3', credentials=self.creds)
         
-        """Function creates folders in Google drive named by folder_name data."""
+        file_metadata = {
+            'name': folder_name,
+            'mimeType': 'application/vnd.google-apps.folder',
+            'parents': [self.parent_folder]  # Ensure this is set correctly
+        }
         
-        # Object used to interact with the Google Drive API
-        service = build('drive', 'v3', credentials= self.creds)
-        
-        # File metadata, must be defined as such to use service.files().create
-        file_metadata = {'name':folder_name,
-                         'mimeType':'application/vnd.google-apps.folder',
-                         'parents':self.PARENT_FOLDER_ID}
-       
-        # Creating the new file
-        file = service.files().create(body=file_metadata,
-                                      fields='id').execute()
-        
-        # Setting the parent id
-        self.set_folder_id(file.get('id'))
-     
+        folder = service.files().create(
+            body=file_metadata,
+            fields='id',
+            supportsAllDrives=True
+        ).execute()
+                    
+        self.set_folder_id(folder.get('id'))
+         
+         
     def set_folder_id(self, folder_id):
-        
-        """Sets the id of folder for storage."""
-        
-        self.PARENT_FOLDER_ID = folder_id
+            
+            """Sets the id of folder for storage."""
+            
+            self.parent_folder = folder_id
 

@@ -19,6 +19,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 import numpy as np
 from slp_plasma_parameters import get_equations
 from file_upload import FileUpload
+from probe_enum import PRB
 
 def LoadPreviousData():
     
@@ -70,8 +71,10 @@ if __name__ == "__main__":
     current_directory = os.getcwd()
     
     LOCAL_PATH = str(current_directory) + '/testing path/'
-    CREDENTIALS_PATH = '../credentials/plasma-software-data-upload-d6f40f4fefdc.json'
+    CREDENTIALS_PATH = '../credentials/plasma-software-data-upload-72930ab52e6c.json'
     NUMBER_OF_SWEEPS = 3
+    
+    
     
     list_of_parameters = []
     
@@ -80,8 +83,9 @@ if __name__ == "__main__":
         parameters = set_params()
     
         list_of_parameters.append(calc_params(parameters))
+        
     
-    upload_object = FileUpload(LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
+    upload_object = FileUpload(PRB(0), LOCAL_PATH, CREDENTIALS_PATH, list_of_parameters)
     
     upload_object.upload_data()
     

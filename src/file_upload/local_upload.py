@@ -18,7 +18,7 @@ class LocalUpload:
         if  os.path.exists(local_path):
             
             # Set the path for local storage
-            self.storage_path = local_path
+            self.parent_folder = local_path
             
             return True
         else:
@@ -42,11 +42,10 @@ class LocalUpload:
         os.mkdir(folder_name)
         
         # Setting new directory as folder path
-        self.storage_path = folder_name
+        self.parent_folder = folder_name
         
     def folder_exists(self, folder_name):
         
         """Validating that the directory argument exists locally."""
         
         return self.validate_path(folder_name)
-    

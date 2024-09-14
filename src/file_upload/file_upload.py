@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -29,9 +28,11 @@ from google_drive import GoogleDrive
 
 from local_upload import LocalUpload
 
+from probe_enum import PRB 
+
 class FileUpload:
     
-    def __init__(self, local_path = '',  credentials_path='', unformatted_data=[]):
+    def __init__(self, probe_type:PRB, local_path = '',  credentials_path='', unformatted_data=[]):
         
         
         """FileUpload construtor"""
@@ -47,11 +48,13 @@ class FileUpload:
             self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
             
         # Storing wrapper for offsite data uploading
-        self.offsite_uploader = GoogleDrive(credentials_path)
+        self.offsite_wrapper = GoogleDrive(credentials_path)
         
         # Storing local upload object
         self.local_uploader = LocalUpload(local_path) 
-            
+        
+        self.get_probe_folder(probe_type)
+                    
     def new_data(self, parameters):
         
         """Receives new unformatted data to create new csv content objects."""
@@ -62,7 +65,7 @@ class FileUpload:
 
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
-    
+            
     def upload_data(self):
         
         """Uploads data locally and offsite when invoked."""
@@ -73,59 +76,55 @@ class FileUpload:
         # Store offsite
         self.offsite_upload()
         
+        
     def local_upload(self):
         
         """Local storage data uploading."""
-        
-        # Valydating the path for storage
-        if  self.validate_path(self.local_uploader.storage_path, 'local storage.'):
-            
+        # Valdating the path for storage
+        if self.local_uploader.validate_path(self.local_uploader.parent_folder):
             # Switching to folder with current date for uploading
-            self.folder_change(f'{self.local_uploader.storage_path}/{self.current_datetime.date()}', self.local_uploader)
-
+            self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.current_datetime.date()}')
+            
+            self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.probe_folder}')
             # Creating the csv containing parameters date
-            self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.storage_path}/ parameters.csv' )
+            self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.parent_folder}/ parameters.csv' )
             
             # Verifying if there is sweep data
             if  self.sweep_csv: 
                 # Creating the csv containing the sweep data
-                self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.storage_path}/ sweeps data.csv')
-  
+                self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.parent_folder}/ sweeps data.csv')
+        else:
+            print('Local path set to a directory that does not exist!')
+            
     def offsite_upload(self):
         
         """Offsite storage data uploading."""
-        
         # Verifying if the credentials path is set
-        if self.validate_path(self.offsite_uploader.credentials_path, 'offsite storage credentials.'):
+        if self.offsite_wrapper.credentials_path:
              
             # Verifying if there is a connection with the offsite storage to commence upload requests
-            if self.offsite_uploader.validate_connection():
+            if self.offsite_wrapper.validate_connection():
                 
                 # Switching to folder with current date for uploading
-                self.folder_change(f'{self.current_datetime.date()}', self.offsite_uploader)
+                self.folder_change(self.offsite_wrapper, '2024-09-29')
+                self.folder_change(self.offsite_wrapper, self.probe_folder)
                 
+   
                 # Storing the parameters csv object
-                self.offsite_uploader.put_request(self.parameters_csv, \
-                                                 f'{self.current_datetime.date()} parameters.csv')
+                self.offsite_wrapper.put_request(self.parameters_csv, \
+                                                 'parameters.csv')
                     
                 # Verifying if there is sweep data
                 if  self.sweep_csv:
                     
                     # Storing the sweep csv object
-                    self.offsite_uploader.put_request(self.sweep_csv, \
-                                                     f'{self.current_datetime.date()} sweeps data.csv')
-                        
-    def validate_path(self, path, path_subject):
+                    self.offsite_wrapper.put_request(self.sweep_csv, \
+                                                     'sweeps data.csv')
+                    
+        else: print('No credentials path set!')
         
-        """Returns boolean value validating the received path."""
-        # Check if the directory exists 
-        if  os.path.exists(path):
-            return True
-        else:
-            print(f'Valid path not set for {path_subject}!')
-            return False
-        
-    def folder_change(self, folder_name, wrapper):
+    
+    def folder_change(self, wrapper, folder_name):
         
         """Args: string, upload object
         
@@ -135,3 +134,33 @@ class FileUpload:
             
             wrapper.create_folder(folder_name)
             
+    def get_probe_folder(self, probe_type:PRB):
+        
+        # Package probe specific config by ID
+        match probe_type:
+            # Single Langmuir Probe
+            case PRB.SLP:
+                self.probe_folder = "Single Langmuir Probe"
+            # Double Langmuir Probe
+            case PRB.DLP:
+                self.probe_folder= 'Double Langmuir Probe'
+            
+            # Hyperbolic Energy Analyzer
+            case PRB.HEA:
+                self.probe_folder= 'Hyperbolic Energy Analyzer'
+            
+            # Ion Energy Analyzer
+            case PRB.IEA:
+                self.probe_folder= 'Ion Energy Analyzer'
+            
+            # Triple Langmuir Probe - Voltage Mode
+            case PRB.TLV:
+                self.probe_folder= 'Triple Langmuir - Voltage Mode'
+            
+            # Triple Langmuir Probe - Current Mode
+            case PRB.TLC:
+                self.probe_folder= 'Triple Langmuir - Current Mode'
+            
+            # Unknown Probe
+            case _:
+                raise ValueError(f"Unknown probe type: {self.probe_type}")
