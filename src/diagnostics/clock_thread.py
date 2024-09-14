@@ -140,7 +140,7 @@ if __name__ == "__main__":
     buff = Queue()
 
     # Test parameters
-    rate = 1
+    rate = 5
     test_duration = 6
 
     # Test thread function
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     printer = PrinterThread(kill=kill, console_buff=buff, name="Print")
     hello = Thread(target=hello_there, daemon=True)
     clock = ClockThread(
-        tick_rate=1,
+        tick_rate=rate,
         trigger=trig,
         kill=kill,
         debug=True,
@@ -177,3 +177,4 @@ if __name__ == "__main__":
     kill.set()
     clock.join()
     hello.join()
+    printer.join()
