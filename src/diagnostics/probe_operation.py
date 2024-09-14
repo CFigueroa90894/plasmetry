@@ -269,6 +269,7 @@ class ProbeOperation(BaseThread):
         self._fail.clear()            # reset indicator to False
         
         self.status_flags.operating.set()   # indicate data acquisition is being performed
+        self._ready.clear()     # probe op is not 'ready' to diagnose if already diagnosing
 
         # launch probe and clock threads
         self.say("launching threads...")
@@ -313,11 +314,7 @@ class ProbeOperation(BaseThread):
         self._clock.kill.set()  # attempt to stop clock
         self.say("waiting for Clock Thread to exit...")
         self._clock.join()      # wait until clock exits
-        
-        # TO DO - CLEAR PROBE STATUS FLAGS
 
-        # reset probe operation's ready flag
-        self._ready.clear()
 
         # Attempt restart
         if self.command_flags.diagnose.is_set() and not self.command_flags.shutdown.is_set():
@@ -329,8 +326,12 @@ class ProbeOperation(BaseThread):
             self._probe = None
             self._sys_ref = None
             self._config_ref = None
-            self._print_buff = None
-            super()._thread_cleanup_()  # this cleanup calls sys.exit(0) and breaks out of the loop
+
+            # reset probe operation status ready flags
+            self.status_flags.operating.clear()
+            
+            # WARNING this calls sys.exit(0), terminating the thread that calls it
+            super()._thread_cleanup_()  # call parent cleanup
 
     # thread-safe printing
     def say(self, msg:str):
