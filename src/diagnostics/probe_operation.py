@@ -268,7 +268,7 @@ class ProbeOperation(BaseThread):
         self._aggregate_samples = []  # clear list
         self._fail.clear()            # reset indicator to False
         
-        # TO DO - SET PROBE STATUS FLAGS
+        self.status_flags.operating.set()   # indicate data acquisition is being performed
 
         # launch probe and clock threads
         self.say("launching threads...")
