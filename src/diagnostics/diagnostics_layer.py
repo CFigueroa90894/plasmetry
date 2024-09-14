@@ -110,38 +110,61 @@ class DiagnosticsLayer(AbstractDiagnostics):
         Exceptions:
             RuntimeError: `setup_diagnostics()` was called while:
                 - plasma diagnostics are being performed, or
-                - system shutdown is underway
+                - system shutdown is underway, or
+                - probe operation did not arm correctly
         """
         # validate system is not operating before proceeding
-        if self._status.operating.is_set():
-            raise RuntimeError("Cannot call 'setup_diagnostics' while data sampling in underway!")
+        if self._status.operating.is_set() or self._command.diagnose.is_set():
+            raise RuntimeError("Cannot call 'setup_diagnostics' while diagnostics are underway!")
         
         # validate system is not undergoing shutdown before proceeding
-        if self._command.shutdown.is_set():
-            raise RuntimeError("Cannot call 'setup_diagnostics' while data sampling in underway!")
+        elif self._command.shutdown.is_set():
+            raise RuntimeError("Cannot call 'setup_diagnostics' while system shutdown is underway!")
 
-        # prepare the probe operation thread
-        args = self.__probe_op_args()                # prepared from instance attributes
-        self._probe_op = self._probe_op_cls(**args)  # instantiate ProbeOperation
-        self._probe_op.arm(sys_ref, config_ref)      # prepare thread for diagnostics
-
-        # confirm subcomponents are ready for diagnostics
-        if self._probe_op._ready.is_set():
-            self._ready.set()
+        # checks successful, start plasma diagnostics
         else:
-            raise RuntimeError("Could not arm Probe Operation!")
+            # prepare the probe operation thread
+            args = self.__probe_op_args()                # prepared from instance attributes
+            self._probe_op = self._probe_op_cls(**args)  # instantiate ProbeOperation
+            self._probe_op.arm(sys_ref, config_ref)      # prepare thread for diagnostics
+
+            # confirm subcomponents are ready for diagnostics
+            if self._probe_op._ready.is_set():
+                self._ready.set()
+            else:
+                raise RuntimeError("Could not arm Probe Operation!")
     
     # TO DO
     def start_diagnostics(self):
-        """Launches ProbeOperation's thread.
+        """Called by upper layers to trigger plasma diagnostics operations in this layer.
 
-        Raises a RuntimeError if `setup_diagnostics()` was not invoked first.
+        Exceptions:
+            RutimeError: `start_diagnostics()` was called:
+                - without first calling `setup_diagnostics()`, or
+                - while system shutdown was underway, or
+                - if probe operation is not ready to diagnose, or
+                - diagnostics are already underway
         """
-        if not self._ready:
-            raise RuntimeError("Cannot begin diagnostics before setup_experiment() is called!")
+        # validate layer is ready to perform plasma diagnostics
+        if not self._ready.is_set():
+            raise RuntimeError("Cannot begin diagnostics before setup_diagnostics is called!")
+        
+        # validate system is not undergoing shutdown
+        elif self._command.shutdown.is_set():
+            raise RuntimeError("Cannot call 'start_diagnostics' while shutdown is underway!")
+        
+        # validate ProbeOperation is to perform plasma diagnostics
+        elif not self._probe_op._ready.is_set():
+            raise RuntimeError("Probe Operation is not ready for diagnostics!")
+        
+        # validate diagnostics are not already underway
+        elif self._command.diagnose.is_set() or self._status.operating.is_set():
+            raise RuntimeError("Called 'start_diagnostics' while diagnostics already underway!")
+        
+        # all checks successful, start diagnostics
         else:
-            self._ready = False  # clear ready value to prevent recurring calls to this method
-        self.start()    # launch Probe Operation thread
+            self._command.diagnose.set()    # notify data acquisition threads may proceed
+            self._probe_op.start()          # launch Probe Operation thread
     
     # TO DO
     def stop_diagnostics(self):
