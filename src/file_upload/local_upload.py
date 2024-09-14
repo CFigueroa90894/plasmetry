@@ -19,7 +19,6 @@ class LocalUpload:
             
             # Set the path for local storage
             self.parent_folder = local_path
-            
             return True
         else:
             return False
