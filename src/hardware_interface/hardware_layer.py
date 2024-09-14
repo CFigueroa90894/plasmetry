@@ -113,9 +113,3 @@ class HardwareLayer(AbstractHardware):
                ('Hardware Interface', 'Component Factory', str(self._component))]
         return sub
 
-
-a = HardwareLayer
-a.hardware_wrapper_mod = "counter_wrapper"
-a = a()
-for info in a._info():
-    print(info)
