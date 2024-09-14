@@ -96,7 +96,7 @@ class GoogleDrive(OffsiteUpload):
         """Check if the folder exists in the Google Drive."""
         service = build('drive', 'v3', credentials=self.creds)
         
-        query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' or trashed=True"
+        query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' and '{self.parent_folder}' in parents and trashed=false"
         
         results = service.files().list(
             q=query,
