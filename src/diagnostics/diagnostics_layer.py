@@ -302,7 +302,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         sub = [
             ("Diagnostics", "Calculations Factory", str(self._calc_fac)),
             ("Diagnostics", "Probe Factory", str(self._probe_fac)),
-            ("Diagnostics", "Probe Operation", str(self._probe_op)),
+            ("Diagnostics", "Probe Operation", str(self._probe_op_cls)),
             ("Diagnostics", "Hardware Interface", str(self._hardware))
         ]
         sub.extend(self._hardware._info())
@@ -352,23 +352,24 @@ class DiagnosticsLayer(AbstractDiagnostics):
     
 #     # local imports
 #     from system_flags import StatusFlags, CommandFlags
-#     import hardware_interface.hardware_layer
+#     import hardware_layer
     
 #     # init control objects
 #     status = StatusFlags()
 #     commands = CommandFlags()
 
-#     # configure hardware layer for test
-#     custom_h = hardware_interface.hardware_layer
-#     custom_h.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+#     # configure custom layers for test
+#     hardware = hardware_layer
+#     hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+#     diagnostics = DiagnosticsLayer
+#     diagnostics.hardware_layer_mod = hardware
 
 #     # init diagnostics layer
 #     diagnostics_args = {
 #         "status_flags": status,
-#         "command_flags": CommandFlags
+#         "command_flags": commands
 #     }
-#     a = DiagnosticsLayer
-#     a.hardware_layer_mod = custom_h
-#     a = a(**diagnostics_args)
-#     for sub in a._info():
+#     diagnostics_layer = diagnostics(**diagnostics_args)
+#     for sub in diagnostics_layer._info():
 #         print(sub)
+
