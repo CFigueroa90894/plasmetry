@@ -6,7 +6,8 @@ Layer 3 - Diagnostics - Concrete Implementation
 author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
-    - remove relative import (added so docstrings are displayed)
+    - uncomment hardware shutdown when implemented (in diagnostics_shutdown)
+    - move print utils to AbstractBaseLayer
     - validate with team
 """
 # built-in imports
@@ -97,7 +98,11 @@ class DiagnosticsLayer(AbstractDiagnostics):
 
         # local state indicators
         self._ready = Event()
+        self._terminated = Event()
+        self._performing_diagnostics = Event()
         self._ready.clear()
+        self._terminated.clear()
+        self._performing_diagnostics.clear()
         
 
     # ----- LAYER PUBLIC METHODS ----- #
@@ -121,7 +126,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
                 - probe operation did not arm correctly
         """
         # validate system is not operating before proceeding
-        if self._status.operating.is_set() or self._command.diagnose.is_set():
+        if self._are_we_diagnosing():
             raise RuntimeError("Cannot call 'setup_diagnostics' while diagnostics are underway!")
         
         # validate system is not undergoing shutdown before proceeding
@@ -155,6 +160,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
                 - if probe operation is not ready to diagnose, or
                 - diagnostics are already underway
         """
+
         # validate system is not undergoing shutdown
         if self._command.shutdown.is_set():
             raise RuntimeError("Cannot call 'start_diagnostics' while shutdown is underway!")
@@ -163,9 +169,9 @@ class DiagnosticsLayer(AbstractDiagnostics):
         # would be true if system shutdown is underway, therefore must evaluate after
         elif not self._ready.is_set():
             raise RuntimeError("Cannot begin diagnostics before setup_diagnostics is called!")
-        
-        # validate diagnostics are not already underway 
-        elif self._command.diagnose.is_set() or self._status.operating.is_set():
+
+        # validate diagnostics are not already underway
+        elif self._are_we_diagnosing():
             raise RuntimeError("Called 'start_diagnostics' while diagnostics already underway!")
         
         # validate ProbeOperation is ready to perform plasma diagnostics
@@ -178,6 +184,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
             self._command.diagnose.set()    # notify data acquisition threads may proceed
             self._probe_op.start()          # launch Probe Operation thread
             self._ready.clear()             # cannot be ready for diagnostics while already underway
+            self._performing_diagnostics.set()  # set local state
     
     # TO DO
     def stop_diagnostics(self):
@@ -191,14 +198,10 @@ class DiagnosticsLayer(AbstractDiagnostics):
             RuntimeError: `stop_diagnostics()` was called while:
                 - system was not performing plasma diagnostics
         """
-        # check if diagnose command is not set (by DiagnosticsLayer)
-        if not self._command.diagnose.is_set():
-            raise RuntimeError("Called 'stop_diagnostics' while 'diagnose' flag was false!")
-        
-        # check if operating flag is not set (by ProbeOperation)
-        elif not self._status.operating.is_set():
-            raise RuntimeError("Called 'stop_diagnostics' while 'operating' flag was false!")
-        
+        # check if diagnostics are not being performed
+        if not self._are_we_diagnosing():
+            raise RuntimeError("Called 'stop_diagnostics' while none are being performed!")
+
         # checks passed, attempting to stop diagnostic threads
         else:
             self.say("stopping diagnostics...")
@@ -208,14 +211,53 @@ class DiagnosticsLayer(AbstractDiagnostics):
             self.say("waiting for ProbeOperation to exit...")
             self._probe_op.join()           # wait until probe op thread exits...
             self.say("ProbeOperation exited")
+            self._performing_diagnostics.clear()  # reset local state indicator
 
     # TO DO
     def diagnostics_shutdown(self):
-        """<...>"""
-        raise NotImplementedError
-    
+        """Called by upper layers to initiates this layer's shutdown process.
+        
+        This Diagnostic Layer will attempt to complete all pending operations before finally
+        terminating all its subcomponents.
+
+        * NOTE: this call blocks until the diagnostic layer has terminated to prevent corruption.
+        """
+        self.say("initiating local layer shutdown...")
+        
+        # stop diagnostics
+        if self._are_we_diagnosing():
+            self.stop_diagnostics()
+        else:
+            self.say("diagnostics are already halted.")
+        
+        # destroy subcomponents
+        self.say("deleting subcomponents...")
+        del self._probe_op
+        del self._probe_op_cls
+        del self._probe_fac
+        del self._calc_fac
+        
+        # TO DO - implement in hardware layer
+        # destroy lower layer references
+        # self.say("terminating hardware layer...")
+        # self._hardware.layer_shutdown()
+        # self._hardware._terminated.wait()
+        # del self._hardware
+
+        self.say("layer shutdown complete.")
+        self._terminated.set()
+
 
     # ----- Layer Specific Utils ----- #
+    def _are_we_diagnosing(self) -> bool:
+        """<...>"""
+        # aggregate diagnostic indicators
+        state = self._command.diagnose.is_set() 
+        state = state or self._status.operating.is_set() 
+        state = state or self._performing_diagnostics.is_set()  
+        return state
+    
+
     def _load_all_subcomponents(self):
         """<...>"""
         # load subcomponent modules
