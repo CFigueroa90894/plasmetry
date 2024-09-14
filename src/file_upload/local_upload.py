@@ -2,9 +2,7 @@ import os
 from datetime import datetime
 
 class LocalUpload:
-    
-    """       Local upload functions.       """  
-    
+        
     def __init__(self, local_path=''):
         
         """LocalUpload construtor"""
@@ -12,7 +10,7 @@ class LocalUpload:
         # Validating the local path
         if not self.validate_path(local_path):
             print('Local path not valid.')
-        
+            
     def validate_path(self, local_path):
         
         """Returns boolean value validating the received path."""
