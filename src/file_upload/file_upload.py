@@ -32,7 +32,7 @@ from probe_enum import PRB
 
 class FileUpload:
     
-    def __init__(self, probe_type:PRB, local_path = '',  credentials_path='', unformatted_data=[]):
+    def __init__(self, probe_type:PRB, local_path = '', unformatted_data=[], credentials_path=''):
         
         
         """FileUpload construtor"""
@@ -155,11 +155,11 @@ class FileUpload:
             
             # Triple Langmuir Probe - Voltage Mode
             case PRB.TLV:
-                self.probe_folder= 'Triple Langmuir - Voltage Mode'
+                self.probe_folder= 'Triple Langmuir Probe - Voltage Mode'
             
             # Triple Langmuir Probe - Current Mode
             case PRB.TLC:
-                self.probe_folder= 'Triple Langmuir - Current Mode'
+                self.probe_folder= 'Triple Langmuir Probe - Current Mode'
             
             # Unknown Probe
             case _:

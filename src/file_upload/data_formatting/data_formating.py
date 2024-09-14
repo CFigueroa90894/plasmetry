@@ -1,12 +1,12 @@
 import io
 import csv
 
-def is_tlp(unformatted_data):
+def is_a_sweep(unformatted_data):
     
-    """Returns a boolean value. True if the probe implemented is Triple Langmuir, False if other wise."""
+    """Returns a boolean value. True if the data acquired contains sweeps, False if other wise."""
     
-    # Since both TLP implementations contain the key 'Raw voltage 2',verifying if it exists
-    if 'Raw voltage 2' in unformatted_data:
+    # Since sweep data does not contain 'Raw voltage 2',verifying if it does not exists
+    if 'Raw voltage 2' not in unformatted_data:
         # Return True if TLP
         return True
     else:
@@ -69,7 +69,7 @@ def process_data(unformatted_data):
     for experiment_run in unformatted_data:
         
         # Verifying if there is sweep data 
-        if not is_tlp(unformatted_data):
+        if  is_a_sweep(unformatted_data):
             # Processing the sweep data and storing it in sweep_data list
             process_sweep(sweep_data, experiment_run)
         # Storing the parameters data.

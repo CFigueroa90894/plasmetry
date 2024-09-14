@@ -126,7 +126,7 @@ class GoogleDrive(OffsiteUpload):
         file_metadata = {
             'name': folder_name,
             'mimeType': 'application/vnd.google-apps.folder',
-            'parents': [self.parent_folder]  # Ensure this is set correctly
+            'parents': [self.parent_folder]  
         }
         
         folder = service.files().create(
