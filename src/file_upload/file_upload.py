@@ -29,9 +29,9 @@ from google_drive import GoogleDrive
 
 from local_upload import LocalUpload
 
-class FileUpload():
+class FileUpload:
     
-    def __init__(self, local_path = '',  credentials_path='', unformatted_data=[], *args, **kwargs):
+    def __init__(self, local_path = '',  credentials_path='', unformatted_data=[]):
         
         
         """FileUpload construtor"""
@@ -47,11 +47,11 @@ class FileUpload():
             self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
             
         # Storing wrapper for offsite data uploading
-        self.offsite_wrapper = GoogleDrive(credentials_path)
+        self.offsite_uploader = GoogleDrive(credentials_path)
         
         # Storing local upload object
         self.local_uploader = LocalUpload(local_path) 
-                    
+            
     def new_data(self, parameters):
         
         """Receives new unformatted data to create new csv content objects."""
@@ -62,6 +62,68 @@ class FileUpload():
 
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
+    
+    def upload_data(self):
+        
+        """Uploads data locally and offsite when invoked."""
+        
+        # Store locally
+        self.local_upload()
+        
+        # Store offsite
+        self.offsite_upload()
+        
+    def local_upload(self):
+        
+        """Local storage data uploading."""
+        
+        # Valydating the path for storage
+        if  self.validate_path(self.local_uploader.storage_path, 'local storage.'):
+            
+            # Switching to folder with current date for uploading
+            self.folder_change(f'{self.local_uploader.storage_path}/{self.current_datetime.date()}', self.local_uploader)
+
+            # Creating the csv containing parameters date
+            self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.storage_path}/ parameters.csv' )
+            
+            # Verifying if there is sweep data
+            if  self.sweep_csv: 
+                # Creating the csv containing the sweep data
+                self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.storage_path}/ sweeps data.csv')
+  
+    def offsite_upload(self):
+        
+        """Offsite storage data uploading."""
+        
+        # Verifying if the credentials path is set
+        if self.validate_path(self.offsite_uploader.credentials_path, 'offsite storage credentials.'):
+             
+            # Verifying if there is a connection with the offsite storage to commence upload requests
+            if self.offsite_uploader.validate_connection():
+                
+                # Switching to folder with current date for uploading
+                self.folder_change(f'{self.current_datetime.date()}', self.offsite_uploader)
+                
+                # Storing the parameters csv object
+                self.offsite_uploader.put_request(self.parameters_csv, \
+                                                 f'{self.current_datetime.date()} parameters.csv')
+                    
+                # Verifying if there is sweep data
+                if  self.sweep_csv:
+                    
+                    # Storing the sweep csv object
+                    self.offsite_uploader.put_request(self.sweep_csv, \
+                                                     f'{self.current_datetime.date()} sweeps data.csv')
+                        
+    def validate_path(self, path, path_subject):
+        
+        """Returns boolean value validating the received path."""
+        # Check if the directory exists 
+        if  os.path.exists(path):
+            return True
+        else:
+            print(f'Valid path not set for {path_subject}!')
+            return False
         
     def folder_change(self, folder_name, wrapper):
         
@@ -73,55 +135,3 @@ class FileUpload():
             
             wrapper.create_folder(folder_name)
             
-    def upload_data(self):
-        
-        """Uploads data locally and offsite when invoked."""
-        
-        
-        # Store locally
-        self.local_upload()
-        
-        # Store offsite
-        self.offsite_upload()
-        
-        
-    def local_upload(self):
-        
-        """Local storage data uploading."""
-        # Valdating the path for storage
-        if self.local_uploader.validate_path(self.local_uploader.storage_path):
-            # Switching to folder with current date for uploading
-            self.folder_change(f'{self.local_uploader.storage_path}/{self.current_datetime.date()}', self.local_uploader)
-
-            # Creating the csv containing parameters date
-            self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.storage_path}/ parameters.csv' )
-            
-            # Verifying if there is sweep data
-            if  self.sweep_csv: 
-                # Creating the csv containing the sweep data
-                self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.storage_path}/ sweeps data.csv')
-        else:
-            print('Local path set to a directory that does not exist!')
-    def offsite_upload(self):
-        
-        """Offsite storage data uploading."""
-        # Verifying if the credentials path is set
-        if self.offsite_wrapper.credentials_path:
-             
-            # Verifying if there is a connection with the offsite storage to commence upload requests
-            if self.offsite_wrapper.validate_connection():
-                
-                # Switching to folder with current date for uploading
-                self.folder_change(f'{self.current_datetime.date()}', self.offsite_wrapper)
-                
-                # Storing the parameters csv object
-                self.offsite_wrapper.put_request(self.parameters_csv, \
-                                                 f'{self.current_datetime.date()} parameters.csv')
-                    
-                # Verifying if there is sweep data
-                if  self.sweep_csv:
-                    
-                    # Storing the sweep csv object
-                    self.offsite_wrapper.put_request(self.sweep_csv, \
-                                                     f'{self.current_datetime.date()} sweeps data.csv')
-        else: print('No credentials path set!')
