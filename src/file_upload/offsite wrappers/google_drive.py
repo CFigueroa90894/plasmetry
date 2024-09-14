@@ -99,7 +99,7 @@ class GoogleDrive(OffsiteUpload):
             media_body=media
         ).execute()
         
-    def check_folder_exists(self, folder_name):
+    def folder_exists(self, folder_name):
         """Returns boolean, verifies if folder_name exists"""
 
         # Object used to interact with the Google Drive API
