@@ -12,10 +12,9 @@ status: WIP
 # built-in imports
 import sys
 import os
-
 import inspect
-from queue import Queue
 
+from queue import Queue, Full
 from threading import Event
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -57,6 +56,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  command_flags,
                  results_buffer:Queue=None,
                  real_time_param:dict=None,
+                 console_buffer:Queue=None,
         ):
         """<...>"""
         # default buffer if none was specified
@@ -66,6 +66,13 @@ class DiagnosticsLayer(AbstractDiagnostics):
         # default dict if none was specified
         if real_time_param is None:
             real_time_param = {}        # redefine arg variable
+
+        # override printing method _whisper()
+        if console_buffer is None:
+            self._whisper = self._print
+        else:
+            self.console_buff = console_buffer
+            self._whisper = self._queue_msg
 
         # ----- Save Arguments ----- #
         self._status = status_flags     # system state indicators
@@ -123,6 +130,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
 
         # checks successful, start plasma diagnostics
         else:
+            self.say("preparing for diagnostics...")
+
             # prepare the probe operation thread
             args = self.__probe_op_args()                # prepared from instance attributes
             self._probe_op = self._probe_op_cls(**args)  # instantiate ProbeOperation
@@ -131,6 +140,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
             # confirm subcomponents are ready for diagnostics
             if self._probe_op._ready.is_set():
                 self._ready.set()
+                self.say("READY")
             else:
                 raise RuntimeError("Could not arm Probe Operation!")
     
@@ -145,39 +155,67 @@ class DiagnosticsLayer(AbstractDiagnostics):
                 - if probe operation is not ready to diagnose, or
                 - diagnostics are already underway
         """
+        # validate system is not undergoing shutdown
+        if self._command.shutdown.is_set():
+            raise RuntimeError("Cannot call 'start_diagnostics' while shutdown is underway!")
+    
         # validate layer is ready to perform plasma diagnostics
-        if not self._ready.is_set():
+        # would be true if system shutdown is underway, therefore must evaluate after
+        elif not self._ready.is_set():
             raise RuntimeError("Cannot begin diagnostics before setup_diagnostics is called!")
         
-        # validate system is not undergoing shutdown
-        elif self._command.shutdown.is_set():
-            raise RuntimeError("Cannot call 'start_diagnostics' while shutdown is underway!")
-        
-        # validate ProbeOperation is to perform plasma diagnostics
-        elif not self._probe_op._ready.is_set():
-            raise RuntimeError("Probe Operation is not ready for diagnostics!")
-        
-        # validate diagnostics are not already underway
+        # validate diagnostics are not already underway 
         elif self._command.diagnose.is_set() or self._status.operating.is_set():
             raise RuntimeError("Called 'start_diagnostics' while diagnostics already underway!")
         
+        # validate ProbeOperation is ready to perform plasma diagnostics
+        elif not self._probe_op._ready.is_set():
+            raise RuntimeError("Probe Operation is not ready for diagnostics!")
+        
         # all checks successful, start diagnostics
         else:
+            self.say("starting diagnostics...")
             self._command.diagnose.set()    # notify data acquisition threads may proceed
             self._probe_op.start()          # launch Probe Operation thread
+            self._ready.clear()             # cannot be ready for diagnostics while already underway
     
     # TO DO
     def stop_diagnostics(self):
-        """<...>"""
-        raise NotImplementedError
-    
+        """Called by upper layers to halt plasma diagnostics operations in this layer.
+        
+        This layer will attempt to complete all pending operations, including data sampling, 
+        parameter calculations, and aggregating results, and passing them to the upper layer before
+        it returns to its idle state.
+        
+        Exceptions:
+            RuntimeError: `stop_diagnostics()` was called while:
+                - system was not performing plasma diagnostics
+        """
+        # check if diagnose command is not set (by DiagnosticsLayer)
+        if not self._command.diagnose.is_set():
+            raise RuntimeError("Called 'stop_diagnostics' while 'diagnose' flag was false!")
+        
+        # check if operating flag is not set (by ProbeOperation)
+        elif not self._status.operating.is_set():
+            raise RuntimeError("Called 'stop_diagnostics' while 'operating' flag was false!")
+        
+        # checks passed, attempting to stop diagnostic threads
+        else:
+            self.say("stopping diagnostics...")
+            if not self._probe_op.is_alive():
+                self.say("ProbeOperation was already terminated!")
+            self._command.diagnose.clear()  # indicate diagnostics should stop
+            self.say("waiting for ProbeOperation to exit...")
+            self._probe_op.join()           # wait until probe op thread exits...
+            self.say("ProbeOperation exited")
+
     # TO DO
     def diagnostics_shutdown(self):
         """<...>"""
         raise NotImplementedError
     
 
-    # ----- UTILS ----- #
+    # ----- Layer Specific Utils ----- #
     def _load_all_subcomponents(self):
         """<...>"""
         # load subcomponent modules
@@ -248,6 +286,24 @@ class DiagnosticsLayer(AbstractDiagnostics):
             "probe_factory": self._probe_fac
         }
         return probe_op_args
+    
+    # ----- Print Utils ----- #
+    def _whisper(self, msg):
+        """<...>"""
+        raise NotImplementedError("Whisper method was not overriden correctly in constructor!")
+    
+    def say(self, msg):
+        self._whisper(f"DIAGN: {msg}")
+
+    def _print(self, msg):
+        print(msg, flush=True)
+
+    def _queue_msg(self, msg):
+        try:
+            self.console_buff.put(msg)
+        except Full:
+            pass
+
 
 # # Basic tests
 # if __name__ == "__main__":
