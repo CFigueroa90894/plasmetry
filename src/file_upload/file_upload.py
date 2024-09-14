@@ -76,7 +76,6 @@ class FileUpload:
         # Store offsite
         self.offsite_upload()
         
-        
     def local_upload(self):
         
         """Local storage data uploading."""
@@ -108,8 +107,6 @@ class FileUpload:
                 # Switching to folder with current date for uploading
                 self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()} {self.probe_folder}')
               
-                
-   
                 # Storing the parameters csv object
                 self.offsite_wrapper.put_request(self.parameters_csv, \
                                                  'parameters.csv')
@@ -120,16 +117,12 @@ class FileUpload:
                     # Storing the sweep csv object
                     self.offsite_wrapper.put_request(self.sweep_csv, \
                                                      'sweeps data.csv')
-                        
                     
         else: print('No credentials path set!')
-        
     
     def folder_change(self, wrapper, folder_name):
         
-        """Args: string, upload object
-        
-        Changes to folder for upload."""
+        """Changes to folder for upload."""
         
         if not wrapper.folder_exists(folder_name):
             
@@ -137,7 +130,6 @@ class FileUpload:
             
     def get_probe_folder(self, probe_type:PRB):
         
-        # Package probe specific config by ID
         match probe_type:
             # Single Langmuir Probe
             case PRB.SLP:
