@@ -50,7 +50,7 @@ BUFF_TIMEOUT = 3    # wait for data samples no more than three seconds
 JOIN_TIMEOUT = 5    # wait for Probe Object thread to exit
 MAX_ATTR_ERR = 5    # threshold for AttributeErrors before breaking from _THREAD_MAIN_
 BARR_PARTIES = 2    # number of threads that trigger clock barrier, including clock thread
-DEBUG = True        # defines clock and probe threads' print behavior
+DEBUG = False       # defines clock and probe threads' print behavior
 
 class ProbeOperation(BaseThread):
     """The main thread of the Diagnsotics Layer.
@@ -113,33 +113,38 @@ class ProbeOperation(BaseThread):
         # Invoke BaseThread constructor; AbstractDiagnostics has no constructor.
         super().__init__(*args, daemon=daemon, name=name, **kwargs)
 
-        # --- Save arguments --- #
+        # Save Reusable Arguments
         self.status_flags = status_flags    # system state indicators
         self.command_flags = command_flags  # action triggers
         self.results_buffer = results_buffer    # returns experiment results to System Control
         self.real_time_param = real_time_param  # paramater container for real-time display
         self.probe_factory = probe_factory      # generates probe objects from config values
 
-        # None values until setup_experiment() instatiates the required probe object.
+        # Define placeholder attributes, redefined on arm() call 
         self._probe = None       # the probe object with specific data acquisition algorithms
-        self._ready = False      # configuration is set and probe object was created
-        self._fail = False       # indicate errors during data acquisition
-        self._sys_ref = None
-        self._config_ref = None
-        self._print_buff = None
-        self._data_buff:Queue = None   # container to recieve data samples from probe object
-        self._aggregate_samples:list = None   # stores probe data samples to return to control layer
+        self._sys_ref = None     # system settings
+        self._config_ref = None  # user settings
+        self._data_buff:Queue = None  # container to recieve data samples from probe object
+        self._aggregate_samples:list = None  # stores probe data samples to return to control layer
+
+        # Local state indicators
+        self._ready = Event()      # configuration is set and probe object was created
+        self._fail = Event()       # indicate errors during data acquisition
+
+        # clear local indicators
+        self._ready.clear()
+        self._fail.clear()
 
     # ----- PROBE CONTROL METHODS ----- #
     # TO DO
-    def arm(self, sys_ref, config_ref, print_buff:Queue=None):
+    def arm(self, sys_ref, config_ref):
         """Prepares probe operation for impending plasma diagnostic operations. Instantiates probe,
         clock thread, and other control artifacts.
         """
         self.say("arming...")
         self._sys_ref = sys_ref
         self._config_ref = config_ref
-        self._print_buff = print_buff
+
         # extract config
         probe_id = config_ref["probe_id"]
         sampling_rate = config_ref["sampling_rate"]
@@ -171,8 +176,8 @@ class ProbeOperation(BaseThread):
         )
 
         # configure thread print mode
-        self._clock.console_buff = print_buff
-        self._probe.console_buff = print_buff
+        self._clock.console_buff = self.console_buff
+        self._probe.console_buff = self.console_buff
 
         # set start barrier to delay probe and clock from starting until both are ready
         self._clock.start_barrier = self._clock_barrier
@@ -185,7 +190,7 @@ class ProbeOperation(BaseThread):
         self._data_buff = self._probe.data_buff
 
         # mark probe operation is ready for plasma diagnostics
-        self._ready = True
+        self._ready.set()
 
 
     def _calculate_params(self, samples):
@@ -238,9 +243,9 @@ class ProbeOperation(BaseThread):
                 params, display_params = self._calculate_params(samples)  # perform all calculations
 
                 # update real-time parameter container for display
-                self.real_time_param.update(display_params)  # read by UI layer
-                self.command_flags.refresh.set()        # indicate new data for display
-                self._aggregate_samples.append(params)   # append new samples
+                self.real_time_param.update(display_params) # read by UI layer
+                self.command_flags.refresh.set()            # indicate new data for display
+                self._aggregate_samples.append(params)      # append new samples
             except Empty:   # do nothing while data buffer is empty
                 self.say("data buff empty...")
 
@@ -250,7 +255,7 @@ class ProbeOperation(BaseThread):
                 attribute_errors += 1
                 if attribute_errors >= MAX_ATTR_ERR:
                     self.say("attribute errors exceeded threshold!")
-                    self._fail = True
+                    self._fail.set()    # set flag to True
                     break
                 else:
                     self.pause(BUFF_TIMEOUT)
@@ -261,7 +266,8 @@ class ProbeOperation(BaseThread):
     def _thread_setup_(self):
         """Initialize values and perform entry actions for threaded operations."""
         self._aggregate_samples = []  # clear list
-        self._fail = False            # reset indicator
+        self._fail.clear()            # reset indicator to False
+        
         # TO DO - SET PROBE STATUS FLAGS
 
         # launch probe and clock threads
@@ -271,13 +277,13 @@ class ProbeOperation(BaseThread):
 
         # wait until probe probe thread starts
         self.say("waiting for Probe Object to start...")
-        success = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT) # wait for thread
+        started = self.status_flags.operating.wait(timeout=JOIN_TIMEOUT) # wait for thread
 
         # print error message if probe could not start
-        if not success: 
+        if not started: 
             self.say("Probe Object thread never started!")
             self.say("aborting...")
-            self._fail = True
+            self._fail.set()    # set flag to True
         else:
             super()._thread_setup_() # basic print from parent
 
@@ -287,11 +293,11 @@ class ProbeOperation(BaseThread):
         """Clear values and perform exit actions after threaded operations."""
 
         # Send aggregated results to Control Layer
-        if not self._fail:
+        if not self._fail.is_set():
             self.results_buffer.put(self._aggregate_samples)
             self.say("pushed new sample set to control layer")
         else:
-            self.say("Failure in diagnostics! Did not send samples to control layer.")
+            self.say("Failure in diagnostics! Samples not sent to control layer.")
 
         # Break barrier to prevent deadlocks
         self._clock_barrier.abort()
@@ -311,12 +317,12 @@ class ProbeOperation(BaseThread):
         # TO DO - CLEAR PROBE STATUS FLAGS
 
         # reset probe operation's ready flag
-        self._ready = False
+        self._ready.clear()
 
         # Attempt restart
-        if self.command_flags.diagnose.is_set():
+        if self.command_flags.diagnose.is_set() and not self.command_flags.shutdown.is_set():
             self.say("Reattempting diagnostics...")
-            self.arm(self._sys_ref, self._config_ref, self._print_buff)
+            self.arm(self._sys_ref, self._config_ref)
         else:
             # clear objects
             self._clock = None
@@ -328,7 +334,7 @@ class ProbeOperation(BaseThread):
 
     # thread-safe printing
     def say(self, msg:str):
-        """Prints to directly to console (unsafe), or to PrinterThread (thread-safe) depending on
+        """Prints directly to console (unsafe), or to PrinterThread (thread-safe) depending on
         configuration.
         """
         super().say(msg)
