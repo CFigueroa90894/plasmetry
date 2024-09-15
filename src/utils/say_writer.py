@@ -83,6 +83,11 @@ class SayWriter:
         """
         self.__whisper(msg)
     
+    def close(self):
+        """Close the buffer if it is an instance of TextIOWrapper."""
+        if isinstance(self.__buffer, TextIOWrapper):
+            self.__buffer.close()
+
     def get_mode(self) -> Tuple[str, object]:
         """Returns a tuple with the object's mode and its buffer."""
         return (self.__mode, self.__buffer)
