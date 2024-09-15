@@ -62,7 +62,7 @@ class BaseThread(Thread, metaclass=ABCMeta):
         # Save Arguments
         self.delay = start_delay            # delay run() by specified amount of time
         self.barrier = start_barrier        # delay run() until all threads are at the barrier
-        self._say = text_out             # save print util, SaveWriter object
+        self._say_obj = text_out             # save print util, SaveWriter object
 
         # Create attributes
         self.pause_sig = Event()            # local signal used to pause thread
@@ -130,5 +130,5 @@ class BaseThread(Thread, metaclass=ABCMeta):
     @abstractmethod
     def say(self, msg):
         """<...>"""
-        self._say(f"{self.name} : {msg}")   # invoke SayWriter object as a callable
+        self._say_obj(f"{self.name} : {msg}")   # invoke SayWriter object as a callable
 
