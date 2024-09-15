@@ -2,21 +2,19 @@
 Utilities - Printer Thread
     Provides printing utilities, including a printer thread and a writer object. 
     
-    The sole responsibility of the PrinterThread is 
-    outputting buffered text to a console 
+    The sole responsibility of the PrinterThread is outputting buffered in a thread-safe manner.
+    The SayWriter object provides functionality to output text to various I/O objects, as well
+    as well as outputting text to the PrinterThreads buffer.
 
 author: figueroa_90894@students.pupr.edu
 status: WIP
-  - implement Say object
+    - modify PrinterThread to use SayWriter objects
+    - add docstrings to PrinterThread
 
 classes:
     PrinterThread - reads from a buffer and print to the given output.
     SayWriter - object to provide thread-safe printing functionality
 """
-# author: figueroa_90894@students.pupr.edu
-# status: WIP
-#   - add docstrings
-
 
 # built-in imports
 import sys
@@ -32,7 +30,7 @@ from typing import Tuple
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:  
-    """Resolve absolute imports by recusring into subdirectories and appending them to python path."""
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
     assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
@@ -103,14 +101,14 @@ class SayWriter:
         say("Hello World!") # call the object as a function
     
     Attributes:
-        + end - terminator for Text I/O outputs (default '\n')
-        - __default: bool - set when using the default print mode
+        + end - terminator for Text I/O outputs (default '\\n')
         - __buffer: Queue | TextIOWrapper - object to output text
     
     Mehtods:
         + set_buffer() - changes the printing mode of object
         + __call__() - method called when a SayWriter object is invoked as callable object
-        + get_mode() - returns the currently used buffer
+        + get_mode() - returns the current mode andused buffer
+        - __default() - the default printing method, uses built-in 'print()'
         - __io_write() - write text to the Text I/O object
         - __queue_msg() - enqueue text to the Queue buffer
         - __whisper() - method redefined based on printing mode
@@ -129,7 +127,6 @@ class SayWriter:
             Queue - sets output mode to enqueue messages in the given Queue object
             TextIOWrapper - sets mode to write to the given I/O object
         """
-
         # Use given Queue object to enqueue text to print
         if isinstance(buffer, Queue):
             self.__mode = "Queue"               # used when returning mode info
