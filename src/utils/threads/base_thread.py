@@ -8,7 +8,6 @@ import sys
 import os
 
 from threading import Thread, Event, Timer, Barrier, BrokenBarrierError
-from queue import Queue, Full
 from abc import ABCMeta, abstractmethod
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -42,7 +41,7 @@ class BaseThread(Thread, metaclass=ABCMeta):
     def __init__(self,
                  start_delay:int|float=None,
                  start_barrier:Barrier=None,
-                 console_out:SayWriter=None,
+                 text_out:SayWriter=None,
                  daemon:bool=True,
                  *args, **kwargs
         ):
@@ -50,8 +49,11 @@ class BaseThread(Thread, metaclass=ABCMeta):
         super().__init__(*args, daemon=daemon, **kwargs)   # initialize attributes from parent
         
         # Validate console_out argument
-        if console_out is None:
-            console_out = SayWriter()   # default SayWriter objects use built-in 'print()'
+        if text_out is None:
+            text_out = SayWriter()   # default SayWriter objects use built-in 'print()'
+        # Error handling
+        elif not isinstance(text_out, SayWriter):
+            raise TypeError(f"Console out must be SayWriter! Given {type(text_out)}")
 
         # Validate start_delay and start_barrier arguments
         assert_msg = f"Cannot instantiate with both: delay: {start_delay}, barrier: {start_barrier}"
@@ -60,7 +62,7 @@ class BaseThread(Thread, metaclass=ABCMeta):
         # Save Arguments
         self.delay = start_delay            # delay run() by specified amount of time
         self.barrier = start_barrier        # delay run() until all threads are at the barrier
-        self._say = console_out             # save print util, SaveWriter object
+        self._say = text_out             # save print util, SaveWriter object
 
         # Create attributes
         self.pause_sig = Event()            # local signal used to pause thread
