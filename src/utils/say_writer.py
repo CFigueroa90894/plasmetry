@@ -10,6 +10,11 @@ classes:
     SayWriter - object to provide thread-safe printing functionality
 """
 
+# built-in imports
+from io import TextIOWrapper
+from queue import Queue
+from typing import Tuple
+
 class SayWriter:
     """A basic printing object that abstracts away the need for other objects to manually track
     which output they should print to.
