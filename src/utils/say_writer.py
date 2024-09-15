@@ -34,6 +34,7 @@ class SayWriter:
     Mehtods:
         + set_buffer() - changes the printing mode of object
         + __call__() - method called when a SayWriter object is invoked as callable object
+        + close() - close the writers output stream
         + get_mode() - returns the current mode andused buffer
         - __default() - the default printing method, uses built-in 'print()'
         - __io_write() - write text to the Text I/O object
