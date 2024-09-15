@@ -102,6 +102,7 @@ class BaseThread(Thread, metaclass=ABCMeta):
     @abstractmethod
     def _thread_cleanup_(self):
         """<...>"""
+        self._say_obj.close()
         self.say("exiting...")
         sys.exit(0)
     
