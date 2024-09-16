@@ -268,7 +268,6 @@ class ProbeOperation(BaseThread):
         self._aggregate_samples = []  # clear list
         self._fail.clear()            # reset indicator to False
         
-        self.status_flags.operating.set()   # indicate data acquisition is being performed
         self._ready.clear()     # probe op is not 'ready' to diagnose if already diagnosing
 
         # launch probe and clock threads
@@ -326,9 +325,6 @@ class ProbeOperation(BaseThread):
             self._probe = None
             self._sys_ref = None
             self._config_ref = None
-
-            # reset probe operation status ready flags
-            self.status_flags.operating.clear()
             
             # WARNING this calls sys.exit(0), terminating the thread that calls it
             super()._thread_cleanup_()  # call parent cleanup
