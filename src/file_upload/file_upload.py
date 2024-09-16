@@ -32,7 +32,7 @@ from probe_enum import PRB
 
 class FileUpload:
     
-    def __init__(self, probe_type:PRB, local_path = '', unformatted_data=[], credentials_path=''):
+    def __init__(self, probe_type:PRB, unformatted_data:list, local_path:str, credentials_path:str):
         
         
         """FileUpload construtor"""
@@ -46,7 +46,7 @@ class FileUpload:
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
             self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
-            
+
         # Storing wrapper for offsite data uploading
         self.offsite_wrapper = GoogleDrive(credentials_path)
         
