@@ -6,6 +6,7 @@
 # built-in imports
 import sys
 import os
+import traceback
 
 from threading import Thread, Event, Timer, Barrier, BrokenBarrierError
 from abc import ABCMeta, abstractmethod
@@ -80,7 +81,11 @@ class BaseThread(Thread, metaclass=ABCMeta):
         """<...>
         <the method invoked when calling start()>"""
         self._thread_setup_()
-        self._THREAD_MAIN_()
+        try:
+            self._THREAD_MAIN_()
+        except Exception as err:
+            self.say(err)
+            self.say(traceback.format_exc())
         self._thread_cleanup_()
 
     # ----- LIFE CYCLE UTILS ----- #
