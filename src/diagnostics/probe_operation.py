@@ -19,6 +19,7 @@ classes:
 # built-in imports
 import sys
 import os
+import traceback
 
 from threading import Event, Barrier
 from queue import Queue, Empty
@@ -50,7 +51,6 @@ BUFF_TIMEOUT = 3    # wait for data samples no more than three seconds
 JOIN_TIMEOUT = 5    # wait for Probe Object thread to exit
 MAX_ATTR_ERR = 5    # threshold for AttributeErrors before breaking from _THREAD_MAIN_
 BARR_PARTIES = 2    # number of threads that trigger clock barrier, including clock thread
-DEBUG = False       # defines clock and probe threads' print behavior
 
 class ProbeOperation(BaseThread):
     """The main thread of the Diagnsotics Layer.
@@ -93,6 +93,8 @@ class ProbeOperation(BaseThread):
                  probe_factory,
                  name:str="PRB_OP",
                  daemon:bool=True,
+                 perform_calculation:bool=True,
+                 debug:bool=False,
                  *args, **kwargs
         ):
         """"Use keyword arguments to correctly invoke parent constructors.
@@ -119,7 +121,9 @@ class ProbeOperation(BaseThread):
         self.results_buffer = results_buffer    # returns experiment results to System Control
         self.real_time_param = real_time_param  # paramater container for real-time display
         self.probe_factory = probe_factory      # generates probe objects from config values
-
+        self.calculate = perform_calculation    # if False calculations will be skipped
+        self.debug = debug
+        
         # Define placeholder attributes, redefined on arm() call 
         self._probe = None       # the probe object with specific data acquisition algorithms
         self._sys_ref = None     # system settings
@@ -163,8 +167,7 @@ class ProbeOperation(BaseThread):
             tick_rate=sampling_rate,
             trigger=sample_trigger,
             kill=kill,
-            debug=DEBUG,
-            start_barrier=self._clock_barrier,
+            debug=self.debug,
             name="Clock"
         )
         # initialize Probe Object thread through Probe Factory
@@ -176,12 +179,12 @@ class ProbeOperation(BaseThread):
         )
 
         # configure thread print mode
-        self._clock.console_buff = self.console_buff
-        self._probe.console_buff = self.console_buff
+        self._clock._say_obj = self._say_obj
+        self._probe._say_obj = self._say_obj
 
         # set start barrier to delay probe and clock from starting until both are ready
-        self._clock.start_barrier = self._clock_barrier
-        self._probe.start_barrier = self._clock_barrier
+        self._clock.barrier = self._clock_barrier
+        self._probe.barrier = self._clock_barrier
 
         # pass sample trigger to probe
         self._probe.sample_trig = sample_trigger
@@ -223,8 +226,13 @@ class ProbeOperation(BaseThread):
         """Invoked when the start() method is called."""
         while self.command_flags.diagnose.is_set() and not self.command_flags.shutdown.is_set():
             self._thread_setup_()
-            self._THREAD_MAIN_()
+            try:
+                self._THREAD_MAIN_()
+            except Exception as err:
+                self.say(err)
+                self.say(traceback.format_exc())
             self._thread_cleanup_()
+
 
     # TO DO - validate
     def _THREAD_MAIN_(self):
@@ -240,12 +248,16 @@ class ProbeOperation(BaseThread):
 
                 # sequentially apply calculations to obtain plasma paramaters
                 samples = ProtectedDictionary(samples)  # enforce mutex
-                params, display_params = self._calculate_params(samples)  # perform all calculations
+                if self.calculate:
+                    params, display_params = self._calculate_params(samples)  # perform all calculations
 
-                # update real-time parameter container for display
-                self.real_time_param.update(display_params) # read by UI layer
-                self.command_flags.refresh.set()            # indicate new data for display
-                self._aggregate_samples.append(params)      # append new samples
+                    # update real-time parameter container for display
+                    self.real_time_param.update(display_params) # read by UI layer
+                    self.command_flags.refresh.set()            # indicate new data for display
+                    self._aggregate_samples.append(params)      # append new samples
+                else: # do not calculate, but log the fact
+                    self.say("calculations skipped...")
+                    self._aggregate_samples = ['CALC SKIPPED']
             except Empty:   # do nothing while data buffer is empty
                 self.say("data buff empty...")
 
