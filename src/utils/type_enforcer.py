@@ -20,7 +20,7 @@ def enforce_type(function):
             pass
         hint_list = list(hint_tupes.values()) # TARGET TYPES
         for i in range(0-len(hint_tupes), 0):
-            if hint_list[i] != type(args[i]):
+            if not isinstance(args[i], hint_list[i]):
                 raise TypeError(f"Expected {hint_list[i]} but received {type(args[i])}")
         result = function(*args, **kwargs)
         return result
