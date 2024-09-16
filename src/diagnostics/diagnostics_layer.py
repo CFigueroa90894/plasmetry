@@ -349,7 +349,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
 #         "status_flags": status,
 #         "command_flags": commands
 #     }
-#     diagnostics_layer = diagnostics(**diagnostics_args)
-#     for sub in diagnostics_layer._info():
-#         print(sub)
+#     diagnostics = diagnostics(**diagnostics_args)
+#     for sub in diagnostics._info():
+#         diagnostics.say(sub)
 
