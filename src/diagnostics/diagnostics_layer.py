@@ -57,9 +57,12 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  command_flags,
                  results_buffer:Queue=None,
                  real_time_param:dict=None,
-                 console_buffer:Queue=None,
+                 name:str="DIAGN",
+                 *args, **kwargs
         ):
         """<...>"""
+        super().__init__(*args, name=name, **kwargs)   # call parent constructor
+
         # default buffer if none was specified
         if results_buffer is None:
             results_buffer = Queue()    # redefine arg variable
@@ -68,12 +71,6 @@ class DiagnosticsLayer(AbstractDiagnostics):
         if real_time_param is None:
             real_time_param = {}        # redefine arg variable
 
-        # override printing method _whisper()
-        if console_buffer is None:
-            self._whisper = self._print
-        else:
-            self.console_buff = console_buffer
-            self._whisper = self._queue_msg
 
         # ----- Save Arguments ----- #
         self._status = status_flags     # system state indicators
@@ -328,23 +325,6 @@ class DiagnosticsLayer(AbstractDiagnostics):
             "probe_factory": self._probe_fac
         }
         return probe_op_args
-    
-    # ----- Print Utils ----- #
-    def _whisper(self, msg):
-        """<...>"""
-        raise NotImplementedError("Whisper method was not overriden correctly in constructor!")
-    
-    def say(self, msg):
-        self._whisper(f"DIAGN: {msg}")
-
-    def _print(self, msg):
-        print(msg, flush=True)
-
-    def _queue_msg(self, msg):
-        try:
-            self.console_buff.put(msg)
-        except Full:
-            pass
 
 
 # # Basic tests
