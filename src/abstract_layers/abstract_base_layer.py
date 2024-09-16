@@ -46,22 +46,48 @@ Reasoning for this Customization Approach:
 """
 
 # built-in imports
+import sys
+import os
+
 from abc import ABCMeta, abstractmethod
 from inspect import ismodule
+
+# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
+    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
+    
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+    print(f"Path Hammer: {src_abs}")
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(1, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
+# ----- END PATH HAMMER ----- #
+
+# local imports
+from say_writer import SayWriter
 
 class AbstractBaseLayer(metaclass=ABCMeta):
     """This abstract class specifies functionality that all of layer's of the Plasmetry Software's
     Architecture must implement.
 
+    Attributes:
+        + name: str - name identifying the layer for printing purposes
+        # _say_obj: SayWriter - text output object
+
     Methods:
         + __init__() - instantiates an object of the class
+        + say() - print messages to configured output
         # _info() - returns information about a layer's subcomponents
         # _load_all_subcomponents() - returns uninstantiated classes of subcomponents
         # _load_mod() - returns a module for a subcomponent
     """
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self, text_out:SayWriter=None, name:str="ABSLYR"):
         """Constructor for the layer. Each layer must implement this method separately, to account
         for their specific subcomponents.
         
@@ -74,7 +100,17 @@ class AbstractBaseLayer(metaclass=ABCMeta):
                 - instantiate the lower layer's object
                 - instantiate the the current layer's subcomponents
         """
-        raise NotImplementedError("Method was not implemented in subclass!")
+        # Check text output argument
+        if text_out is None:
+            text_out = SayWriter()  # use default output object
+
+        # Save arguments
+        self._say_obj = text_out    # SayWriter object for printing messages
+        self.name = name            # identifier for printing
+
+    def say(self, msg):
+        """Outputs text to the SayWriter object, formatted with the layer name."""
+        self._say_obj(f"{self.name}: {msg}")
     
     @abstractmethod
     def _info(self):
