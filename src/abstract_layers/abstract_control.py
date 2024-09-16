@@ -66,13 +66,13 @@ class AbstractControl(AbstractBaseLayer):
     """
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Called by upper layers to instantiate this layer.
         
         Default or custom subcomponents will be instantiated and assembled as a whole, as well as
         initializing the lower layers.
         """
-        raise NotImplementedError("This function was not overloaded in the subclass!")
+        super().__init__(*args, **kwargs)   # call parent constructor
 
     @abstractmethod
     def set_config(self, probe_id, key:str, value: any) -> bool:

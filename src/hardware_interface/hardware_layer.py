@@ -66,17 +66,11 @@ class HardwareLayer(AbstractHardware):
     channel_factory_mod = 'channel_factory'
     component_factory_mod = 'component_factory'
 
-    def __init__(self, text_out:SayWriter=None, name:str="HWINT"):
+    def __init__(self, name:str="HWINT", *args, **kwargs):
         """The constructor for HardwareLayer class. Takes no arguments. Loads subcomponents then
         assembles the layer by instantiating them.
         """
-        # Save basic arguments
-        self.name = name
-
-        # validate text_out argument
-        if text_out is None:
-            text_out = SayWriter()
-        self._say_obj = text_out
+        super().__init__(*args, name=name, **kwargs)    # call parent constructor
 
         # load subcomponents
         sub = self._load_all_subcomponents()
@@ -93,10 +87,6 @@ class HardwareLayer(AbstractHardware):
         self._wrapper._say_obj = self._say_obj
 
         self.say("hardware layer initialized...")
-
-    def say(self, msg):
-        """<...>"""
-        self._say_obj(f"{self.name}: {msg}")
 
     def get_component_factory(self):
         """Return the instantiated ComponentFactory."""

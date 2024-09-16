@@ -50,14 +50,14 @@ class AbstractHardware(AbstractBaseLayer):
     """
 
     @abstractmethod
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Called by upper layers to instantiate this layer.
         
         Default or custom subcomponents will be instantiated and assembled as a whole. This layer
         should instantiate all hardware component/channel objects, and return them as requested by
         the upper layers through the corresponding factories.
         """
-        raise NotImplementedError("This function was not overloaded in the subclass!")
+        super().__init__(*args, **kwargs)   # call parent constructor
     
     @abstractmethod
     def get_component_factory(self):
