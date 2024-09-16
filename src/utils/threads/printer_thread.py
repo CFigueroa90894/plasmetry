@@ -14,6 +14,7 @@ classes:
 # built-in imports
 import sys
 import os
+import traceback
 
 from threading import Event
 from queue import Queue, Empty
@@ -85,6 +86,7 @@ class PrinterThread(BaseThread):
                  text_in:Queue=None,
                  text_out:SayWriter|TextIOWrapper|Tuple[SayWriter|TextIOWrapper]=None,
                  daemon=False,
+                 name="PRINTR",
                  *args, **kwargs):
         """Constructor for the PrinterThread class.
 
@@ -115,7 +117,7 @@ class PrinterThread(BaseThread):
         self._output = self.__make_all_writers(text_out)    # generate private set of writers
         
         # Initialize parent attributes
-        super().__init__(*args, daemon=daemon, text_out=public_writer, **kwargs)
+        super().__init__(*args, name=name, daemon=daemon, text_out=public_writer, **kwargs)
 
     # ----- PUBLIC METHODS ----- #        
     def get_writer(self):
@@ -131,7 +133,7 @@ class PrinterThread(BaseThread):
         while not self.kill.is_set() or not self._input.empty():
             try:
                 # Attempt to write to all output writers
-                self.__write(self._input.get(timeout=BUFF_TIMEOUT))
+                self.__write(self.read())
             except Empty:
                 pass  # Catch the exception and continue looping
     
@@ -186,6 +188,9 @@ class PrinterThread(BaseThread):
         """Outputs text to all the private writers."""
         for writer in self._output:
             writer(msg)
+
+    def read(self):
+        return self._input.get(timeout=BUFF_TIMEOUT)
 
 # # Basic Tests
 # if __name__ == "__main__":
