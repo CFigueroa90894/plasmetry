@@ -58,8 +58,11 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
                  sampling_rate:int,
                  relay_set:int,
                  sample_trig:Event=None,
+                 *args, **kwargs
                  ):
         """<...>"""
+        super().__init__(*args, **kwargs)   # call parent constructor
+
         # PROBE INFO
         self.id = probe_id                  # identifier for testing and validation
         self.sys_ref = sys_ref              # dictionary with system settings
@@ -81,5 +84,9 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     @abstractmethod
     def run(self) -> None:
         """Executes the data acquisition process. Children must override it."""
-        raise NotImplementedError
+        super().run()   # call parent run method
+    
+    def say(self, msg):
+        """<...>"""
+        super().say(msg)
 
