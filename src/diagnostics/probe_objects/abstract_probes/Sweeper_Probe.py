@@ -58,7 +58,7 @@ class SweeperProbe(BaseProbe):
             # get sample
             bias = self.sweeper.write(index)    # output the voltage step in the given index
             volt = self.collector.read()        # get a voltage sample
-            
+            self.say(f"sweep bias: {round(bias, 4)}V")
             # save sample
             applied_bias.append(bias)           # save outputted bias
             sampled_volt.append(volt)           # save the measured voltage
