@@ -82,7 +82,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         sub = self._load_all_subcomponents()   # import subcomponents, returned in a dict
         
         # instantiate lower layer
-        self._hardware = sub["hardware_layer"]()  # lower layer interface
+        self._hardware = sub["hardware_layer"](text_out=self._say_obj)  # lower layer interface
         self._comp_fac = self._hardware.get_component_factory() # makes hardware components
 
         # prepare factories
@@ -327,29 +327,29 @@ class DiagnosticsLayer(AbstractDiagnostics):
         return probe_op_args
 
 
-# # Basic tests
-# if __name__ == "__main__":
+# Basic tests
+if __name__ == "__main__":
     
-#     # local imports
-#     from system_flags import StatusFlags, CommandFlags
-#     import hardware_layer
+    # local imports
+    from system_flags import StatusFlags, CommandFlags
+    import hardware_layer
     
-#     # init control objects
-#     status = StatusFlags()
-#     commands = CommandFlags()
+    # init control objects
+    status = StatusFlags()
+    commands = CommandFlags()
 
-#     # configure custom layers for test
-#     hardware = hardware_layer
-#     hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
-#     diagnostics = DiagnosticsLayer
-#     diagnostics.hardware_layer_mod = hardware
+    # configure custom layers for test
+    hardware = hardware_layer
+    hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+    diagnostics = DiagnosticsLayer
+    diagnostics.hardware_layer_mod = hardware
 
-#     # init diagnostics layer
-#     diagnostics_args = {
-#         "status_flags": status,
-#         "command_flags": commands
-#     }
-#     diagnostics = diagnostics(**diagnostics_args)
-#     for sub in diagnostics._info():
-#         diagnostics.say(sub)
+    # init diagnostics layer
+    diagnostics_args = {
+        "status_flags": status,
+        "command_flags": commands
+    }
+    diagnostics = diagnostics(**diagnostics_args)
+    for sub in diagnostics._info():
+        diagnostics.say(sub)
 
