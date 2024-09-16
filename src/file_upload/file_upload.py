@@ -32,7 +32,7 @@ from probe_enum import PRB
 
 class FileUpload:
     
-    def __init__(self, probe_type:PRB, unformatted_data:list, local_path:str, credentials_path:str):
+    def __init__(self, probe_type:PRB, local_path = '', unformatted_data=[], credentials_path=''):
         
         
         """FileUpload construtor"""
