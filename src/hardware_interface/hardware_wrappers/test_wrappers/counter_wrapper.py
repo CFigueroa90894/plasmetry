@@ -1,5 +1,11 @@
-# author: figueroa_90894@students.pupr.edu
-# status: DONE
+"""G3 - Plasma Devs
+Layer 4 - Hardware Interface - Counter Wrapper
+    Implements a test wrapper that prints all recieved arguments.
+
+author: figueroa_90894@students.pupr.edu
+status: WIP
+  - add SayWriter usage
+"""
 
 # built-in imports
 import sys
@@ -9,12 +15,14 @@ import os
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 3             # how many parent folders to reach /plasmetry/src
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    # absolute path to plasmetry/src
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..')
     print(f"Path Hammer: {src_abs}")
     split = src_abs.split('\\')     # separate path into folders for validation
     assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
+    # get subdirs, exclude __pycache__
+    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] 
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
@@ -23,72 +31,67 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 from abstract_wrapper import AbstractWrapper
 from type_enforcer import enforce_type
 
+from say_writer import SayWriter
+
 
 class CounterWrapperTest(AbstractWrapper):
     """A dummy hardware interface wrapper for testing purposes.
     Prints arguments and tracks calls to read methods.
     """
 
-    def __init__(self, name:str="CountHW", debug:bool=False):
+    def __init__(self, name:str="CountHW", debug:bool=False, output:SayWriter=None):
         """Initialize CounterWrapperTest.
         
                 name: str - shorthand name for printing  
                 debug: bool - set to print debug messages
         """
-        # Instance attributes
-        self.name = name            # shorthand name
-        self.analog_in_count = 0    # number of times read_analog() has been called for this object
-        self.analog_out_count = 0   # number of times write_analog() has been called for this object
-        self.digital_in_count = 0   # number of times read_digital() has been called for this object
-        self.digital_out_count = 0  # number of times write_digital() has been called for this object
-        self.debug = debug          # boolean, to decide whether to print debug messages
-        
-        # Debug prints
-        if self.debug:
-            self.say(f"init {type(self)}")
-            self.print_state()
+        # Validate output writer
+        if output is None:
+            output = SayWriter()
 
+        # Instance attributes
+        self._say_obj = output
+        self.name = name            # shorthand name
+        self.analog_in_count = 0    # number of times read_analog() has been called
+        self.analog_out_count = 0   # number of times write_analog() has been called
+        self.digital_in_count = 0   # number of times read_digital() has been called
+        self.digital_out_count = 0  # number of times write_digital() has been called
+        self.debug = debug          # boolean, to decide whether to print debug messages
 
     # ----- ANALOG I/O ----- #
     @enforce_type
-    def write_analog(self, address:int, value:float) -> None:
-        """Prints arguments.
-        """
+    def write_analog(self, address:int, value:float|int) -> None:
+        """Prints arguments."""
         self.analog_out_count += 1    # increment counter
-        if self.debug:                # print debug message
-            self.say(f"analog out - address: {address}; value: {value}; count: {self.analog_out_count}")
+        self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
 
     @enforce_type
     def read_analog(self, address:int) -> float:
         """Print arguments. Return count value as float."""
         self.analog_in_count += 1     # increment counter
-        if self.debug:                # print debug message
-            self.say(f"analog in - address: {address}; count: {self.analog_in_count}")
+        self.say(f"Ain addr:{address} count:{self.analog_in_count}")
         return float(self.analog_in_count)
 
 
     # ----- DIGITAL I/O ----- #
     @enforce_type
     def write_digital(self, address: int, level: bool) -> None:
-        """Prints arguments.
-        """
+        """Prints arguments."""
         self.digital_out_count += 1    # increment counter
-        if self.debug:
-            self.say(f"digital out - address: {address}; level: {level}; count: {self.digital_out_count}")
+        self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
     
     @enforce_type
     def read_digital(self, address: int) -> bool:
-        """Print arguments. Return count value as int."""
+        """Print arguments. Returns True."""
         self.digital_in_count += 1     # increment counter
-        if self.debug:                 # print debug message
-            self.say(f"digital in - address: {address}; count: {self.digital_in_count}")
-        return int(self.digital_in_count)
+        self.say(f"Din addr:{address} count:{self.digital_in_count}")
+        return True
 
 
     # ----- UTILITIES ----- #
     def say(self, msg):
         """Print messages prepended with object's name."""
-        print(f"{self.name}: {msg}")
+        self._say_obj(f"{self.name}: {msg}")
 
     def print_state(self):
         state_msg = self.lpreppend(1, '\t ', self.state())
@@ -118,34 +121,34 @@ class CounterWrapperTest(AbstractWrapper):
 wrapper = CounterWrapperTest
 
 
-# ----- BASIC TESTS ----- #
-if __name__ == "__main__":
-    print("COUNTER WRAPPER TESTS")
-    obj  = CounterWrapperTest(debug=True)   # initialize with debug prints enabled
+# # ----- BASIC TESTS ----- #
+# if __name__ == "__main__":
+#     print("COUNTER WRAPPER TESTS")
+#     obj  = CounterWrapperTest(debug=True)   # initialize with debug prints enabled
 
-    # Digital Input
-    print("\nDIGITAL INPUT")
-    obj.read_digital(0)
+#     # Digital Input
+#     print("\nDIGITAL INPUT")
+#     obj.read_digital(0)
 
-    # Analog Input
-    print("\nANANLOG INPUT")
-    obj.read_analog(1)
-    obj.read_analog(1)
+#     # Analog Input
+#     print("\nANANLOG INPUT")
+#     obj.read_analog(1)
+#     obj.read_analog(1)
 
-    # Digital Output
-    print("\nDIGITAL OUTPUT")
-    obj.write_digital(2, True)
-    obj.write_digital(2, False)
-    obj.write_digital(2, True)
+#     # Digital Output
+#     print("\nDIGITAL OUTPUT")
+#     obj.write_digital(2, True)
+#     obj.write_digital(2, False)
+#     obj.write_digital(2, True)
 
-    # Analog Output
-    print("\nANALOG INPUT")
-    obj.write_analog(3, 1.5)
-    obj.write_analog(3, 1.0)
-    obj.write_analog(3, 0.5)
-    obj.write_analog(3, 0.0)
+#     # Analog Output
+#     print("\nANALOG INPUT")
+#     obj.write_analog(3, 1.5)
+#     obj.write_analog(3, 1.0)
+#     obj.write_analog(3, 0.5)
+#     obj.write_analog(3, 0.0)
 
-    # Print final state
-    print()
-    obj.say("final state")
-    obj.print_state()
+#     # Print final state
+#     print()
+#     obj.say("final state")
+#     obj.print_state()

@@ -32,7 +32,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 
 # local imports
 from abstract_hardware import AbstractHardware
-
+from say_writer import SayWriter
 
 # TO DO
 class HardwareLayer(AbstractHardware):
@@ -66,10 +66,18 @@ class HardwareLayer(AbstractHardware):
     channel_factory_mod = 'channel_factory'
     component_factory_mod = 'component_factory'
 
-    def __init__(self):
+    def __init__(self, text_out:SayWriter=None, name:str="HWINT"):
         """The constructor for HardwareLayer class. Takes no arguments. Loads subcomponents then
         assembles the layer by instantiating them.
         """
+        # Save basic arguments
+        self.name = name
+
+        # validate text_out argument
+        if text_out is None:
+            text_out = SayWriter()
+        self._say_obj = text_out
+
         # load subcomponents
         sub = self._load_all_subcomponents()
         hardware_wrapper_cls = sub["hardware_wrapper"]
@@ -80,6 +88,15 @@ class HardwareLayer(AbstractHardware):
         self._wrapper = hardware_wrapper_cls()
         self._channel = channel_factory_cls(hardware_wrapper=self._wrapper)
         self._component = component_factory_cls(channel_factory=self._channel)
+
+        # Try to pass the wrapper a SayWriter object
+        self._wrapper._say_obj = self._say_obj
+
+        self.say("hardware layer initialized...")
+
+    def say(self, msg):
+        """<...>"""
+        self._say_obj(f"{self.name}: {msg}")
 
     def get_component_factory(self):
         """Return the instantiated ComponentFactory."""
@@ -112,4 +129,4 @@ class HardwareLayer(AbstractHardware):
                ('Hardware Interface', 'Channel Factory', str(self._channel)),
                ('Hardware Interface', 'Component Factory', str(self._component))]
         return sub
-
+    
