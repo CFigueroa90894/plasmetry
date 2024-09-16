@@ -28,8 +28,7 @@ def process_sweep(sweep_data, experiment_run):
     # Deleting the appended sweep data
     del experiment_run['Bias 1']
     del experiment_run['Raw voltage 1']
-    del experiment_run['Filtered current']
-    
+    del experiment_run['Filtered current']  
     
 def create_csv_object(data):
     
@@ -64,17 +63,26 @@ def process_data(unformatted_data):
     # Initializing the lists used for storing the parameters and sweep data
     sweep_data = []
     calculated_parameters = []
+    experiment_metadata = []
+    
+    experiment_metadata.append(unformatted_data[0]['config_ref'])
     
     # Going through each dictionary in the list of data
     for experiment_run in unformatted_data:
         
         # Verifying if there is sweep data 
         if  is_a_sweep(unformatted_data):
+            
             # Processing the sweep data and storing it in sweep_data list
             process_sweep(sweep_data, experiment_run)
+            
+        
+        
+        del experiment_run['config_ref']
+        
         # Storing the parameters data.
         calculated_parameters.append(experiment_run)
-    
+
     # Verifying if sweep data exists to create object with csv contents
     if sweep_data:
         
@@ -89,5 +97,7 @@ def process_data(unformatted_data):
     # Storing parameter csv contents
     parameters_csv = create_csv_object(calculated_parameters)
     
+    metadata_csv = create_csv_object(experiment_metadata)
+    
     # Returning csv contents objects
-    return parameters_csv, sweep_csv
+    return metadata_csv, parameters_csv, sweep_csv

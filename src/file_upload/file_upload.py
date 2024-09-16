@@ -45,7 +45,7 @@ class FileUpload:
             
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
-            self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
+            self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
             
         # Storing wrapper for offsite data uploading
         self.offsite_wrapper = GoogleDrive(credentials_path)
@@ -61,7 +61,7 @@ class FileUpload:
         
         #Setting the csv content objects containing sweep and parameters data
         # If no sweep data, the object will remain empty.
-        self.parameters_csv, self.sweep_csv = process_data(parameters)
+        self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(parameters)
 
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
@@ -86,6 +86,8 @@ class FileUpload:
             
             self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.probe_folder}')
             
+            self.local_uploader.write_file(self.experiment_metadata, f'{self.local_uploader.parent_folder}/ experiment metadata.csv' )
+
             # Creating the csv containing parameters date
             self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.parent_folder}/ parameters.csv' )
             
@@ -109,10 +111,13 @@ class FileUpload:
                 self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()}')
             
                 self.folder_change(self.offsite_wrapper, f'{self.probe_folder}')
-
+                
+                # Storing the parameters csv object
+                self.offsite_wrapper.put_request(self.experiment_metadata, 'experiment metadata.csv')
+                
                 # Storing the parameters csv object
                 self.offsite_wrapper.put_request(self.parameters_csv, 'parameters.csv')
-                    
+                
                 # Verifying if there is sweep data
                 if  self.sweep_csv:
                     
