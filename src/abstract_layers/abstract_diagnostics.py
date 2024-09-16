@@ -50,7 +50,7 @@ class AbstractDiagnostics(AbstractBaseLayer):
     """
 
     @abstractmethod
-    def __init__(self, status_flags, command_flags, results_buff, keysets):
+    def __init__(self, *args, **kwargs):
         """Called by upper layers to instantiate this layer.
         
         Default or custom subcomponents will be instantiated and assembled as a whole, as well as
@@ -64,7 +64,7 @@ class AbstractDiagnostics(AbstractBaseLayer):
                 default: Queue - if no queue given, creates a new one, accesible as an attribute
             keysets: dict - all sets of keys and enumerators used to access structured data
         """
-        raise NotImplementedError("This function was not overloaded in the subclass!")
+        super().__init__(*args, **kwargs)   # call parent constructor
 
     @abstractmethod
     def setup_diagnostics(self):
