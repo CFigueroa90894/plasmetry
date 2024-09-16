@@ -72,8 +72,8 @@ if __name__ == "__main__":
     
     LOCAL_PATH = str(current_directory) + '/testing path/'
     CREDENTIALS_PATH = '../credentials/plasma-software-data-upload-e75374a18f56.json'
-    NUMBER_OF_SWEEPS = 3
-    PROBE_TYPE = PRB(1)
+    NUMBER_OF_SWEEPS = 10
+    PROBE_TYPE = PRB(0)
     list_of_parameters = []
     
     for i in range(NUMBER_OF_SWEEPS):
