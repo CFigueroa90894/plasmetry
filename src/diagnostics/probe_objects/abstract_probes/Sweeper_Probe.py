@@ -44,11 +44,33 @@ class SweeperProbe(BaseProbe):
         self.sweeper = sweeper      # output voltages to sweeper source
         self.collector = collector  # obtain voltage samples to calculate probe current
 
-    # TO DO
     def sweep(self) -> dict:
         """Performs a single voltage sweep on the sweeper object.
         Returns a dictionary consisting of applied biases and raw sampled voltages."""
-        raise NotImplementedError
+        # setup
+        applied_bias = []   # list of applied high voltage biases
+        sampled_volt = []   # list of measured voltages
+
+        # iterate through premapped voltage steps 
+        for index in range(self.num_samples):
+            self.sample_trig.wait()             # wait for 'get sample' signal
+
+            # get sample
+            bias = self.sweeper.write(index)    # output the voltage step in the given index
+            volt = self.collector.read()        # get a voltage sample
+            
+            # save sample
+            applied_bias.append(bias)           # save outputted bias
+            sampled_volt.append(volt)           # save the measured voltage
+            
+            self.sample_trig.clear()            # reset the signal
+        
+        # package data samples for return
+        samples = {
+            "Bias 1": applied_bias,
+            "Raw Voltage 1": sampled_volt
+        }
+        return samples
 
 
 
