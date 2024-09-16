@@ -82,9 +82,4 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     def run(self) -> None:
         """Executes the data acquisition process. Children must override it."""
         raise NotImplementedError
-    
-    @abstractmethod
-    def _graceful_exit(self):
-        """Complete all pending actions, then exit gracefully."""
-        raise NotImplementedError
 
