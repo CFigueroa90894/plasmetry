@@ -99,6 +99,7 @@ class ProbeFactory:
         probe_args["probe_id"] = probe_type
         probe_args["equations"] = self.calculations_factory(probe_type)
         probe_args["name"] = probe_name
+        probe_args["text_out"] = config_ref["text_out"]
         
         # Initialize and return Probe Object using packed arguments.
         return Probe_Class(**probe_args)
@@ -167,7 +168,7 @@ class ProbeFactory:
             "num_samples": num_samples,
             "sweeper": sweeper,
             "collector": collector,
-            "sweeper_shunt": self.config["sweeper_shunt"]
+            "sweeper_shunt": self.config["sweeper_shunt"],
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
