@@ -60,7 +60,7 @@ class CounterWrapperTest(AbstractWrapper):
 
     # ----- ANALOG I/O ----- #
     @enforce_type
-    def write_analog(self, address:int, value:float) -> None:
+    def write_analog(self, address:int, value:float|int) -> None:
         """Prints arguments."""
         self.analog_out_count += 1    # increment counter
         self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
