@@ -7,7 +7,6 @@ author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
     - uncomment hardware shutdown when implemented (in diagnostics_shutdown)
-    - move print utils to AbstractBaseLayer
     - validate with team
 """
 # built-in imports
