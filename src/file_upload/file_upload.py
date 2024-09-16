@@ -85,6 +85,7 @@ class FileUpload:
             self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.current_datetime.date()}')
             
             self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.probe_folder}')
+            
             # Creating the csv containing parameters date
             self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.parent_folder}/ parameters.csv' )
             
@@ -110,15 +111,13 @@ class FileUpload:
                 self.folder_change(self.offsite_wrapper, f'{self.probe_folder}')
 
                 # Storing the parameters csv object
-                self.offsite_wrapper.put_request(self.parameters_csv, \
-                                                 'parameters.csv')
+                self.offsite_wrapper.put_request(self.parameters_csv, 'parameters.csv')
                     
                 # Verifying if there is sweep data
                 if  self.sweep_csv:
                     
                     # Storing the sweep csv object
-                    self.offsite_wrapper.put_request(self.sweep_csv, \
-                                                     'sweeps data.csv')
+                    self.offsite_wrapper.put_request(self.sweep_csv, 'sweeps data.csv')
                     
         else: print('No credentials path set!')
     
@@ -133,6 +132,7 @@ class FileUpload:
     def get_probe_folder(self, probe_type:PRB):
         
         match probe_type:
+            
             # Single Langmuir Probe
             case PRB.SLP:
                 self.probe_folder = "Single Langmuir Probe"
