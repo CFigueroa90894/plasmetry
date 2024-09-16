@@ -58,6 +58,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  results_buffer:Queue=None,
                  real_time_param:dict=None,
                  name:str="DIAGN",
+                 perform_calculations:bool=True,
+                 debug:bool=True,
                  *args, **kwargs
         ):
         """<...>"""
@@ -77,6 +79,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
         self._command = command_flags   # action triggers
         self._result_buff = results_buffer         # buffer to pass experiment results up the stack
         self._real_time_param = real_time_param
+        self.calculate = perform_calculations
+        self.debug = debug
 
         # ----- Assemble Diagnostic Layer ----- #
         sub = self._load_all_subcomponents()   # import subcomponents, returned in a dict
@@ -100,6 +104,9 @@ class DiagnosticsLayer(AbstractDiagnostics):
         self._ready.clear()
         self._terminated.clear()
         self._performing_diagnostics.clear()
+
+        self.say(f"DEBUG - {self.debug}")
+        self.say("diagnostics layer initialized...")
         
 
     # ----- LAYER PUBLIC METHODS ----- #
@@ -136,7 +143,12 @@ class DiagnosticsLayer(AbstractDiagnostics):
 
             # prepare the probe operation thread
             args = self.__probe_op_args()                # prepared from instance attributes
-            self._probe_op = self._probe_op_cls(**args)  # instantiate ProbeOperation
+            
+            # instantiate ProbeOperation
+            self._probe_op = self._probe_op_cls(
+                perform_calculation=self.calculate,
+                debug=self.debug, 
+                **args)
             self._probe_op.arm(sys_ref, config_ref)      # prepare thread for diagnostics
 
             # confirm subcomponents are ready for diagnostics
@@ -244,7 +256,6 @@ class DiagnosticsLayer(AbstractDiagnostics):
         self.say("layer shutdown complete.")
         self._terminated.set()
 
-
     # ----- Layer Specific Utils ----- #
     def _are_we_diagnosing(self) -> bool:
         """<...>"""
@@ -254,15 +265,12 @@ class DiagnosticsLayer(AbstractDiagnostics):
         state = state or self._performing_diagnostics.is_set()  
         return state
     
-
     def _load_all_subcomponents(self):
         """<...>"""
         # load subcomponent modules
         calculations_factory_mod = self._load_mod(self.calculations_factory_mod)
         probe_factory_mod = self._load_mod(self.probe_factory_mod)
         probe_operation_mod = self._load_mod(self.probe_operation_mod)
-
-        print(type(calculations_factory_mod))
 
         # load subcomponent classes
         calc_fac_cls = calculations_factory_mod.CalculationsFactory
@@ -322,7 +330,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
             "command_flags": self._command,
             "results_buffer": self._result_buff,
             "real_time_param": self._real_time_param,
-            "probe_factory": self._probe_fac
+            "probe_factory": self._probe_fac,
+            "text_out": self._say_obj
         }
         return probe_op_args
 
@@ -330,13 +339,33 @@ class DiagnosticsLayer(AbstractDiagnostics):
 # Basic tests
 if __name__ == "__main__":
     
+    # built-in imports
+    import time
+    import datetime
+
     # local imports
     from system_flags import StatusFlags, CommandFlags
     import hardware_layer
+    from probe_enum import PRB
+    from printer_thread import PrinterThread
     
     # init control objects
     status = StatusFlags()
     commands = CommandFlags()
+    kill = Event()
+
+    # init printer thread
+    fname = str(datetime.datetime.now()).replace(':', '_')
+    f = open(f"test_logs/TEST_{fname}.txt", 'a')
+    out = [None, f]
+    printer = PrinterThread(kill=kill, text_out=out)
+    writer = printer.get_writer()
+
+
+    writer(f"# {fname}")
+
+    # start printer
+    printer.start()
 
     # configure custom layers for test
     hardware = hardware_layer
@@ -347,9 +376,59 @@ if __name__ == "__main__":
     # init diagnostics layer
     diagnostics_args = {
         "status_flags": status,
-        "command_flags": commands
+        "command_flags": commands,
+        "text_out": writer,
+        "perform_calculations": False,
+        "debug": True
     }
     diagnostics = diagnostics(**diagnostics_args)
     for sub in diagnostics._info():
         diagnostics.say(sub)
+    
+    # probe user config
+    slp_config_ref = {
+        "probe_id": PRB.SLP,
+        "text_out": diagnostics._say_obj,
+
+        # base probe
+        "sampling_rate": 5,
+        "dac_min": 0,
+        "dac_max": 4,
+
+        # sweeper probe
+        "num_samples": 10,
+        "sweep_min": -300,
+        "sweep_max": 300,
+        "sweep_amp_min": -300,
+        "sweep_amp_max": 300,
+        "sweeper_shunt": 10,
+        "collector_gain": 1
+    }
+
+    # probe system config
+    slp_sys_ref = {
+        # base probe
+        "relay_addresses": [0, 1, 2, 3],
+
+        # sweeper probe
+        "sweeper_address": 4,
+        "collector_address":5
+    }
+
+    # test setup_diagnostics
+    diagnostics.setup_diagnostics(sys_ref=slp_sys_ref, config_ref=slp_config_ref)
+    probe = diagnostics._probe_op._probe
+    diagnostics.say(f"probe {probe}")
+
+    # test start_diagnostics
+    diagnostics.start_diagnostics()
+
+    # test stop_diagnsotics
+    time.sleep(10)
+    diagnostics.stop_diagnostics()
+
+    # stop printer
+    printer.kill.set()
+    printer.join()
+
 
