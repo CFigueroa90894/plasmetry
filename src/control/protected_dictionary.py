@@ -43,6 +43,14 @@ class ProtectedDictionary:
         with self.__thread_lock:
             self.__validate_readable()
             return self.__dict.keys()
+        
+    def values(self):
+        """<...>
+        <guarantees mutual exclusion>
+        <usage: obj.values()>"""
+        with self.__thread_lock:
+            self.__validate_readable()
+            return self.__dict.values()
     
     def copy(self):
         """<...>"""
