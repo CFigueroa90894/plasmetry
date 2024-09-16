@@ -50,8 +50,8 @@ class GoogleDrive(OffsiteUpload):
         # Error handling if socket.gaierror is raised
         # Usually raised due to network issues, DNS problems 
         # and firewall or proxy settings that block the request
-        except socket.gaierror:
-            print('Cannot connect to Google Drive. Verify your internet connection')
+        except socket.gaierror as er:
+            print(f'{er}: Cannot connect to Google Drive. Verify your internet connection')
             return None
             
     def authenticate_connection(self):
@@ -108,7 +108,7 @@ class GoogleDrive(OffsiteUpload):
         items = results.get('files', [])
         
         if items:
-            self.authenticate_connection()
+            
             self.set_folder_id(items[0]['id'])
             return True
         else:
