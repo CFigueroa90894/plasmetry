@@ -66,28 +66,28 @@ class ExperimentSetup(QMainWindow):
         self.tlp_c_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_sampling_rate_input, -1))
         self.tlp_c_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_sampling_rate_input, +1))
 
-        self.tlp_c_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_collector_gain_input, -1))
-        self.tlp_c_up_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_collector_gain_input, +1))
+        self.tlp_c_positive_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_positive_collector_gain_input, -1))
+        self.tlp_c_positive_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_positive_collector_gain_input, +1))
 
-        self.tlp_c_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_amp_bias_input, -1))
-        self.tlp_c_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_amp_bias_input, +1))
+        self.tlp_c_positive_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_positive_amp_bias_input, -1))
+        self.tlp_c_positive_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_positive_amp_bias_input, +1))
 
-        self.tlp_c_low_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_low_collect_gain_input, -1))
-        self.tlp_c_low_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_low_collect_gain_input, +1))
+        self.tlp_c_negative_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_negative_collect_gain_input, -1))
+        self.tlp_c_negative_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_negative_collect_gain_input, +1))
 
-        self.tlp_c_low_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_low_amp_bias_input, -1))
-        self.tlp_c_low_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_low_amp_bias_input, +1))
+        self.tlp_c_negative_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_negative_amp_bias_input, -1))
+        self.tlp_c_negative_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_negative_amp_bias_input, +1))
 
         ############################## TLP-V SIGNALS ##############################
 
         self.tlp_v_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_sampling_rate_input, -1))
         self.tlp_v_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_sampling_rate_input, +1))
 
-        self.tlp_v_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_collector_gain_input, -1))
-        self.tlp_v_up_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_collector_gain_input, +1))
+        self.tlp_v_positive_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_collector_gain_input, -1))
+        self.tlp_v_positive_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_collector_gain_input, +1))
 
-        self.tlp_v_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_amp_bias_input, -1))
-        self.tlp_v_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_up_amp_bias_input, +1))
+        self.tlp_v_positive_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_amp_bias_input, -1))
+        self.tlp_v_positive_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_amp_bias_input, +1))
 
         self.tlp_v_float_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_float_collect_gain_input, -1))
         self.tlp_v_float_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_float_collect_gain_input, +1))

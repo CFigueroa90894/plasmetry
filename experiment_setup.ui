@@ -2741,7 +2741,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_low_collect_gain_minus">
+                  <widget class="QToolButton" name="tlp_c_negative_collect_gain_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2891,7 +2891,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_low_amp_bias_minus">
+                  <widget class="QToolButton" name="tlp_c_negative_amp_bias_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
