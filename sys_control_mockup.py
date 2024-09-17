@@ -2,16 +2,15 @@ class SystemControlMockup:
     def __init__(self):
         self.probe_parameters = {
             "Single Langmuir Probe (SLP)": {
-                "Floating Potential": 0.0,
+                "Floating Potential": 0.5,
                 "Plasma Potential": 0.0,
                 "Electron Saturation Current": 0.0,
-                "Ion Saturation Current": 0.0,
-                "Electron Temperature": 0.0,
+                "Electron Temperature": 10.0,
                 "Electron Density": 0.0,
                 "Ion Temperature": 0.0,
                 "Ion Density": 0.0,
                 "Debye Length": 0.0,
-                "Charged Particles in the Debye Sphere": 0.0,
+                "Particles in Debye Sphere": 0.0,
             },
             "Double Langmuir Probe (DLP)": {
                 "Ion Saturation Current": 0.0,
@@ -21,23 +20,21 @@ class SystemControlMockup:
                 "Ion Density": 0.0,
                 "Debye Length": 0.0,
             },
-            "Triple Langmuir Probe (TLP)": {
-                "TLP-C": {
-                    "Floating Potential": 0.0,
-                    "Plasma Potential": 0.0,
-                    "Electron Temperature": 0.0,
-                    "Electron Density": 0.0,
-                    "Ion Temperature": 0.0,
-                    "Ion Density": 0.0,
-                    "Debye Length": 0.0,
-                },
-                "TLP-V": {
-                    "Floating Potential": 0.0,
-                    "Plasma Potential": 0.0,
-                    "Electron Saturation Current": 0.0,
-                    "Ion Saturation Current": 0.0,
-                    "Electron Temperature": 0.0,
-                },
+            "Triple Langmuir Probe Current (TLP-C)": {
+                "Floating Potential": 0.0,
+                "Plasma Potential": 0.0,
+                "Electron Temperature": 0.0,
+                "Electron Density": 0.0,
+                "Ion Temperature": 0.0,
+                "Ion Density": 0.0,
+                "Debye Length": 0.0,
+            },
+            "Triple Langmuir Probe Voltage (TLP-V)": {
+                "Floating Potential": 0.0,
+                "Plasma Potential": 0.0,
+                "Electron Saturation Current": 0.0,
+                "Ion Saturation Current": 0.0,
+                "Electron Temperature": 0.0,
             },
             "Ion Energy Analyzer (IEA)": {
                 "Floating Potential": 0.0,
