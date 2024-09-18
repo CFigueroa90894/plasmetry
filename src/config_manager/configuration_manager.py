@@ -25,7 +25,9 @@ class ConfigManager:
         self.complete_file = {}
         
     def load_config_file(self):
+        
         print("loading config...")
+        
         if self.file_name:
             with open(f'{self.file_name}', 'r') as config:
                 
@@ -37,15 +39,18 @@ class ConfigManager:
             print('Must set config path!.')
     
     def save_config_file(self):
+        
         print('\nsaving in memory..')
 
         self.complete_file['sys_ref'] = self.sys_ref
         self.complete_file['config_ref'] = self.config_ref
+        
         with open(f'{self.file_name}', 'w') as config_file:
             json.dump(self.complete_file, config_file, indent=4) 
+            
         print('Successfully saved!\n')
-    def set_config(self, probe_id, key, value):
         
+    def set_config(self, probe_id, key, value):
         
             if key in self.sys_ref[probe_id].keys():
                 self.sys_ref[probe_id][key]= value 
