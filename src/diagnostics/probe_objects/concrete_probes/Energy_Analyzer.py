@@ -26,25 +26,19 @@ from Sweeper_Probe import SweeperProbe
 class EnergyAnalyzer(SweeperProbe):
     """<...>"""
     def __init__(self,
-                 rejector_address:int,
-                 collector_bias_address:int,
+                 rejector_bias:float,
+                 collector_bias:float,
+                 rejector_amp,
+                 collector_amp,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-
-        # pack subcomponent arguments
-        rejector_args = {"address": rejector_address,
-                         "type": self.HW.AO}
-        
-        bias_args = {"address": collector_bias_address,
-                     "type": self.HW.AO}
+        # PROBE CONFIG
+        self.rejector_bias = rejector_bias      # fixed voltage bias applied to particle rejector
+        self.collector_bias = collector_bias    # fixed voltage bias applied to particle collector
 
         # PROBE SUBCOMPONENTS
-        self._rejector_bias = self.hard.make(**rejector_args)   # set voltage to reject particles at outer subcomponent
-        self._collector_bias = self.hard.make(**bias_args)      # set voltage to attract particles at innermost subcomponent
-
-    def run(self):
-        """<...>"""
-        raise NotImplementedError
+        self.rejector_amp = rejector_amp    # set voltage to reject particles at outer subcomponent
+        self.collector_amp = collector_amp  # set voltage to attract particles at innermost subcomponent
 

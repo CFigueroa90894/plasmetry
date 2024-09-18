@@ -27,19 +27,18 @@ from Base_Probe import BaseProbe
 class BaseTLP(BaseProbe):
     "<...>"
     def __init__(self,
-                 upper_probe_address:int,
-                 upper_amp_address:int,
+                 up_amp_bias: float,
+                 up_amp,
+                 up_collector,
+                 up_shunt:float,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # pack subcomponent's arguments
-        probe_args = {"address": upper_probe_address,
-                      "type": self.HW.AI}
-        
-        amp_args = {"address": upper_amp_address,
-                    "type": self.HW.AO}
+        # PROBE CONFIG
+        self.up_amp_bias = up_amp_bias  # fixed voltage bias applied to the upper probe
+        self.up_shunt = up_shunt
 
         # PROBE SUBCOMPONENTS
-        self._up_probe = self.hard.make(**probe_args)   # Obtain voltage samples to calculate probe current.
-        self._up_amp = self.hard.make(**amp_args)       # Set voltage source output
+        self.up_amp = up_amp               # Set voltage source output
+        self.up_collector = up_collector   # Obtain voltage samples to calculate probe current.

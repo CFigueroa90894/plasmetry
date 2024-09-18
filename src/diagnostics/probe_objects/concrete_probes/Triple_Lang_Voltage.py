@@ -3,6 +3,17 @@
 #   - add docstrings
 #   - add hardware interface objects
 #   - implement run
+"""
+Triple Langmuir Probe - Voltage Mode
+            - V1 +                          V1 - 'Raw Voltage 1'       (sampled across shunt_1)
+    - |-------S1------- up probe            S1 - 'Shunt 1': up_shunt   (shunt resistor)
+  B1  A1                                    A1 - Up Probe Amp          (up_amp)
+    + |                                     B1 - 'Bias 1': up_amp_bias (applied bias)
+      |---------------- center probe        
+          +                                 V2 - 'Raw Voltage 2'       (sampled center to floating)
+          - V2
+       ---------------- floating probe
+"""
 
 # built-in imports
 import sys
@@ -28,19 +39,11 @@ from Base_TLP import BaseTLP
 class TripleLangVoltage(BaseTLP):
     "<...>"
     def __init__(self,
-                 floating_probe_address:int,
+                 float_collector,
                  *args, **kwargs):
         """<...>"""
         super().__init__(*args, **kwargs)
 
-        # pack subcomponent arguments
-        float_args = {"address": floating_probe_address,
-                      "type": self.HW.AI}
-
         # PROBE SUBCOMPONENTS
-        self.float_probe = self.hard.make(**float_args)     # get voltage difference from center probe down to floating probe
+        self.float_collector = float_collector     # get voltage difference from center probe down to floating probe
 
-    # TO DO
-    def run(self):
-        """<...>"""
-        raise NotImplementedError
