@@ -21,10 +21,10 @@ from threading import Event
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recusring into subdirs and appending them to the python path."""
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
-    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
+    assert src_abs.split('/')[-1*len(root_target):] == root_target   # validate correct top folder
     
     # get subdirs, exclude unwanted
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude]
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('/')[-1] not in exclude]
     for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: {src_abs}")
 
@@ -368,7 +368,7 @@ if __name__ == "__main__":
 
     # configure custom layers for test
     hardware = hardware_layer
-    hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+    hardware.HardwareLayer.hardware_wrapper_mod = 'counter_daqc2_dout_wrapper'
     diagnostics = DiagnosticsLayer
     diagnostics.hardware_layer_mod = hardware
 
