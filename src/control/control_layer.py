@@ -43,6 +43,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 # local imports
 from abstract_layers.abstract_control import AbstractControl
 from system_flags import StatusFlags, CommandFlags
+from protected_dictionary import ProtectedDictionary
 
 from utils.threads.printer_thread import PrinterThread
 
@@ -83,6 +84,7 @@ class ControlLayer(AbstractControl):
         self._status = StatusFlags()        # state indicators
         self._commands = CommandFlags()     # action triggers
         self._results = Queue()             # thread-safe queue to recieve experiment results
+        self._real_time_param = ProtectedDictionary()  # thread-safe container for plasma parameters
 
         # ----- Assemble Control Layer ----- #
         sub = self._load_all_subcomponents()    # import subcompoenents, returns in a dict
