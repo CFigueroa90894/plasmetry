@@ -154,10 +154,16 @@ class ControlLayer(AbstractControl):
         return self._commands
     
     # ----- Layer Specific Utils ----- #
-    # TO DO - Carlos
     def _info(self) -> list:
         """<...>"""
-        raise NotImplementedError
+        sub = [
+            ("Control", "File Upload", str(self._file_upload)),
+            ("Control", "Config Manager", str(self._config_manager)),
+            ("Control", "Diagnostics Layer", str(self._diagnostics)),
+        ]
+        sub.extend(self._diagnostics._info())
+        return sub
+        
     
     def _load_all_subcomponents(self) -> dict:
         """<...>"""
