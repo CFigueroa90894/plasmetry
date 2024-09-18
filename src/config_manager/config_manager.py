@@ -26,9 +26,10 @@ class ConfigManager:
         
     def load_config_file(self):
         
-        print("loading config...")
         
         if self.file_name:
+            
+            print("loading config...")
             with open(f'{self.file_name}', 'r') as config:
                 
                 self.complete_file = (json.load(config))
@@ -36,22 +37,28 @@ class ConfigManager:
                 self.sys_ref = self.complete_file['sys_ref']
                 self.config_ref= self.complete_file['config_ref']
         else:
-            print('Must set config path!.')
+            print('Must set config path!')
     
     def save_config_file(self):
         
-        print('\nsaving in memory..')
-
-        self.complete_file['sys_ref'] = self.sys_ref
-        self.complete_file['config_ref'] = self.config_ref
-        
-        with open(f'{self.file_name}', 'w') as config_file:
-            json.dump(self.complete_file, config_file, indent=4) 
+        if self.file_name:
             
-        print('Successfully saved!\n')
-        
+            self.complete_file['sys_ref'] = self.sys_ref
+            self.complete_file['config_ref'] = self.config_ref
+            print('\nsaving in memory...')
+
+            with open(f'{self.file_name}', 'w') as config_file:
+                json.dump(self.complete_file, config_file, indent=4)
+            print('Successfully saved!\n')
+                
+        else:
+            print('Must set config path!')
+   
     def set_config(self, probe_id, key, value):
         
+        if self.config_references_loaded():
+
+            
             if key in self.sys_ref[probe_id].keys():
                 self.sys_ref[probe_id][key]= value 
                 
@@ -59,10 +66,14 @@ class ConfigManager:
                 self.config_ref[probe_id][key] = value
                 
             else:
-                print('wrong key!')
+                print('Wrong key {key} passed as argument!')
+        else:
+            print('Must load config file first!')
                 
     def get_config(self, probe_id, key):
-         
+        
+         if self.config_references_loaded():
+ 
              if key in self.sys_ref[probe_id].keys():
                  return self.sys_ref[probe_id][key]
                  
@@ -70,15 +81,23 @@ class ConfigManager:
                  return self.config_ref[probe_id][key]
              else:
                  print('wrong key!')
-                
-                
+         else: 
+             print('Must load config file first!')
+             
+    def config_references_loaded(self):
+        
+        try:
+            return self.sys_ref and self.config_ref
+        
+        except AttributeError:
+             return False
 
 if __name__ == "__main__":
     
    sample_address = 39
    probe = 'hea'
    
-   config_manager = ConfigManager("configuration_file.json")
+   config_manager = ConfigManager("")
    config_manager.load_config_file()
    
    original = config_manager.get_config(probe, 'sweeper_address')
@@ -93,7 +112,7 @@ if __name__ == "__main__":
    config_manager.load_config_file()
    print('\nsweeper address after reloading: ',  config_manager.get_config(probe, 'sweeper_address'))
    
-   print('\nresetting address...')
+   print(f'\nresetting address to {original}...')
    config_manager.set_config(probe, 'sweeper_address', original)
    
    config_manager.save_config_file()
