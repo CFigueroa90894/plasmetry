@@ -29,4 +29,4 @@ class CounterDAQC2DoutWrapper(DAQC2plateWrapper, CounterWrapperTest):
 
     
 # WRAPPER EXPORT
-wrapper = DAQC2plateWrapper
+wrapper = CounterDAQC2DoutWrapper
