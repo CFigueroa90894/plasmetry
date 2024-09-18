@@ -57,17 +57,20 @@ class CounterWrapperTest(AbstractWrapper):
         self.digital_in_count = 0   # number of times read_digital() has been called
         self.digital_out_count = 0  # number of times write_digital() has been called
         self.debug = debug          # boolean, to decide whether to print debug messages
+        self.max_addr = 8           # highest allowed address for counter wrapper tests
 
     # ----- ANALOG I/O ----- #
     @enforce_type
     def write_analog(self, address:int, value:float|int) -> None:
         """Prints arguments."""
+        self.validate_address(address)
         self.analog_out_count += 1    # increment counter
         self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
 
     @enforce_type
     def read_analog(self, address:int) -> float:
         """Print arguments. Return count value as float."""
+        self.validate_address(address)
         self.analog_in_count += 1     # increment counter
         self.say(f"Ain addr:{address} count:{self.analog_in_count}")
         return float(self.analog_in_count)
@@ -77,18 +80,24 @@ class CounterWrapperTest(AbstractWrapper):
     @enforce_type
     def write_digital(self, address: int, level: bool) -> None:
         """Prints arguments."""
+        self.validate_address(address)
         self.digital_out_count += 1    # increment counter
         self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
     
     @enforce_type
     def read_digital(self, address: int) -> bool:
         """Print arguments. Returns True."""
+        self.validate_address(address)
         self.digital_in_count += 1     # increment counter
         self.say(f"Din addr:{address} count:{self.digital_in_count}")
         return True
 
 
     # ----- UTILITIES ----- #
+    def validate_address(self, address):
+        if address > self.max_addr:
+            raise RuntimeError(f"Address exceeds allowed max of {self.max_addr}. Given {address}")
+
     def say(self, msg):
         """Print messages prepended with object's name."""
         self._say_obj(f"{self.name}: {msg}")
