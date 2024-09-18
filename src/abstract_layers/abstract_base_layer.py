@@ -112,6 +112,10 @@ class AbstractBaseLayer(metaclass=ABCMeta):
         """Outputs text to the SayWriter object, formatted with the layer name."""
         self._say_obj(f"{self.name}: {msg}")
     
+    def layer_shutdown(self):
+        """Triggers a shutdown in this layer, and subsequent lower layers."""
+        raise NotImplementedError("Method layer_shutdown() was not overriden by subclass!")
+
     @abstractmethod
     def _info(self):
         """Returns a list of tuples representing the layer's subcomponents. Each layer must
