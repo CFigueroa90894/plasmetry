@@ -101,4 +101,13 @@ class ControlLayer(AbstractControl):
     def get_command_flags(self) -> CommandFlags:
         """<...>"""
         raise NotImplementedError
-
+    
+    # TO DO - Carlos
+    def _info(self) -> list:
+        """<...>"""
+        raise NotImplementedError
+    
+    # TO DO - Carlos
+    def _load_all_subcomponents(self) -> dict:
+        """<...>"""
+        raise NotImplementedError
