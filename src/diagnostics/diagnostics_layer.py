@@ -14,7 +14,7 @@ import sys
 import os
 import inspect
 
-from queue import Queue, Full
+from queue import Queue
 from threading import Event
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -140,6 +140,9 @@ class DiagnosticsLayer(AbstractDiagnostics):
         else:
             self.say("preparing for diagnostics...")
 
+            # reset hardware outputs in case they threads did not clear them correctly
+            self._hardware.reset_components()
+
             # prepare the probe operation thread
             args = self.__probe_op_args()                # prepared from instance attributes
             
@@ -222,7 +225,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
             self._performing_diagnostics.clear()  # reset local state indicator
 
     # TO DO
-    def diagnostics_shutdown(self):
+    def layer_shutdown(self):
         """Called by upper layers to initiates this layer's shutdown process.
         
         This Diagnostic Layer will attempt to complete all pending operations before finally
@@ -245,12 +248,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         del self._probe_fac
         del self._calc_fac
         
-        # TO DO - implement in hardware layer
-        # destroy lower layer references
-        # self.say("terminating hardware layer...")
-        # self._hardware.layer_shutdown()
-        # self._hardware._terminated.wait()
-        # del self._hardware
+        self._hardware.layer_shutdown()
 
         self.say("layer shutdown complete.")
         self._terminated.set()
@@ -416,8 +414,16 @@ if __name__ == "__main__":
 
     # test setup_diagnostics
     diagnostics.setup_diagnostics(sys_ref=slp_sys_ref, config_ref=slp_config_ref)
+
+    # print probe
     probe = diagnostics._probe_op._probe
     diagnostics.say(f"probe {probe}")
+
+    # print equations in probe
+    eq_msg = "equations:"
+    for eq in probe.equations:
+        eq_msg += f"\n\t{eq}"
+    diagnostics.say(eq_msg)
 
     # test start_diagnostics
     diagnostics.start_diagnostics()
