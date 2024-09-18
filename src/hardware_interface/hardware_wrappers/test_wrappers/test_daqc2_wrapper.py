@@ -1,6 +1,8 @@
 from counter_wrapper import CounterWrapperTest
 from concrete_wrappers.daqc2plate_wrapper import DAQC2plateWrapper
 
+from type_enforcer import enforce_type
+
 class TestDAQC2Wrapper(CounterWrapperTest):
     """<...>"""
     def __init__(self, *args, **kwargs):
@@ -9,12 +11,14 @@ class TestDAQC2Wrapper(CounterWrapperTest):
         self.dac = DAQC2plateWrapper()      # default hardware wrapper
     
     # ----- ANALOG I/0 ----- #
-    def write_analog(self, address:int, value:float) -> None:
+    @enforce_type
+    def write_analog(self, address:int, value:float|int) -> None:
         """<...>"""
         self.analog_out_count += 1
         self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
         self.dac.write_analog(address, value)
     
+    @enforce_type
     def read_analog(self, address:int) -> float:
         """<...>"""
         self.analog_in_count += 1
@@ -23,12 +27,14 @@ class TestDAQC2Wrapper(CounterWrapperTest):
         return val
     
     # ----- DIGITAL I/O ----- #
+    @enforce_type
     def write_digital(self, address:int, level:bool) -> None:
         """<...>"""
         self.digital_out_count += 1
         self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
         self.dac.write_digital(address, level)
     
+    @enforce_type
     def read_digital(self, address:int) -> bool:
         """<...>"""
         val = self.dac.read_digital(address)
