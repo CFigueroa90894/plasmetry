@@ -27,7 +27,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background-color: #DDDDDD;</string>
+    <string notr="true">QWidget {
+	background-color: #fafbff;
+}
+
+QFrame {
+	background-color: transparent;
+}</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -61,7 +67,7 @@
       </property>
       <property name="styleSheet">
        <string notr="true">QFrame {
-	background-color: #898989;
+	background-color: #4d5bbe;
 }</string>
       </property>
       <property name="frameShape">
@@ -202,6 +208,11 @@ background-color: #F33A3A;
     </item>
     <item>
      <widget class="QFrame" name="main_view">
+      <property name="styleSheet">
+       <string notr="true">QDoubleSpinBox {
+	border: 2px solid #4d5bbe;
+}</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>

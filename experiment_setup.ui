@@ -30,7 +30,13 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
-    <string notr="true">background-color: #DDDDDD;</string>
+    <string notr="true">QWidget {
+	background-color: #fafbff;
+}
+
+QFrame {
+	background-color: transparent;
+}</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <property name="spacing">
@@ -64,7 +70,7 @@
       </property>
       <property name="styleSheet">
        <string notr="true">QFrame {
-	background-color: #898989;
+	background-color: #4d5bbe;
 }</string>
       </property>
       <property name="frameShape">
@@ -74,6 +80,12 @@
        <enum>QFrame::Sunken</enum>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QPushButton" name="view_settings_btn">
          <property name="minimumSize">
@@ -101,7 +113,7 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-	background-color: #FFFFFF;
+	background-color: #fafbff;
 }</string>
          </property>
          <property name="text">
@@ -152,7 +164,7 @@
          </property>
          <property name="styleSheet">
           <string notr="true">QComboBox {
-	background-color: #FFFFFF;
+	background-color: #fafbff;
 	padding-left: 20px;
 	text-align: left;
 }
@@ -246,7 +258,7 @@ QComboBox QAbstractItemView {
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-	background-color: #FFFFFF;
+	background-color: #fafbff;
 }</string>
          </property>
          <property name="text">
@@ -286,6 +298,36 @@ QComboBox QAbstractItemView {
       <property name="accessibleName">
        <string/>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+	border: 1px solid transparent;
+	background-color: transparent;
+    color: black; 
+    margin-top: 30px;  /* Add margin to preserve space for the title */
+}
+    
+QGroupBox:title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left; /* Position the title */
+	padding: 0 5px;  /* Adjust title padding */
+}
+
+QToolButton {
+	background-color: #4d5bbe;
+	color: white;
+	border: 2px solid #4d5bbe;
+}
+
+QDoubleSpinBox {
+	border: 2px solid #4d5bbe;
+}
+
+QComboBox {
+	border: 2px solid #4d5bbe;
+}
+
+</string>
+      </property>
       <property name="inputMethodHints">
        <set>Qt::ImhNone</set>
       </property>
@@ -304,15 +346,18 @@ QComboBox QAbstractItemView {
       <widget class="QWidget" name="single_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
-         <number>6</number>
+         <number>0</number>
         </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
         <property name="topMargin">
-         <number>9</number>
+         <number>0</number>
         </property>
         <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -348,15 +393,18 @@ QComboBox QAbstractItemView {
             <number>10</number>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
-           <item>
+           <item alignment="Qt::AlignVCenter">
             <widget class="QFrame" name="slp_min_frame">
              <property name="maximumSize">
               <size>
                <width>1000</width>
                <height>1000</height>
               </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
              </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -401,6 +449,9 @@ QComboBox QAbstractItemView {
                   <weight>50</weight>
                   <bold>false</bold>
                  </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>Min Voltage</string>
@@ -461,6 +512,9 @@ QComboBox QAbstractItemView {
                      <bold>true</bold>
                     </font>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
                    <property name="text">
                     <string>-</string>
                    </property>
@@ -471,7 +525,7 @@ QComboBox QAbstractItemView {
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>0</height>
+                     <height>58</height>
                     </size>
                    </property>
                    <property name="maximumSize">
@@ -490,9 +544,7 @@ QComboBox QAbstractItemView {
                     <enum>Qt::LeftToRight</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
+                    <string notr="true"/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -540,6 +592,9 @@ QComboBox QAbstractItemView {
                    </property>
                    <property name="focusPolicy">
                     <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true"/>
                    </property>
                    <property name="text">
                     <string>+</string>
@@ -673,7 +728,7 @@ QComboBox QAbstractItemView {
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>0</height>
+                     <height>58</height>
                     </size>
                    </property>
                    <property name="maximumSize">
@@ -692,9 +747,7 @@ QComboBox QAbstractItemView {
                     <enum>Qt::LeftToRight</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
+                    <string notr="true"/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -838,7 +891,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="slp_sampling_rate_minus">
@@ -893,9 +946,7 @@ QComboBox QAbstractItemView {
                     <enum>Qt::LeftToRight</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
+                    <string notr="true"/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -985,7 +1036,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="slp_num_measurements_minus">
@@ -1034,9 +1085,7 @@ QComboBox QAbstractItemView {
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
+                    <string notr="true"/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -1121,7 +1170,7 @@ QComboBox QAbstractItemView {
                <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>0</number>
+               <number>10</number>
               </property>
               <item>
                <widget class="QGroupBox" name="slp_gas_select_gb">
@@ -1202,7 +1251,7 @@ QComboBox QAbstractItemView {
 </string>
                    </property>
                    <property name="frame">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
@@ -1219,10 +1268,19 @@ QComboBox QAbstractItemView {
       </widget>
       <widget class="QWidget" name="double_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -1231,6 +1289,12 @@ QComboBox QAbstractItemView {
            <size>
             <width>0</width>
             <height>112</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>128</height>
            </size>
           </property>
           <property name="font">
@@ -1258,7 +1322,7 @@ QComboBox QAbstractItemView {
             <number>10</number>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <item>
             <widget class="QFrame" name="dlp_min_frame">
@@ -2129,10 +2193,19 @@ QComboBox QAbstractItemView {
       </widget>
       <widget class="QWidget" name="triple_lang_c_probe">
        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -3015,10 +3088,19 @@ QComboBox QAbstractItemView {
       </widget>
       <widget class="QWidget" name="triple_lang_v_probe">
        <layout class="QVBoxLayout" name="verticalLayout_29">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -3751,10 +3833,19 @@ QComboBox QAbstractItemView {
       </widget>
       <widget class="QWidget" name="ion_energy_analyzer">
        <layout class="QVBoxLayout" name="verticalLayout_22">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -4875,10 +4966,19 @@ QComboBox QAbstractItemView {
       </widget>
       <widget class="QWidget" name="hyper_energy_analyzer">
        <layout class="QVBoxLayout" name="verticalLayout_17">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <property name="leftMargin">
          <number>0</number>
         </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -5404,7 +5504,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="hea_sampling_rate_minus">
@@ -5551,7 +5651,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="hea_num_measurements_minus">
@@ -5722,7 +5822,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="hea_faraday_cup_bias_minus">
@@ -5872,7 +5972,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="hea_cullinator_cup_minus">

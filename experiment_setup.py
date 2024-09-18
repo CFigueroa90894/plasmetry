@@ -13,6 +13,9 @@ class ExperimentSetup(QMainWindow):
 
         ############################## GENERAL SIGNALS ##############################
 
+        # Initialize the view based on the QComboBox selection
+        self.initialize_view()
+
         # Connect the continue button to switch to the experiment run window
         self.continue_btn.clicked.connect(self.emit_switch_to_run_signal)
 
@@ -134,6 +137,14 @@ class ExperimentSetup(QMainWindow):
 
     ############################## GENERAL SLOTS ##############################
 
+    def initialize_view(self):
+        # Initialize the view to display the correct page based on QComboBox selection.
+        # Get the current index of the probe_selection_cb combobox
+        current_index = self.probe_selection_cb.currentIndex()
+
+        # Update the main view based on the current index
+        self.update_main_view(current_index)
+
     def emit_switch_to_run_signal(self):
         # Get the selected probe from the QComboBox
         selected_probe = self.probe_selection_cb.currentText()
@@ -149,100 +160,27 @@ class ExperimentSetup(QMainWindow):
         self.switch_to_settings.emit() 
 
     def update_main_view(self, index):
-        # Update the QStackedWidget based on the selected index in the QComboBox
-        self.main_view.setCurrentIndex(index)
+        """
+        Switch pages in the probe_config_view based on the current index of probe_selection_cb.
+        """
+        # Map the QComboBox index to the correct page in main_view
+        if index == 0:
+            self.main_view.setCurrentWidget(self.single_lang_probe)
+        elif index == 1:
+            self.main_view.setCurrentWidget(self.double_lang_probe)
+        elif index == 2:
+            self.main_view.setCurrentWidget(self.triple_lang_c_probe)
+        elif index == 3:
+            self.main_view.setCurrentWidget(self.triple_lang_v_probe)
+        elif index == 4:
+            self.main_view.setCurrentWidget(self.ion_energy_analyzer)
+        elif index == 5:
+            self.main_view.setCurrentWidget(self.hyper_energy_analyzer)
 
     def reset_setup(self):
         print("Reset button clicked...waiting for implementation")
 
-    # ############################## SLP SLOTS ##############################
-
-    # def decrease_slp_volt_ramp_max(self):
-    #     current_value = self.slp_volt_rampt_max_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.slp_volt_rampt_max_input.setValue(new_value)
-
-    # def increase_slp_volt_ramp_max(self):
-    #     current_value = self.slp_volt_rampt_max_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.slp_volt_rampt_max_input.setValue(new_value)
-
-    # def decrease_slp_volt_ramp_min(self):
-    #     current_value = self.slp_volt_ramp_min_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.slp_volt_ramp_min_input.setValue(new_value)
-
-    # def increase_slp_volt_ramp_min(self):
-    #     current_value = self.slp_volt_ramp_min_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.slp_volt_ramp_min_input.setValue(new_value)
-
-    # def decrease_slp_sampling_rate(self):
-    #     current_value = self.slp_sampling_rate_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.slp_sampling_rate_input.setValue(new_value)
-
-    # def increase_slp_sampling_rate(self):
-    #     current_value = self.slp_sampling_rate_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.slp_sampling_rate_input.setValue(new_value)
-
-    # def decrease_slp_num_measurements(self):
-    #     current_value = self.slp_num_measurements_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.slp_num_measurements_input.setValue(new_value)
-
-    # def increase_slp_num_measurements(self):
-    #     current_value = self.slp_num_measurements_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.slp_num_measurements_input.setValue(new_value)
-
-    # ############################## DLP SLOTS ##############################
-
-    # def decrease_dlp_volt_ramp_max(self):
-    #     current_value = self.dlp_volt_rampt_max_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.dlp_volt_rampt_max_input.setValue(new_value)
-
-    # def increase_dlp_volt_ramp_max(self):
-    #     current_value = self.dlp_volt_rampt_max_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.dlp_volt_rampt_max_input.setValue(new_value)
-
-    # def decrease_dlp_volt_ramp_min(self):
-    #     current_value = self.dlp_volt_ramp_min_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.dlp_volt_ramp_min_input.setValue(new_value)
-
-    # def increase_dlp_volt_ramp_min(self):
-    #     current_value = self.dlp_volt_ramp_min_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.dlp_volt_ramp_min_input.setValue(new_value)
-
-    # def decrease_dlp_sampling_rate(self):
-    #     current_value = self.dlp_sampling_rate_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.dlp_sampling_rate_input.setValue(new_value)
-
-    # def increase_dlp_sampling_rate(self):
-    #     current_value = self.dlp_sampling_rate_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.dlp_sampling_rate_input.setValue(new_value)
-
-    # def decrease_dlp_num_measurements(self):
-    #     current_value = self.dlp_num_measurements_input.value()
-    #     new_value = self.decrement_last_decimal(current_value)
-    #     self.dlp_num_measurements_input.setValue(new_value)
-
-    # def increase_dlp_num_measurements(self):
-    #     current_value = self.dlp_num_measurements_input.value()
-    #     new_value = self.increment_last_decimal(current_value)
-    #     self.dlp_num_measurements_input.setValue(new_value)
-
-
     ############################## TLP SLOTS ##############################
-
-
 
     ############################## IEA SLOTS ##############################
 
