@@ -1,7 +1,5 @@
 # author: figueroa_90894@students.pupr.edu
 # status: WIP
-#   - import DAQC2plate library
-#   - override abstract parent's methods
 #   - add docstrings
 
 # built-in imports
@@ -43,12 +41,12 @@ class DAQC2plateWrapper(AbstractWrapper):
     @enforce_type
     def write_analog(self, address:int, value:float) -> None:
         """<...>"""
-        raise NotImplementedError
+        dac.setDAC(self.plate, address, value)
     
     @enforce_type
     def read_analog(self, address:int) -> float:
         """<...>"""
-        raise NotImplementedError
+        return dac.getADC(self.plate, address)
     
     # ----- DIGITAL I/O ----- #
     @enforce_type
@@ -63,7 +61,7 @@ class DAQC2plateWrapper(AbstractWrapper):
     @enforce_type
     def read_digital(self, address:int) -> bool:
         """<...>"""
-        raise NotImplementedError
+        return dac.getDINbit(self.plate, address)
 
     
 # WRAPPER EXPORT
