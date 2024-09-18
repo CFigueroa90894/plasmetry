@@ -11,21 +11,21 @@ class CounterDAQC2DoutWrapper(DAQC2plateWrapper, CounterWrapperTest):
     # ----- ANALOG I/0 ----- #
     def write_analog(self, address:int, value:float) -> None:
         """<...>"""
-        CounterDAQC2DoutWrapper.write_analog(address, value)
+        CounterWrapperTest.write_analog(address, value)
     
     def read_analog(self, address:int) -> float:
         """<...>"""
-        CounterDAQC2DoutWrapper.read_analog(address)
+        CounterWrapperTest.read_analog(address)
     
     # ----- DIGITAL I/O ----- #
     def write_digital(self, address:int, level:bool) -> None:
         """<...>"""
-        CounterDAQC2DoutWrapper.write_digital(address, level)
+        CounterWrapperTest.write_digital(address, level)
         DAQC2plateWrapper.write_digital(address, level)
     
     def read_digital(self, address:int) -> bool:
         """<...>"""
-        CounterDAQC2DoutWrapper.read_digital(address)
+        CounterWrapperTest.read_digital(address)
 
     
 # WRAPPER EXPORT
