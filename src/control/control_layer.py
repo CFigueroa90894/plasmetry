@@ -121,10 +121,9 @@ class ControlLayer(AbstractControl):
         """<...>"""
         raise NotImplementedError
 
-    # TO DO - Carlos
     def get_real_time_container(self) -> Tuple[dict, Event]:
         """<...>"""
-        raise NotImplementedError
+        return self._real_time_param, self._commands.refresh
 
     # TO DO - Carlos
     def setup_experiment(self) -> None:
@@ -146,15 +145,13 @@ class ControlLayer(AbstractControl):
         """<...>"""
         raise NotImplementedError
 
-    # TO DO - Carlos
     def get_status_flags(self) -> StatusFlags:
         """<...>"""
-        raise NotImplementedError
+        return self._status
 
-    # TO DO - Carlos
     def get_command_flags(self) -> CommandFlags:
         """<...>"""
-        raise NotImplementedError
+        return self._commands
     
     # ----- Layer Specific Utils ----- #
     # TO DO - Carlos
