@@ -6,6 +6,7 @@ Layer 2 - Control - Concrete Implementation
 author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
+    - remove temporary relative imports
     - redefine and implement abstract methods from interface specification
     - validate with team
 """
@@ -13,6 +14,9 @@ status: WIP
 # built-in imports
 import sys
 import os
+
+from typing import Tuple
+from threading import Event
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
@@ -29,10 +33,72 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
     path_hammer(1, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
+# TO DO - Remove temporary relative imports (used to get type hints in IDE)
 # local imports
 from abstract_layers.abstract_control import AbstractControl
+from system_flags import StatusFlags, CommandFlags
 
-
+# TO DO
 class ControlLayer(AbstractControl):
     """<...>"""
-    pass
+    # TO DO - Carlos
+    def __init__(self, name:str="CTRL", *args, **kwargs):
+        """<...>"""
+        super().__init__(*args, name=name, **kwargs)    # call parent constructor
+        raise NotImplementedError
+
+    # TO DO - Alberto
+    def set_config(self) -> Tuple[bool, str]:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Alberto
+    def get_config(self) -> any:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Alberto
+    def save_config_file(self) -> bool:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Alberto
+    def load_config_file(self) -> None:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def get_real_time_container(self) -> Tuple[dict, Event]:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def setup_experiment(self) -> None:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def start_experiment(self) -> None:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def stop_experiment(self) -> None:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def layer_shutdown(self) -> None:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def get_status_flags(self) -> StatusFlags:
+        """<...>"""
+        raise NotImplementedError
+
+    # TO DO - Carlos
+    def get_command_flags(self) -> CommandFlags:
+        """<...>"""
+        raise NotImplementedError
+
