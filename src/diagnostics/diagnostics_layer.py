@@ -368,7 +368,7 @@ if __name__ == "__main__":
 
     # configure custom layers for test
     hardware = hardware_layer
-    hardware.HardwareLayer.hardware_wrapper_mod = 'counter_daqc2_dout_wrapper'
+    hardware.HardwareLayer.hardware_wrapper_mod = 'test_daqc2_wrapper'
     diagnostics = DiagnosticsLayer
     diagnostics.hardware_layer_mod = hardware
 
@@ -384,6 +384,26 @@ if __name__ == "__main__":
     for sub in diagnostics._info():
         diagnostics.say(sub)
     
+    # RESET DIGITAL OUTS (relays)
+    diagnostics.say("CLEARING ALL RELAYS")
+    try:
+        counter = 0
+        while 1:
+            diagnostics._hardware._wrapper.write_digital(counter, False)
+            counter += 1
+    except Exception:
+        diagnostics.say("CLEARED")
+
+    # RESET ANALOG OUTS (amplifiers)
+    diagnostics.say("ZEROING ALL AMPS")
+    try:
+        counter = 0
+        while 1:
+            diagnostics._hardware._wrapper.write_analog(counter, 0)
+            counter += 1
+    except Exception:
+        diagnostics.say("ZEROED")
+
     # probe user config
     slp_config_ref = {
         "probe_id": PRB.SLP,
