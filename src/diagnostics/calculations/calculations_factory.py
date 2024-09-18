@@ -26,41 +26,58 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 from probe_enum import PRB
 
 # PARAMETER EQUATIONS
-""" COMMENTED WHILE AWAITING IMPLEMENTATION
 from slp_plasma_parameters import get_equations as slp_equations
 from dlp_plasma_parameters import get_equations as dlp_equations
 from tlv_plasma_parameters import get_equations as tlv_equations
 from tlc_plasma_parameters import get_equations as tlc_equations
 from global_parameters import get_equations as analyzers_equations
-"""
-# TEMPORARY PLACE HOLDERS
-slp_equations = None
-dlp_equations = None
-tlv_equations = None
-tlc_equations = None
-analyzers_equations = None
 
 
 class CalculationsFactory:
     """<...>"""
-    def __new__(cls, equation_type: PRB):
+
+    # TO DO
+    particle_mass = {
+        "argon": 1,
+        "electron": 2,
+    }
+    def __new__(cls, equation_type: PRB, config_ref):
         """<...>"""
         match equation_type:
             # Single Langmuir Probe
             case PRB.SLP:
-                return slp_equations
+                config_ref["Particle mass"] = cls.particle_mass["electron"]
+                return slp_equations()
+            
             # Double Langmuir Probe
             case PRB.DLP:
-                return dlp_equations
+                config_ref["Particle mass"] = cls.particle_mass[config_ref["selected_gas"]]
+                return dlp_equations()
+            
             # Triple Langmuir Probe - Voltage Mode
             case PRB.TLV:
-                return tlv_equations
+                config_ref["Particle mass"] = cls.particle_mass[config_ref["selected_gas"]]
+                return tlv_equations()
+            
             # Triple Langmuir Probe - Current Mode
             case PRB.TLC:
-                return tlc_equations
+                config_ref["Particle mass"] = cls.particle_mass[config_ref["selected_gas"]]
+                return tlc_equations()
+            
             # Hyperbolic and Ion Energy Analyzers
             case PRB.HEA | PRB.IEA:
-                return analyzers_equations
-            case _: # edge case handling
+                # Electron collection mode
+                if config_ref["collector_bias"] > 0:
+                    config_ref["Particle mass"] = cls.particle_mass["electron"]
+                # Ion collection mode
+                elif config_ref["collector_bias"] < 0:
+                    config_ref["Particle mass"] = cls.particle_mass[config_ref["selected_gas"]]
+                # Error handling
+                else:
+                    raise ValueError("HEA/IEA collector bias cannot be 0!")
+                return analyzers_equations()
+            
+            # Error case handling
+            case _:
                 raise ValueError(f"Unknown equation type: {equation_type}")
 

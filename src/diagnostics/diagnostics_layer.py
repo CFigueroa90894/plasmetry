@@ -436,8 +436,16 @@ if __name__ == "__main__":
 
     # test setup_diagnostics
     diagnostics.setup_diagnostics(sys_ref=slp_sys_ref, config_ref=slp_config_ref)
+
+    # print probe
     probe = diagnostics._probe_op._probe
     diagnostics.say(f"probe {probe}")
+
+    # print equations in probe
+    eq_msg = "equations:"
+    for eq in probe.equations:
+        eq_msg += f"\n\t{eq}"
+    diagnostics.say(eq_msg)
 
     # test start_diagnostics
     diagnostics.start_diagnostics()
