@@ -39,7 +39,7 @@ class DAQC2plateWrapper(AbstractWrapper):
     
     # ----- ANALOG I/0 ----- #
     @enforce_type
-    def write_analog(self, address:int, value:float) -> None:
+    def write_analog(self, address:int, value:float|int) -> None:
         """<...>"""
         dac.setDAC(self.plate, address, value)
     
