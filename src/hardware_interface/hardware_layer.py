@@ -14,6 +14,8 @@ status: WIP
 import sys
 import os
 
+import time
+
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recursing into subdirs and appending them to python path."""
@@ -98,9 +100,34 @@ class HardwareLayer(AbstractHardware):
     
     # TO DO
     def reset_components(self):
-        """<...>"""
-        raise NotImplementedError
-    
+        """This function attempts clear all output channels of the ADC/DAC associated with this
+        layer's hardware wrapper. For DAC and DOUT channels, this function iterates over channel
+        addresses in separate loops until the wrapped library raises an error for an out bounds
+        address.
+        """
+        # reset digital outputs
+        self.say("clearing DOUTs...")
+        try:  
+            counter = 0
+            while 1:    # loop until an exception is raised
+                self._wrapper.write_digital(counter, False)
+                counter += 1
+        except Exception:
+            self.say("DOUTs cleared")
+
+        # pause to allow relays to disengage
+        time.sleep(3)
+
+        # reset analog outputs
+        self.say("clearing DACs...")
+        try:  
+            counter = 0
+            while 1:    # loop until an exception is raised
+                self._wrapper.write_analog(counter, 0)
+                counter += 1
+        except Exception:
+            self.say("DACs cleared")
+
     def _load_all_subcomponents(self):
         """Returns a dictionary with all the classes corresponding to this layer."""
         classes = {
@@ -110,6 +137,18 @@ class HardwareLayer(AbstractHardware):
         }
         return classes
     
+    def layer_shutdown(self):
+        """<...>"""
+        self.say("shutting down hardware layer...")
+        self.reset_components() # reset all components
+
+        # delete subcomponent references
+        del self._component
+        del self._channel
+        del self._wrapper
+
+        self.say("hardware layer terminated")
+
     def _info(self):
         """Return info about the instantiated layer's subcomponents.
         
