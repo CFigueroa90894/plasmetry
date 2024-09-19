@@ -21,6 +21,7 @@ path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer s
 from control_layer import ControlLayer
 from probe_enum import PRB
 class ExperimentSetup(QMainWindow):
+    close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
 

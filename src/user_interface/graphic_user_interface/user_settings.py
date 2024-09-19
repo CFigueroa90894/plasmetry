@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 from virtual_keyboard import VirtualKeyboard
 
 class UserSettings(QMainWindow):
+    close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
 
     def __init__(self):
