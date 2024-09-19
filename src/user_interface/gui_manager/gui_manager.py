@@ -1,5 +1,5 @@
-
 import sys
+from PyQt5.QtWidgets import QApplication, QMessageBox
 import os
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -13,7 +13,8 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
     print(f"Path Hammer: {src_abs}")
 
 # Apply path hammer to append `abstract_layers` to Python path
-path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 from PyQt5.QtWidgets import QApplication
@@ -21,8 +22,6 @@ from experiment_run import ExperimentRun
 from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
-
-
 
 class GuiManager():
     
@@ -41,6 +40,11 @@ class GuiManager():
         
         settings_window = UserSettings()
 
+        # Connect close signals from windows to the central handler
+        setup_window.close_signal.connect(lambda: self.handle_close_event(setup_window))
+        run_window.close_signal.connect(lambda: self.handle_close_event(run_window))
+        settings_window.close_signal.connect(lambda: self.handle_close_event(settings_window))
+
         # Connect the signals for transitions between windows
         setup_window.switch_to_run.connect(run_window.show)
 
@@ -57,6 +61,16 @@ class GuiManager():
 
         setup_window.show()
         sys.exit(app.exec_())
+
+    def handle_close_event(self, window):
+        # Show a confirmation dialog
+        reply = QMessageBox.question(window, 'Close Window', 'Are you sure you want to close this window?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            window.close()  # Actually close the window if the user confirms
+        else:
+            pass  # Do nothing if the user cancels
         
 if __name__ == "__main__":
     gui_manager = GuiManager()
