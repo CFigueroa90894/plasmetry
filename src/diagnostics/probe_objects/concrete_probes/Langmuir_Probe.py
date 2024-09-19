@@ -49,19 +49,13 @@ class LangmuirProbe(SweeperProbe):
         """<...>"""
         super().run() 
 
-    def __continue(self):
-        """<...>"""
-        conditionA = self.command_flags.diagnose.is_set()
-        conditionB = not self.command_flags.shutdown.is_set()
-        return conditionA and conditionB
-
     def _THREAD_MAIN_(self):
         """<...>"""
         self.say("starting data acquisition...")
         # Continuously acquire data samples until user halts the operation
-        while self.__continue():
-            samples = self.sweep()      # perform a voltage sweep and get the samples
-            self.data_buff.put(samples) # return samples to ProbeOperation
+        while self.diagnose.is_set():
+            # sweep method traps loop until samples are acquired (desired to prevent corruption)
+            self.data_buff.put(self.sweep()) # perform sweep and return samples to ProbeOperation
         self.say("completed data acquisition")
 
     def _thread_setup_(self):
