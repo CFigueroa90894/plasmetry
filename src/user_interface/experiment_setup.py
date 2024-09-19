@@ -21,10 +21,6 @@ path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer s
 # Now you can import from abstract_layers
 from control_layer import ControlLayer
 
-import hardware_layer
-import diagnostics_layer
-from config_manager import ConfigManager
-
 class ExperimentSetup(QMainWindow):
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
@@ -254,10 +250,17 @@ class ExperimentSetup(QMainWindow):
         """
         
         current_value = spinbox.value()
-        selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
         new_value = self.increment_last_decimal(current_value) if direction == 1 else self.decrement_last_decimal(current_value)
+        
+        # Storing the probe id, used to access config values
+        selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+
+        # Setting to in memory config dictionary
+        # Validations also occur during the call stack of this method
         self.control.set_config(selected_probe, config_key, new_value)
         
+        # If the result is valid, new value set
+        # Otherwise, old value set
         spinbox.setValue(self.control.get_config(selected_probe, config_key))
 
     def increment_last_decimal(self, value):
