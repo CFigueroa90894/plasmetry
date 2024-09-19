@@ -318,8 +318,8 @@ class ControlLayer(AbstractControl):
     def _load_all_subcomponents(self) -> dict:
         """<...>"""
         # load subcomponent modules
-        file_upload_mod = self._load(self.file_upload_mod)
-        config_manager_mod = self._load(self.config_manager_mod)
+        file_upload_mod = self._load_mod(self.file_upload_mod)
+        config_manager_mod = self._load_mod(self.config_manager_mod)
 
         # load subcomponent classes
         file_upload_cls = file_upload_mod.FileUpload
