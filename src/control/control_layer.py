@@ -121,7 +121,7 @@ class ControlLayer(AbstractControl):
     # TO DO - Alberto
     def get_config(self, probe_id, key) -> any:
         """Accessor function, receives data from the in memory configuration values."""
-        self._config_manager.get_config(probe_id, key)
+        return self._config_manager.get_config(probe_id, key)
 
     # TO DO - Alberto
     def save_config_file(self) -> bool:
@@ -132,7 +132,7 @@ class ControlLayer(AbstractControl):
     def load_config_file(self) -> None:
         """Config file loader."""
         self._config_manager.load_config_file()
-        
+
 
     # ----- Control Object Getters ----- #
     def get_status_flags(self) -> StatusFlags:
