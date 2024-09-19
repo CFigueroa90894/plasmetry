@@ -45,6 +45,10 @@ class EnergyAnalyzer(SweeperProbe):
         self.rejector_amp = rejector_amp    # set voltage to reject particles at outer subcomponent
         self.collector_amp = collector_amp  # set voltage to attract particles at innermost subcomponent
 
+    def run(self):
+        """<...>"""
+        super().run()
+
     def __continue(self):
         """<...>"""
         conditionA = self.command_flags.diagnose.is_set()
