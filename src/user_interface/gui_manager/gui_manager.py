@@ -1,8 +1,5 @@
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.uic import loadUi
-from PyQt5.QtCore import pyqtSignal
 import os
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -16,9 +13,10 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
     print(f"Path Hammer: {src_abs}")
 
 # Apply path hammer to append `abstract_layers` to Python path
-path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
+path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
+from PyQt5.QtWidgets import QApplication
 from experiment_run import ExperimentRun
 from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
@@ -36,11 +34,11 @@ class GuiManager():
         
     def start_signals(self):
         app = QApplication(sys.argv)
-        run_window = ExperimentRun
 
-        setup_window = ExperimentSetup(self.control, run_window)
-        run_window = ExperimentRun()
-
+        setup_window = ExperimentSetup(self.control, ExperimentRun, UserSettings)
+        
+        run_window= ExperimentRun()
+        
         settings_window = UserSettings()
 
         # Connect the signals for transitions between windows

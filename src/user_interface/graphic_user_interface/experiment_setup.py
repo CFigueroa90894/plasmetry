@@ -15,7 +15,7 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
     print(f"Path Hammer: {src_abs}")
 
 # Apply path hammer to append `abstract_layers` to Python path
-path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
+path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 from control_layer import ControlLayer
@@ -24,12 +24,13 @@ class ExperimentSetup(QMainWindow):
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
 
-    def __init__(self, control, run_window):
+    def __init__(self, control, run_window, settings_window):
         super().__init__()
         
         self.control= control
         self.run_window_ref = run_window
-        loadUi('experiment_setup.ui', self)  # Load the .ui file directly
+        self.settings_window_ref = settings_window
+        loadUi('../graphic_user_interface/experiment_setup.ui', self)  # Load the .ui file directly
 
         ############################## GENERAL SIGNALS ##############################
 
@@ -237,6 +238,7 @@ class ExperimentSetup(QMainWindow):
         self.run_window_ref().set_selected_probe(selected_probe)
 
     def emit_switch_to_settings_signal(self):
+        
         # Emit the signal to switch to the user settings window
         self.switch_to_settings.emit() 
 

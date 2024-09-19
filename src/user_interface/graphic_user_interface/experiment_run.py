@@ -8,7 +8,7 @@ class ExperimentRun(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        loadUi('experiment_run.ui', self)  # Load the .ui file directly
+        loadUi('../graphic_user_interface/experiment_run.ui', self)  # Load the .ui file directly
 
         # Attribute to store the selected probe
         self.selected_probe = None

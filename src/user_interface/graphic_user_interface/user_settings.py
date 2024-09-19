@@ -8,7 +8,7 @@ class UserSettings(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        loadUi('user_settings.ui', self)  # Load the .ui file directly
+        loadUi('../graphic_user_interface/user_settings.ui', self)  # Load the .ui file directly
 
         # Hide the probe_selection_cb by default
         self.probe_selection_cb.setVisible(False)
