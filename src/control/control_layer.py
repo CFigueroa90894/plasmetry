@@ -236,7 +236,7 @@ class ControlLayer(AbstractControl):
                 - system was not performing plasma diagnostics, or
         """
         # validate diagnostics are being performed
-        if self._commands.diagnose.is_set() or self._status.operating.is_set():
+        if not self._commands.diagnose.is_set() and not self._status.operating.is_set():
             raise RuntimeError("Called 'stop_experiment' but diagnostics are not being performed!")
 
         # checks successful, proceed
