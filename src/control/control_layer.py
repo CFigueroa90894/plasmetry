@@ -58,10 +58,11 @@ RESULT_TIMEOUT = 10
 class ControlLayer(AbstractControl):
     """<...>"""
 
+    """ DISABLED FOR TEST
     # Default subcomponent module names
     file_upload_mod = 'file_upload'
     config_manager_mod = 'config_manager'
-
+    """
     # Default lower layer module name
     diagnostics_layer_mod = 'diagnostics_layer'
 
@@ -99,8 +100,13 @@ class ControlLayer(AbstractControl):
         self._diagnostics = sub["diagnostics_layer"](**self.__diagnostics_args())
 
         # instantiate subcomponents
+        """ DISABLED FOR TESTS
         self._file_upload = sub["file_upload"](**self.__file_upload_args())
         self._config_manager = sub["config_manager"](**self.__config_manager_args())
+        """
+        # TEMPORARY - FOR TESTS
+        self._file_upload = None
+        self._config_manager = None
 
         self.say(f"DEBUG - {self.debug}")
         self.say("control layer initialized...")
@@ -236,7 +242,7 @@ class ControlLayer(AbstractControl):
                 - system was not performing plasma diagnostics, or
         """
         # validate diagnostics are being performed
-        if self._commands.diagnose.is_set() or self._status.operating.is_set():
+        if not self._commands.diagnose.is_set() and not self._status.operating.is_set():
             raise RuntimeError("Called 'stop_experiment' but diagnostics are not being performed!")
 
         # checks successful, proceed
@@ -317,6 +323,8 @@ class ControlLayer(AbstractControl):
         
     def _load_all_subcomponents(self) -> dict:
         """<...>"""
+        
+        """ DISABLED FOR TEST
         # load subcomponent modules
         file_upload_mod = self._load(self.file_upload_mod)
         config_manager_mod = self._load(self.config_manager_mod)
@@ -324,15 +332,22 @@ class ControlLayer(AbstractControl):
         # load subcomponent classes
         file_upload_cls = file_upload_mod.FileUpload
         config_manager_cls = config_manager_mod.ConfigManager
+        """
 
         # load lower layer
         diagnostics_layer_mod = self._load_mod(self.diagnostics_layer_mod)
         diagnostics_layer_cls = diagnostics_layer_mod.DiagnosticsLayer
 
         # pack and return subcomponents
+        """ DISABLE FOR TESTS
         classes = {
             "file_upload": file_upload_cls,
             "config_manager": config_manager_cls,
+            "diagnostics_layer": diagnostics_layer_cls
+        }
+        """
+        # TEMPORARY - FOR TESTS
+        classes = {
             "diagnostics_layer": diagnostics_layer_cls
         }
         return classes
@@ -389,3 +404,113 @@ class ControlLayer(AbstractControl):
             "command_flags": self._commands
         }
         return args
+
+# Basic tests
+if __name__ == "__main__":
+    
+    # ----- test imports ----- #
+    # built-in imports
+    import time
+    import datetime
+
+    # local imports
+    from probe_enum import PRB
+    import hardware_layer
+    import diagnostics_layer
+    from printer_thread import PrinterThread
+
+
+    # ---- configure custom subcomponents for test ----- #
+    # setup hardware layer
+    hardware = hardware_layer
+    hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+
+    # setup diagnostics layer
+    diagnostics = diagnostics_layer
+    diagnostics.DiagnosticsLayer.hardware_layer_mod = hardware
+
+    # setup control layer
+    control = ControlLayer
+    control.diagnostics_layer_mod = diagnostics
+
+    # init control layer
+    control = control(debug=True, buffer_text=True)
+    for sub in control._info():
+        control.say(sub)
+
+
+    # ----- mock probe config ----- #
+    probe_id = "slp"
+
+    # probe user config
+    mock_config_ref = {
+        "slp": {
+            "probe_id": PRB.SLP,
+            "text_out": control._say_obj,
+
+            # base probe
+            "sampling_rate": 5,
+            "dac_min": 0,
+            "dac_max": 4,
+
+            # sweeper probe
+            "num_samples": 10,
+            "sweep_min": -300,
+            "sweep_max": 300,
+            "sweep_amp_min": -300,
+            "sweep_amp_max": 300,
+            "sweeper_shunt": 10,
+            "collector_gain": 1
+        }
+    }
+
+    # probe system config
+    mock_sys_ref = {
+        "slp": {
+            # base probe
+            "relay_addresses": [0, 1, 2, 3],
+
+            # sweeper probe
+            "sweeper_address": 4,
+            "collector_address":5
+        }
+    }
+
+    # aggregate config
+    class mock_config_manager:
+        sys_ref = mock_sys_ref
+        config_ref = mock_config_ref
+
+
+    # ----- setup test parameters ----- #
+    # disable calculations
+    control._diagnostics.calculate = False
+    control._config_manager = mock_config_manager
+
+
+    # ----- test run experiment ----- #
+    # test setup_experiment
+    control.setup_experiment(probe_id)
+
+    # print probe
+    probe = control._diagnostics._probe_op._probe
+    control.say(f"probe {probe}")
+
+    # print equations in probe
+    eq_msg = "equations:"
+    for eq in probe.equations:
+        eq_msg += f"\n\t{eq}"
+    control.say(eq_msg)
+
+    # test start_diagnostics
+    control.start_experiment()
+
+    # test stop_diagnostics
+    time.sleep(10)
+    control.stop_experiment()
+
+    # terminate layers
+    control.layer_shutdown()
+
+
+
