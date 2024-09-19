@@ -235,7 +235,7 @@ class ExperimentSetup(QMainWindow):
         self.switch_to_run.emit()
 
         # Set the selected probe in the experiment run window
-        self.run_window_ref().set_selected_probe(selected_probe)
+        self.run_window_ref(self.control).set_selected_probe(selected_probe)
 
     def emit_switch_to_settings_signal(self):
         
