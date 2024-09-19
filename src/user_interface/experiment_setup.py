@@ -180,7 +180,22 @@ class ExperimentSetup(QMainWindow):
         self.dlp_volt_rampt_max_input.setValue(self.control.get_config('dlp', 'sweep_max'))
         self.dlp_sampling_rate_input.setValue(self.control.get_config('dlp', 'sampling_rate'))
         self.dlp_num_measurements_input.setValue(self.control.get_config('dlp', 'num_samples'))
-
+        
+        self.iea_volt_ramp_min_input.setValue(self.control.get_config('iea', 'sweep_min'))
+        self.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_min'))
+        self.iea_sampling_rate_input.setValue(self.control.get_config('iea', 'sampling_rate'))
+        self.iea_num_measurements_input.setValue(self.control.get_config('iea', 'num_samples'))
+        self.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
+        self.iea_rejector_mesh_bias_input.setValue(self.control.get_config('iea', 'rejector_bias'))
+        
+        self.hea_volt_ramp_min_input.setValue(self.control.get_config('hea', 'sweep_min'))
+        self.hea_volt_rampt_max_input.setValue(self.control.get_config('hea', 'sweep_min'))
+        self.hea_sampling_rate_input.setValue(self.control.get_config('hea', 'sampling_rate'))
+        self.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
+        self.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
+        self.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
+        
+        
     def initialize_view(self):
         # Initialize the view to display the correct page based on QComboBox selection.
         # Get the current index of the probe_selection_cb combobox
