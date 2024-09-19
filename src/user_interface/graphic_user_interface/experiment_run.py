@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 from sys_control_mockup import SystemControlMockup
 
 class ExperimentRun(QMainWindow):
+    close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
     run_btn_clicked = pyqtSignal()
     stop_btn_clicked = pyqtSignal()
@@ -100,3 +101,8 @@ class ExperimentRun(QMainWindow):
         
     def emit_stop_signal(self):
         self.control.stop_experiment()
+
+    def closeEvent(self, event):
+        # Emit the signal to notify GuiManager about the close request
+        self.close_signal.emit()
+        event.ignore()  # Ignore the default close event; GuiManager will handle it

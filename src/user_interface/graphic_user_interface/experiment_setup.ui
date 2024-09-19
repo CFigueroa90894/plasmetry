@@ -300,7 +300,7 @@ QComboBox QAbstractItemView {
       </property>
       <property name="styleSheet">
        <string notr="true">QGroupBox {
-	border: 1px solid transparent;
+	border: 1px solid #fafbff;
 	background-color: transparent;
     color: black; 
     margin-top: 30px;  /* Add margin to preserve space for the title */

@@ -21,6 +21,7 @@ path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer s
 from control_layer import ControlLayer
 from probe_enum import PRB
 class ExperimentSetup(QMainWindow):
+    close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
 
@@ -241,6 +242,11 @@ class ExperimentSetup(QMainWindow):
 
     def reset_setup(self):
         print("Reset button clicked...waiting for implementation")
+
+    def closeEvent(self, event):
+        # Emit the signal to notify GuiManager about the close request
+        self.close_signal.emit()
+        event.ignore()  # Ignore the default close event; GuiManager will handle it
 
     ############################## Other Functions ##############################
 
