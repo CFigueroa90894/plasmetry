@@ -263,8 +263,8 @@ class ControlLayer(AbstractControl):
 
                 # TO DO - CALL FILE UPLOAD
                 # Make a single-use FileUpload object
-             #   uploader = self._file_upload_cls(unformatted_data=results,
-             #                                    **self.__file_upload_args())
+                uploader = self._file_upload_cls(unformatted_data=results,
+                                                 **self.__file_upload_args())
                 self.__selected_probe = None    # clear probe selection
 
             # get results timed out
