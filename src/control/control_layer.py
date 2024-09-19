@@ -112,7 +112,7 @@ class ControlLayer(AbstractControl):
         self._terminated.clear()
 
         
-    # ----- LAYER PUBLIC METHODS ----- #
+    # ----- Config Manipulations ----- #
     # TO DO - Alberto
     def set_config(self) -> Tuple[bool, str]:
         """<...>"""
@@ -133,10 +133,22 @@ class ControlLayer(AbstractControl):
         """<...>"""
         raise NotImplementedError
 
+
+    # ----- Control Object Getters ----- #
+    def get_status_flags(self) -> StatusFlags:
+        """<...>"""
+        return self._status
+
+    def get_command_flags(self) -> CommandFlags:
+        """<...>"""
+        return self._commands
+    
     def get_real_time_container(self) -> Tuple[dict, Event]:
         """<...>"""
         return self._real_time_param, self._commands.refresh
 
+
+    # ----- Experiment Control ----- #
     def setup_experiment(self, probe_id:str) -> None:
         """Called by upper layers to prepare the system for plasma diagnostic operations.
 
@@ -290,16 +302,8 @@ class ControlLayer(AbstractControl):
             # TO DO - RESTORE STDERR - if it was overriden
 
         self._terminated.set()
-
-
-    def get_status_flags(self) -> StatusFlags:
-        """<...>"""
-        return self._status
-
-    def get_command_flags(self) -> CommandFlags:
-        """<...>"""
-        return self._commands
     
+
     # ----- Layer Specific Utils ----- #
     def _info(self) -> list:
         """<...>"""
@@ -311,7 +315,6 @@ class ControlLayer(AbstractControl):
         sub.extend(self._diagnostics._info())
         return sub
         
-    
     def _load_all_subcomponents(self) -> dict:
         """<...>"""
         # load subcomponent modules
