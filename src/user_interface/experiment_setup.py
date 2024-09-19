@@ -19,7 +19,7 @@ path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer s
 # ----- END PATH HAMMER ----- #
 
 from control_layer import ControlLayer
-
+from probe_enum import PRB
 class ExperimentSetup(QMainWindow):
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
@@ -225,8 +225,12 @@ class ExperimentSetup(QMainWindow):
         # Get the selected probe from the QComboBox
         selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
        
+        current_index = self.probe_selection_cb.currentIndex()
+        
+        self.control.set_config(selected_probe, 'probe_id', PRB(current_index))
+        
         self.control.setup_experiment(selected_probe)
-
+       
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
 
@@ -255,6 +259,8 @@ class ExperimentSetup(QMainWindow):
         
         # Storing the probe id, used to access config values
         selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        
+        
 
         # Invoking mutator function of in memory config dictionary
         # Validations are also executed during the call stack of this method
