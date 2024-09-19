@@ -200,7 +200,7 @@ class ProbeFactory:
             "up_amp_bias": self.config["up_amp_bias"],
             "up_amp": up_amp,
             "up_collector": up_collector,
-            "up_shunt": self.config["up_shunt"]
+            "up_shunt": self.config["up_shunt"],
             **self.__pack_base_probe()  # inherit base probe args
         }
         return args
@@ -246,7 +246,7 @@ class ProbeFactory:
         args = {
             "rejector_bias": self.config["rejector_bias"],
             "rejector_amp": rejector_amp,
-            "collector_bias": self.system["collector_bias"],
+            "collector_bias": self.config["collector_bias"],
             "collector_amp": collector_amp,
             **self.__pack_sweeper()     # inherit sweeper args 
         }
@@ -280,7 +280,7 @@ class ProbeFactory:
             "down_amp_bias": self.config["down_amp_bias"],
             "down_amp": down_amp,
             "down_collector": down_collector,
-            "down_shunt": self.config["down_shunt"]
+            "down_shunt": self.config["down_shunt"],
             **self.__pack_base_tlp()    # inherit base tlp args
         }
         return args
