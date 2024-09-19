@@ -99,6 +99,10 @@ class ControlLayer(AbstractControl):
         self.say(f"DEBUG - {self.debug}")
         self.say("control layer initialized...")
 
+        # local state indicators
+        self._ready = Event()
+        self._ready.clear()
+
         
     # ----- LAYER PUBLIC METHODS ----- #
     # TO DO - Alberto
@@ -126,9 +130,49 @@ class ControlLayer(AbstractControl):
         return self._real_time_param, self._commands.refresh
 
     # TO DO - Carlos
-    def setup_experiment(self) -> None:
-        """<...>"""
-        raise NotImplementedError
+    def setup_experiment(self, probe_id:str) -> None:
+        """Called by upper layers to prepare the system for plasma diagnostic operations.
+
+        Notifies lower layers to begin plasma diagnostic initializations. When ready, lower levels
+        will wait until this interface's `start_experiment()` method is called before beginning
+        plasma diagnostics.
+
+        Arguments:
+            probe_id - identifier for the selected probe, used to select which config dict will
+                be passed to the 
+        Exceptions:
+            RuntimeError: `setup_experiment()` was called while:
+                - plasma diagnostics are being performed, or
+                - system shutdown is underway
+        """
+        # validate system is not performing diagnostics
+        if self._status.operating.is_set() or self._commands.diagnose.is_set():
+            raise RuntimeError("Cannot call 'setup_experiment()' while diagnostics are underway!")
+        
+        # validate system is not undergoing shutdown before proceeding
+        elif self._commands.shutdown.is_set():
+            raise RuntimeError("Cannot call 'setup_experiment()' while shutdown is underway!")
+        
+        # checks successful, proceed
+        else:
+            self.say("setting up experiment...")
+
+            # get probe specific config values
+            sys_ref = self._config_manager.sys_ref[probe_id]
+            config_ref = self._config_manager.config_ref[probe_id]
+
+            # prepare diagnostics layer
+            self._diagnostics.setup_diagnostics(sys_ref, config_ref)
+
+            # confirm diagnostics is ready
+            if self._diagnostics._ready.is_set():
+                self._ready.set()
+                self.say("READY")
+            else:
+                raise RuntimeError("Could not set up diagnostics layer!")
+
+
+        
 
     # TO DO - Carlos
     def start_experiment(self) -> None:
