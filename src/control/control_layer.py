@@ -101,6 +101,7 @@ class ControlLayer(AbstractControl):
 
         # local state indicators
         self._ready = Event()
+        self._terminated = Event()
         self._ready.clear()
 
         
@@ -129,7 +130,6 @@ class ControlLayer(AbstractControl):
         """<...>"""
         return self._real_time_param, self._commands.refresh
 
-    # TO DO - Carlos
     def setup_experiment(self, probe_id:str) -> None:
         """Called by upper layers to prepare the system for plasma diagnostic operations.
 
@@ -171,13 +171,37 @@ class ControlLayer(AbstractControl):
             else:
                 raise RuntimeError("Could not set up diagnostics layer!")
 
-
-        
-
-    # TO DO - Carlos
     def start_experiment(self) -> None:
-        """<...>"""
-        raise NotImplementedError
+        """Called by upper layers to trigger plasma diagnostic operations in lower layers.
+
+        Exceptions:
+            RuntimeError: `start_experiment()` was called:
+                - while system shutdown is underway, or
+                - without first calling `setup_experiment()`, or
+                - diagnostics layer is not ready to perform diagnostics, or
+                - diagnostics are already underway
+        """
+        # validate system is not undergoing shutdown
+        if self._commands.shutdown.is_set():
+            raise RuntimeError("Cannot call 'start_experiment()' while shutdown is underway!")
+        
+        # validate control layer is ready for diagnostics
+        elif not self._ready.is_set():
+            raise RuntimeError("Cannot begin diagnostics before setup_experiment is called!")
+        
+        # validate diagnostics layer is ready to perform diagnostics
+        elif not self._diagnostics._ready.is_set():
+            raise RuntimeError("Diagnostics Layer is not ready for diagnostics!")
+        
+        # validate diagnostics are not already underway
+        elif self._commands.diagnose.is_set() or self._status.operating.is_set():
+            raise RuntimeError("Called 'start_experiment()' while diagnostics are underway!")
+        
+        # checks successful, proceed
+        else:
+            self.say("notifying diagnostics must start...")
+            self._ready.clear()     # cannot be 'ready' for diagnostics once diagnostics start
+            self._diagnostics.start_diagnostics()   # trigger diagnostics in lower layers
 
     # TO DO - Carlos
     def stop_experiment(self) -> None:
