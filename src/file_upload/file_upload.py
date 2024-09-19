@@ -40,13 +40,7 @@ class FileUpload:
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
         
-        # Verifying if unformatted data has been received, if true will commence to process the data
-        if unformatted_data:
-            
-            # Setting the csv contents objects containing sweep and parameters data
-            # If no sweep data, the object will remain empty.
-            self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
-
+      
         # Storing wrapper for offsite data uploading
         self.offsite_wrapper = GoogleDrive(credentials_path)
         
@@ -54,8 +48,15 @@ class FileUpload:
         self.local_uploader = LocalUpload(local_path) 
         
         self.get_probe_folder(probe_type)
+        # Verifying if unformatted data has been received, if true will commence to process the data
+        if unformatted_data:
+            print('unform_data', unformatted_data)
+            # Setting the csv contents objects containing sweep and parameters data
+            # If no sweep data, the object will remain empty.
+            self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
+            self.upload_data()
+
         
-        self.upload_data()
                     
     def new_data(self, parameters):
         
