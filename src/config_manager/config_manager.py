@@ -63,7 +63,6 @@ class ConfigManager:
                 print('The config file path is invalid, as the config file is not a JSON file!')
         else:
             print('The config file path is invalid! Check that the name is set correctly.')
-            return None
         
    
     def set_config(self, probe_id, key, value):
@@ -79,9 +78,7 @@ class ConfigManager:
                 
             else:
                 print('Wrong key {key} passed as argument!')
-        else:
-            print('Must load config file first!')
-                
+        
     def get_config(self, probe_id, key):
         
          if self.config_references_loaded():
@@ -93,8 +90,7 @@ class ConfigManager:
                  return self.config_ref[probe_id][key]
              else:
                  print('wrong key!')
-         else: 
-             print('Must load config file first!')
+      
              
     def config_references_loaded(self):
         
@@ -102,6 +98,8 @@ class ConfigManager:
             return self.sys_ref and self.config_ref
         
         except AttributeError:
+             print('Must load config file before using mutator functions!')
+
              return False
 
 if __name__ == "__main__":
