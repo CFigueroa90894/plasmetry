@@ -7,18 +7,30 @@
 import sys
 import os
 
-# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 3             # how many parent folders to reach /plasmetry/src
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    # locate project root
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    split = src_abs.split('\\')     # separate path into folders for validation
-    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
-    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: subdirectories appended to python path")
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 # local imports
@@ -37,37 +49,45 @@ class LangmuirProbe(SweeperProbe):
         """<...>"""
         super().run() 
 
-    def __continue(self):
-        """<...>"""
-        condition = self.command_flags.diagnose.is_set()
-        condition = condition and not self.command_flags.shutdown.is_set()
-        return condition
-
     def _THREAD_MAIN_(self):
         """<...>"""
         self.say("starting data acquisition...")
         # Continuously acquire data samples until user halts the operation
-        while self.__continue():
-            samples = self.sweep()      # perform a voltage sweep and get the samples
-            self.data_buff.put(samples) # return samples to ProbeOperation
+        while self.diagnose.is_set():
+            # sweep method traps loop until samples are acquired (desired to prevent corruption)
+            self.data_buff.put(self.sweep()) # perform sweep and return samples to ProbeOperation
         self.say("completed data acquisition")
 
     def _thread_setup_(self):
         """<...>"""
-        self.say("enabling probe circuit...")
-        self.status_flags.operating.set()   # notify circuit is active are enabled
-        self.sweeper.zero()                 # set sweeper amp output to zero
-        self.relay_set.set()                # enable relays
-        self.pause(RELAY_PAUSE)             # wait for relays to close
-        super()._thread_setup_()            # call parent setup
+        # notify circuit is active
+        self.say("enabling probe circuit...")   # log message to file
+        self.status_flags.operating.set()       # set status indicator to True
+
+        # set initial state of amplifiers
+        self.sweeper.zero()  # set sweeper amp output to zero
+
+        # enable relays
+        self.relay_set.set()        # set all DOUT channels to HIGH
+        self.pause(RELAY_PAUSE)     # wait for relays to close
+
+        # call parent setup to synchronize with clock
+        super()._thread_setup_()
 
     def _thread_cleanup_(self):
         """<...>"""
-        self.say("disabling probe circuit...")
-        self.sweeper.zero()                 # set sweeper amp output to zero
-        self.relay_set.clear()              # disable the relays
+        self.say("disabling probe circuit...")  # log message to file
+
+        # set amplifier outputs to zero
+        self.sweeper.zero()
+
+        # disable relays
+        self.relay_set.clear()              # set all DOUT channel to LOW
         self.pause(RELAY_PAUSE)             # wait for relays to open
-        self.sweeper._output.write(0)       # set DAC output to zero
+
+        # set all DAC outputs to zero once relays are disconnected
+        self.sweeper._output.write(0)
+
         self.status_flags.operating.clear() # notify circuit is inactive
         super()._thread_cleanup_()          # call parent cleanup
 

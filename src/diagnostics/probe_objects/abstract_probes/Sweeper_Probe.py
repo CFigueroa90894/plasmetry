@@ -7,18 +7,30 @@
 import sys
 import os
 
-# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 3             # how many parent folders to reach /plasmetry/src
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    # locate project root
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    split = src_abs.split('\\')     # separate path into folders for validation
-    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
-    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: subdirectories appended to python path")
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 # local imports
@@ -28,7 +40,6 @@ from Base_Probe import BaseProbe        # parent class
 class SweeperProbe(BaseProbe):
     """<...>"""
     def __init__(self,
-                 num_samples:int,
                  sweeper,
                  collector,
                  sweeper_shunt:float,
@@ -37,41 +48,44 @@ class SweeperProbe(BaseProbe):
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
         
         # PROBE INFO
-        self.num_samples = num_samples      # number of samples to obtain per sweep
         self.sweeper_shunt = sweeper_shunt
 
         # PROBE SUBCOMPONENTS
         self.sweeper = sweeper      # output voltages to sweeper source
         self.collector = collector  # obtain voltage samples to calculate probe current
 
+        # pre-mapped sweep steps
+        self._premap_bias = []
+        for pair in self.sweeper._premap:
+            self._premap_bias.append(pair[1])  # make list of desired high voltage bias
+
+    def preprocess_samples(self, raw_samples: list):
+        """<...>
+        <...in-place operation...>
+        <...should not be called by probe thread loop, probe op instead...>"""
+        samples = {
+            "Bias 1": self._premap_bias,
+            "Shunt 1":  self.config_ref["sweeper_shunt"],
+            "Raw Voltage 1": raw_samples,
+        }
+        return samples
+
     def sweep(self) -> dict:
         """Performs a single voltage sweep on the sweeper object.
         Returns a dictionary consisting of applied biases and raw sampled voltages."""
         # setup
-        applied_bias = []   # list of applied high voltage biases
-        sampled_volt = []   # list of measured voltages
+        volt_samps = []   # list of measured voltages
 
         # iterate through premapped voltage steps 
         for index in range(self.num_samples):
             self.sample_trig.wait()             # wait for 'get sample' signal
 
             # get sample
-            bias = self.sweeper.write(index)    # output the voltage step in the given index
-            volt = self.collector.read()        # get a voltage sample
-            self.say(f"sweep bias: {round(bias, 4)}V")
-            # save sample
-            applied_bias.append(bias)           # save outputted bias
-            sampled_volt.append(volt)           # save the measured voltage
+            self.sweeper.write(index)  # output the voltage step in the given index
+            volt_samps.append(self.collector.read())  # read and save voltage sample
             
-            self.sample_trig.clear()            # reset the signal
-        
-        # package data samples for return
-        samples = {
-            "Bias 1": applied_bias,
-            "Raw Voltage 1": sampled_volt
-        }
-        return samples
+            # reset the signal
+            self.sample_trig.clear()
 
-
-
+        return volt_samps
 

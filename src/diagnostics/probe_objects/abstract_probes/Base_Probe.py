@@ -10,18 +10,30 @@ from threading import Event             # thread-safe signaling mechanisms
 from queue import Queue                 # thread-safe data buffer
 from abc import ABCMeta, abstractmethod     # enforce abstraction
 
-# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 3             # how many parent folders to reach /plasmetry/src
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
 
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
+    # locate project root
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    split = src_abs.split('\\')     # separate path into folders for validation
-    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
-    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: subdirectories appended to python path")
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 # local imports
@@ -56,6 +68,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
                  equations:list,
                  data_buff:Queue,
                  sampling_rate:int,
+                 num_samples:int,
                  relay_set:int,
                  sample_trig:Event=None,
                  *args, **kwargs
@@ -67,10 +80,12 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         self.id = probe_id                  # identifier for testing and validation
         self.sys_ref = sys_ref              # dictionary with system settings
         self.config_ref = config_ref        # dictionary with user settings
+        self.num_samples = num_samples      # samples per sweep (LP/EA) or averaging window (TLP)
 
         # SYSTEM FLAGS
         self.status_flags = status_flags    # system state indicators
         self.command_flags = command_flags  # action triggers
+        self.diagnose = self.status_flags.diagnose  # the most checked flag in a probe thread loop
         
         # PROBE OPERATION
         self.equations = equations  # list of callables to calculate plasma parameters
@@ -86,6 +101,11 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         """Executes the data acquisition process. Children must override it."""
         super().run()   # call parent run method
     
+    @abstractmethod
+    def preprocess_samples(self, samples:dict):
+        """<...>"""
+        raise NotImplementedError("This method was not overloaded in the subclass!")
+
     def say(self, msg):
         """<...>"""
         super().say(msg)
