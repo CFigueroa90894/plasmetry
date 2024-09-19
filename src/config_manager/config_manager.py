@@ -23,11 +23,11 @@ class ConfigManager:
     def __init__(self, file_name = ''):
         self.file_name = file_name
         self.complete_file = {}
-        
+    
     def load_config_file(self):
         
         
-        if self.file_name:
+        if self.validate_path():
             
             print("loading config...")
             with open(f'{self.file_name}', 'r') as config:
@@ -36,12 +36,11 @@ class ConfigManager:
                 
                 self.sys_ref = self.complete_file['sys_ref']
                 self.config_ref= self.complete_file['config_ref']
-        else:
-            print('Must set config path!')
+ 
     
     def save_config_file(self):
         
-        if self.file_name:
+        if self.validate_path():
             
             self.complete_file['sys_ref'] = self.sys_ref
             self.complete_file['config_ref'] = self.config_ref
@@ -50,9 +49,22 @@ class ConfigManager:
             with open(f'{self.file_name}', 'w') as config_file:
                 json.dump(self.complete_file, config_file, indent=4)
             print('Successfully saved!\n')
-                
+            
+    def validate_path(self):
+        
+        """Returns boolean value validating the received path."""
+
+        # Check if the directory exists 
+        if  os.path.exists(self.file_name):
+            
+            if self.file_name[-5:] == '.json':
+                return True
+            else:
+                print('The config file path is invalid, as the config file is not a JSON file!')
         else:
-            print('Must set config path!')
+            print('The config file path is invalid! Check that the name is set correctly.')
+            return None
+        
    
     def set_config(self, probe_id, key, value):
         
@@ -97,7 +109,7 @@ if __name__ == "__main__":
    sample_address = 39
    probe = 'hea'
    
-   config_manager = ConfigManager("")
+   config_manager = ConfigManager("configuration_file.json")
    config_manager.load_config_file()
    
    original = config_manager.get_config(probe, 'sweeper_address')
