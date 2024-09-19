@@ -119,6 +119,15 @@ class ProtectedDictionary:
                 value = self.__deep_copy_dict(value)
             new[key] = value
         return new
+    
+    def __dict__(self) -> dict:
+        new = {}
+        for key in self.__dict.keys():  # manually add each key-value pair to new dictionary, overriding existing values
+            value = self.__dict[key]
+            if isinstance(value, [ProtectedDictionary, dict]):  # if the argument is a dictionary, recursively copy its contents
+                value = dict(value)
+            new[key] = value
+        return new
 
 
     # ----- Access Control ----- #
