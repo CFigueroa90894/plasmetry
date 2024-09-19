@@ -24,16 +24,11 @@ class ExperimentSetup(QMainWindow):
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
 
-    def __init__(self):
+    def __init__(self, control, run_window):
         super().__init__()
-
-
-        # init control layer
-        self.control = ControlLayer()
         
-        
-        self.control.load_config_file()
-        
+        self.control= control
+        self.run_window_ref = run_window
         loadUi('experiment_setup.ui', self)  # Load the .ui file directly
 
         ############################## GENERAL SIGNALS ##############################
@@ -221,11 +216,15 @@ class ExperimentSetup(QMainWindow):
         elif index == 5:
             self.main_view.setCurrentWidget(self.hyper_energy_analyzer)
 
-    def emit_switch_to_run_signal(self):
+    def emit_switch_to_run_signal(self, run_window):
         # Get the selected probe from the QComboBox
+        
+        
         selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
        
         current_index = self.probe_selection_cb.currentIndex()
+        
+        
         
         self.control.set_config(selected_probe, 'probe_id', PRB(current_index))
         
@@ -235,7 +234,7 @@ class ExperimentSetup(QMainWindow):
         self.switch_to_run.emit()
 
         # Set the selected probe in the experiment run window
-        run_window.set_selected_probe(selected_probe)
+        self.run_window_ref().set_selected_probe(selected_probe)
 
     def emit_switch_to_settings_signal(self):
         # Emit the signal to switch to the user settings window
