@@ -37,7 +37,7 @@ class GuiManager():
 
         setup_window = ExperimentSetup(self.control, ExperimentRun, UserSettings)
         
-        run_window= ExperimentRun()
+        run_window= ExperimentRun(self.control)
         
         settings_window = UserSettings()
 
