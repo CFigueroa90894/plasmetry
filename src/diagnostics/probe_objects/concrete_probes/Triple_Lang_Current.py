@@ -92,13 +92,14 @@ class TripleLangCurrent(BaseTLP):
         # trim excess samples
         if len(self.up_probe_window) > self.num_samples:
             self.up_probe_window.pop(0)  # remove the first (oldest) sample
+            
         if len(self.down_probe_window) > self.num_samples:
-            self.up_probe_window.pop(0)  # remove the first (oldest) sample
+            self.down_probe_window.pop(0)  # remove the first (oldest) sample
 
         # pack sample dictionary
         samples = {
             "Raw Voltage 1": self.up_probe_window[:],
-            "Raw Voltage 2": self.up_probe_window[:],
+            "Raw Voltage 2": self.down_probe_window[:],
             "Shunt 1": self.up_shunt,
             "Shunt 2": self.down_shunt,
             "Bias 1": self.up_amp_bias,
