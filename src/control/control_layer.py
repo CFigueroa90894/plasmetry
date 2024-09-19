@@ -7,6 +7,7 @@ author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
     - add call to file upload in 'stop_experiment()'
+    - update configuration file name in __init__()
     - decide if we should wait for file upload to complete before shutting down or it should be left
         running in the background (and add or remove its call in layer_shutdown())
     - integrate with config manager and file upload from separate branch 
@@ -99,7 +100,7 @@ class ControlLayer(AbstractControl):
         self._diagnostics = sub["diagnostics_layer"](**self.__diagnostics_args())
 
         # instantiate subcomponents
-        self._file_upload = sub["file_upload"](**self.__file_upload_args())
+        self._file_upload_cls = sub["file_upload"]
         self._config_manager = sub["config_manager"](**self.__config_manager_args())
 
         self.say(f"DEBUG - {self.debug}")
@@ -110,6 +111,10 @@ class ControlLayer(AbstractControl):
         self._terminated = Event()
         self._ready.clear()
         self._terminated.clear()
+
+        # TO DO - UPDATE NAMES WHEN IMPLEMENTED
+        self.__selected_probe = None
+        self.__previous_config_pathname = "configuration_file.json"
 
         
     # ----- Config Manipulations ----- #
@@ -175,6 +180,9 @@ class ControlLayer(AbstractControl):
         # checks successful, proceed
         else:
             self.say("setting up experiment...")
+
+            # save probe id to private attribute
+            self.__selected_probe = probe_id
 
             # get probe specific config values
             sys_ref = self._config_manager.sys_ref[probe_id]
@@ -254,8 +262,10 @@ class ControlLayer(AbstractControl):
                 self.say(results)
 
                 # TO DO - CALL FILE UPLOAD
-                # self.say("saving results...")
-                # <...do upload stuff...>
+                # Make a single-use FileUpload object
+                uploader = self._file_upload_cls(unformatted_data=results,
+                                                 **self.__file_upload_args())
+                self.__selected_probe = None    # clear probe selection
 
             # get results timed out
             except Empty:
@@ -376,7 +386,10 @@ class ControlLayer(AbstractControl):
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
-            "command_flags": self._commands
+            "command_flags": self._commands,
+            "probe_type": self.__selected_probe,
+            "local_path": self._config_manager.config_ref["local_path"],
+            "credentials_path": self._config_manager.config_ref["credentials_path"]
         }
         return args
     
@@ -386,6 +399,7 @@ class ControlLayer(AbstractControl):
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
-            "command_flags": self._commands
+            "command_flags": self._commands,
+            "path_name": self.__previous_config_pathname
         }
         return args
