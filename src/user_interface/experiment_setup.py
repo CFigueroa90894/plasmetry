@@ -18,7 +18,6 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
 path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
-# Now you can import from abstract_layers
 from control_layer import ControlLayer
 
 class ExperimentSetup(QMainWindow):
@@ -224,7 +223,9 @@ class ExperimentSetup(QMainWindow):
 
     def emit_switch_to_run_signal(self):
         # Get the selected probe from the QComboBox
-        selected_probe = self.probe_selection_cb.currentText()
+        selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+       
+        self.control.setup_experiment(selected_probe)
 
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
@@ -255,12 +256,12 @@ class ExperimentSetup(QMainWindow):
         # Storing the probe id, used to access config values
         selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
 
-        # Setting to in memory config dictionary
-        # Validations also occur during the call stack of this method
+        # Invoking mutator function of in memory config dictionary
+        # Validations are also executed during the call stack of this method
         self.control.set_config(selected_probe, config_key, new_value)
         
-        # If the result is valid, new value set
-        # Otherwise, old value set
+        # If the result is valid, a new value is set in the spinbox
+        # Otherwise, previous value set
         spinbox.setValue(self.control.get_config(selected_probe, config_key))
 
     def increment_last_decimal(self, value):
