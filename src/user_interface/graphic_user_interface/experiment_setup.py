@@ -222,12 +222,9 @@ class ExperimentSetup(QMainWindow):
         
         
         selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
-       
-        current_index = self.probe_selection_cb.currentIndex()
+              
         
-        
-        
-        self.control.set_config(selected_probe, 'probe_id', PRB(current_index))
+        self.control.set_config(selected_probe, 'probe_id', PRB(selected_probe))
         
         self.control.setup_experiment(selected_probe)
        

@@ -22,8 +22,6 @@ from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
 
-
-
 class GuiManager():
     
     def __init__(self):
@@ -56,6 +54,7 @@ class GuiManager():
         settings_window.back_btn_clicked.connect(settings_window.close)
 
         setup_window.show()
+        
         sys.exit(app.exec_())
         
 if __name__ == "__main__":

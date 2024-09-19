@@ -246,7 +246,7 @@ class ProbeFactory:
         args = {
             "rejector_bias": self.config["rejector_bias"],
             "rejector_amp": rejector_amp,
-            "collector_bias": self.system["collector_bias"],
+            "collector_bias": self.config["collector_bias"],
             "collector_amp": collector_amp,
             **self.__pack_sweeper()     # inherit sweeper args 
         }
