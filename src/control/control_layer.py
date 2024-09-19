@@ -374,7 +374,7 @@ class ControlLayer(AbstractControl):
 
         # get writer object and write log name to log file's header
         writer = printer.get_writer()
-        writer(f"# {log_name}")
+        writer(f"# {log_name}_CTRL_TWO_RUNS")
 
         return printer
 
@@ -454,12 +454,12 @@ if __name__ == "__main__":
             "text_out": control._say_obj,
 
             # base probe
-            "sampling_rate": 5,
+            "sampling_rate": 10,
             "dac_min": 0,
             "dac_max": 4,
 
             # sweeper probe
-            "num_samples": 10,
+            "num_samples": 4,
             "sweep_min": -300,
             "sweep_max": 300,
             "sweep_amp_min": -300,
@@ -491,9 +491,11 @@ if __name__ == "__main__":
     # disable calculations
     control._diagnostics.calculate = False
     control._config_manager = mock_config_manager
+    EXPERIMENT_DURATION = 5
 
 
-    # ----- test run experiment ----- #
+    # ----- test run 1 experiment ----- #
+    control.say("FIRST RUN")
     # test setup_experiment
     control.setup_experiment(probe_id)
 
@@ -511,9 +513,34 @@ if __name__ == "__main__":
     control.start_experiment()
 
     # test stop_diagnostics
-    time.sleep(10)
+    time.sleep(EXPERIMENT_DURATION)
     control.stop_experiment()
 
+    # ----- test run 2 experiment ----- #
+    # reattempt diagnostics
+    control.say("SECOND RUN")
+
+    # test setup_experiment
+    control.setup_experiment(probe_id)
+
+    # print probe
+    probe = control._diagnostics._probe_op._probe
+    control.say(f"probe {probe}")
+
+    # print equations in probe
+    eq_msg = "equations:"
+    for eq in probe.equations:
+        eq_msg += f"\n\t{eq}"
+    control.say(eq_msg)
+
+    # test start_diagnostics
+    control.start_experiment()
+
+    # test stop_diagnostics
+    time.sleep(EXPERIMENT_DURATION)
+    control.stop_experiment()
+
+    # ----- end test ----- #
     # terminate layers
     control.layer_shutdown()
 
