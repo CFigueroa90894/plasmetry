@@ -85,6 +85,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         # SYSTEM FLAGS
         self.status_flags = status_flags    # system state indicators
         self.command_flags = command_flags  # action triggers
+        self.diagnose = self.status_flags.diagnose  # the most checked flag in a probe thread loop
         
         # PROBE OPERATION
         self.equations = equations  # list of callables to calculate plasma parameters
