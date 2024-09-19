@@ -109,7 +109,7 @@ class TripleLangVoltage(BaseTLP):
         self.say("disabling probe circuit...")  # log message to file
 
         # set amplifier outputs to zero
-        self.up_amp.zero
+        self.up_amp.zero()
 
         # disable relays
         self.relay_set.clear()              # set all DOUT channel to LOW
