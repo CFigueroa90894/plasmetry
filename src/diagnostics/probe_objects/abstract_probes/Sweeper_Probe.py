@@ -28,7 +28,6 @@ from Base_Probe import BaseProbe        # parent class
 class SweeperProbe(BaseProbe):
     """<...>"""
     def __init__(self,
-                 num_samples:int,
                  sweeper,
                  collector,
                  sweeper_shunt:float,
@@ -37,7 +36,6 @@ class SweeperProbe(BaseProbe):
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
         
         # PROBE INFO
-        self.num_samples = num_samples      # number of samples to obtain per sweep
         self.sweeper_shunt = sweeper_shunt
 
         # PROBE SUBCOMPONENTS

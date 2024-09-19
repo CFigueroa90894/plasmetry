@@ -246,8 +246,14 @@ class ProbeOperation(BaseThread):
                 # get data samples sent by Probe Object through data buffer
                 samples:dict = self._data_buff.get(timeout=BUFF_TIMEOUT)
 
-                # sequentially apply calculations to obtain plasma paramaters
+                # cast acquired sample dictionary to ProtectedDictionary
                 samples = ProtectedDictionary(samples)  # enforce mutex
+
+                # add config dictionaries required by parameter calculations
+                samples["sys_ref"] = self._sys_ref
+                samples["config_ref"] = self._config_ref
+
+                # sequentially apply calculations to obtain plasma paramaters
                 if self.calculate:
                     params, display_params = self._calculate_params(samples)  # perform all calculations
 
@@ -255,11 +261,15 @@ class ProbeOperation(BaseThread):
                     self.real_time_param.update(display_params) # read by UI layer
                     self.command_flags.refresh.set()            # indicate new data for display
                     self._aggregate_samples.append(params)      # append new samples
-                else: # do not calculate, but log the fact
+                
+                # do not calculate, but log the fact
+                else: 
                     self.say("calculations skipped...")
                     self._aggregate_samples = ['CALC SKIPPED']
-            except Empty:   # do nothing while data buffer is empty
-                self.say("data buff empty...")
+
+            # do nothing while data buffer is empty
+            except Empty:
+                self.say("data buff empty...")  # log message to file
 
             # TO DO - DELETE - temporary for basic tests
             except AttributeError as err:

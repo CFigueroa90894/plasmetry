@@ -131,6 +131,7 @@ class ProbeFactory:
         probe_args = {
             "sampling_rate": self.config["sampling_rate"],
             "relay_set": relays,
+            "num_samples": self.config["num_samples"],
             **self.__pack_general()     # inherit general args
         }
         return probe_args
@@ -139,8 +140,8 @@ class ProbeFactory:
     def __pack_sweeper(self):
         """<...>"""
 
+        base_probe_args = self.__pack_base_probe()
         # shared argument
-        num_samples = self.config["num_samples"]
         dac_range = {
             "min": self.config["dac_min"],
             "max": self.config["dac_max"]
@@ -152,9 +153,9 @@ class ProbeFactory:
         }
         sweeper = self.__make_sweeper(
             address=self.system["sweeper_address"],
+            num_samples=base_probe_args["num_samples"],
             dac_range=dac_range,
             amp_range=sweep_amp_range,
-            num_samples=num_samples,
             sweep_min=self.config["sweep_min"],
             sweep_max=self.config["sweep_max"]
         )
@@ -165,11 +166,10 @@ class ProbeFactory:
         )
         # pack probe args
         args = {
-            "num_samples": num_samples,
             "sweeper": sweeper,
             "collector": collector,
             "sweeper_shunt": self.config["sweeper_shunt"],
-            **self.__pack_base_probe()  # inherit base probe args
+            **base_probe_args  # inherit base probe args
         }
         return args
     
