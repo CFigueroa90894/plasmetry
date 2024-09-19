@@ -39,7 +39,9 @@
         }
     },
     "config_ref": {
+       
         "slp": {
+            "probe_id": "slp",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 0.0,
@@ -52,6 +54,7 @@
             "collector_gain": 0.0
         },
         "dlp": {
+            "probe_id": "dlp",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 0.0,
@@ -64,6 +67,7 @@
             "collector_gain": 0.0
         },
         "hea": {
+            "probe_id": "hea",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 0.0,
@@ -82,6 +86,7 @@
             "collector_bias": 20.0
         },
         "iea": {
+            "probe_id": "iea",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 0.0,
@@ -100,6 +105,7 @@
             "collector_bias": 20.0
         },
         "tlc": {
+            "probe_id": "tlc",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 0.0,
@@ -115,6 +121,7 @@
             "down_shunt": 0.0
         },
         "tlv": {
+            "probe_id": "tlv",
             "sampling_rate": 50,
             "dac_min": 0.0,
             "dac_max": 0.0,
