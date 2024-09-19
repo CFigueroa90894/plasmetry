@@ -359,8 +359,13 @@ class ControlLayer(AbstractControl):
         kill.clear()
 
         # create output log file
+        """ REDEFINED FOR TEST
         log_name = str(datetime.datetime.now()).replace(':', '_')
         log = open(f"run_logs/LOG_{log_name}.txt", 'a')
+        """
+        # TEMPORARY - FOR TESTS
+        log_name = str(datetime.datetime.now()).replace(':', '_')
+        log = open(f"test_logs/TEST_{log_name}.txt", 'a')
 
         # create and launch printer thread
         printer_output = [None, log]  # output to default stdout and log file
