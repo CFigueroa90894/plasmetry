@@ -39,9 +39,9 @@ class LangmuirProbe(SweeperProbe):
 
     def __continue(self):
         """<...>"""
-        condition = self.command_flags.diagnose.is_set()
-        condition = condition and not self.command_flags.shutdown.is_set()
-        return condition
+        conditionA = self.command_flags.diagnose.is_set()
+        conditionB = not self.command_flags.shutdown.is_set()
+        return conditionA and conditionB
 
     def _THREAD_MAIN_(self):
         """<...>"""
@@ -54,20 +54,34 @@ class LangmuirProbe(SweeperProbe):
 
     def _thread_setup_(self):
         """<...>"""
-        self.say("enabling probe circuit...")
-        self.status_flags.operating.set()   # notify circuit is active are enabled
-        self.sweeper.zero()                 # set sweeper amp output to zero
-        self.relay_set.set()                # enable relays
-        self.pause(RELAY_PAUSE)             # wait for relays to close
-        super()._thread_setup_()            # call parent setup
+        # notify circuit is active
+        self.say("enabling probe circuit...")   # log message to file
+        self.status_flags.operating.set()       # set status indicator to True
+
+        # set initial state of amplifiers
+        self.sweeper.zero()  # set sweeper amp output to zero
+
+        # enable relays
+        self.relay_set.set()        # set all DOUT channels to HIGH
+        self.pause(RELAY_PAUSE)     # wait for relays to close
+
+        # call parent setup to synchronize with clock
+        super()._thread_setup_()
 
     def _thread_cleanup_(self):
         """<...>"""
-        self.say("disabling probe circuit...")
-        self.sweeper.zero()                 # set sweeper amp output to zero
-        self.relay_set.clear()              # disable the relays
+        self.say("disabling probe circuit...")  # log message to file
+
+        # set amplifier outputs to zero
+        self.sweeper.zero()
+
+        # disable relays
+        self.relay_set.clear()              # set all DOUT channel to LOW
         self.pause(RELAY_PAUSE)             # wait for relays to open
-        self.sweeper._output.write(0)       # set DAC output to zero
+
+        # set all DAC outputs to zero once relays are disconnected
+        self.sweeper._output.write(0)
+
         self.status_flags.operating.clear() # notify circuit is inactive
         super()._thread_cleanup_()          # call parent cleanup
 
