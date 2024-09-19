@@ -67,17 +67,15 @@ class ConfigManager:
         else:
              print(f'The config file path {self.file_name} is invalid! Check that the name is set correctly.')
         
-   
     def set_config(self, probe_id, key, value):
         
         if self.config_references_loaded():
 
-            
-            if key in self.sys_ref[probe_id].keys():
-                self.sys_ref[probe_id][key]= value 
-                
-            elif key in self.config_ref[probe_id].keys():
+            if key in self.config_ref[probe_id].keys():
                 self.config_ref[probe_id][key] = value
+
+            elif key in self.sys_ref[probe_id].keys():
+                self.sys_ref[probe_id][key]= value 
                 
             else:
                 print('Wrong key {key} passed as argument!')
