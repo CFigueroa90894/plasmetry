@@ -83,7 +83,8 @@ class TripleLangVoltage(BaseTLP):
             # pack samples to pass to ProbeOperation
             samples = {
                 "Raw Voltage 1": up_probe_window,
-                "Raw Voltage 2": float_probe_window
+                "Raw Voltage 2": float_probe_window,
+                "Bias 1": self.up_amp_bias,
             }
             self.data_buff.put(samples) # return samples to ProbeOperation
         self.say("completed data acquisition")  # log message to file
