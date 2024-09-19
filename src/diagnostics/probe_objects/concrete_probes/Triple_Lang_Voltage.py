@@ -62,47 +62,47 @@ class TripleLangVoltage(BaseTLP):
         # PROBE SUBCOMPONENTS
         self.float_collector = float_collector     # get voltage difference from center probe down to floating probe
 
+        # Averaging windows
+        self.up_probe_window = []
+        self.float_probe_window = []
+
     def run(self):
         """<...>"""
-        super().run()
+        super().run() 
 
-    def __continue(self):
-        """<...>"""
-        conditionA = self.command_flags.diagnose.is_set()
-        conditionB = not self.command_flags.shutdown.is_set()
-        return conditionA and conditionB
+    def preprocess_samples(self, raw_samples:list):
+        """<...>
+        <...in-place operation...>
+        raw_samples[0]: up collector sample,
+        raw_samples[1]: float collector sample
+        """
+        # append raw samples to windows
+        self.up_probe_window.append(raw_samples[0])
+        self.float_probe_window.append(raw_samples[1])
+
+        # trim excess samples
+        if len(self.up_probe_window) > self.num_samples:
+            self.up_probe_window.pop(0)  # remove the first (oldest) sample
+            
+        if len(self.float_probe_window) > self.num_samples:
+            self.float_probe_window.pop(0)  # remove the first (oldest) sample
+
+        # pack sample dictionary
+        samples = {
+            "Raw Voltage 1": self.up_probe_window[:],
+            "Raw Voltage 2": self.float_probe_window[:],
+            "Shunt 1": self.up_shunt,
+            "Bias 1": self.up_amp_bias,
+        }
+        return samples
 
     def _THREAD_MAIN_(self):
         """<...>"""
         self.say("starting data acquisition...")  # log message to file
-
-        # get initial samples for dummy averaging window
-        first_up_probe_sample = self.up_collector.read()
-        first_float_probe_sample = self.float_collector.read()
-
-        # pregen averaging windows from initial samples - list elements duplicated n times, len n
-        up_probe_window = [first_up_probe_sample]*self.num_samples
-        float_probe_window = [first_float_probe_sample]*self.num_samples
-
         # Continuously acquire data samples until user halts the operation
-        while self.__continue():
-            
-            # get voltage samples
-            up_volt = self.up_collector.read()
-            float_volt = self.float_collector.read()
-
-            # slice old window to create new list (needed since list operations are in place)
-            # exclude first element by slicing and append new sample
-            up_probe_window = up_probe_window[1:].append(up_volt)
-            float_probe_window = float_probe_window[1:].append(float_volt)
-
-            # pack samples to pass to ProbeOperation
-            samples = {
-                "Raw Voltage 1": up_probe_window,
-                "Raw Voltage 2": float_probe_window,
-                "Bias 1": self.up_amp_bias,
-            }
-            self.data_buff.put(samples) # return samples to ProbeOperation
+        while self.diagnose.is_set():
+             # get and return samples to ProbeOperation as two element list
+            self.data_buff.put([self.up_collector.read(), self.float_collector.read()])
         self.say("completed data acquisition")  # log message to file
 
     def _thread_setup_(self):
