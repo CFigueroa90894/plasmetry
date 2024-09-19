@@ -59,7 +59,7 @@ class SweeperProbe(BaseProbe):
         for pair in self.sweeper._premap:
             self._premap_bias.append(pair[1])  # make list of desired high voltage bias
 
-    def preprocess_samples(self, raw_samples: dict):
+    def preprocess_samples(self, raw_samples: list):
         """<...>
         <...in-place operation...>
         <...should not be called by probe thread loop, probe op instead...>"""
