@@ -39,7 +39,8 @@
         }
     },
     "config_ref": {
-       
+        "local_path": "testing_folder/",
+        "credentials_path": "testing_folder/credentials/plasma-software-data-upload-e75374a18f56.json",
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 500,
