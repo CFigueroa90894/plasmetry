@@ -114,25 +114,25 @@ class ControlLayer(AbstractControl):
         
     # ----- Config Manipulations ----- #
     # TO DO - Alberto
-    def set_config(self) -> Tuple[bool, str]:
-        """<...>"""
-        raise NotImplementedError
+    def set_config(self, probe_id, key, value) -> Tuple[bool, str]:
+        """Mutator function, edits the in memory configuration values."""
+        self._config_manager.set_config(probe_id, key, value)
 
     # TO DO - Alberto
-    def get_config(self) -> any:
-        """<...>"""
-        raise NotImplementedError
+    def get_config(self, probe_id, key) -> any:
+        """Accessor function, receives data from the in memory configuration values."""
+        self._config_manager.get_config(probe_id, key)
 
     # TO DO - Alberto
     def save_config_file(self) -> bool:
-        """<...>"""
-        raise NotImplementedError
+        """Config file writer."""
+        self._config_manager.save_config_file()
 
     # TO DO - Alberto
     def load_config_file(self) -> None:
-        """<...>"""
-        raise NotImplementedError
-
+        """Config file loader."""
+        self._config_manager.load_config_file()
+        
 
     # ----- Control Object Getters ----- #
     def get_status_flags(self) -> StatusFlags:
