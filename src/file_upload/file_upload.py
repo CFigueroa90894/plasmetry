@@ -136,31 +136,31 @@ class FileUpload:
             
             wrapper.create_folder(folder_name)
             
-    def get_probe_folder(self, probe_type:PRB):
+    def get_probe_folder(self, probe_type):
         
         match probe_type:
             
             # Single Langmuir Probe
-            case PRB.SLP:
+            case 'slp':
                 self.probe_folder = "Single Langmuir Probe"
             # Double Langmuir Probe
-            case PRB.DLP:
+            case 'dlp':
                 self.probe_folder= 'Double Langmuir Probe'
             
             # Hyperbolic Energy Analyzer
-            case PRB.HEA:
+            case 'hea':
                 self.probe_folder= 'Hyperbolic Energy Analyzer'
             
             # Ion Energy Analyzer
-            case PRB.IEA:
+            case 'iea':
                 self.probe_folder= 'Ion Energy Analyzer'
             
             # Triple Langmuir Probe - Voltage Mode
-            case PRB.TLV:
+            case 'tlv':
                 self.probe_folder= 'Triple Langmuir Probe - Voltage Mode'
             
             # Triple Langmuir Probe - Current Mode
-            case PRB.TLC:
+            case 'tlc':
                 self.probe_folder= 'Triple Langmuir Probe - Current Mode'
             
             # Unknown Probe
