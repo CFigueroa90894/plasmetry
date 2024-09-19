@@ -6,6 +6,7 @@ Layer 2 - Control - Concrete Implementation
 author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
+    - add call to file upload in 'stop_experiment()'
     - remove temporary relative imports
     - redefine and implement abstract methods from interface specification
     - verify names of subcomponent files and their classes
@@ -20,7 +21,7 @@ import os
 import datetime
 
 from threading import Event
-from queue import Queue
+from queue import Queue, Empty
 
 from typing import Tuple
 
@@ -47,6 +48,8 @@ from protected_dictionary import ProtectedDictionary
 
 from utils.threads.printer_thread import PrinterThread
 
+# local config
+RESULT_TIMEOUT = 10
 
 # TO DO
 class ControlLayer(AbstractControl):
@@ -103,6 +106,7 @@ class ControlLayer(AbstractControl):
         self._ready = Event()
         self._terminated = Event()
         self._ready.clear()
+        self._terminated.clear()
 
         
     # ----- LAYER PUBLIC METHODS ----- #
@@ -203,10 +207,44 @@ class ControlLayer(AbstractControl):
             self._ready.clear()     # cannot be 'ready' for diagnostics once diagnostics start
             self._diagnostics.start_diagnostics()   # trigger diagnostics in lower layers
 
-    # TO DO - Carlos
+    # TO DO - CALL FILE UPLOAD
     def stop_experiment(self) -> None:
-        """<...>"""
-        raise NotImplementedError
+        """Called by upper layers to halt plasma diagnostic operations in lower layers.
+        
+        This layer will attempt to complete all pending operations. It will signal lower layers
+        that they must halt diagnsotics, then await the results of the experiment returned by the
+        diagnostic layer. These results will be formatted and stored by this layer, before
+        returning to its idle state.
+
+        Exceptions:
+            RuntimeError: `stop_experiment()` was called while:
+                - system was not performing plasma diagnostics, or
+        """
+        # validate diagnostics are being performed
+        if self._commands.diagnose.is_set() or self._status.operating.is_set():
+            raise RuntimeError("Called 'stop_experiment' but diagnostics are not being performed!")
+
+        # checks successful, proceed
+        else:
+            self.say("stopping experiment...")
+            self._diagnostics.stop_diagnostics()    # halt diagnostics in lower layers
+            self.say("awaiting results...")
+
+            # get results from lower layers
+            try:
+                results = self._results.get(timeout=RESULT_TIMEOUT)  # read results from buffer
+                self.say("results obtained")
+
+                # TEMPORARY - DELETE WHEN CALL TO FILE UPLOAD IS IMPLEMENTED
+                self.say(results)
+
+                # TO DO - CALL FILE UPLOAD
+                # self.say("saving results...")
+                # <...do upload stuff...>
+
+            # get results timed out
+            except Empty:
+                self.say("could not obtain results!")
 
     # TO DO - Carlos
     def layer_shutdown(self) -> None:
