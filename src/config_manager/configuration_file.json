@@ -1,0 +1,129 @@
+{
+    "sys_ref": {
+        "slp": {
+            "relay_addresses": [],
+            "sweeper_address": 1,
+            "collector_address": 2
+        },
+        "dlp": {
+            "relay_addresses": [],
+            "sweeper_address": 1,
+            "collector_address": 2
+        },
+        "hea": {
+            "relay_addresses": [],
+            "sweeper_address": 1,
+            "collector_address": 2,
+            "rejector_address": 3,
+            "collector_bias_address": 4
+        },
+        "iea": {
+            "relay_addresses": [],
+            "sweeper_address": 1,
+            "collector_address": 2,
+            "rejector_address": 3,
+            "collector_bias_address": 4
+        },
+        "tlc": {
+            "relay_addresses": [],
+            "up_amp_address": 1,
+            "up_collector_address": 2,
+            "down_amp_address": 3,
+            "down_collector_address": 4
+        },
+        "tlv": {
+            "relay_addresses": [],
+            "up_amp_address": 1,
+            "up_collector_address": 2,
+            "0.0_collector_address": 3
+        }
+    },
+    "config_ref": {
+        "slp": {
+            "sampling_rate": 0,
+            "dac_min": 0.0,
+            "dac_max": 0.0,
+            "num_samples": 0,
+            "sweep_min": 0.0,
+            "sweep_max": 0.0,
+            "sweep_amp_min": 0.0,
+            "sweep_amp_max": 0.0,
+            "sweeper_shunt": 0.0,
+            "collector_gain": 0.0
+        },
+        "dlp": {
+            "sampling_rate": 0,
+            "dac_min": 0.0,
+            "dac_max": 0.0,
+            "num_samples": 0,
+            "sweep_min": 0.0,
+            "sweep_max": 0.0,
+            "sweep_amp_min": 0.0,
+            "sweep_amp_max": 0.0,
+            "sweeper_shunt": 0.0,
+            "collector_gain": 0.0
+        },
+        "hea": {
+            "sampling_rate": 0,
+            "dac_min": 0.0,
+            "dac_max": 0.0,
+            "num_samples": 0,
+            "sweep_min": 0.0,
+            "sweep_max": 0.0,
+            "sweep_amp_min": 0.0,
+            "sweep_amp_max": 0.0,
+            "sweeper_shunt": 0.0,
+            "collector_gain": 0.0,
+            "rejector_min": 0.0,
+            "rejector_max": 0.0,
+            "rejector_bias": 0.0,
+            "collector_bias_min": 0.0,
+            "collector_bias_max": 0.0,
+            "collector_bias": 0.0
+        },
+        "iea": {
+            "sampling_rate": 0,
+            "dac_min": 0.0,
+            "dac_max": 0.0,
+            "num_samples": 0,
+            "sweep_min": 0.0,
+            "sweep_max": 0.0,
+            "sweep_amp_min": 0.0,
+            "sweep_amp_max": 0.0,
+            "sweeper_shunt": 0.0,
+            "collector_gain": 0.0,
+            "rejector_min": 0.0,
+            "rejector_max": 0.0,
+            "rejector_bias": 0.0,
+            "collector_bias_min": 0.0,
+            "collector_bias_max": 0.0,
+            "collector_bias": 0.0
+        },
+        "tlc": {
+            "sampling_rate": 0,
+            "dac_min": 0.0,
+            "dac_max": 0.0,
+            "up_amp_min": 0.0,
+            "up_amp_max": 0.0,
+            "up_amp_bias": 0.0,
+            "up_collector_gain": 0.0,
+            "up_shunt": 0.0,
+            "down_amp_min": 0.0,
+            "down_amp_max": 0.0,
+            "down_amp_bias": 0.0,
+            "down_collector_gain": 0.0,
+            "down_shunt": 0.0
+        },
+        "tlv": {
+            "sampling_rate": 0,
+            "dac_min": 0.0,
+            "dac_max": 0.0,
+            "up_amp_min": 0.0,
+            "up_amp_max": 0.0,
+            "up_amp_bias": 0.0,
+            "up_collector_gain": 0.0,
+            "up_shunt": 0.0,
+            "0.0_collector_gain": 0.0
+        }
+    }
+}
