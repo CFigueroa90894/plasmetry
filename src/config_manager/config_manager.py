@@ -20,30 +20,33 @@ from protected_dictionary import ProtectedDictionary
 
 class ConfigManager:
     
-    def __init__(self, file_name = ''):
-        self.file_name = file_name
+    def __init__(self, text_out, status_flags, command_flags, path_name = ''):
+        self.file_name = path_name
         self.complete_file = {}
     
     def load_config_file(self):
         
-        
+        print( os.path.dirname(os.path.realpath(__file__)))
+
         if self.validate_path():
             
             print("loading config...")
+            
             with open(f'{self.file_name}', 'r') as config:
                 
                 self.complete_file = (json.load(config))
                 
                 self.sys_ref = self.complete_file['sys_ref']
                 self.config_ref= self.complete_file['config_ref']
+            print('config loaded!')
  
-    
     def save_config_file(self):
         
         if self.validate_path():
             
             self.complete_file['sys_ref'] = self.sys_ref
             self.complete_file['config_ref'] = self.config_ref
+            
             print('\nsaving in memory...')
 
             with open(f'{self.file_name}', 'w') as config_file:
@@ -62,7 +65,7 @@ class ConfigManager:
             else:
                 print('The config file path is invalid, as the config file is not a JSON file!')
         else:
-            print('The config file path is invalid! Check that the name is set correctly.')
+             print(f'The config file path {self.file_name} is invalid! Check that the name is set correctly.')
         
    
     def set_config(self, probe_id, key, value):

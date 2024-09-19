@@ -32,9 +32,9 @@ from probe_enum import PRB
 
 class FileUpload:
     
-    def __init__(self, probe_type:PRB, local_path = '', unformatted_data=[], credentials_path=''):
+    def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path=''):
         
-        
+        self.say = text_out
         """FileUpload construtor"""
         
         # Datetime object with date and time of execution
@@ -54,6 +54,8 @@ class FileUpload:
         self.local_uploader = LocalUpload(local_path) 
         
         self.get_probe_folder(probe_type)
+        
+        self.upload_data()
                     
     def new_data(self, parameters):
         

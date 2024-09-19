@@ -1,0 +1,447 @@
+PRINTR : running...
+# 2024-09-18 22_54_50.177331_CTRL_TWO_RUNS
+HWINT: hardware layer initialized...
+DIAGN: DEBUG - True
+DIAGN: diagnostics layer initialized...
+CTRL: DEBUG - True
+CTRL: control layer initialized...
+CTRL: ('Control', 'File Upload', 'None')
+CTRL: ('Control', 'Config Manager', 'None')
+CTRL: ('Control', 'Diagnostics Layer', '<diagnostics_layer.DiagnosticsLayer object at 0x000001BCFAA92600>')
+CTRL: ('Diagnostics', 'Calculations Factory', "<class 'calculations_factory.CalculationsFactory'>")
+CTRL: ('Diagnostics', 'Probe Factory', '<probe_factory.ProbeFactory object at 0x000001BCFA4DE210>')
+CTRL: ('Diagnostics', 'Probe Operation', "<class 'probe_operation.ProbeOperation'>")
+CTRL: ('Diagnostics', 'Hardware Interface', '<hardware_layer.HardwareLayer object at 0x000001BCF89C8CB0>')
+CTRL: ('Hardware Interface', 'Hardware Wrapper', '<counter_wrapper.CounterWrapperTest object at 0x000001BCF8A12DB0>')
+CTRL: ('Hardware Interface', 'Channel Factory', '<channel_factory.ChannelFactory object at 0x000001BCF2D16240>')
+CTRL: ('Hardware Interface', 'Component Factory', '<component_factory.ComponentFactory object at 0x000001BCFAA939E0>')
+CTRL: FIRST RUN
+CTRL: setting up experiment...
+DIAGN: preparing for diagnostics...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:1
+CountHW: Dout addr:1 val:False count:2
+CountHW: Dout addr:2 val:False count:3
+CountHW: Dout addr:3 val:False count:4
+CountHW: Dout addr:4 val:False count:5
+CountHW: Dout addr:5 val:False count:6
+CountHW: Dout addr:6 val:False count:7
+CountHW: Dout addr:7 val:False count:8
+CountHW: Dout addr:8 val:False count:9
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:1
+CountHW: Aout addr:1 val:0 count:2
+CountHW: Aout addr:2 val:0 count:3
+CountHW: Aout addr:3 val:0 count:4
+CountHW: Aout addr:4 val:0 count:5
+CountHW: Aout addr:5 val:0 count:6
+CountHW: Aout addr:6 val:0 count:7
+CountHW: Aout addr:7 val:0 count:8
+CountHW: Aout addr:8 val:0 count:9
+HWINT: DACs cleared
+PRB_OP : arming...
+DIAGN: READY
+CTRL: READY
+CTRL: probe <LangmuirProbe(PRB.SLP, initial daemon)>
+CTRL: equations:
+	<function filter_current at 0x000001BCFA959EE0>
+	<function get_floating_and_plasma_potential at 0x000001BCFA95B4C0>
+	<function get_electron_saturation_current at 0x000001BCFA959F80>
+	<function get_electron_temperature at 0x000001BCFA959440>
+	<function get_particle_density at 0x000001BCFA959C60>
+	<function get_debye_length at 0x000001BCFA959DA0>
+	<function get_number_of_electrons at 0x000001BCFA959D00>
+	<function get_display_parameters at 0x000001BCFA959E40>
+CTRL: notifying diagnostics must start...
+DIAGN: starting diagnostics...
+PRB_OP : launching threads...
+PRB.SLP : enabling probe circuit...
+CountHW: Aout addr:4 val:2.0 count:10
+CountHW: Dout addr:0 val:True count:10
+CountHW: Dout addr:1 val:True count:11
+CountHW: Dout addr:2 val:True count:12
+CountHW: Dout addr:3 val:True count:13
+Clock : waiting at barrier...
+PRB_OP : waiting for Probe Object to start...
+PRB_OP : running...
+PRB_OP : data buff empty...
+PRB.SLP : waiting at barrier...
+PRB.SLP : running...
+PRB.SLP : starting data acquisition...
+Clock : running...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:11
+CountHW: Ain addr:5 count:1
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:12
+CountHW: Ain addr:5 count:2
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:13
+CountHW: Ain addr:5 count:3
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:14
+CountHW: Ain addr:5 count:4
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:15
+CountHW: Ain addr:5 count:5
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:16
+CountHW: Ain addr:5 count:6
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:17
+CountHW: Ain addr:5 count:7
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:18
+CountHW: Ain addr:5 count:8
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:19
+CountHW: Ain addr:5 count:9
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:20
+CountHW: Ain addr:5 count:10
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:21
+CountHW: Ain addr:5 count:11
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:22
+CountHW: Ain addr:5 count:12
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:23
+CountHW: Ain addr:5 count:13
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:24
+CountHW: Ain addr:5 count:14
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:25
+CountHW: Ain addr:5 count:15
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:26
+CountHW: Ain addr:5 count:16
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:27
+CountHW: Ain addr:5 count:17
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:28
+CountHW: Ain addr:5 count:18
+PRB.SLP : sweep bias: -100.0V
+CTRL: stopping experiment...
+DIAGN: stopping diagnostics...
+DIAGN: waiting for ProbeOperation to exit...
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:29
+CountHW: Ain addr:5 count:19
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:30
+CountHW: Ain addr:5 count:20
+PRB.SLP : sweep bias: 300.0V
+PRB.SLP : completed data acquisition
+PRB.SLP : disabling probe circuit...
+CountHW: Aout addr:4 val:2.0 count:31
+CountHW: Dout addr:0 val:False count:14
+CountHW: Dout addr:1 val:False count:15
+CountHW: Dout addr:2 val:False count:16
+CountHW: Dout addr:3 val:False count:17
+PRB_OP : calculations skipped...
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+PRB_OP : data buff empty...
+CountHW: Aout addr:4 val:0 count:32
+PRB.SLP : exiting...
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+PRB_OP : data buff empty...
+PRB_OP : pushed new sample set to control layer
+PRB_OP : waiting for Probe Object to exit...
+PRB_OP : waiting for Clock Thread to exit...
+Clock : exiting...
+PRB_OP : exiting...
+DIAGN: ProbeOperation exited
+CTRL: awaiting results...
+CTRL: results obtained
+CTRL: ['CALC SKIPPED']
+CTRL: SECOND RUN
+CTRL: setting up experiment...
+DIAGN: preparing for diagnostics...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:18
+CountHW: Dout addr:1 val:False count:19
+CountHW: Dout addr:2 val:False count:20
+CountHW: Dout addr:3 val:False count:21
+CountHW: Dout addr:4 val:False count:22
+CountHW: Dout addr:5 val:False count:23
+CountHW: Dout addr:6 val:False count:24
+CountHW: Dout addr:7 val:False count:25
+CountHW: Dout addr:8 val:False count:26
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:33
+CountHW: Aout addr:1 val:0 count:34
+CountHW: Aout addr:2 val:0 count:35
+CountHW: Aout addr:3 val:0 count:36
+CountHW: Aout addr:4 val:0 count:37
+CountHW: Aout addr:5 val:0 count:38
+CountHW: Aout addr:6 val:0 count:39
+CountHW: Aout addr:7 val:0 count:40
+CountHW: Aout addr:8 val:0 count:41
+HWINT: DACs cleared
+PRB_OP : arming...
+DIAGN: READY
+CTRL: READY
+CTRL: probe <LangmuirProbe(PRB.SLP, initial daemon)>
+CTRL: equations:
+	<function filter_current at 0x000001BCFA959EE0>
+	<function get_floating_and_plasma_potential at 0x000001BCFA95B4C0>
+	<function get_electron_saturation_current at 0x000001BCFA959F80>
+	<function get_electron_temperature at 0x000001BCFA959440>
+	<function get_particle_density at 0x000001BCFA959C60>
+	<function get_debye_length at 0x000001BCFA959DA0>
+	<function get_number_of_electrons at 0x000001BCFA959D00>
+	<function get_display_parameters at 0x000001BCFA959E40>
+CTRL: notifying diagnostics must start...
+DIAGN: starting diagnostics...
+PRB_OP : launching threads...
+PRB.SLP : enabling probe circuit...
+CountHW: Aout addr:4 val:2.0 count:42
+CountHW: Dout addr:0 val:True count:27
+CountHW: Dout addr:1 val:True count:28
+CountHW: Dout addr:2 val:True count:29
+CountHW: Dout addr:3 val:True count:30
+Clock : waiting at barrier...
+PRB_OP : waiting for Probe Object to start...
+PRB_OP : running...
+PRB_OP : data buff empty...
+PRB.SLP : waiting at barrier...
+PRB.SLP : running...
+PRB.SLP : starting data acquisition...
+Clock : running...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:43
+CountHW: Ain addr:5 count:21
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:44
+CountHW: Ain addr:5 count:22
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:45
+CountHW: Ain addr:5 count:23
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:46
+CountHW: Ain addr:5 count:24
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:47
+CountHW: Ain addr:5 count:25
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:48
+CountHW: Ain addr:5 count:26
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:49
+CountHW: Ain addr:5 count:27
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:50
+CountHW: Ain addr:5 count:28
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:51
+CountHW: Ain addr:5 count:29
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:52
+CountHW: Ain addr:5 count:30
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:53
+CountHW: Ain addr:5 count:31
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:54
+CountHW: Ain addr:5 count:32
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:55
+CountHW: Ain addr:5 count:33
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:56
+CountHW: Ain addr:5 count:34
+PRB.SLP : sweep bias: -100.0V
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:57
+CountHW: Ain addr:5 count:35
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:58
+CountHW: Ain addr:5 count:36
+PRB.SLP : sweep bias: 300.0V
+PRB_OP : calculations skipped...
+Clock : tick
+CountHW: Aout addr:4 val:0.0 count:59
+CountHW: Ain addr:5 count:37
+PRB.SLP : sweep bias: -300.0V
+Clock : tick
+CountHW: Aout addr:4 val:1.3333333333333333 count:60
+CountHW: Ain addr:5 count:38
+PRB.SLP : sweep bias: -100.0V
+CTRL: stopping experiment...
+DIAGN: stopping diagnostics...
+DIAGN: waiting for ProbeOperation to exit...
+Clock : tick
+CountHW: Aout addr:4 val:2.6666666666666665 count:61
+CountHW: Ain addr:5 count:39
+PRB.SLP : sweep bias: 100.0V
+Clock : tick
+CountHW: Aout addr:4 val:4.0 count:62
+CountHW: Ain addr:5 count:40
+PRB.SLP : sweep bias: 300.0V
+PRB.SLP : completed data acquisition
+PRB.SLP : disabling probe circuit...
+CountHW: Aout addr:4 val:2.0 count:63
+CountHW: Dout addr:0 val:False count:31
+CountHW: Dout addr:1 val:False count:32
+CountHW: Dout addr:2 val:False count:33
+CountHW: Dout addr:3 val:False count:34
+PRB_OP : calculations skipped...
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+PRB_OP : data buff empty...
+Clock : tick
+CountHW: Aout addr:4 val:0 count:64
+PRB.SLP : exiting...
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+Clock : tick
+PRB_OP : data buff empty...
+PRB_OP : pushed new sample set to control layer
+PRB_OP : waiting for Probe Object to exit...
+PRB_OP : waiting for Clock Thread to exit...
+Clock : exiting...
+PRB_OP : exiting...

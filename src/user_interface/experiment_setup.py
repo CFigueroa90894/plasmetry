@@ -19,7 +19,11 @@ path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer s
 # ----- END PATH HAMMER ----- #
 
 # Now you can import from abstract_layers
-from abstract_layers.abstract_control import AbstractControl
+from control_layer import ControlLayer
+
+import hardware_layer
+import diagnostics_layer
+from config_manager import ConfigManager
 
 class ExperimentSetup(QMainWindow):
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
@@ -27,6 +31,14 @@ class ExperimentSetup(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
+
+        # init control layer
+        self.control = ControlLayer()
+        
+        
+        self.control.load_config_file()
+        
         loadUi('experiment_setup.ui', self)  # Load the .ui file directly
 
         ############################## GENERAL SIGNALS ##############################
@@ -45,7 +57,9 @@ class ExperimentSetup(QMainWindow):
 
         # Connect the reset button to reset settings to default
         self.reset_btn.clicked.connect(self.reset_setup)
-
+        
+        # Set values from config file
+        self.set_widget_values()
         ############################## SLP SIGNALS ##############################
 
         # Connect Plus/Minus buttons for Min Voltage Ramp
@@ -154,6 +168,18 @@ class ExperimentSetup(QMainWindow):
         self.hea_cullinator_cup_plus.clicked.connect(lambda: self.adjust_value(self.hea_cullinator_cup_input, +1))
 
     ############################## GENERAL SLOTS ##############################
+    
+    def set_widget_values(self):
+        
+        self.slp_volt_ramp_min_input.setValue(self.control.get_config('slp', 'sweep_min'))
+        self.slp_volt_rampt_max_input.setValue(self.control.get_config('slp', 'sweep_max'))
+        self.slp_sampling_rate_input.setValue(self.control.get_config('slp', 'sampling_rate'))
+        self.slp_num_measurements_input.setValue(self.control.get_config('slp', 'num_samples'))
+        
+        self.dlp_volt_ramp_min_input.setValue(self.control.get_config('dlp', 'sweep_min'))
+        self.dlp_volt_rampt_max_input.setValue(self.control.get_config('dlp', 'sweep_max'))
+        self.dlp_sampling_rate_input.setValue(self.control.get_config('dlp', 'sampling_rate'))
+        self.dlp_num_measurements_input.setValue(self.control.get_config('dlp', 'num_samples'))
 
     def initialize_view(self):
         # Initialize the view to display the correct page based on QComboBox selection.
@@ -210,6 +236,7 @@ class ExperimentSetup(QMainWindow):
         """
         current_value = spinbox.value()
         new_value = self.increment_last_decimal(current_value) if direction == 1 else self.decrement_last_decimal(current_value)
+        
         spinbox.setValue(new_value)
 
     def increment_last_decimal(self, value):

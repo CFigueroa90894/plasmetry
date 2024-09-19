@@ -64,7 +64,7 @@ class HardwareLayer(AbstractHardware):
     """
 
     # Default subcomponent module names
-    hardware_wrapper_mod = 'daqc2plate_wrapper'
+    hardware_wrapper_mod = 'counter_wrapper'
     channel_factory_mod = 'channel_factory'
     component_factory_mod = 'component_factory'
 

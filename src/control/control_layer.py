@@ -400,6 +400,6 @@ class ControlLayer(AbstractControl):
             "text_out": self._say_obj,
             "status_flags": self._status,
             "command_flags": self._commands,
-            "path_name": self.__previous_config_pathname
+            "path_name": 'configuration_file.json'
         }
         return args
