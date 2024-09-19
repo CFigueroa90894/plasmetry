@@ -7,11 +7,14 @@ author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
     - add call to file upload in 'stop_experiment()'
-    - remove temporary relative imports
-    - redefine and implement abstract methods from interface specification
+    - decide if we should wait for file upload to complete before shutting down or it should be left
+        running in the background (and add or remove its call in layer_shutdown())
+    - integrate with config manager and file upload from separate branch 
     - verify names of subcomponent files and their classes
     - add specific args to components instantiation
     - validate with team
+
+    - time permitting, implement rerouting of stderr to printer thread
 """
 
 # built-in imports
@@ -42,11 +45,11 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 
 # TO DO - Remove temporary relative imports (used to get type hints in IDE)
 # local imports
-from abstract_layers.abstract_control import AbstractControl
+from abstract_control import AbstractControl
 from system_flags import StatusFlags, CommandFlags
 from protected_dictionary import ProtectedDictionary
 
-from utils.threads.printer_thread import PrinterThread
+from printer_thread import PrinterThread
 
 # local config
 RESULT_TIMEOUT = 10
@@ -246,10 +249,48 @@ class ControlLayer(AbstractControl):
             except Empty:
                 self.say("could not obtain results!")
 
-    # TO DO - Carlos
+    # TO DO
     def layer_shutdown(self) -> None:
-        """<...>"""
-        raise NotImplementedError
+        """Called by upper layers to initiate a system-wide shutdown.
+        
+        Lower layers will attempt to complete pending operations, then terminate their processes.
+        * NOTE: this call blocks until lower layers have terminated to prevent corruption.
+        This layer should await until all buffered results are saved to files before terminating
+        its subcomponents.
+        """
+        self.say("initiating system-wide shutdown...")
+        self._commands.shutdown.set()   # notify all software components must begin shutdown
+
+        # stop experiment
+        if self._commands.diagnose.is_set() or self._status.operating.is_set():
+            self.stop_experiment()
+        else:
+            self.say("experiment is already halted.")
+
+        # TO DO - ADD WAITS UNTIL TRANSMISSION IS COMPLETE - or should it leave the upload running
+        # in the background?
+        # destroying file output and data formatting doesn't seem like a good idea
+        # wait for file output to finish
+        # <...wait for stuff...>
+
+        self._diagnostics.layer_shutdown()  # terminate lower layers
+
+        # validate diagnostics layer terminated
+        if not self._diagnostics._terminated.is_set():
+            raise RuntimeError("Diagnostics Layer did not shutdown correctly!")
+        
+        self.say("layer shutdown complete.")
+
+        # shutdown printer thread if it exists
+        if self._printer is not None:
+            self.say("waiting for printer to exit...")
+            self._printer.kill.set()    # stop printer thread
+            self._printer.join()        # wait for printer thread to exit
+
+            # TO DO - RESTORE STDERR - if it was overriden
+
+        self._terminated.set()
+
 
     def get_status_flags(self) -> StatusFlags:
         """<...>"""
