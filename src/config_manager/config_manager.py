@@ -117,17 +117,18 @@ class ConfigManager:
             
         elif key in self.list_of_biases:
             self.validate_voltage(ref, probe_id, key, value)
-    
+            
+        
     
     def validate_voltage(self, ref, probe_id, key, value):
         if key[-3:] == 'min':
             max_key = key[:-3] + "max"
-            if ref[probe_id][max_key] >= value:
+            if ref[probe_id][max_key] > value:
                 ref[probe_id][key]= value
         
         elif key[-3:] == 'max':
              min_key = key[:-3] + "min"
-             if ref[probe_id][min_key] <= value:
+             if ref[probe_id][min_key] < value:
                  ref[probe_id][key] = value
         else:
              max_key = key[:-4] + "max"
