@@ -1,33 +1,39 @@
 from PyQt5.QtWidgets import QMainWindow, QLabel, QDoubleSpinBox, QFrame, QVBoxLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal
-import sys_control_mockup
+from sys_control_mockup import SystemControlMockup
 
 class ExperimentRun(QMainWindow):
+    close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
-
-    def __init__(self):
+    run_btn_clicked = pyqtSignal()
+    stop_btn_clicked = pyqtSignal()
+    def __init__(self, control):
         super().__init__()
-        loadUi('experiment_run.ui', self)  # Load the .ui file directly
-
+        self.control = control
+        
+        loadUi('../graphic_user_interface/experiment_run.ui', self)  # Load the .ui file directly
         # Attribute to store the selected probe
         self.selected_probe = None
 
-        self.sys_control = sys_control_mockup.SystemControlMockup()
-
         # Connect the back button to emit the signal
         self.back_btn.clicked.connect(self.emit_back_signal)
+        
+        self.run_btn.clicked.connect(self.emit_run_signal)
+        
+        self.stop_btn.clicked.connect(self.emit_stop_signal)
 
     def set_selected_probe(self, probe):
         self.selected_probe = probe
         print(f"Selected probe for experiment run: {self.selected_probe}")  # Debug statement
-        
+
         # Get the calculations for the selected probe
         self.load_probe_calculations(self.selected_probe)
 
     def load_probe_calculations(self, probe_name):
+        
         # Get parameters for the selected probe from sys_control_mockup
-        parameters = self.sys_control.get_parameters_for_probe(probe_name)
+        parameters = SystemControlMockup().get_parameters_for_probe(probe_name)
         
         if parameters:
             # Divide the calculations between frame_left and frame_right
@@ -35,8 +41,8 @@ class ExperimentRun(QMainWindow):
             half = (len(param_items) + 1) // 2  # Divide roughly in half
 
             # Clear the layouts before adding new widgets
-            self.clear_layout(self.frame_left.layout())
-            self.clear_layout(self.frame_right.layout())
+          #  self.clear_layout(self.frame_left.layout())
+           # self.clear_layout(self.frame_right.layout())
 
             # Add widgets to the left frame
             for param, value in param_items[:half]:
@@ -89,3 +95,14 @@ class ExperimentRun(QMainWindow):
 
     def emit_back_signal(self):
         self.back_btn_clicked.emit()  # Emit the signal when the back button is clicked
+        
+    def emit_run_signal(self):
+        self.control.start_experiment()
+        
+    def emit_stop_signal(self):
+        self.control.stop_experiment()
+
+    def closeEvent(self, event):
+        # Emit the signal to notify GuiManager about the close request
+        self.close_signal.emit()
+        event.ignore()  # Ignore the default close event; GuiManager will handle it
