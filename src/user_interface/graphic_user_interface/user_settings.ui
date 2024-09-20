@@ -207,12 +207,12 @@ QComboBox QAbstractItemView {
          </item>
          <item>
           <property name="text">
-           <string>Triple Langmuir Probe Current (TLP-C)</string>
+           <string>Triple Langmuir Probe Current (TLC)</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Triple Langmuir Probe Voltage (TLP-V)</string>
+           <string>Triple Langmuir Probe Voltage (TLV)</string>
           </property>
          </item>
          <item>
@@ -316,7 +316,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="settings_select_page">
        <layout class="QVBoxLayout" name="verticalLayout_2">

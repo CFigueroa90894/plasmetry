@@ -42,3 +42,7 @@ class BaseTLP(BaseProbe):
         # PROBE SUBCOMPONENTS
         self.up_amp = up_amp               # Set voltage source output
         self.up_collector = up_collector   # Obtain voltage samples to calculate probe current.
+
+    def run(self):
+        """<...>"""
+        super().run() 

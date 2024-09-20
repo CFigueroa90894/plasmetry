@@ -61,6 +61,10 @@ class TripleLangCurrent(BaseTLP):
         self.down_amp = down_amp              # set applied voltage to lower source
         self.down_collector = down_collector  # obtain voltage to calculate current through probe
 
+    def run(self):
+        """<...>"""
+        super().run() 
+
     def __continue(self):
         """<...>"""
         conditionA = self.command_flags.diagnose.is_set()

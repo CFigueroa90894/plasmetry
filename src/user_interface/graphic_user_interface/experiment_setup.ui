@@ -195,12 +195,12 @@ QComboBox QAbstractItemView {
          </item>
          <item>
           <property name="text">
-           <string>Triple Langmuir Probe Current (TLP-C)</string>
+           <string>Triple Langmuir Probe Current (TLC)</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Triple Langmuir Probe Voltage (TLP-V)</string>
+           <string>Triple Langmuir Probe Voltage (TLV)</string>
           </property>
          </item>
          <item>
@@ -341,7 +341,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="single_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -864,8 +864,8 @@ QComboBox {
                  <font>
                   <family>Calibri</family>
                   <pointsize>18</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
@@ -1225,8 +1225,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="cursor">
@@ -1253,6 +1253,36 @@ QComboBox QAbstractItemView {
                    <property name="frame">
                     <bool>false</bool>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Argon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nitrogen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CO2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Oxygen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hydrogen</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>

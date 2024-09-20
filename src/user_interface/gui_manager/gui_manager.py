@@ -60,6 +60,7 @@ class GuiManager():
         settings_window.back_btn_clicked.connect(settings_window.close)
 
         setup_window.show()
+        
         sys.exit(app.exec_())
 
     def handle_close_event(self, window):

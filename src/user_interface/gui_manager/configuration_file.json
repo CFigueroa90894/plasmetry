@@ -35,7 +35,7 @@
             "relay_addresses": [],
             "up_amp_address": 1,
             "up_collector_address": 2,
-            "0.0_collector_address": 3
+            "float_collector_address": 3
         }
     },
     "config_ref": {
@@ -64,8 +64,8 @@
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
-            "sweeper_shunt": 0.0,
-            "collector_gain": 0.0
+            "sweeper_shunt": 200.0,
+            "collector_gain": 1.0
         },
         "hea": {
             "probe_id": "hea",
@@ -77,13 +77,13 @@
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
-            "sweeper_shunt": 0.0,
-            "collector_gain": 0.0,
-            "rejector_min": 0.0,
-            "rejector_max": 0.0,
+            "sweeper_shunt": 200.0,
+            "collector_gain": 1.0,
+            "rejector_min": -300.0,
+            "rejector_max":300.0,
             "rejector_bias": 20.0,
-            "collector_bias_min": 0.0,
-            "collector_bias_max": 0.0,
+            "collector_bias_min": -300.0,
+            "collector_bias_max": 300.0,
             "collector_bias": 20.0
         },
         "iea": {
@@ -96,13 +96,13 @@
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
-            "sweeper_shunt": 0.0,
-            "collector_gain": 0.0,
-            "rejector_min": 0.0,
-            "rejector_max": 0.0,
+            "sweeper_shunt": 200.0,
+            "collector_gain": 1.0,
+            "rejector_min": -300.0,
+            "rejector_max": 300.0,
             "rejector_bias": 20.0,
-            "collector_bias_min": 0.0,
-            "collector_bias_max": 0.0,
+            "collector_bias_min": -300.0,
+            "collector_bias_max": 300.0,
             "collector_bias": 20.0
         },
         "tlc": {
@@ -113,13 +113,14 @@
             "up_amp_min": -300.0,
             "up_amp_max": 300.0,
             "up_amp_bias": 0.0,
-            "up_collector_gain": 0.0,
-            "up_shunt": 0.0,
+            "up_collector_gain": 1.0,
+            "up_shunt": 200,
             "down_amp_min": 0.0,
             "down_amp_max": 0.0,
             "down_amp_bias": 0.0,
-            "down_collector_gain": 0.0,
-            "down_shunt": 0.0
+            "down_collector_gain": 1.0,
+            "down_shunt": 200.0,
+            "num_samples":50
         },
         "tlv": {
             "probe_id": "tlv",
@@ -129,9 +130,10 @@
             "up_amp_min": -300.0,
             "up_amp_max": 300.0,
             "up_amp_bias": 0.0,
-            "up_collector_gain": 0.0,
-            "up_shunt": 0.0,
-            "0.0_collector_gain": 0.0
+            "up_collector_gain": 1.0,
+            "up_shunt": 200.0,
+            "float_collector_gain": 1.0,
+            "num_samples":50
         }
     }
 }

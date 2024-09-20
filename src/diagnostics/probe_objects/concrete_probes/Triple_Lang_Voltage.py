@@ -50,6 +50,10 @@ class TripleLangVoltage(BaseTLP):
         # PROBE SUBCOMPONENTS
         self.float_collector = float_collector     # get voltage difference from center probe down to floating probe
 
+    def run(self):
+        """<...>"""
+        super().run()
+
     def __continue(self):
         """<...>"""
         conditionA = self.command_flags.diagnose.is_set()
