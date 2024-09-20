@@ -13,6 +13,7 @@ class UserSettings(QMainWindow):
         loadUi('../graphic_user_interface/user_settings.ui', self)  # Load the .ui file directly
         
         self.control = control
+
         # Hide the probe_selection_cb by default
         self.probe_selection_cb.setVisible(False)
         
@@ -22,6 +23,10 @@ class UserSettings(QMainWindow):
 
         # Connect QComboBox selection change to change pages in the probe_config_view
         self.probe_selection_cb.currentIndexChanged.connect(self.switch_probe_page)
+
+        # Connect left and right buttons to change pages
+        self.page_left_btn.clicked.connect(self.go_to_previous_page)
+        self.page_right_btn.clicked.connect(self.go_to_next_page)
 
         # Connect the back button to emit the signal
         self.back_btn.clicked.connect(self.handle_back_button)
@@ -327,33 +332,88 @@ class UserSettings(QMainWindow):
         self.probe_selection_cb.setVisible(False)  # Hide the combobox when switching away
 
     def probe_config_settings(self):
-        
+        # Switch to the probe config page
         self.main_view.setCurrentWidget(self.probe_config_settings_page)
-        self.probe_selection_cb.setVisible(True)  # Hide the combobox when switching away
-        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        self.probe_selection_cb.setVisible(True)  # Show the probe selection combo box
+        self.switch_probe_page(self.probe_selection_cb.currentIndex())  # Initialize the page view
 
     def switch_probe_page(self, index):
         """
-        Switch pages in the probe_config_view based on the current index of probe_selection_cb.
+        Switch pages in the probe_config_view based on the selected probe in the QComboBox.
+        This dynamically calculates the number of pages for the selected probe.
         """
+        # Extract the selected probe ID and reset page tracking
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
 
-        # Map the QComboBox index to the correct page in probe_config_view
-        if index == 0:
-            self.probe_config_view.setCurrentWidget(self.single_lang_probe)
-        elif index == 1:
-            self.probe_config_view.setCurrentWidget(self.double_lang_probe)
-        elif index == 2:
-            self.probe_config_view.setCurrentWidget(self.triple_lang_c_probe)
-        elif index == 3:
-            self.probe_config_view.setCurrentWidget(self.triple_lang_v_probe)
-        elif index == 4:
-            self.probe_config_view.setCurrentWidget(self.ion_energy_analyzer)
-        elif index == 5:
-            self.probe_config_view.setCurrentWidget(self.hyper_energy_analyzer)
+        # Dynamically calculate the number of pages for the selected probe
+        self.total_pages = self.count_probe_pages(self.selected_probe)
+        self.current_page_index = 0
 
+        if self.total_pages > 0:
+            self.update_page_view()
+        else:
+            self.page_identifier_label.setText("No pages found")
+            self.page_left_btn.setEnabled(False)
+            self.page_right_btn.setEnabled(False)
 
+    def count_probe_pages(self, probe_prefix):
+        """
+        Count the number of pages in the QStackedWidget that match the given probe prefix.
+        Example: For 'dlp', it would count 'double_lang_probe_1', 'double_lang_probe_2', etc.
+        """
+        count = 0
+        
+        for i in range(self.probe_config_view.count()):
+            widget = self.probe_config_view.widget(i)
+            widget_name = widget.objectName()
             
+            if widget_name.startswith(probe_prefix):
+                count += 1
+        return count
+
+    def update_page_view(self):
+        """
+        Update the probe_config_view to display the current page and update the page identifier label.
+        """        
+        # Iterate through the pages in the probe_config_view
+        for i in range(self.probe_config_view.count()):
+            widget = self.probe_config_view.widget(i)
+            widget_name = widget.objectName()
+
+            # Check if the widget corresponds to the current probe and page index
+            if widget_name == f"{self.selected_probe}_{self.current_page_index + 1}":
+                self.probe_config_view.setCurrentWidget(widget)  # Set the current widget to the matching page
+                break
+        else:
+            print("No matching widget found for the current probe and page index")
+
+        # Update the label with the current page info
+        self.page_identifier_label.setText(f"Page {self.current_page_index + 1}/{self.total_pages}")
+        
+        # Enable/Disable buttons based on the current page
+        self.page_left_btn.setEnabled(self.current_page_index > 0)
+        self.page_right_btn.setEnabled(self.current_page_index < self.total_pages - 1)
+
+    def go_to_next_page(self):
+        """
+        Navigate to the next page of the selected probe.
+        """
+        if self.current_page_index < self.total_pages - 1:
+            self.current_page_index += 1
+            self.update_page_view()  # Update the view
+        else:
+            print("Already on the last page")
+
+    def go_to_previous_page(self):
+        """
+        Navigate to the previous page of the selected probe.
+        """
+        if self.current_page_index > 0:
+            self.current_page_index -= 1
+            self.update_page_view()  # Update the view
+        else:
+            print("Already on the first page")
+
     def open_file_dialog(self, line_edit, key):
             dialog = QFileDialog(self)
             dialog.setDirectory(r'C:/')
@@ -413,6 +473,5 @@ class UserSettings(QMainWindow):
         print("Reset button clicked...waiting for implementation")
 
     def save_settings(self):
-        
         self.control.save_config_file()
 

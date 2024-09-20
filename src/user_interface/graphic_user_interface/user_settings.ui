@@ -683,7 +683,7 @@ QComboBox {
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="QWidget" name="single_lang_probe_1">
+          <widget class="QWidget" name="slp_1">
            <layout class="QVBoxLayout" name="verticalLayout_13">
             <property name="spacing">
              <number>0</number>
@@ -1510,7 +1510,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="single_lang_probe_2">
+          <widget class="QWidget" name="slp_2">
            <layout class="QVBoxLayout" name="verticalLayout_9">
             <item>
              <widget class="QFrame" name="frame_36">
@@ -1826,7 +1826,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="double_lang_probe_1">
+          <widget class="QWidget" name="dlp_1">
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <property name="spacing">
              <number>0</number>
@@ -2650,7 +2650,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="double_lang_probe_2">
+          <widget class="QWidget" name="dlp_2">
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <property name="spacing">
              <number>0</number>
@@ -2981,7 +2981,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="triple_lang_c_probe_1">
+          <widget class="QWidget" name="tlc_1">
            <layout class="QVBoxLayout" name="verticalLayout_20">
             <property name="spacing">
              <number>0</number>
@@ -3878,7 +3878,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="triple_lang_c_probe_2">
+          <widget class="QWidget" name="tlc_2">
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <property name="spacing">
              <number>0</number>
@@ -4501,7 +4501,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="triple_lang_c_probe_3">
+          <widget class="QWidget" name="tlc_3">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <item>
              <widget class="QGroupBox" name="tlc_up_collector_gain_gb">
@@ -4805,7 +4805,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="triple_lang_v_probe_1">
+          <widget class="QWidget" name="tlv_1">
            <layout class="QVBoxLayout" name="verticalLayout_25">
             <property name="spacing">
              <number>0</number>
@@ -5702,7 +5702,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="triple_lang_v_probe_2">
+          <widget class="QWidget" name="tlv_2">
            <layout class="QVBoxLayout" name="verticalLayout_26">
             <item>
              <widget class="QGroupBox" name="tlv_area_gb">
@@ -6198,7 +6198,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="ion_energy_analyzer_1">
+          <widget class="QWidget" name="iea_1">
            <layout class="QVBoxLayout" name="verticalLayout_33">
             <property name="spacing">
              <number>0</number>
@@ -7099,7 +7099,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="ion_energy_analyzer_2">
+          <widget class="QWidget" name="iea_2">
            <layout class="QVBoxLayout" name="verticalLayout_36">
             <property name="spacing">
              <number>0</number>
@@ -7892,7 +7892,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="ion_energy_analyzer_3">
+          <widget class="QWidget" name="iea_3">
            <layout class="QVBoxLayout" name="verticalLayout_37">
             <property name="spacing">
              <number>0</number>
@@ -8596,7 +8596,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="hyper_energy_analyzer_1">
+          <widget class="QWidget" name="hea_1">
            <layout class="QVBoxLayout" name="verticalLayout_42">
             <property name="spacing">
              <number>0</number>
@@ -9497,7 +9497,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="hyper_energy_analyzer_2">
+          <widget class="QWidget" name="hea_2">
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <property name="spacing">
              <number>0</number>
@@ -10176,7 +10176,7 @@ QComboBox {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="hyper_energy_analyzer_3">
+          <widget class="QWidget" name="hea_3">
            <layout class="QVBoxLayout" name="verticalLayout_43">
             <property name="spacing">
              <number>0</number>
