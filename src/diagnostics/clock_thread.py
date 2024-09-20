@@ -15,6 +15,7 @@ import sys
 import os
 
 from threading import Event, Timer
+from time import sleep, perf_counter_ns
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
@@ -73,10 +74,14 @@ class ClockThread(BaseThread):
         self.kill = kill            # stop the clock thread
 
         # select tick method
+        """ DISABLED FOR TEST
         if debug:
             self.tick = self._debug_tick_
         else:
             self.tick = self._default_tick
+        """
+        self.tick = self._default_tick
+        self.interval_ns = self.interval * 1e9
 
     # ----- Tick Methods ----- #
     def tick(self):
@@ -105,10 +110,12 @@ class ClockThread(BaseThread):
 
     def _THREAD_MAIN_(self):
         """The main loop for the ClockThread. Sets the trigger flag every tick."""
+        prev = perf_counter_ns()
         while not self.kill.is_set():
-            self.pause(self.interval)   # set interval timer
-            self.tick()                 # notify interval has passed
-            self.pause_sig.wait(timeout=self.interval+1)    # wait for interval to pass
+            now = perf_counter_ns()
+            if now - prev >= self.interval_ns:
+                self.trigger.set()
+                prev = now
 
     def _thread_setup_(self):
         """Clear the given trigger and invoke parent method."""

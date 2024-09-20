@@ -70,6 +70,10 @@ class SweeperProbe(BaseProbe):
         }
         return samples
 
+    def spin(self):
+        while not self.sample_trig.is_set():
+            pass
+
     def sweep(self) -> dict:
         """Performs a single voltage sweep on the sweeper object.
         Returns a dictionary consisting of applied biases and raw sampled voltages."""
@@ -78,6 +82,7 @@ class SweeperProbe(BaseProbe):
 
         # iterate through premapped voltage steps 
         for index in range(self.num_samples):
+
             self.sample_trig.wait()             # wait for 'get sample' signal
 
             # get sample
