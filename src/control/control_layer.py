@@ -365,7 +365,7 @@ class ControlLayer(AbstractControl):
         """
         # TEMPORARY - FOR TESTS
         log_name = str(datetime.datetime.now()).replace(':', '_')
-        log = open(f"test_logs/TEST_{log_name}.txt", 'a')
+        log = open(f"test_logs/TEST_{log_name}_TIMED.txt", 'a')
 
         # create and launch printer thread
         printer_output = [None, log]  # output to default stdout and log file
@@ -446,6 +446,9 @@ if __name__ == "__main__":
 
     # ----- mock probe config ----- #
     probe_id = "slp"
+    sampling_rate = 10
+
+    control.say(f"# ----- SAMPLING INTERVAL : {1/sampling_rate} ----- #")
 
     # probe user config
     mock_config_ref = {
@@ -454,7 +457,7 @@ if __name__ == "__main__":
             "text_out": control._say_obj,
 
             # base probe
-            "sampling_rate": 10,
+            "sampling_rate": sampling_rate,
             "dac_min": 0,
             "dac_max": 4,
 
@@ -516,29 +519,29 @@ if __name__ == "__main__":
     time.sleep(EXPERIMENT_DURATION)
     control.stop_experiment()
 
-    # ----- test run 2 experiment ----- #
-    # reattempt diagnostics
-    control.say("SECOND RUN")
+    # # ----- test run 2 experiment ----- #
+    # # reattempt diagnostics
+    # control.say("SECOND RUN")
 
-    # test setup_experiment
-    control.setup_experiment(probe_id)
+    # # test setup_experiment
+    # control.setup_experiment(probe_id)
 
-    # print probe
-    probe = control._diagnostics._probe_op._probe
-    control.say(f"probe {probe}")
+    # # print probe
+    # probe = control._diagnostics._probe_op._probe
+    # control.say(f"probe {probe}")
 
-    # print equations in probe
-    eq_msg = "equations:"
-    for eq in probe.equations:
-        eq_msg += f"\n\t{eq}"
-    control.say(eq_msg)
+    # # print equations in probe
+    # eq_msg = "equations:"
+    # for eq in probe.equations:
+    #     eq_msg += f"\n\t{eq}"
+    # control.say(eq_msg)
 
-    # test start_diagnostics
-    control.start_experiment()
+    # # test start_diagnostics
+    # control.start_experiment()
 
-    # test stop_diagnostics
-    time.sleep(EXPERIMENT_DURATION)
-    control.stop_experiment()
+    # # test stop_diagnostics
+    # time.sleep(EXPERIMENT_DURATION)
+    # control.stop_experiment()
 
     # ----- end test ----- #
     # terminate layers
