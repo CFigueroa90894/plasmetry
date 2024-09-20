@@ -43,17 +43,17 @@ class ExperimentSetup(QMainWindow):
 
         # Connect the view settings button to switch to the user settings window
         self.view_settings_btn.clicked.connect(self.emit_switch_to_settings_signal)
-
-        # Connect the QComboBox signal to the method that updates the QStackedWidget
-        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)
-
+        
         # Connect the reset button to reset settings to default
         self.reset_btn.clicked.connect(self.reset_setup)
         
         # Set values from config file
         self.set_widget_values()
         ############################## SLP SIGNALS ##############################
-
+      
+        # Connect the QComboBox signal to the method that updates the QStackedWidget
+        self.slp_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.slp_gas_select_cb.currentText()))
+        
         # Connect Plus/Minus buttons for Min Voltage Ramp
         self.slp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_volt_ramp_min_input, -1, 'sweep_min'))
         self.slp_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_volt_ramp_min_input, +1, 'sweep_min'))
@@ -71,6 +71,7 @@ class ExperimentSetup(QMainWindow):
         self.slp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.slp_num_measurements_input, +1, 'num_samples'))
 
         ############################## DLP SIGNALS ##############################
+        self.dlp_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.dlp_gas_select_cb.currentText()))
 
         # Connect Plus/Minus buttons for Min Voltage Ramp
         self.dlp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_volt_ramp_min_input, -1, 'sweep_min'))
@@ -195,17 +196,26 @@ class ExperimentSetup(QMainWindow):
         # Initialize the view to display the correct page based on QComboBox selection.
         # Get the current index of the probe_selection_cb combobox
         current_index = self.probe_selection_cb.currentIndex()
+        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
 
+        
         # Update the main view based on the current index
         self.update_main_view(current_index)
+        
+    def set_selected_gas(self, current_gas):
+        
+        
+        self.control.set_config(self.selected_probe, 'selected_gas', current_gas.lower())
+        print( self.control.get_config(self.selected_probe, 'selected_gas'))
 
     def update_main_view(self, index):
         """
         Switch pages in the probe_config_view based on the current index of probe_selection_cb.
         """
-
+        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
+            
             self.main_view.setCurrentWidget(self.single_lang_probe)
         elif index == 1:
             self.main_view.setCurrentWidget(self.double_lang_probe)
@@ -222,18 +232,15 @@ class ExperimentSetup(QMainWindow):
         # Get the selected probe from the QComboBox
         
         
-        selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
-              
+        self.control.set_config(self.selected_probe, 'probe_id', PRB(self.selected_probe))
         
-        self.control.set_config(selected_probe, 'probe_id', PRB(selected_probe))
-        
-        self.control.setup_experiment(selected_probe)
+        self.control.setup_experiment(self.selected_probe)
        
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
 
         # Set the selected probe in the experiment run window
-        self.run_window_ref(self.control).set_selected_probe(selected_probe)
+        self.run_window_ref(self.control).set_selected_probe(self.selected_probe)
 
     def emit_switch_to_settings_signal(self):
         
@@ -260,19 +267,14 @@ class ExperimentSetup(QMainWindow):
         
         current_value = spinbox.value()
         new_value = self.increment_last_decimal(current_value) if direction == 1 else self.decrement_last_decimal(current_value)
-        
-        # Storing the probe id, used to access config values
-        selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
-        
-        
 
         # Invoking mutator function of in memory config dictionary
         # Validations are also executed during the call stack of this method
-        self.control.set_config(selected_probe, config_key, new_value)
+        self.control.set_config(self.selected_probe, config_key, new_value)
         
         # If the result is valid, a new value is set in the spinbox
         # Otherwise, previous value set
-        spinbox.setValue(self.control.get_config(selected_probe, config_key))
+        spinbox.setValue(self.control.get_config(self.selected_probe, config_key))
 
     def increment_last_decimal(self, value):
         return round(value + 0.01, 2)
