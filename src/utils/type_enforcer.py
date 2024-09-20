@@ -12,8 +12,6 @@ Methods:
     enforce_type() - a python decorator to enforce explicit typing
 """
 
-# author: figueroa_90894@students.pupr
-
 # built-in imports
 from typing import get_type_hints as hint
 
