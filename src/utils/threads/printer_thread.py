@@ -16,7 +16,7 @@ import sys
 import os
 import traceback
 
-from threading import Event
+from threading import Event, current_thread
 from queue import Queue, Empty
 from io import TextIOWrapper
 
@@ -83,6 +83,7 @@ class PrinterThread(BaseThread):
     """
     def __init__(self, 
                  kill:Event,
+                 go,
                  text_in:Queue=None,
                  text_out:SayWriter|TextIOWrapper|Tuple[SayWriter|TextIOWrapper]=None,
                  daemon=False,
@@ -106,13 +107,15 @@ class PrinterThread(BaseThread):
         if text_in is None:
             text_in = Queue()
 
+        self.go = go
+
         # Generate a public writer for other objects to send text to the PrinterThread
         public_writer = SayWriter(text_in)
 
         # Save Arguments
         self.kill = kill        # signal to terminate thread
         self._input = text_in   # thread-safe queue to recieve messages to output
-        
+
         # Private Writers that PrinterThread must write recieved messages to
         self._output = self.__make_all_writers(text_out)    # generate private set of writers
         
@@ -134,8 +137,9 @@ class PrinterThread(BaseThread):
             try:
                 # Attempt to write to all output writers
                 self.__write(self.read())
+            # Catch the exception and continue looping
             except Empty:
-                pass  # Catch the exception and continue looping
+                pass
     
     # ---- THREAD LIFE CYCLE ----- #
     def run(self):
@@ -144,6 +148,7 @@ class PrinterThread(BaseThread):
 
     def _thread_setup_(self):
         """Call the _thread_setup_() method inherited from parent class."""
+        self.go.wait()
         super()._thread_setup_()    # use parent implementation
 
     def _thread_cleanup_(self):

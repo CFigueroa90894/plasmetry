@@ -61,6 +61,7 @@ from system_flags import StatusFlags, CommandFlags
 from protected_dictionary import ProtectedDictionary
 
 from printer_thread import PrinterThread
+from system_monitor import SystemMonitor
 
 # local config
 RESULT_TIMEOUT = 10
@@ -91,6 +92,10 @@ class ControlLayer(AbstractControl):
         else:
             self._printer = None  # do not create printer thread
             writer = None         # use default text output
+
+        mon_kill = Event()
+        self.sys_mon = SystemMonitor(kill=mon_kill, shutdown_callback=self.layer_shutdown, text_out=writer)
+        self.sys_mon.start()
 
         # call parent constructor
         super().__init__(*args, name=name, text_out=writer, **kwargs)
@@ -287,9 +292,12 @@ class ControlLayer(AbstractControl):
         This layer should await until all buffered results are saved to files before terminating
         its subcomponents.
         """
+        self.sys_mon.kill.set()
+        self._printer.go.set()
         self.say("initiating system-wide shutdown...")
         self._commands.shutdown.set()   # notify all software components must begin shutdown
 
+        # self._printer.start()
         # stop experiment
         if self._commands.diagnose.is_set() or self._status.operating.is_set():
             self.stop_experiment()
@@ -368,7 +376,7 @@ class ControlLayer(AbstractControl):
         # create kill switch for PrinterThread
         kill = Event()
         kill.clear()
-
+        go = Event()
         # create output log file
         """ REDEFINED FOR TEST
         log_name = str(datetime.datetime.now()).replace(':', '_')
@@ -380,7 +388,7 @@ class ControlLayer(AbstractControl):
 
         # create and launch printer thread
         printer_output = [None, log]  # output to default stdout and log file
-        printer = PrinterThread(kill=kill, text_out=printer_output)  # create thread
+        printer = PrinterThread(kill=kill, text_out=printer_output, go=go)  # create thread
         printer.start()  # launch thread
 
         # get writer object and write log name to log file's header
