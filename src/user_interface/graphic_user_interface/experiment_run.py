@@ -11,6 +11,8 @@ class ExperimentRun(QMainWindow):
     def __init__(self, control):
         super().__init__()
         self.control = control
+        self.running = None
+
         
         loadUi('../graphic_user_interface/experiment_run.ui', self)  # Load the .ui file directly
         # Attribute to store the selected probe
@@ -22,6 +24,7 @@ class ExperimentRun(QMainWindow):
         self.run_btn.clicked.connect(self.emit_run_signal)
         
         self.stop_btn.clicked.connect(self.emit_stop_signal)
+        
 
     def set_selected_probe(self, probe):
         self.selected_probe = probe
@@ -94,10 +97,13 @@ class ExperimentRun(QMainWindow):
                 child.widget().deleteLater()
 
     def emit_back_signal(self):
+        if self.running:
+            self.control.stop_experiment()
         self.back_btn_clicked.emit()  # Emit the signal when the back button is clicked
         
     def emit_run_signal(self):
         self.control.start_experiment()
-        
+        self.running = True
     def emit_stop_signal(self):
         self.control.stop_experiment()
+        self.running =False
