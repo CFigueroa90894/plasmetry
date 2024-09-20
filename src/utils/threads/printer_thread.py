@@ -8,7 +8,6 @@ status: DONE
 
 classes:
     PrinterThread - reads from a buffer and print to the given output.
-    SayWriter - object to provide thread-safe printing functionality
 """
 
 # built-in imports
@@ -74,6 +73,7 @@ class PrinterThread(BaseThread):
         + get_writer() - returns a SayWriter object configured to push items to the PrinterThread
         + say() - inherited from BaseThread, in PrinterThread's case, pushes to its own input queue
         + run() - method invoked by the threading framework when start() is called on the object
+        + read() - gets items from the input buffer
         # _THREAD_MAIN_() - the main loop of the PrinterThread, called by run()
         # _thread_setup_() - prepares the thread for execution, called before _THREAD_MAIN_()
         # _thread_cleanup_() - closes all output streams, called after _THREAD_MAIN_() exits
@@ -190,6 +190,7 @@ class PrinterThread(BaseThread):
             writer(msg)
 
     def read(self):
+        """Attempts to dequeue a message from the input buffer and returns it."""
         return self._input.get(timeout=BUFF_TIMEOUT)
 
 # # Basic Tests
