@@ -4098,7 +4098,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="tlc_down_amp_min_max">
+                      <widget class="QToolButton" name="tlc_down_amp_min_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -4360,7 +4360,7 @@ QComboBox {
                <string notr="true"/>
               </property>
               <property name="title">
-               <string>Triple Langmuir Probe Current (TLP-C) Area:</string>
+               <string>Triple Langmuir Probe Current (TLC) Area:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -4504,6 +4504,156 @@ QComboBox {
           <widget class="QWidget" name="triple_lang_c_probe_3">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <item>
+             <widget class="QGroupBox" name="tlc_up_collector_gain_gb">
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="title">
+               <string>Up Collector Gain:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_52">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>10</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item alignment="Qt::AlignTop">
+                <widget class="QToolButton" name="tlc_up_collector_gain_minus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+               <item alignment="Qt::AlignTop">
+                <widget class="QDoubleSpinBox" name="tlc_up_collector_gain_input">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1000</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                  </font>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="correctionMode">
+                  <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>false</bool>
+                 </property>
+                 <property name="decimals">
+                  <number>2</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-10000.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item alignment="Qt::AlignTop">
+                <widget class="QToolButton" name="tlc_up_collector_gain_plus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>+</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QGroupBox" name="tlc_down_collect_gain_gb">
               <property name="font">
                <font>
@@ -4623,156 +4773,6 @@ QComboBox {
                </item>
                <item alignment="Qt::AlignTop">
                 <widget class="QToolButton" name="tlc_down_collect_gain_plus">
-                 <property name="minimumSize">
-                  <size>
-                   <width>58</width>
-                   <height>58</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>58</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>20</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="text">
-                  <string>+</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="tlc_down_amp_bias_gb">
-              <property name="font">
-               <font>
-                <family>Calibri</family>
-                <pointsize>18</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="title">
-               <string>Down Amp Bias:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_57">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>10</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>10</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item alignment="Qt::AlignTop">
-                <widget class="QToolButton" name="tlc_down_amp_bias_minus">
-                 <property name="minimumSize">
-                  <size>
-                   <width>58</width>
-                   <height>58</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>58</width>
-                   <height>58</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>20</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>-</string>
-                 </property>
-                </widget>
-               </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QDoubleSpinBox" name="tlc_down_amp_bias_input">
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>58</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>1000</width>
-                   <height>58</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Calibri</family>
-                   <pointsize>18</pointsize>
-                  </font>
-                 </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="layoutDirection">
-                  <enum>Qt::LeftToRight</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="readOnly">
-                  <bool>true</bool>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::NoButtons</enum>
-                 </property>
-                 <property name="correctionMode">
-                  <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                 </property>
-                 <property name="showGroupSeparator" stdset="0">
-                  <bool>false</bool>
-                 </property>
-                 <property name="decimals">
-                  <number>2</number>
-                 </property>
-                 <property name="minimum">
-                  <double>-10000.000000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>10000.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QToolButton" name="tlc_down_amp_bias_plus">
                  <property name="minimumSize">
                   <size>
                    <width>58</width>
@@ -5730,7 +5730,7 @@ QComboBox {
                <string notr="true"/>
               </property>
               <property name="title">
-               <string>Triple Langmuir Probe Voltage (TLP-V) Area:</string>
+               <string>Triple Langmuir Probe Voltage (TLV) Area:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -5869,6 +5869,333 @@ QComboBox {
               </layout>
              </widget>
             </item>
+            <item>
+             <widget class="QFrame" name="frame_2">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QGroupBox" name="tlv_float_collect_gain_gb">
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="title">
+                  <string>Float Collector Gain</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_53">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QToolButton" name="tlv_float_collect_gain_minus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="tlv_float_collect_gain_input">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>1000</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Calibri</family>
+                      <pointsize>18</pointsize>
+                     </font>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="correctionMode">
+                     <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                    </property>
+                    <property name="showGroupSeparator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="decimals">
+                     <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-10000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>10000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="tlv_float_collect_gain_plus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="text">
+                     <string>+</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="tlv_up_collector_gain_gb">
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="title">
+                  <string>Up Collector Gain:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_57">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QToolButton" name="tlv_up_collector_gain_minus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="tlv_up_collector_gain_input">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>1000</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Calibri</family>
+                      <pointsize>18</pointsize>
+                     </font>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="correctionMode">
+                     <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                    </property>
+                    <property name="showGroupSeparator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="decimals">
+                     <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-10000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>10000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="tlv_up_collector_gain_plus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="text">
+                     <string>+</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="ion_energy_analyzer_1">
@@ -5889,7 +6216,7 @@ QComboBox {
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="ion_dac_gb">
+             <widget class="QGroupBox" name="iea_dac_gb">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -5924,7 +6251,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QFrame" name="ion_dac_min_frame">
+                <widget class="QFrame" name="iea_dac_min_frame">
                  <property name="maximumSize">
                   <size>
                    <width>1000</width>
@@ -5954,7 +6281,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="ion_dac_min_label">
+                   <widget class="QLabel" name="iea_dac_min_label">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -6014,7 +6341,7 @@ QComboBox {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QToolButton" name="ion_dac_min_minus">
+                      <widget class="QToolButton" name="iea_dac_min_minus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6040,7 +6367,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="ion_dac_min_input">
+                      <widget class="QDoubleSpinBox" name="iea_dac_min_input">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -6091,7 +6418,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="ion_dac_min_plus">
+                      <widget class="QToolButton" name="iea_dac_min_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6126,7 +6453,7 @@ QComboBox {
                 </widget>
                </item>
                <item>
-                <widget class="QFrame" name="ion_dac_max_frame">
+                <widget class="QFrame" name="iea_dac_max_frame">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -6162,7 +6489,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="ion_dac_max_label">
+                   <widget class="QLabel" name="iea_dac_max_label">
                     <property name="minimumSize">
                      <size>
                       <width>42</width>
@@ -6216,7 +6543,7 @@ QComboBox {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QToolButton" name="ion_dac_max_minus">
+                      <widget class="QToolButton" name="iea_dac_max_minus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6242,7 +6569,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="ion_dac_max_input">
+                      <widget class="QDoubleSpinBox" name="iea_dac_max_input">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -6290,7 +6617,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="ion_dac_max_plus">
+                      <widget class="QToolButton" name="iea_dac_max_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6328,7 +6655,7 @@ QComboBox {
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="ion_reject_gb">
+             <widget class="QGroupBox" name="iea_reject_gb">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -6363,7 +6690,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QFrame" name="ion_reject_min_frame">
+                <widget class="QFrame" name="iea_reject_min_frame">
                  <property name="maximumSize">
                   <size>
                    <width>1000</width>
@@ -6393,7 +6720,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="ion_reject_min_label">
+                   <widget class="QLabel" name="iea_reject_min_label">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -6453,7 +6780,7 @@ QComboBox {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QToolButton" name="ion_reject_min_minus">
+                      <widget class="QToolButton" name="iea_reject_min_minus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6479,7 +6806,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="ion_reject_min_input">
+                      <widget class="QDoubleSpinBox" name="iea_reject_min_input">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -6532,7 +6859,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="ion_reject_min_plus">
+                      <widget class="QToolButton" name="iea_reject_min_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6567,7 +6894,7 @@ QComboBox {
                 </widget>
                </item>
                <item>
-                <widget class="QFrame" name="ion_reject_max_frame">
+                <widget class="QFrame" name="iea_reject_max_frame">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -6603,7 +6930,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="ion_reject_max_label">
+                   <widget class="QLabel" name="iea_reject_max_label">
                     <property name="minimumSize">
                      <size>
                       <width>42</width>
@@ -6657,7 +6984,7 @@ QComboBox {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QToolButton" name="ion_reject_max_minus">
+                      <widget class="QToolButton" name="iea_reject_max_minus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6683,7 +7010,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="ion_reject_max_input">
+                      <widget class="QDoubleSpinBox" name="iea_reject_max_input">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -6733,7 +7060,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="ion_reject_max_plus">
+                      <widget class="QToolButton" name="iea_reject_max_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6790,7 +7117,7 @@ QComboBox {
              <number>0</number>
             </property>
             <item>
-             <widget class="QGroupBox" name="ion_collect_bias_gb">
+             <widget class="QGroupBox" name="iea_collect_bias_gb">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -6825,7 +7152,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QFrame" name="ion_collect_bias_min_frame">
+                <widget class="QFrame" name="iea_collect_bias_min_frame">
                  <property name="maximumSize">
                   <size>
                    <width>1000</width>
@@ -6855,7 +7182,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="ion_collect_bias_min_label">
+                   <widget class="QLabel" name="iea_collect_bias_min_label">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -6915,7 +7242,7 @@ QComboBox {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QToolButton" name="ion_collect_bias_min_minus">
+                      <widget class="QToolButton" name="iea_collect_bias_min_minus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -6941,7 +7268,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="ion_collect_bias_min_input">
+                      <widget class="QDoubleSpinBox" name="iea_collect_bias_min_input">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -6994,7 +7321,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="ion_collect_bias_min_plus">
+                      <widget class="QToolButton" name="iea_collect_bias_min_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -7029,7 +7356,7 @@ QComboBox {
                 </widget>
                </item>
                <item>
-                <widget class="QFrame" name="ion_collect_bias_max_frame">
+                <widget class="QFrame" name="iea_collect_bias_max_frame">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -7065,7 +7392,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="ion_collect_bias_max_label">
+                   <widget class="QLabel" name="iea_collect_bias_max_label">
                     <property name="minimumSize">
                      <size>
                       <width>42</width>
@@ -7119,7 +7446,7 @@ QComboBox {
                       <number>0</number>
                      </property>
                      <item>
-                      <widget class="QToolButton" name="ion_collect_bias_max_minus">
+                      <widget class="QToolButton" name="iea_collect_bias_max_minus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -7145,7 +7472,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QDoubleSpinBox" name="ion_collect_bias_max_input">
+                      <widget class="QDoubleSpinBox" name="iea_collect_bias_max_input">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -7195,7 +7522,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="ion_collect_bias_max_plus">
+                      <widget class="QToolButton" name="iea_collect_bias_max_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -9543,7 +9870,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QGroupBox" name="hea_collimator_cup_gb">
+                <widget class="QGroupBox" name="hea_collimator_bias_gb">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -9575,10 +9902,10 @@ QComboBox {
                    <number>10</number>
                   </property>
                   <property name="bottomMargin">
-                   <number>10</number>
+                   <number>0</number>
                   </property>
                   <item>
-                   <widget class="QToolButton" name="hea_collimator_cup_minus">
+                   <widget class="QToolButton" name="hea_collimator_bias_minus">
                     <property name="minimumSize">
                      <size>
                       <width>58</width>
@@ -9604,7 +9931,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QDoubleSpinBox" name="hea_collimator_cup_input">
+                   <widget class="QDoubleSpinBox" name="hea_collimator_bias_input">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -9661,7 +9988,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QToolButton" name="hea_collimator_cup_plus">
+                   <widget class="QToolButton" name="hea_collimator_bias_plus">
                     <property name="minimumSize">
                      <size>
                       <width>58</width>
