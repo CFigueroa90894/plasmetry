@@ -21,15 +21,26 @@ from io import TextIOWrapper
 
 from typing import Tuple
 
-# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
-def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:  
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
+
+    # locate project root
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
     # get subdirs, exclude unwanted
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude] 
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
     for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
 
 if __name__ == "__main__":  # execute path hammer if this script is run directly
