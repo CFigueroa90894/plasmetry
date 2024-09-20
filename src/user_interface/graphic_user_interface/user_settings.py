@@ -69,7 +69,23 @@ class UserSettings(QMainWindow):
             # ... to do: Jahn
 
         self.dlp_area_minus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, -1, 'Probe area'))
-        self.dlp_area_plus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, +1, 'Probe area'))
+        self.dlp_area_plus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, +1 , 'Probe area'))
+
+        self.dlp_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_min_input, -1, 'dac_min'))
+        self.dlp_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_min_input, +1, 'dac_min'))
+
+        self.dlp_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_max_input, -1, 'dac_max'))
+        self.dlp_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_max_input, +1, 'dac_max'))
+
+        self.dlp_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_min_input, -1, 'sweep_amp_min'))
+        self.dlp_sweep_min_plus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_min_input, +1, 'sweep_amp_min'))
+
+        self.dlp_sweep_max_minus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_max_input, -1, 'sweep_amp_max'))
+        self.dlp_sweep_max_plus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_max_input, +1, 'sweep_amp_max'))
+
+        self.dlp_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, -1, 'collector_gain'))
+        self.dlp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, +1, 'collector_gain'))
+
 
         # TLC
 
