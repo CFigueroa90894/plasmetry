@@ -289,10 +289,10 @@ class ExperimentSetup(QMainWindow):
         spinbox.setValue(self.control.get_config(self.selected_probe, config_key))
 
     def increment_last_decimal(self, value):
-        return round(value + 0.01, 2)
+        return round(value + 1, 2)
 
     def decrement_last_decimal(self, value):
-        return round(value - 0.01, 2)
+        return round(value - 1, 2)
 
 if __name__ == "__main__":
     from experiment_run import ExperimentRun
