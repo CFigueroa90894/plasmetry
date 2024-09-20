@@ -3,8 +3,11 @@ Layer 3 - Diagnostics Interface
     Defines the required public functionality for concrete implementations of the Diagnostics Layer.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - confirm and agree with team on interface specifications
+status: DONE
+
+    The Diagnostics Layer is responsible for all functionality related to plasma diagnostics. This
+    includes performing data acquisition, calculating plasma parameters, and operating electrostatic
+    probes and their associated circuits.
 """
   
 # built-in imports
@@ -40,14 +43,24 @@ class AbstractDiagnostics(AbstractBaseLayer):
     The Diagnostics Layer CANNOT be instantiable without arguments. Concrete implementations may
     specify optional arguments for customizable behavior.
 
+    Attributes:
+        ^+ name: str - name identifying the layer for printing purposes
+        ^# _say_obj: SayWriter - text output object
+
     Layer Setup:
-        __init__() - initializes this layer, its subcomponents, and the lower layer
+        ^+ __init__() - instantiates an object of the class
 
     System Actions:
-        setup_diagnostics() - begin initializations for plasma diagnostics
-        start_diagnostics() - perform plasma diagnostics
-        stop_diagnostics() - halt plasma diagnostics
-        diagnostic_shutdown() - initiate diagnostic layer shutdown
+        + setup_diagnostics() - begin initializations for plasma diagnostics
+        + start_diagnostics() - perform plasma diagnostics
+        + stop_diagnostics() - halt plasma diagnostics
+        + layer_shutdown() - initiate diagnostic layer shutdown
+
+    Layer Utils:
+        ^+ say() - print messages to configured output
+        ^# _info() - returns information about a layer's subcomponents
+        ^# _load_all_subcomponents() - returns uninstantiated classes of subcomponents
+        ^# _load_mod() - returns a module for a subcomponent
     """
 
     @abstractmethod

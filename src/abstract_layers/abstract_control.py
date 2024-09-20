@@ -3,8 +3,11 @@ Layer 2 - Control Interface
     Defines the required public functionality for concrete implementations of the Control Layer.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - confirm and agree with team on interface specifications
+status: DONE
+
+    The Control Layer is responsible for coordinating top level functionality between all the
+    architecture's layer, and serves as the entry point through which the UI layer (front end)
+    interacts with the rest of the software.
 """
 
 # built-in imports
@@ -44,26 +47,36 @@ class AbstractControl(AbstractBaseLayer):
     The Control Layer MUST be instantiable without arguments. Concrete implementations may
     implement optional arguments for customizable behavior.
     
+
+    Attributes:
+        ^+ name: str - name identifying the layer for printing purposes
+        ^# _say_obj: SayWriter - text output object
+
     Layer Setup:
-        __init__() - initializes this layer, its subcomponents, and the lower layer
+        ^+ __init__() - instantiates an object of the class
 
     Config Methods:
-        set_config() - save a config value to memory
-        get_config() - read a config value from memory
-        save_config_file() - write config values in memory to a config file
-        load_config_file() - load config values into memory from a config file
+        + set_config() - save a config value to memory
+        + get_config() - read a config value from memory
+        + save_config_file() - write config values in memory to a config file
+        + load_config_file() - load config values into memory from a config file
     
     System Actions:
-        setup_experiment() - begin initializations for plasma diagnostics
-        start_experiment() - perform plasma diagnostics
-        stop_experiment() - halt plasma diagnostics
-        system_shutdown() - initiate system-wide shutdown
+        + setup_experiment() - begin initializations for plasma diagnostics
+        + start_experiment() - perform plasma diagnostics
+        + stop_experiment() - halt plasma diagnostics
+        + layer_shutdown() - initiate system-wide shutdown
 
     Control Object Getters:
-        get_real_time_container() - returns object concurrently updated with new data
-        get_status_flags() - returns state indicators
-        get_command_flags() - returns action triggers
-        get_keysets() - returns all used key sets
+        + get_real_time_container() - returns object concurrently updated with new data
+        + get_status_flags() - returns state indicators
+        + get_command_flags() - returns action triggers
+
+    Layer Utils:
+        ^+ say() - print messages to configured output
+        ^# _info() - returns information about a layer's subcomponents
+        ^# _load_all_subcomponents() - returns uninstantiated classes of subcomponents
+        ^# _load_mod() - returns a module for a subcomponent
     """
 
     @abstractmethod
@@ -77,10 +90,11 @@ class AbstractControl(AbstractBaseLayer):
 
     @abstractmethod
     def set_config(self, probe_id, key:str, value: any) -> bool:
-        """Modifies a config value or object in memory specified by the given key. Returns True if
+        """Modifies a config value (or object) in memory specified by the given key. Returns True if
         the value was successfully committed to memory.
 
         Arguments:
+            probe_id - specifies the probe to which the config value corresponds
             key: str - identifier for the value to be modified
             value: any - new object or value to be committed to memory
 
@@ -104,6 +118,7 @@ class AbstractControl(AbstractBaseLayer):
         """Returns a config value or object in memory, specified by the given key.
         
         Arguments:
+            probe_id - specifies the probe to which the config value corresponds
             key:str - the identifier for the value that is being requested
 
         Exceptions:
@@ -174,8 +189,8 @@ class AbstractControl(AbstractBaseLayer):
         plasma diagnostics.
 
         Arguments:
-            probe_id - identifier for the selected probe, used to select which config dict will
-                be passed to the 
+            probe_id - identifier for the selected probe, used to select which config set will
+                be passed to the lower layers
         Exceptions:
             RuntimeError: `setup_experiment()` was called while:
                 - plasma diagnostics are being performed, or

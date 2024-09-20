@@ -4,9 +4,7 @@ Layer 0 - Abstract Base Layer
     addition, it implements methods that do not need to be overriden by subclasses.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - add docstrings
-    - validate with team
+status: DONE
 
 Architecture Initialization:
     It is recommended that each layer be instantiable without arguments, though this may not
@@ -84,6 +82,7 @@ class AbstractBaseLayer(metaclass=ABCMeta):
         # _info() - returns information about a layer's subcomponents
         # _load_all_subcomponents() - returns uninstantiated classes of subcomponents
         # _load_mod() - returns a module for a subcomponent
+        + layer_shutdown() - begin the process of terminating the layer and its processes
     """
 
     @abstractmethod
@@ -99,6 +98,11 @@ class AbstractBaseLayer(metaclass=ABCMeta):
                 - unpack classes from returned dictionary
                 - instantiate the lower layer's object
                 - instantiate the the current layer's subcomponents
+        Arguments:
+            text_out: SayWriter - object to output text
+                default: None - use the built-in print method
+            name: str - the layer's name, used to label output text
+                default: str - "ABSLYR"
         """
         # Check text output argument
         if text_out is None:
@@ -142,7 +146,7 @@ class AbstractBaseLayer(metaclass=ABCMeta):
         raise NotImplementedError("Method was not implemented in subclass!")
     
     def _load_mod(self, mod: str):
-        """Returns a module specified by name of type string. If the argument is of
+        """Returns the module specified by the string argument. If the argument is of
         type 'module', returns the module with no other operations.
 
         Arguments:
