@@ -8335,7 +8335,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QDoubleSpinBox" name="iea_area_output">
+                   <widget class="QDoubleSpinBox" name="iea_area_input">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
