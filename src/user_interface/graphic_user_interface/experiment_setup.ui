@@ -970,7 +970,7 @@ QComboBox {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -1111,7 +1111,7 @@ QComboBox {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -1925,7 +1925,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -2066,7 +2066,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -2432,7 +2432,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -2900,7 +2900,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -3277,7 +3277,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -3595,7 +3595,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -4376,7 +4376,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -4517,7 +4517,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -5475,7 +5475,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
@@ -5616,7 +5616,7 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
                     <double>-10000.000000000000000</double>
