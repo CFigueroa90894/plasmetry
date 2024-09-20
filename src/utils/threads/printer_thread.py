@@ -101,6 +101,9 @@ class PrinterThread(BaseThread):
             text_out: object or list of objects of output streams to associate with writers
                 default: None (creates a single default SayWriter object)
             daemon: bool - sets the thread to daemonic behavior (see built-in threading module)
+                default: False - the PrinterThread continues execution until explicitly terminated
+            name: str - thread name used for labeling text output (not on forwarded text)
+                default: str - "PRINTR"
         """
         # Validate if text_in was not specified
         if text_in is None:
