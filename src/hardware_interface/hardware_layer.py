@@ -1,13 +1,13 @@
 """G3 - Plasma Devs
 Layer 4 - Hardware Interface - Concrete Implementation
-    Implements the interface specified by AbstractHardware class.
-    <...>
+    Implements the interface specified by AbstractHardware class. Instantiates hardware factories
+    for use by upper by layers, as well as providing a failsafe to reset all hardware I/O channels.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - add docstrings to module header
-  - implement reset_components() method
-  - validate with team
+status: DONE
+
+Classes:
+    HardwareLayer
 """
 
 # built-in imports
@@ -34,7 +34,9 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 
 # local imports
 from abstract_hardware import AbstractHardware
-from say_writer import SayWriter
+
+# local config
+RELAY_PAUSE = 3
 
 # TO DO
 class HardwareLayer(AbstractHardware):
@@ -57,7 +59,7 @@ class HardwareLayer(AbstractHardware):
         + __init__() - initialize the HardwareLayer object
         + get_component_factory() - returns the instantiated component factory
         + get_channel_factory() - returns the instantiated channel factory
-        + reset_components() - TO BE IMPLEMENTED - should disable all relays and zero all amps
+        + reset_components() - disables all digital outputs and sets all analog outputs to zero
         # _load_all_subcomponents() - returns dictionary of all subcomponent classes
         ^# _load_mod() - imports and returns a module, specified by name
         # _info() - returns a tuple containing info about the layer's instantiated subcomponents
@@ -116,7 +118,7 @@ class HardwareLayer(AbstractHardware):
             self.say("DOUTs cleared")
 
         # pause to allow relays to disengage
-        time.sleep(3)
+        time.sleep(RELAY_PAUSE)
 
         # reset analog outputs
         self.say("clearing DACs...")
@@ -138,7 +140,7 @@ class HardwareLayer(AbstractHardware):
         return classes
     
     def layer_shutdown(self):
-        """<...>"""
+        """Terminates the layer. Resets all output channels and destroys object references."""
         self.say("shutting down hardware layer...")
         self.reset_components() # reset all components
 
