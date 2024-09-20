@@ -103,11 +103,16 @@ class UserSettings(QMainWindow):
 
     def set_widget_values(self):
         
+        self.credentials_path_input.setText(self.control.get_config(probe_id = '', key = 'credentials_path'))
+        self.local_path_input.setText(self.control.get_config(probe_id = '', key = 'local_path'))
+
+        
         self.slp_area_input.setValue(self.control.get_config('slp', 'Probe area'))
         self.slp_dac_min_input.setValue(self.control.get_config('slp', 'dac_min'))
         self.slp_dac_max_input.setValue(self.control.get_config('slp', 'dac_max'))
         
         self.slp_sweep_min_input.setValue(self.control.get_config('slp', 'sweep_amp_min'))
+
         self.slp_sweep_max_input.setValue(self.control.get_config('slp', 'sweep_amp_max'))
 
 
