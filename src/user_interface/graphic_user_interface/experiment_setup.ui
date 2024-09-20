@@ -341,7 +341,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="single_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2987,8 +2987,8 @@ QComboBox QAbstractItemView {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="cursor">
@@ -3015,6 +3015,36 @@ QComboBox QAbstractItemView {
                    <property name="frame">
                     <bool>true</bool>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Argon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nitrogen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CO2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Oxygen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hydrogen</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -3952,8 +3982,8 @@ QComboBox QAbstractItemView {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="cursor">
@@ -3980,6 +4010,36 @@ QComboBox QAbstractItemView {
                    <property name="frame">
                     <bool>true</bool>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Argon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nitrogen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CO2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Oxygen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hydrogen</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -5021,8 +5081,8 @@ QComboBox QAbstractItemView {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="cursor">
@@ -5049,6 +5109,36 @@ QComboBox QAbstractItemView {
                    <property name="frame">
                     <bool>true</bool>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Argon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nitrogen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CO2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Oxygen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -6090,8 +6180,8 @@ QComboBox QAbstractItemView {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="cursor">
@@ -6118,6 +6208,36 @@ QComboBox QAbstractItemView {
                    <property name="frame">
                     <bool>true</bool>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Argon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nitrogen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CO2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Oxygen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hydrogen</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
