@@ -13,12 +13,7 @@ class UserSettings(QMainWindow):
         loadUi('../graphic_user_interface/user_settings.ui', self)  # Load the .ui file directly
         
         self.control = control
-        
-        # Store the total number of pages dynamically
-        self.total_pages = 1
-        self.current_page_index = 0
-        self.selected_probe = None
-        
+
         # Hide the probe_selection_cb by default
         self.probe_selection_cb.setVisible(False)
         
@@ -30,8 +25,8 @@ class UserSettings(QMainWindow):
         self.probe_selection_cb.currentIndexChanged.connect(self.switch_probe_page)
 
         # Connect left and right buttons to change pages
-        self.page_left_btn.clicked.connect(self.page_left)
-        self.page_right_btn.clicked.connect(self.page_right)
+        self.page_left_btn.clicked.connect(self.go_to_previous_page)
+        self.page_right_btn.clicked.connect(self.go_to_next_page)
 
         # Connect the back button to emit the signal
         self.back_btn.clicked.connect(self.handle_back_button)
@@ -307,7 +302,7 @@ class UserSettings(QMainWindow):
                 ################## IEA ##################
 
         self.iea_area_input.setValue(self.control.get_config('iea', 'Probe area'))
-#        self.iea_mass_input.setValue(self.control.get_config('iea', 'Probe area'))
+        #self.iea_mass_input.setValue(self.control.get_config('iea', 'custom_mass'))
         self.iea_dac_min_input.setValue(self.control.get_config('iea', 'dac_min'))
         self.iea_dac_max_input.setValue(self.control.get_config('iea', 'dac_max'))
         self.iea_reject_min_input.setValue(self.control.get_config('iea', 'rejector_min'))
@@ -329,7 +324,7 @@ class UserSettings(QMainWindow):
         self.hea_collect_bias_max_input.setValue(self.control.get_config('hea', 'collector_bias_max'))
         self.hea_sweep_min_input.setValue(self.control.get_config('hea', 'sweep_amp_min'))
         self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
-#        self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
+     #   self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
         self.hea_collect_gain_input.setValue(self.control.get_config('hea', 'collector_gain'))
 
     def show_data_upload_settings(self):
@@ -337,10 +332,10 @@ class UserSettings(QMainWindow):
         self.probe_selection_cb.setVisible(False)  # Hide the combobox when switching away
 
     def probe_config_settings(self):
-        
+        # Switch to the probe config page
         self.main_view.setCurrentWidget(self.probe_config_settings_page)
-        self.probe_selection_cb.setVisible(True)  # Hide the combobox when switching away
-        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        self.probe_selection_cb.setVisible(True)  # Show the probe selection combo box
+        self.switch_probe_page(self.probe_selection_cb.currentIndex())  # Initialize the page view
 
     def switch_probe_page(self, index):
         """
@@ -354,8 +349,12 @@ class UserSettings(QMainWindow):
         self.total_pages = self.count_probe_pages(self.selected_probe)
         self.current_page_index = 0
 
-        # Update the view and controls
-        self.update_page_view()
+        if self.total_pages > 0:
+            self.update_page_view()
+        else:
+            self.page_identifier_label.setText("No pages found")
+            self.page_left_btn.setEnabled(False)
+            self.page_right_btn.setEnabled(False)
 
     def count_probe_pages(self, probe_prefix):
         """
@@ -363,46 +362,58 @@ class UserSettings(QMainWindow):
         Example: For 'dlp', it would count 'double_lang_probe_1', 'double_lang_probe_2', etc.
         """
         count = 0
+        
         for i in range(self.probe_config_view.count()):
-            widget_name = self.probe_config_view.widget(i).objectName()
+            widget = self.probe_config_view.widget(i)
+            widget_name = widget.objectName()
+            
             if widget_name.startswith(probe_prefix):
                 count += 1
         return count
 
     def update_page_view(self):
         """
-        Update the displayed page and disable/enable navigation buttons as needed.
-        """
-        # Get the name of the current page widget dynamically
-        probe_page_widget_name = f"{self.selected_probe}_probe_{self.current_page_index + 1}"
-        page_widget = getattr(self, probe_page_widget_name, None)
+        Update the probe_config_view to display the current page and update the page identifier label.
+        """        
+        # Iterate through the pages in the probe_config_view
+        for i in range(self.probe_config_view.count()):
+            widget = self.probe_config_view.widget(i)
+            widget_name = widget.objectName()
 
-        if page_widget:
-            self.probe_config_view.setCurrentWidget(page_widget)
+            # Check if the widget corresponds to the current probe and page index
+            if widget_name == f"{self.selected_probe}_{self.current_page_index + 1}":
+                self.probe_config_view.setCurrentWidget(widget)  # Set the current widget to the matching page
+                break
+        else:
+            print("No matching widget found for the current probe and page index")
 
-        # Update the page label
+        # Update the label with the current page info
         self.page_identifier_label.setText(f"Page {self.current_page_index + 1}/{self.total_pages}")
-
-        # Enable/disable navigation buttons
+        
+        # Enable/Disable buttons based on the current page
         self.page_left_btn.setEnabled(self.current_page_index > 0)
         self.page_right_btn.setEnabled(self.current_page_index < self.total_pages - 1)
 
-    def page_left(self):
+    def go_to_next_page(self):
         """
-        Navigate to the previous page.
-        """
-        if self.current_page_index > 0:
-            self.current_page_index -= 1
-            self.update_page_view()
-
-    def page_right(self):
-        """
-        Navigate to the next page.
+        Navigate to the next page of the selected probe.
         """
         if self.current_page_index < self.total_pages - 1:
             self.current_page_index += 1
-            self.update_page_view()
-            
+            self.update_page_view()  # Update the view
+        else:
+            print("Already on the last page")
+
+    def go_to_previous_page(self):
+        """
+        Navigate to the previous page of the selected probe.
+        """
+        if self.current_page_index > 0:
+            self.current_page_index -= 1
+            self.update_page_view()  # Update the view
+        else:
+            print("Already on the first page")
+
     def open_file_dialog(self, line_edit, key):
             dialog = QFileDialog(self)
             dialog.setDirectory(r'C:/')
@@ -462,10 +473,4 @@ class UserSettings(QMainWindow):
         print("Reset button clicked...waiting for implementation")
 
     def save_settings(self):
-        
         self.control.save_config_file()
-
-    def closeEvent(self, event):
-        # Emit the signal to notify GuiManager about the close request
-        self.close_signal.emit()
-        event.ignore()  # Ignore the default close event; GuiManager will handle it
