@@ -316,8 +316,7 @@ class UserSettings(QMainWindow):
 
 
                 ################## HEA ##################
-
-#        self.hea_area_input.setValue(self.control.get_config('hea', 'Probe area'))
+        self.hea_area_output.setValue(self.control.get_config('hea', 'Probe area'))
         self.hea_dac_min_input.setValue(self.control.get_config('hea', 'dac_min'))
         self.hea_dac_max_input.setValue(self.control.get_config('hea', 'dac_max'))
         self.hea_collect_bias_min_input.setValue(self.control.get_config('hea', 'collector_bias_min'))
