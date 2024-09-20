@@ -12,7 +12,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     
     targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-   # print(f"Path Hammer: subdirectories appended to python path")
+   # self.say(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
 
 import json
@@ -20,35 +20,38 @@ from protected_dictionary import ProtectedDictionary
 
 class ConfigManager:
     
-    def __init__(self, file_name = ''):
-        self.file_name = file_name
+    def __init__(self, text_out, status_flags, command_flags, path_name = ''):
+        self.file_name = path_name
         self.complete_file = {}
-    
+        self.say = text_out
     def load_config_file(self):
         
-        
+        self.say( os.path.dirname(os.path.realpath(__file__)))
+
         if self.validate_path():
             
-            print("loading config...")
+            self.say("loading config...")
+            
             with open(f'{self.file_name}', 'r') as config:
                 
                 self.complete_file = (json.load(config))
                 
                 self.sys_ref = self.complete_file['sys_ref']
                 self.config_ref= self.complete_file['config_ref']
+            self.say('config loaded!')
  
-    
     def save_config_file(self):
         
         if self.validate_path():
             
             self.complete_file['sys_ref'] = self.sys_ref
             self.complete_file['config_ref'] = self.config_ref
-            print('\nsaving in memory...')
+            
+            self.say('\nsaving in memory...')
 
             with open(f'{self.file_name}', 'w') as config_file:
                 json.dump(self.complete_file, config_file, indent=4)
-            print('Successfully saved!\n')
+            self.say('Successfully saved!\n')
             
     def validate_path(self):
         
@@ -60,36 +63,41 @@ class ConfigManager:
             if self.file_name[-5:] == '.json':
                 return True
             else:
-                print('The config file path is invalid, as the config file is not a JSON file!')
+                self.say('The config file path is invalid, as the config file is not a JSON file!')
         else:
-            print('The config file path is invalid! Check that the name is set correctly.')
+             self.say(f'The config file path {self.file_name} is invalid! Check that the name is set correctly.')
         
-   
     def set_config(self, probe_id, key, value):
         
         if self.config_references_loaded():
-
-            
-            if key in self.sys_ref[probe_id].keys():
-                self.sys_ref[probe_id][key]= value 
+           
+            if key in self.config_ref.keys() and probe_id == '':
+                self.config_ref[key] = value
                 
             elif key in self.config_ref[probe_id].keys():
                 self.config_ref[probe_id][key] = value
+
+            elif key in self.sys_ref[probe_id].keys():
+                self.sys_ref[probe_id][key]= value 
                 
+           
             else:
-                print('Wrong key {key} passed as argument!')
+                self.say('Wrong key {key} passed as argument!')
         
     def get_config(self, probe_id, key):
         
          if self.config_references_loaded():
- 
-             if key in self.sys_ref[probe_id].keys():
+             
+             if key in self.config_ref.keys() and probe_id == '':
+                 return self.config_ref[key]
+             elif key in self.sys_ref[probe_id].keys():
                  return self.sys_ref[probe_id][key]
                  
              elif key in self.config_ref[probe_id].keys():
-                 return self.config_ref[probe_id][key]
+                 return self.config_ref[probe_id][key]  
+                 
              else:
-                 print('wrong key!')
+                 self.say('wrong key!')
       
              
     def config_references_loaded(self):
@@ -98,7 +106,7 @@ class ConfigManager:
             return self.sys_ref and self.config_ref
         
         except AttributeError:
-             print('Must load config file before using mutator functions!')
+             self.say('Must load config file before using mutator functions!')
 
              return False
 
