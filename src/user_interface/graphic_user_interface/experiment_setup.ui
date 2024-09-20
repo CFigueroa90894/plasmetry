@@ -341,7 +341,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="single_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -508,8 +508,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
@@ -538,6 +538,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="layoutDirection">
@@ -586,8 +588,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -741,6 +743,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="layoutDirection">
@@ -910,8 +914,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -937,6 +941,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -991,8 +997,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -1055,8 +1061,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1082,6 +1088,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
@@ -1130,8 +1138,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
