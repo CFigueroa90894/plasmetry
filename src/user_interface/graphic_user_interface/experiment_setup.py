@@ -97,30 +97,30 @@ class ExperimentSetup(QMainWindow):
         # Connect the QComboBox signal to the method that updates the combobox
         self.tlc_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlc_gas_select_cb.currentText()))
         
-        self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1))
-        self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1))
+        self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1, 'sampling_rate'))
+        self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, -1))
-        self.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, +1))
+        self.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, -1, 'up_amp_bias'))
+        self.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, +1, 'up_amp_bias'))
 
-        self.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, -1))
-        self.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, +1))
+        self.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, -1, 'down_amp_bias'))
+        self.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, +1, 'down_amp_bias'))
 
-        self.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, -1))
-        self.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, +1))
+        self.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, -1,'num_samples'))
+        self.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, +1,'num_samples'))
 
         ############################## TLP-V SIGNALS ##############################
 
         self.tlv_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlv_gas_select_cb.currentText()))
 
-        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1))
-        self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1))
+        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1,'sampling_rate'))
+        self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1))
-        self.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, +1))
+        self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1, 'up_amp_bias'))
+        self.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, +1, 'up_amp_bias'))
 
-        self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1))
-        self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1))
+        self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1,'num_samples'))
+        self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1,'num_samples'))
 
         
 
@@ -181,7 +181,7 @@ class ExperimentSetup(QMainWindow):
         
         ################## TLC ##################
 
-        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
+        self.tlc_sampling_rate_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
         self.tlc_up_amp_bias_input.setValue(self.control.get_config('tlc', 'up_amp_bias'))
         self.tlc_down_amp_bias_input.setValue(self.control.get_config('tlc', 'down_amp_bias'))
         self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'num_samples'))
