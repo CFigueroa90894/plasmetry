@@ -70,25 +70,32 @@ class ConfigManager:
     def set_config(self, probe_id, key, value):
         
         if self.config_references_loaded():
-
-            if key in self.config_ref[probe_id].keys():
+           
+            if key in self.config_ref.keys() and probe_id == '':
+                self.config_ref[key] = value
+                
+            elif key in self.config_ref[probe_id].keys():
                 self.config_ref[probe_id][key] = value
 
             elif key in self.sys_ref[probe_id].keys():
                 self.sys_ref[probe_id][key]= value 
                 
+           
             else:
                 print('Wrong key {key} passed as argument!')
         
     def get_config(self, probe_id, key):
         
          if self.config_references_loaded():
- 
-             if key in self.sys_ref[probe_id].keys():
+             
+             if key in self.config_ref.keys() and probe_id == '':
+                 return self.config_ref[key]
+             elif key in self.sys_ref[probe_id].keys():
                  return self.sys_ref[probe_id][key]
                  
              elif key in self.config_ref[probe_id].keys():
-                 return self.config_ref[probe_id][key]
+                 return self.config_ref[probe_id][key]  
+                 
              else:
                  print('wrong key!')
       

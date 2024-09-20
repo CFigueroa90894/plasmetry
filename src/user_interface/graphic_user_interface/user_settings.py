@@ -1,19 +1,21 @@
-from PyQt5.QtWidgets import QMainWindow, QDialog
+from PyQt5.QtWidgets import QMainWindow, QDialog, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal
 from virtual_keyboard import VirtualKeyboard
+from pathlib import Path
 
 class UserSettings(QMainWindow):
     close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
 
-    def __init__(self):
+    def __init__(self, control):
         super().__init__()
         loadUi('../graphic_user_interface/user_settings.ui', self)  # Load the .ui file directly
-
+        
+        self.control = control
         # Hide the probe_selection_cb by default
         self.probe_selection_cb.setVisible(False)
-
+        
         # Connect buttons to switch between pages
         self.data_upload_settings_btn.clicked.connect(self.show_data_upload_settings)
         self.probe_config_settings_btn.clicked.connect(self.probe_config_settings)
@@ -33,27 +35,41 @@ class UserSettings(QMainWindow):
         ############################## DATA UPLOAD SIGNALS ##############################
 
         # Connect QToolButton clicks to open the virtual keyboard
-        self.bucket_name_btn.clicked.connect(lambda: self.open_keyboard(self.bucket_name_output))
-        self.access_key_id_btn.clicked.connect(lambda: self.open_keyboard(self.access_key_id_output))
-        self.secret_access_key_btn.clicked.connect(lambda: self.open_keyboard(self.secret_access_key_output))
+        self.credentials_path_btn.clicked.connect(lambda: self.open_file_dialog(self.credentials_path_input, 'credentials_path'))
+        self.local_path_btn.clicked.connect(lambda: self.open_file_dialog(self.local_path_input, 'local_path'))
 
         ############################## PROBE CONFIG SETTINGS SIGNALS ##############################
-
+        self.set_widget_values()
 
         # SLP
 
             # ... to do: Jahn
 
-        self.slp_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.slp_area_output, -1))
-        self.slp_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.slp_area_output, +1))
-
-
+        self.slp_area_minus.clicked.connect(lambda: self.adjust_value(self.slp_area_input, -1, 'Probe area'))
+        self.slp_area_plus.clicked.connect(lambda: self.adjust_value(self.slp_area_input, +1 , 'Probe area'))
+        
+        self.slp_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_dac_min_input, -1, 'dac_min'))
+        self.slp_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_dac_min_input, +1, 'dac_min'))
+        
+        self.slp_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.slp_dac_max_input, -1, 'dac_max'))
+        self.slp_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.slp_dac_max_input, +1, 'dac_max'))
+        
+        self.slp_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_min_input, -1, 'sweep_amp_min'))
+        self.slp_sweep_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_min_input, +1, 'sweep_amp_min'))
+        
+        self.slp_sweep_max_minus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_max_input, -1, 'sweep_amp_max'))
+        self.slp_sweep_max_plus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_max_input, +1, 'sweep_amp_max'))
+        
+        self.slp_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, -1, 'collector_gain'))
+        self.slp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, +1, 'collector_gain'))
+        
+        
         # DLP
 
             # ... to do: Jahn
 
-        self.dlp_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.dlp_area_output, -1))
-        self.dlp_area_btn.clicked.connect(lambda: self.adjust_value(self.dlp_area_output, +1))
+        self.dlp_area_minus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, -1, 'Probe area'))
+        self.dlp_area_plus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, +1, 'Probe area'))
 
         # TLC
 
@@ -67,36 +83,52 @@ class UserSettings(QMainWindow):
 
             # ... to do: Jahn
 
-        self.iea_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.iea_area_output, -1))
-        self.iea_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.iea_area_output, +1))
+        self.iea_area_minus.clicked.connect(lambda: self.adjust_value(self.iea_area_input, -1, 'Probe area'))
+        self.iea_area_plus.clicked.connect(lambda: self.adjust_value(self.iea_area_input, +1, 'Probe area'))
 
-        self.iea_mass_minus_btn.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, -1))
-        self.iea_mass_plus_btn.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, +1))
+        self.iea_mass_minus.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, -1, 'Probe area'))
+        self.iea_mass_plus.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, +1, 'Probe area'))
 
         # HEA
 
             # ... to do: Jahn
 
-        self.tlp_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.tlp_area_output, -1))
-        self.tlp_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.tlp_area_output, +1))
+        self.tlc_area_minus.clicked.connect(lambda: self.adjust_value(self.tlc_area_output, -1, 'Probe area'))
+        self.tlc_area_plus.clicked.connect(lambda: self.adjust_value(self.tlc_area_output, +1, 'Probe area'))
+        self.tlv_area_minus.clicked.connect(lambda: self.adjust_value(self.tlv_area_output, -1, 'Probe area'))
+        self.tlv_area_plus.clicked.connect(lambda: self.adjust_value(self.tlv_area_output, +1, 'Probe area'))
 
-        self.hea_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.hea_area_output, -1))
-        self.hea_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.hea_area_output, +1))
+        self.hea_area_minus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, -1, 'Probe area'))
+        self.hea_area_plus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, +1, 'Probe area'))
+
+    def set_widget_values(self):
+        
+        self.slp_area_input.setValue(self.control.get_config('slp', 'Probe area'))
+        self.slp_dac_min_input.setValue(self.control.get_config('slp', 'dac_min'))
+        self.slp_dac_max_input.setValue(self.control.get_config('slp', 'dac_max'))
+        
+        self.slp_sweep_min_input.setValue(self.control.get_config('slp', 'sweep_amp_min'))
+        self.slp_sweep_max_input.setValue(self.control.get_config('slp', 'sweep_amp_max'))
 
 
+        self.slp_collector_gain_input.setValue(self.control.get_config('slp', 'collector_gain'))
 
     def show_data_upload_settings(self):
         self.main_view.setCurrentWidget(self.data_upload_settings_page)
         self.probe_selection_cb.setVisible(False)  # Hide the combobox when switching away
 
     def probe_config_settings(self):
+        
         self.main_view.setCurrentWidget(self.probe_config_settings_page)
         self.probe_selection_cb.setVisible(True)  # Hide the combobox when switching away
+        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
 
     def switch_probe_page(self, index):
         """
         Switch pages in the probe_config_view based on the current index of probe_selection_cb.
         """
+        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+
         # Map the QComboBox index to the correct page in probe_config_view
         if index == 0:
             self.probe_config_view.setCurrentWidget(self.single_lang_probe)
@@ -111,25 +143,43 @@ class UserSettings(QMainWindow):
         elif index == 5:
             self.probe_config_view.setCurrentWidget(self.hyper_energy_analyzer)
 
-    def open_keyboard(self, line_edit):
-        keyboard = VirtualKeyboard(self)
-        
-        # Show the keyboard dialog
-        if keyboard.exec_() == QDialog.Accepted:
-            # Get the input text and set it in the line edit
-            input_text = keyboard.get_input_text()
-            line_edit.setText(input_text)
 
-    def adjust_value(self, spinbox, direction):
+            
+    def open_file_dialog(self, line_edit, key):
+            dialog = QFileDialog(self)
+            dialog.setDirectory(r'C:/')
+            if key =='credentials_path':
+                dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+            else:
+                dialog.setFileMode(QFileDialog.FileMode.Directory) 
+
+            dialog.setViewMode(QFileDialog.ViewMode.List)
+            if dialog.exec():
+                filenames = dialog.selectedFiles()
+                
+                if filenames:
+                    self.control.set_config(probe_id='', key=key, value = str(Path(filenames[0])))
+                    line_edit.setText(self.control.get_config(probe_id='',key=key))
+                    
+    def adjust_value(self, spinbox, direction, config_key):
         """
         Adjust the value of a QDoubleSpinBox.
         
         :param spinbox: The QDoubleSpinBox to update.
         :param direction: 1 for increment, -1 for decrement.
         """
+        
         current_value = spinbox.value()
         new_value = self.increment_last_decimal(current_value) if direction == 1 else self.decrement_last_decimal(current_value)
-        spinbox.setValue(new_value)
+
+        # Invoking mutator function of in memory config dictionary
+        # Validations are also executed during the call stack of this method
+        self.control.set_config(self.selected_probe, config_key, new_value)
+        
+        # If the result is valid, a new value is set in the spinbox
+        # Otherwise, previous value set
+        spinbox.setValue(self.control.get_config(self.selected_probe, config_key))
+
 
     def increment_last_decimal(self, value):
         return round(value + 0.01, 2)
@@ -154,7 +204,8 @@ class UserSettings(QMainWindow):
         print("Reset button clicked...waiting for implementation")
 
     def save_settings(self):
-        print("Save button clicked...waiting for implementation")
+        
+        self.control.save_config_file()
 
     def closeEvent(self, event):
         # Emit the signal to notify GuiManager about the close request

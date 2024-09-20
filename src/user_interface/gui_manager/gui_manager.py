@@ -38,7 +38,7 @@ class GuiManager():
         
         run_window= ExperimentRun(self.control)
         
-        settings_window = UserSettings()
+        settings_window = UserSettings(self.control)
 
         # Connect close signals from windows to the central handler
         setup_window.close_signal.connect(lambda: self.handle_close_event(setup_window))
