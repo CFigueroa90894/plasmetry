@@ -297,7 +297,7 @@ class UserSettings(QMainWindow):
                 ################## IEA ##################
 
         self.iea_area_input.setValue(self.control.get_config('iea', 'Probe area'))
-        self.iea_mass_input.setValue(self.control.get_config('iea', 'Probe area'))
+        #self.iea_mass_input.setValue(self.control.get_config('iea', 'custom_mass'))
         self.iea_dac_min_input.setValue(self.control.get_config('iea', 'dac_min'))
         self.iea_dac_max_input.setValue(self.control.get_config('iea', 'dac_max'))
         self.iea_reject_min_input.setValue(self.control.get_config('iea', 'rejector_min'))
@@ -312,14 +312,14 @@ class UserSettings(QMainWindow):
 
                 ################## HEA ##################
 
-        self.hea_area_input.setValue(self.control.get_config('hea', 'Probe area'))
+#        self.hea_area_input.setValue(self.control.get_config('hea', 'Probe area'))
         self.hea_dac_min_input.setValue(self.control.get_config('hea', 'dac_min'))
         self.hea_dac_max_input.setValue(self.control.get_config('hea', 'dac_max'))
         self.hea_collect_bias_min_input.setValue(self.control.get_config('hea', 'collector_bias_min'))
         self.hea_collect_bias_max_input.setValue(self.control.get_config('hea', 'collector_bias_max'))
         self.hea_sweep_min_input.setValue(self.control.get_config('hea', 'sweep_amp_min'))
         self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
-        self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
+     #   self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
         self.hea_collect_gain_input.setValue(self.control.get_config('hea', 'collector_gain'))
 
     def show_data_upload_settings(self):
