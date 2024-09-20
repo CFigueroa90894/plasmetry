@@ -2209,210 +2209,6 @@ QComboBox QAbstractItemView {
          <number>0</number>
         </property>
         <item>
-         <widget class="QFrame" name="frame_24">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_39">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QFrame" name="frame_25">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_25">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QGroupBox" name="tlp_c_sampling_rate_gb">
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>18</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="title">
-                 <string>Sampling Rate:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_40">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>10</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>10</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QToolButton" name="tlp_c_sampling_rate_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="tlp_c_sampling_rate_input">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>1000</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="tlp_c_sampling_rate_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="text">
-                    <string>+</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
          <widget class="QFrame" name="frame_21">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -2461,7 +2257,7 @@ QComboBox QAbstractItemView {
                <number>0</number>
               </property>
               <item>
-               <widget class="QGroupBox" name="tlp_c_positive_collector_gain_gb">
+               <widget class="QGroupBox" name="tlc_sampling_rate_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -2474,12 +2270,12 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Positive Collector Gain:</string>
+                 <string>Sampling Rate:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_35">
+                <layout class="QHBoxLayout" name="horizontalLayout_40">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -2496,7 +2292,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_positive_collector_gain_minus">
+                  <widget class="QToolButton" name="tlc_sampling_rate_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2522,7 +2318,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="tlp_c_positive_collector_gain_input">
+                  <widget class="QDoubleSpinBox" name="tlc_sampling_rate_input">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -2579,7 +2375,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_positive_collector_gain_plus">
+                  <widget class="QToolButton" name="tlc_sampling_rate_plus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2611,7 +2407,7 @@ QComboBox QAbstractItemView {
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="tlp_c_positive_amp_bias_gb">
+               <widget class="QGroupBox" name="tlc_up_collector_gain_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -2620,13 +2416,16 @@ QComboBox QAbstractItemView {
                   <bold>true</bold>
                  </font>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
                 <property name="title">
-                 <string>Positive Amp Bias:</string>
+                 <string>Up Collector Gain:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_36">
+                <layout class="QHBoxLayout" name="horizontalLayout_35">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -2643,7 +2442,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_positive_amp_bias_minus">
+                  <widget class="QToolButton" name="tlc_up_collector_gain_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2669,7 +2468,154 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="tlp_c_positive_amp_bias_input">
+                  <widget class="QDoubleSpinBox" name="tlc_up_collector_gain_input">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                   </property>
+                   <property name="showGroupSeparator" stdset="0">
+                    <bool>false</bool>
+                   </property>
+                   <property name="decimals">
+                    <number>2</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-10000.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>10000.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="tlc_up_collector_gain_plus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="text">
+                    <string>+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="tlc_up_amp_bias_gb">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>Up Amp Bias:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_36">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QToolButton" name="tlc_up_amp_bias_minus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>-</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="tlc_up_amp_bias_input">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -2720,7 +2666,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_positive_amp_bias_plus">
+                  <widget class="QToolButton" name="tlc_up_amp_bias_plus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2779,7 +2725,7 @@ QComboBox QAbstractItemView {
                <number>0</number>
               </property>
               <item>
-               <widget class="QGroupBox" name="tlp_c_negative_collect_gain_gb">
+               <widget class="QGroupBox" name="tlc_avg_window_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -2792,12 +2738,12 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Negative Collector Gain:</string>
+                 <string>Averaging Window</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_37">
+                <layout class="QHBoxLayout" name="horizontalLayout_50">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -2814,7 +2760,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_negative_collect_gain_minus">
+                  <widget class="QToolButton" name="tlc_avg_window_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2840,7 +2786,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="tlp_c_negative_collect_gain_input">
+                  <widget class="QDoubleSpinBox" name="tlc_avg_window_input">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -2897,7 +2843,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_negative_collect_gain_plus">
+                  <widget class="QToolButton" name="tlc_avg_window_plus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -2929,7 +2875,7 @@ QComboBox QAbstractItemView {
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="tlp_c_negative_amp_bias_gb">
+               <widget class="QGroupBox" name="tlc_gas_select_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -2942,12 +2888,12 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Negative Amp Bias:</string>
+                 <string>Gas Selection:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_38">
+                <layout class="QVBoxLayout" name="verticalLayout_28">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -2955,7 +2901,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -2964,33 +2910,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_c_negative_amp_bias_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="tlp_c_negative_amp_bias_input">
+                  <widget class="QComboBox" name="tlc_gas_select_cb">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -3007,74 +2927,74 @@ QComboBox QAbstractItemView {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="tlp_c_negative_amp_bias_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
                    </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
                    </property>
-                   <property name="text">
-                    <string>+</string>
+                   <property name="styleSheet">
+                    <string notr="true">QComboBox {
+	background-color: #FFFFFF;
+	padding-left: 20px;
+	text-align: left;
+}
+
+QComboBox:focus {
+    outline: none; 
+    border: 1px solid gray;
+}
+
+QComboBox QAbstractItemView {
+    selection-background-color: white;
+    selection-color: black; 
+}
+</string>
+                   </property>
+                   <property name="frame">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="filler">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="title">
+                 <string/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_30">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                 </layout>
                </widget>
               </item>
@@ -3103,210 +3023,6 @@ QComboBox QAbstractItemView {
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QFrame" name="frame_29">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_46">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QFrame" name="frame_30">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_28">
-              <property name="spacing">
-               <number>0</number>
-              </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QGroupBox" name="tlp_v_sampling_rate_gb">
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>18</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="title">
-                 <string>Sampling Rate:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_47">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>10</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>10</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QToolButton" name="tlp_v_sampling_rate_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="tlp_v_sampling_rate_input">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>1000</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="tlp_v_sampling_rate_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="text">
-                    <string>+</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item>
          <widget class="QFrame" name="frame_26">
           <property name="frameShape">
@@ -3356,7 +3072,7 @@ QComboBox QAbstractItemView {
                <number>0</number>
               </property>
               <item>
-               <widget class="QGroupBox" name="tlp_v_positive_collector_gain_gb">
+               <widget class="QGroupBox" name="tlv_sampling_rate_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -3369,12 +3085,12 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Positive Collector Gain:</string>
+                 <string>Sampling Rate:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_42">
+                <layout class="QHBoxLayout" name="horizontalLayout_47">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -3391,7 +3107,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_v_positive_collector_gain_minus">
+                  <widget class="QToolButton" name="tlv_sampling_rate_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -3417,7 +3133,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="tlp_v_positive_collector_gain_input">
+                  <widget class="QDoubleSpinBox" name="tlv_sampling_rate_input">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -3474,7 +3190,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="tlp_v_positive_collector_gain_plus">
+                  <widget class="QToolButton" name="tlv_sampling_rate_plus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -3506,7 +3222,7 @@ QComboBox QAbstractItemView {
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="tlp_v_positive_amp_bias_gb">
+               <widget class="QGroupBox" name="tlv_up_collector_gain_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -3515,13 +3231,16 @@ QComboBox QAbstractItemView {
                   <bold>true</bold>
                  </font>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
                 <property name="title">
-                 <string>Positive Amp Bias:</string>
+                 <string>Up Collector Gain:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_43">
+                <layout class="QHBoxLayout" name="horizontalLayout_42">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -3538,7 +3257,7 @@ QComboBox QAbstractItemView {
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="tlp_v_positive_amp_bias_minus">
+                  <widget class="QToolButton" name="tlv_up_collector_gain_minus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -3564,7 +3283,154 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="tlp_v_positive_amp_bias_input">
+                  <widget class="QDoubleSpinBox" name="tlv_up_collector_gain_input">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                   </property>
+                   <property name="showGroupSeparator" stdset="0">
+                    <bool>false</bool>
+                   </property>
+                   <property name="decimals">
+                    <number>2</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-10000.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>10000.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="tlv_up_collector_gain_plus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="text">
+                    <string>+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="tlv_up_amp_bias_gb">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="title">
+                 <string>Up Amp Bias:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_43">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QToolButton" name="tlv_up_amp_bias_minus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>-</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="tlv_up_amp_bias_input">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -3615,7 +3481,7 @@ QComboBox QAbstractItemView {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QToolButton" name="tlp_v_positive_amp_bias_plus">
+                  <widget class="QToolButton" name="tlv_up_amp_bias_plus">
                    <property name="minimumSize">
                     <size>
                      <width>58</width>
@@ -3674,6 +3540,156 @@ QComboBox QAbstractItemView {
                <number>0</number>
               </property>
               <item>
+               <widget class="QGroupBox" name="tlv_avg_window_gb">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="title">
+                 <string>Averaging Window</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_48">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QToolButton" name="tlv_avg_window_minus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>-</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="tlv_avg_window_input">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                   </property>
+                   <property name="showGroupSeparator" stdset="0">
+                    <bool>false</bool>
+                   </property>
+                   <property name="decimals">
+                    <number>2</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-10000.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>10000.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="tlv_avg_window_plus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="text">
+                    <string>+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
                <widget class="QGroupBox" name="tlp_v_float_collect_gain_gb">
                 <property name="font">
                  <font>
@@ -3708,7 +3724,7 @@ QComboBox QAbstractItemView {
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignTop">
+                 <item>
                   <widget class="QToolButton" name="tlp_v_float_collect_gain_minus">
                    <property name="minimumSize">
                     <size>
@@ -3734,7 +3750,7 @@ QComboBox QAbstractItemView {
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignTop">
+                 <item>
                   <widget class="QDoubleSpinBox" name="tlp_v_float_collect_gain_input">
                    <property name="minimumSize">
                     <size>
@@ -3791,7 +3807,7 @@ QComboBox QAbstractItemView {
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignTop">
+                 <item>
                   <widget class="QToolButton" name="tlp_v_float_collect_gain_plus">
                    <property name="minimumSize">
                     <size>
@@ -3823,6 +3839,92 @@ QComboBox QAbstractItemView {
                 </layout>
                </widget>
               </item>
+              <item>
+               <widget class="QGroupBox" name="tlv_gas_select_gb">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="title">
+                 <string>Gas Selection:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_31">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QComboBox" name="tlv_gas_select_cb">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QComboBox {
+	background-color: #FFFFFF;
+	padding-left: 20px;
+	text-align: left;
+}
+
+QComboBox:focus {
+    outline: none; 
+    border: 1px solid gray;
+}
+
+QComboBox QAbstractItemView {
+    selection-background-color: white;
+    selection-color: black; 
+}
+</string>
+                   </property>
+                   <property name="frame">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -3846,7 +3948,7 @@ QComboBox QAbstractItemView {
          <number>0</number>
         </property>
         <property name="bottomMargin">
-         <number>0</number>
+         <number>10</number>
         </property>
         <item>
          <widget class="QGroupBox" name="iea_ret_mesh_volt_ramp_gb">
@@ -4657,156 +4759,6 @@ QComboBox QAbstractItemView {
                <number>0</number>
               </property>
               <item>
-               <widget class="QGroupBox" name="iea_collector_probe_gb">
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>18</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="title">
-                 <string>Collector Probe Bias:</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_32">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>10</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>10</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QToolButton" name="iea_collector_probe_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="iea_collector_probe_input">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>1000</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="iea_collector_probe_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="text">
-                    <string>+</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
                <widget class="QGroupBox" name="iea_rejector_mesh_bias_gb">
                 <property name="font">
                  <font>
@@ -4950,6 +4902,92 @@ QComboBox QAbstractItemView {
                    </property>
                    <property name="text">
                     <string>+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="iea_gas_select_gb">
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <property name="title">
+                 <string>Gas Selection:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_32">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QComboBox" name="iea_gas_select_cb">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QComboBox {
+	background-color: #FFFFFF;
+	padding-left: 20px;
+	text-align: left;
+}
+
+QComboBox:focus {
+    outline: none; 
+    border: 1px solid gray;
+}
+
+QComboBox QAbstractItemView {
+    selection-background-color: white;
+    selection-color: black; 
+}
+</string>
+                   </property>
+                   <property name="frame">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -5940,7 +5978,7 @@ QComboBox QAbstractItemView {
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="hea_cullinator_cup_gb">
+               <widget class="QGroupBox" name="hea_gas_select_gb">
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -5953,12 +5991,12 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Cullinator Bias:</string>
+                 <string>Gas Selection:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_25">
+                <layout class="QVBoxLayout" name="verticalLayout_33">
                  <property name="spacing">
                   <number>0</number>
                  </property>
@@ -5972,36 +6010,10 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>10</number>
+                  <number>0</number>
                  </property>
                  <item>
-                  <widget class="QToolButton" name="hea_cullinator_cup_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="hea_cullinator_cup_input">
+                  <widget class="QComboBox" name="hea_gas_select_cb">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -6018,71 +6030,33 @@ QComboBox QAbstractItemView {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="hea_cullinator_cup_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
                    </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
                    </property>
-                   <property name="text">
-                    <string>+</string>
+                   <property name="styleSheet">
+                    <string notr="true">QComboBox {
+	background-color: #FFFFFF;
+	padding-left: 20px;
+	text-align: left;
+}
+
+QComboBox:focus {
+    outline: none; 
+    border: 1px solid gray;
+}
+
+QComboBox QAbstractItemView {
+    selection-background-color: white;
+    selection-color: black; 
+}
+</string>
+                   </property>
+                   <property name="frame">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
