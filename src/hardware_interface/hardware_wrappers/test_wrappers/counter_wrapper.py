@@ -1,10 +1,13 @@
 """G3 - Plasma Devs
 Layer 4 - Hardware Interface - Counter Wrapper
-    Implements a test wrapper that prints all recieved arguments.
+    Implements a testing variant of the hardware wrapper interface that does not depend on physical
+    hardware components or external packages.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - add SayWriter usage
+status: DONE
+
+Classes:
+    CounterWrapperTest - exported as 'wrapper'
 """
 
 # built-in imports
@@ -35,15 +38,25 @@ from say_writer import SayWriter
 
 
 class CounterWrapperTest(AbstractWrapper):
-    """A dummy hardware interface wrapper for testing purposes.
-    Prints arguments and tracks calls to read methods.
+    """A dummy hardware wrapper for testing purposes. Prints arguments and tracks calls.
+    
+    Attributes:
+        + name - label used for printing debug messages
+        + analog_in_count - number calls to read_analog()
+        + analog_out_count - number calls to write_analog()
+        + digital_in_count - number calls to read_digital()
+        + digital_out_count - number calls to write_analog()
+        + max_addr - highest address number allowed by the wrapper
+        # _say_obj - text output object
     """
-
-    def __init__(self, name:str="CountHW", debug:bool=False, output:SayWriter=None):
+    def __init__(self, name:str="CountHW", output:SayWriter=None):
         """Initialize CounterWrapperTest.
         
-                name: str - shorthand name for printing  
-                debug: bool - set to print debug messages
+        Arguments:
+            name: str - label prefixed to text output
+                default: "CountHW"
+            output: SayWriter - text output object
+                default: None - use built-in 'print()' method
         """
         # Validate output writer
         if output is None:
@@ -56,53 +69,52 @@ class CounterWrapperTest(AbstractWrapper):
         self.analog_out_count = 0   # number of times write_analog() has been called
         self.digital_in_count = 0   # number of times read_digital() has been called
         self.digital_out_count = 0  # number of times write_digital() has been called
-        self.debug = debug          # boolean, to decide whether to print debug messages
         self.max_addr = 8           # highest allowed address for counter wrapper tests
 
     # ----- ANALOG I/O ----- #
     @enforce_type
     def write_analog(self, address:int, value:float|int) -> None:
-        """Prints arguments."""
+        """Prints arguments and increments counter."""
         self.validate_address(address)
         self.analog_out_count += 1    # increment counter
         self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
 
     @enforce_type
     def read_analog(self, address:int) -> float:
-        """Print arguments. Return count value as float."""
+        """Print arguments and increments counter. Return count value as float."""
         self.validate_address(address)
         self.analog_in_count += 1     # increment counter
         self.say(f"Ain addr:{address} count:{self.analog_in_count}")
         return float(self.analog_in_count)
 
-
     # ----- DIGITAL I/O ----- #
     @enforce_type
     def write_digital(self, address: int, level: bool) -> None:
-        """Prints arguments."""
+        """Print arguments and increments counter."""
         self.validate_address(address)
         self.digital_out_count += 1    # increment counter
         self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
     
     @enforce_type
     def read_digital(self, address: int) -> bool:
-        """Print arguments. Returns True."""
+        """Print arguments and increments counter. Returns True."""
         self.validate_address(address)
         self.digital_in_count += 1     # increment counter
         self.say(f"Din addr:{address} count:{self.digital_in_count}")
         return True
 
-
     # ----- UTILITIES ----- #
     def validate_address(self, address):
+        """Raises an error if the given address exceeds the maximum number."""
         if address > self.max_addr:
             raise RuntimeError(f"Address exceeds allowed max of {self.max_addr}. Given {address}")
 
     def say(self, msg):
-        """Print messages prepended with object's name."""
+        """Print messages prepended with the object's name using the SayWriter."""
         self._say_obj(f"{self.name}: {msg}")
 
     def print_state(self):
+        """Prints the values returned by the state() method."""
         state_msg = self.lpreppend(1, '\t ', self.state())
         self.lprint(state_msg)
 
