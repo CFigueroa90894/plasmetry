@@ -1,5 +1,4 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMessageBox
 import os
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -17,7 +16,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
     path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from experiment_run import ExperimentRun
 from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
