@@ -6,7 +6,7 @@ Utilities - Say Writer
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
-classes:
+Classes:
     SayWriter - object to provide thread-safe printing functionality
 """
 

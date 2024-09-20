@@ -10,6 +10,9 @@ status: DONE
     directly. Instead, it provides hardware objects to the upper layers that model the behavior of
     electronic components. It is upper layers' responsibility to operate and control the hardware
     components through the objects provided by this layer.
+
+Classes:
+    AbstractHardware
 """
 
 # built-in imports

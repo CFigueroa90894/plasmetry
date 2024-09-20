@@ -6,6 +6,9 @@ Layer 0 - Abstract Base Layer
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
+Classes:
+    AbstractBaseLayer
+
 Architecture Initialization:
     It is recommended that each layer be instantiable without arguments, though this may not
     always be possible. Optional arguments may be specified for additional customization.

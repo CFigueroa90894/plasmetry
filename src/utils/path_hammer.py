@@ -23,6 +23,9 @@ Utilities - Path Hammer
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
+Methods:
+    path_hammer() - appends subdirectories to the python path
+
 Method Arguments:
     num_dir: int - number of directories, from the current file, to the project's root folder
     root_target: list[str] - the expected root folder and its parents; validates if it was found

@@ -8,6 +8,9 @@ status: DONE
     The Control Layer is responsible for coordinating top level functionality between all the
     architecture's layer, and serves as the entry point through which the UI layer (front end)
     interacts with the rest of the software.
+
+Classes:
+    AbstractControl
 """
 
 # built-in imports

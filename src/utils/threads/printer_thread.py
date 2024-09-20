@@ -6,7 +6,7 @@ Utilities - Printer Thread
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
-classes:
+Classes:
     PrinterThread - reads from a buffer and prints to the given output/s
 """
 

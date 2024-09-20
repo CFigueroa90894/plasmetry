@@ -8,6 +8,9 @@ status: DONE
     The Diagnostics Layer is responsible for all functionality related to plasma diagnostics. This
     includes performing data acquisition, calculating plasma parameters, and operating electrostatic
     probes and their associated circuits.
+
+Classes:
+    AbstractDiagnostics
 """
   
 # built-in imports
