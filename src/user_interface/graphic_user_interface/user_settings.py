@@ -110,13 +110,16 @@ class UserSettings(QMainWindow):
         self.slp_area_input.setValue(self.control.get_config('slp', 'Probe area'))
         self.slp_dac_min_input.setValue(self.control.get_config('slp', 'dac_min'))
         self.slp_dac_max_input.setValue(self.control.get_config('slp', 'dac_max'))
-        
         self.slp_sweep_min_input.setValue(self.control.get_config('slp', 'sweep_amp_min'))
-
         self.slp_sweep_max_input.setValue(self.control.get_config('slp', 'sweep_amp_max'))
-
-
         self.slp_collector_gain_input.setValue(self.control.get_config('slp', 'collector_gain'))
+        
+        self.dlp_area_input.setValue(self.control.get_config('dlp', 'Probe area'))
+        self.dlp_dac_min_input.setValue(self.control.get_config('dlp', 'dac_min'))
+        self.dlp_dac_max_input.setValue(self.control.get_config('dlp', 'dac_max'))
+        self.dlp_sweep_min_input.setValue(self.control.get_config('dlp', 'sweep_amp_min'))
+        self.dlp_sweep_max_input.setValue(self.control.get_config('dlp', 'sweep_amp_max'))
+        self.dlp_collector_gain_input.setValue(self.control.get_config('dlp', 'collector_gain'))
 
     def show_data_upload_settings(self):
         self.main_view.setCurrentWidget(self.data_upload_settings_page)
