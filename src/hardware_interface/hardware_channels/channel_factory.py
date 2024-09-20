@@ -3,8 +3,11 @@ Layer 4 - Hardware Interface - Channel Factory
     Defines the ChannelFactory class, used to generate channel objects.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - validate with team
+status: DONE
+
+Classes:
+    CHN - enumarator of channel type identifiers
+    ChannelFactory - reuses hardware wrapper when creating channel objects
 """
 
 # built-in imports
@@ -48,6 +51,16 @@ class ChannelFactory:
     The ChannelFactory class abstracts away need to directly import and instantiate the various
     channel classes supported by the Hardware Interface Layer. It must be instantiated by passing
     a hardware wrapper object.
+
+    Class Attributes:
+        + ID - enumerator class of supported channel types
+
+    Instance Attributes:
+        # _wrapper - instantiated hardware wrapper
+
+    Methods:
+        + __init__() - factory constructor
+        + make() - returns an instantiated channel object
     """
     ID:CHN = CHN   # package factory's valid IDs as class attribute
 
@@ -67,7 +80,7 @@ class ChannelFactory:
         self._wrapper = hardware_wrapper
 
     def make(self, address:int, type:CHN):
-        """Generates a channel for the given type with given address.
+        """Generates a channel for the given type with the given address.
         
         Arguments:
             address: int - associated address for the required channel object
