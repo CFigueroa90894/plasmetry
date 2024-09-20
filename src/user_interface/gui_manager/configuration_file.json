@@ -42,7 +42,9 @@
         "local_path": "testing_folder/",
         "credentials_path": "testing_folder/credentials/plasma-software-data-upload-e75374a18f56.json",
         "slp": {
+
             "probe_id": "slp",
+            "selected_gas": "",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 4.0,
@@ -56,6 +58,7 @@
         },
         "dlp": {
             "probe_id": "dlp",
+            "selected_gas": "",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 4.0,
@@ -69,6 +72,7 @@
         },
         "hea": {
             "probe_id": "hea",
+            
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 4.0,
@@ -88,6 +92,7 @@
         },
         "iea": {
             "probe_id": "iea",
+            "selected_gas": "",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 4.0,
@@ -107,6 +112,7 @@
         },
         "tlc": {
             "probe_id": "tlc",
+            "selected_gas": "",
             "sampling_rate": 500,
             "dac_min": 0.0,
             "dac_max": 4.0,
@@ -124,6 +130,7 @@
         },
         "tlv": {
             "probe_id": "tlv",
+            "selected_gas": "",
             "sampling_rate": 50,
             "dac_min": 0.0,
             "dac_max": 4.0,
