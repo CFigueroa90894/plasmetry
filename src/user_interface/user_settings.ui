@@ -316,7 +316,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="settings_select_page">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -681,7 +681,7 @@ QComboBox {
            </size>
           </property>
           <property name="currentIndex">
-           <number>9</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="single_lang_probe_1">
            <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -4098,7 +4098,7 @@ QComboBox {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QToolButton" name="tlc_down_amp_min_max">
+                      <widget class="QToolButton" name="tlc_down_amp_min_plus">
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
@@ -4360,7 +4360,7 @@ QComboBox {
                <string notr="true"/>
               </property>
               <property name="title">
-               <string>Triple Langmuir Probe Current (TLP-C) Area:</string>
+               <string>Triple Langmuir Probe Current (TLC) Area:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -5894,7 +5894,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QGroupBox" name="tlp_v_float_collect_gain_gb">
+                <widget class="QGroupBox" name="tlv_float_collect_gain_gb">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -5929,7 +5929,7 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QToolButton" name="tlp_v_float_collect_gain_minus">
+                   <widget class="QToolButton" name="tlv_float_collect_gain_minus">
                     <property name="minimumSize">
                      <size>
                       <width>58</width>
@@ -5955,7 +5955,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QDoubleSpinBox" name="tlp_v_float_collect_gain_input">
+                   <widget class="QDoubleSpinBox" name="tlv_float_collect_gain_input">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -6012,7 +6012,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QToolButton" name="tlp_v_float_collect_gain_plus">
+                   <widget class="QToolButton" name="tlv_float_collect_gain_plus">
                     <property name="minimumSize">
                      <size>
                       <width>58</width>
@@ -9870,7 +9870,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QGroupBox" name="hea_collimator_cup_gb">
+                <widget class="QGroupBox" name="hea_collimator_bias_gb">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -9902,10 +9902,10 @@ QComboBox {
                    <number>10</number>
                   </property>
                   <property name="bottomMargin">
-                   <number>10</number>
+                   <number>0</number>
                   </property>
                   <item>
-                   <widget class="QToolButton" name="hea_collimator_cup_minus">
+                   <widget class="QToolButton" name="hea_collimator_bias_minus">
                     <property name="minimumSize">
                      <size>
                       <width>58</width>
@@ -9931,7 +9931,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QDoubleSpinBox" name="hea_collimator_cup_input">
+                   <widget class="QDoubleSpinBox" name="hea_collimator_bias_input">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -9988,7 +9988,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QToolButton" name="hea_collimator_cup_plus">
+                   <widget class="QToolButton" name="hea_collimator_bias_plus">
                     <property name="minimumSize">
                      <size>
                       <width>58</width>

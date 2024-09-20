@@ -49,6 +49,7 @@ class ExperimentSetup(QMainWindow):
         
         # Set values from config file
         self.set_widget_values()
+        
         ############################## SLP SIGNALS ##############################
       
         # Connect the QComboBox signal to the method that updates the QStackedWidget
@@ -89,39 +90,39 @@ class ExperimentSetup(QMainWindow):
         self.dlp_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.dlp_num_measurements_input, -1, 'num_samples'))
         self.dlp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.dlp_num_measurements_input, +1, 'num_samples'))
 
+"""
+
         ############################## TLP-C SIGNALS ##############################
         # Connect the QComboBox signal to the method that updates the combobox
         self.tlc_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlc_gas_select_cb.currentText()))
-        """
+        
         self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1))
         self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1))
 
-        self.tlc_positive_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlc_positive_collector_gain_input, -1))
-        self.tlc_positive_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_c_positive_collector_gain_input, +1))
+        self.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, -1))
+        self.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, +1))
 
-        self.tlc_positive_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_positive_amp_bias_input, -1))
-        self.tlc_positive_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_positive_amp_bias_input, +1))
+        self.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, -1))
+        self.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, +1))
 
-        self.tlc_negative_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlc_negative_collect_gain_input, -1))
-        self.tlc_negative_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlc_negative_collect_gain_input, +1))
-
-        self.tlc_negative_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_negative_amp_bias_input, -1))
-        self.tlc_negative_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_negative_amp_bias_input, +1))
+        self.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, -1))
+        self.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, +1))
 
         ############################## TLP-V SIGNALS ##############################
 
         self.tlv_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlv_gas_select_cb.currentText()))
-        self.tlp_v_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_sampling_rate_input, +1))
 
-        self.tlp_v_positive_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_collector_gain_input, -1))
-        self.tlp_v_positive_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_collector_gain_input, +1))
+        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1))
+        self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1))
 
-        self.tlp_v_positive_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_amp_bias_input, -1))
-        self.tlp_v_positive_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_positive_amp_bias_input, +1))
+        self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1))
+        self.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, +1))
 
-        self.tlp_v_float_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlp_v_float_collect_gain_input, -1))
-        self.tlp_v_float_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlp_v_float_collect_gain_input, +1))
+        self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1))
+        self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1))
+
 """
+
         ############################## IEA SIGNALS ##############################
         self.iea_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.iea_gas_select_cb.currentText()))
 
@@ -136,9 +137,6 @@ class ExperimentSetup(QMainWindow):
 
         self.iea_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.iea_num_measurements_input, -1,'num_samples'))
         self.iea_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.iea_num_measurements_input, +1,'num_samples'))
-
-#        self.iea_collector_probe_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_probe_input, -1,'collector_bias'))
- #       self.iea_collector_probe_plus.clicked.connect(lambda: self.adjust_value(self.iea_collector_probe_input, +1, 'collector_bias'))
 
         self.iea_rejector_mesh_bias_minus.clicked.connect(lambda: self.adjust_value(self.iea_rejector_mesh_bias_input, -1, 'rejector_bias'))
         self.iea_rejector_mesh_bias_plus.clicked.connect(lambda: self.adjust_value(self.iea_rejector_mesh_bias_input, +1, 'rejector_bias'))
@@ -161,25 +159,40 @@ class ExperimentSetup(QMainWindow):
         self.hea_faraday_cup_bias_minus.clicked.connect(lambda: self.adjust_value(self.hea_faraday_cup_bias_input, -1,'collector_bias'))
         self.hea_faraday_cup_bias_plus.clicked.connect(lambda: self.adjust_value(self.hea_faraday_cup_bias_input, +1,'collector_bias'))
 
-#        self.hea_cullinator_cup_minus.clicked.connect(lambda: self.adjust_value(self.hea_cullinator_cup_input, -1, 'rejector_bias'))
-
-#        self.hea_cullinator_cup_plus.clicked.connect(lambda: self.adjust_value(self.hea_cullinator_cup_input, +1, 'rejector_bias'))
-
 
     ############################## GENERAL SLOTS ##############################
     
     def set_widget_values(self):
-        
+
+        ################## SLP ##################
+
         self.slp_volt_ramp_min_input.setValue(self.control.get_config('slp', 'sweep_min'))
         self.slp_volt_rampt_max_input.setValue(self.control.get_config('slp', 'sweep_max'))
         self.slp_sampling_rate_input.setValue(self.control.get_config('slp', 'sampling_rate'))
         self.slp_num_measurements_input.setValue(self.control.get_config('slp', 'num_samples'))
         
+        ################## DLP ##################
+
         self.dlp_volt_ramp_min_input.setValue(self.control.get_config('dlp', 'sweep_min'))
         self.dlp_volt_rampt_max_input.setValue(self.control.get_config('dlp', 'sweep_max'))
         self.dlp_sampling_rate_input.setValue(self.control.get_config('dlp', 'sampling_rate'))
         self.dlp_num_measurements_input.setValue(self.control.get_config('dlp', 'num_samples'))
         
+        ################## TLC ##################
+
+        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
+        self.tlc_up_amp_bias_input.setValue(self.control.get_config('tlc', 'up_amp_bias'))
+        self.tlc_down_amp_bias_input.setValue(self.control.get_config('tlc', 'down_amp_bias'))
+        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', ''))
+
+        ################## TLV ##################
+
+        self.tlv_sampling_rate_input.setValue(self.control.get_config('tlv', 'sampling_rate'))
+        self.tlv_up_amp_bias_input.setValue(self.control.get_config('tlv', 'up_amp_bias'))
+        self.tlv_avg_window_input.setValue(self.control.get_config('tlv', ''))
+
+        ################## IEA ##################
+
         self.iea_volt_ramp_min_input.setValue(self.control.get_config('iea', 'sweep_min'))
         self.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_min'))
         self.iea_sampling_rate_input.setValue(self.control.get_config('iea', 'sampling_rate'))
@@ -187,14 +200,14 @@ class ExperimentSetup(QMainWindow):
 #        self.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
         self.iea_rejector_mesh_bias_input.setValue(self.control.get_config('iea', 'rejector_bias'))
         
+        ################## HEA ##################
+
         self.hea_volt_ramp_min_input.setValue(self.control.get_config('hea', 'sweep_min'))
         self.hea_volt_rampt_max_input.setValue(self.control.get_config('hea', 'sweep_min'))
         self.hea_sampling_rate_input.setValue(self.control.get_config('hea', 'sampling_rate'))
         self.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
         self.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
 #        self.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
-        
-        
         
     def initialize_view(self):
         # Initialize the view to display the correct page based on QComboBox selection.

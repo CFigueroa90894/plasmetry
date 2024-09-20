@@ -41,79 +41,211 @@ class UserSettings(QMainWindow):
         ############################## PROBE CONFIG SETTINGS SIGNALS ##############################
         self.set_widget_values()
 
-        # SLP
+                                ################## SLP ##################
 
-            # ... to do: Jahn
-
+        # Connect Plus/Minus buttons for Area
         self.slp_area_minus.clicked.connect(lambda: self.adjust_value(self.slp_area_input, -1, 'Probe area'))
         self.slp_area_plus.clicked.connect(lambda: self.adjust_value(self.slp_area_input, +1 , 'Probe area'))
         
+        # Connect Plus/Minus buttons for DAC MIN
         self.slp_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_dac_min_input, -1, 'dac_min'))
         self.slp_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_dac_min_input, +1, 'dac_min'))
         
+        # Connect Plus/Minus buttons for DAC MAX
         self.slp_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.slp_dac_max_input, -1, 'dac_max'))
         self.slp_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.slp_dac_max_input, +1, 'dac_max'))
         
+        # Connect Plus/Minus buttons for Sweep MIN
         self.slp_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_min_input, -1, 'sweep_amp_min'))
         self.slp_sweep_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_min_input, +1, 'sweep_amp_min'))
         
+        # Connect Plus/Minus buttons for Sweep Max
         self.slp_sweep_max_minus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_max_input, -1, 'sweep_amp_max'))
         self.slp_sweep_max_plus.clicked.connect(lambda: self.adjust_value(self.slp_sweep_max_input, +1, 'sweep_amp_max'))
         
+        # Connect Plus/Minus buttons for Collector Gain
         self.slp_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, -1, 'collector_gain'))
         self.slp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, +1, 'collector_gain'))
         
-        
-        # DLP
+                                ################## DLP ##################
 
-            # ... to do: Jahn
-
+        # Connect Plus/Minus buttons for Area
         self.dlp_area_minus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, -1, 'Probe area'))
         self.dlp_area_plus.clicked.connect(lambda: self.adjust_value(self.dlp_area_input, +1 , 'Probe area'))
 
+        # Connect Plus/Minus buttons for DAC MIN
         self.dlp_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_min_input, -1, 'dac_min'))
         self.dlp_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_min_input, +1, 'dac_min'))
 
+        # Connect Plus/Minus buttons for DAC MAX
         self.dlp_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_max_input, -1, 'dac_max'))
         self.dlp_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.dlp_dac_max_input, +1, 'dac_max'))
 
+        # Connect Plus/Minus buttons for Sweep MIN
         self.dlp_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_min_input, -1, 'sweep_amp_min'))
         self.dlp_sweep_min_plus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_min_input, +1, 'sweep_amp_min'))
 
+        # Connect Plus/Minus buttons for Sweep MAX
         self.dlp_sweep_max_minus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_max_input, -1, 'sweep_amp_max'))
         self.dlp_sweep_max_plus.clicked.connect(lambda: self.adjust_value(self.dlp_sweep_max_input, +1, 'sweep_amp_max'))
 
+        # Connect Plus/Minus buttons for Collector Gain
         self.dlp_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, -1, 'collector_gain'))
         self.dlp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, +1, 'collector_gain'))
 
+                                ################## TLC ##################
 
-        # TLC
+        # Connect Plus/Minus buttons for DAC MIN
+        self.tlc_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.tlc_dac_min_input, -1, 'dac_min'))
+        self.tlc_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.tlc_dac_min_input, +1, 'dac_min'))
 
-            # ... to do: Jahn
+        # Connect Plus/Minus buttons for DAC MAX
+        self.tlc_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.tlc_dac_max_input, -1, 'dac_max'))
+        self.tlc_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.tlc_dac_max_input, +1, 'dac_max'))
 
-        # TLC
+        # Connect Plus/Minus buttons for Up Amp MIN
+        self.tlc_up_amp_min_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_min_input, -1, 'up_amp_min'))
+        self.tlc_up_amp_min_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_min_input, +1, 'up_amp_min'))
 
-            # ... to do: Jahn
+        # Connect Plus/Minus buttons for Up Amp MAX
+        self.tlc_up_amp_max_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_max_input, -1, 'up_amp_max'))
+        self.tlc_up_amp_max_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_max_input, +1, 'up_amp_max'))
 
-        # IEA
+        # Connect Plus/Minus buttons for Down Amp MIN
+        self.tlc_down_amp_min_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_min_input, -1, 'down_amp_min'))
+        self.tlc_down_amp_min_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_min_input, +1, 'down_amp_min'))
 
-            # ... to do: Jahn
+        # Connect Plus/Minus buttons for Down Amp MAX
+        self.tlc_down_amp_max_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_max_input, -1, 'down_amp_max'))
+        self.tlc_down_amp_max_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_max_input, +1, 'down_amp_max'))
 
-        self.iea_area_minus.clicked.connect(lambda: self.adjust_value(self.iea_area_input, -1, 'Probe area'))
-        self.iea_area_plus.clicked.connect(lambda: self.adjust_value(self.iea_area_input, +1, 'Probe area'))
-
-        self.iea_mass_minus.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, -1, 'Probe area'))
-        self.iea_mass_plus.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, +1, 'Probe area'))
-
-        # HEA
-
-            # ... to do: Jahn
-
+        # Connect Plus/Minus buttons for Area
         self.tlc_area_minus.clicked.connect(lambda: self.adjust_value(self.tlc_area_output, -1, 'Probe area'))
         self.tlc_area_plus.clicked.connect(lambda: self.adjust_value(self.tlc_area_output, +1, 'Probe area'))
+
+        # Connect Plus/Minus buttons for Up Collector Gain
+        self.tlc_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_collector_gain_input, -1, 'up_collector_gain'))
+        self.tlc_up_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_collector_gain_input, +1, 'up_collector_gain'))
+
+        # Connect Plus/Minus buttons for Down Collector Gain
+        self.tlc_down_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_collect_gain_input, -1, 'down_collector_gain'))
+        self.tlc_down_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_collect_gain_input, +1, 'down_collector_gain'))
+
+                                ################## TLV ##################
+
+        # Connect Plus/Minus buttons for DAC MIN
+        self.tlv_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.tlv_dac_min_input, -1, 'dac_min'))
+        self.tlv_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.tlv_dac_min_input, +1, 'dac_min'))
+
+        # Connect Plus/Minus buttons for DAC MAX
+        self.tlv_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.tlv_dac_max_input, -1, 'dac_max'))
+        self.tlv_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.tlv_dac_max_input, +1, 'dac_max'))
+
+        # Connect Plus/Minus buttons for Up Amp MIN
+        self.tlv_up_amp_min_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_min_input, -1, 'up_amp_min'))
+        self.tlv_up_amp_min_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_min_input, +1, 'up_amp_min'))
+
+        # Connect Plus/Minus buttons for Up Amp MAX
+        self.tlv_up_amp_max_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_max_input, -1, 'up_amp_max'))
+        self.tlv_up_amp_max_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_max_input, +1, 'up_amp_max'))
+    
+        # Connect Plus/Minus buttons for Area
         self.tlv_area_minus.clicked.connect(lambda: self.adjust_value(self.tlv_area_output, -1, 'Probe area'))
         self.tlv_area_plus.clicked.connect(lambda: self.adjust_value(self.tlv_area_output, +1, 'Probe area'))
 
+        # Connect Plus/Minus buttons for Float Collector Gain
+        self.tlv_float_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlv_float_collect_gain_input, -1, 'float_collector_gain'))
+        self.tlv_float_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlv_float_collect_gain_input, +1, 'float_collector_gain'))
+
+        # Connect Plus/Minus buttons for Up Collector Gain
+        self.tlv_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_collector_gain_input, -1, 'up_collector_gain'))
+        self.tlv_up_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_collector_gain_input, +1, 'up_collector_gain'))
+
+                                ################## IEA ##################
+
+        # Connect Plus/Minus buttons for DAC MIN
+        self.iea_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_dac_min_input, -1, 'dac_min'))
+        self.iea_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_dac_min_input, +1, 'dac_min'))
+
+        # Connect Plus/Minus buttons for DAC MAX
+        self.iea_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_dac_max_input, -1, 'dac_max'))
+        self.iea_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_dac_max_input, +1, 'dac_max'))
+
+        # Connect Plus/Minus buttons for Rejector MIN
+        self.iea_reject_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_reject_min_input, -1, 'rejector_min'))
+        self.iea_reject_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_reject_min_input, +1, 'rejector_min'))
+
+        # Connect Plus/Minus buttons for Rejector MAX
+        self.iea_reject_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_reject_max_input, -1, 'rejector_max'))
+        self.iea_reject_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_reject_max_input, +1, 'rejector_max'))
+
+        # Connect Plus/Minus buttons for Collector Bias MIN
+        self.iea_collect_bias_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_min_input, -1, 'collector_bias_min'))
+        self.iea_collect_bias_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_min_input, +1, 'collector_bias_min'))
+
+        # Connect Plus/Minus buttons for Collector Bias MAX
+        self.iea_collect_bias_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_max_input, -1, 'collector_bias_max'))
+        self.iea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_max_input, +1, 'collector_bias_max'))
+
+        # Connect Plus/Minus buttons for Collector Probe Bias
+        self.iea_collector_probe_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_probe_input, -1, 'collector_bias'))
+        self.iea_collector_probe_plus.clicked.connect(lambda: self.adjust_value(self.iea_collector_probe_input, +1, 'collector_bias'))
+
+        # Connect Plus/Minus buttons for Collector Gain
+        self.iea_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_gain_input, -1, 'collector_gain'))
+        self.iea_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.iea_collector_gain_input, +1, 'collector_gain'))
+
+        # Connect Plus/Minus buttons for Sweep MIN
+        self.iea_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_sweep_min_input, -1, 'sweep_amp_min'))
+        self.iea_sweep_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_sweep_min_input, +1, 'sweep_amp_min'))
+
+        # Connect Plus/Minus buttons for Sweep MAX
+        self.iea_sweep_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_sweep_max_input, -1, 'sweep_amp_max'))
+        self.iea_sweep_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_sweep_max_input, +1, 'sweep_amp_max'))
+
+        # Connect Plus/Minus buttons for Area
+        self.iea_area_minus.clicked.connect(lambda: self.adjust_value(self.iea_area_input, -1, 'Probe area'))
+        self.iea_area_plus.clicked.connect(lambda: self.adjust_value(self.iea_area_input, +1, 'Probe area'))
+
+        # Connect Plus/Minus buttons for Custom Gas
+        self.iea_mass_minus.clicked.connect(lambda: self.adjust_value(self.iea_mass_input, -1, 'Probe area'))
+        self.iea_mass_plus.clicked.connect(lambda: self.adjust_value(self.iea_mass_input, +1, 'Probe area'))
+
+                                ################## HEA ##################
+
+        # Connect Plus/Minus buttons for DAC MIN
+        self.hea_dac_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_dac_min_input, -1, 'dac_min'))
+        self.hea_dac_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_dac_min_input, +1, 'dac_min'))
+
+        # Connect Plus/Minus buttons for DAC MAX
+        self.hea_dac_max_minus.clicked.connect(lambda: self.adjust_value(self.hea_dac_max_input, -1, 'dac_max'))
+        self.hea_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_dac_max_input, +1, 'dac_max'))
+
+        # Connect Plus/Minus buttons for Collector Bias MIN
+        self.hea_collect_bias_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_min_input, -1, 'collector_bias_min'))
+        self.hea_collect_bias_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_min_input, +1, 'collector_bias_min'))
+
+        # Connect Plus/Minus buttons for Collector Bias MAX
+        self.hea_collect_bias_max_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_max_input, -1, 'collector_bias_max'))
+        self.hea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_max_input, +1, 'collector_bias_max'))
+
+        # Connect Plus/Minus buttons for Sweep MIN
+        self.hea_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_sweep_min_input, -1, 'sweep_amp_min'))
+        self.hea_sweep_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_sweep_min_input, +1, 'sweep_amp_min'))
+
+        # Connect Plus/Minus buttons for Sweep MAX
+        self.hea_sweep_max_minus.clicked.connect(lambda: self.adjust_value(self.hea_sweep_max_input, -1, 'sweep_amp_max'))
+        self.hea_sweep_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_sweep_max_input, +1, 'sweep_amp_max'))
+
+        # Connect Plus/Minus buttons for Collimator Bias
+        self.hea_collimator_bias_minus.clicked.connect(lambda: self.adjust_value(self.hea_collimator_bias_input, -1, 'collimator_bias'))
+        self.hea_collimator_bias_plus.clicked.connect(lambda: self.adjust_value(self.hea_collimator_bias_input, +1, 'collimator_bias'))
+
+        # Connect Plus/Minus buttons for Collector Gain
+        self.hea_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_gain_input, -1, 'collector_gain'))
+        self.hea_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_gain_input, +1, 'collector_gain'))
+
+        # Connect Plus/Minus buttons for Area
         self.hea_area_minus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, -1, 'Probe area'))
         self.hea_area_plus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, +1, 'Probe area'))
 
@@ -122,7 +254,8 @@ class UserSettings(QMainWindow):
         self.credentials_path_input.setText(self.control.get_config(probe_id = '', key = 'credentials_path'))
         self.local_path_input.setText(self.control.get_config(probe_id = '', key = 'local_path'))
 
-        
+                ################## SLP ##################
+
         self.slp_area_input.setValue(self.control.get_config('slp', 'Probe area'))
         self.slp_dac_min_input.setValue(self.control.get_config('slp', 'dac_min'))
         self.slp_dac_max_input.setValue(self.control.get_config('slp', 'dac_max'))
@@ -130,12 +263,64 @@ class UserSettings(QMainWindow):
         self.slp_sweep_max_input.setValue(self.control.get_config('slp', 'sweep_amp_max'))
         self.slp_collector_gain_input.setValue(self.control.get_config('slp', 'collector_gain'))
         
+                ################## SLP ##################
+
         self.dlp_area_input.setValue(self.control.get_config('dlp', 'Probe area'))
         self.dlp_dac_min_input.setValue(self.control.get_config('dlp', 'dac_min'))
         self.dlp_dac_max_input.setValue(self.control.get_config('dlp', 'dac_max'))
         self.dlp_sweep_min_input.setValue(self.control.get_config('dlp', 'sweep_amp_min'))
         self.dlp_sweep_max_input.setValue(self.control.get_config('dlp', 'sweep_amp_max'))
         self.dlp_collector_gain_input.setValue(self.control.get_config('dlp', 'collector_gain'))
+
+                ################## TLC ##################
+
+        self.tlc_area_input.setValue(self.control.get_config('tlc', 'Probe area'))
+        self.tlc_dac_min_input.setValue(self.control.get_config('tlc', 'dac_min'))
+        self.tlc_dac_max_input.setValue(self.control.get_config('tlc', 'dac_max'))
+        self.tlc_up_amp_min_input.setValue(self.control.get_config('tlc', 'up_amp_min'))
+        self.tlc_up_amp_max_input.setValue(self.control.get_config('tlc', 'up_amp_max'))
+        self.tlc_down_amp_min_input.setValue(self.control.get_config('tlc', 'down_amp_min'))
+        self.tlc_down_amp_max_input.setValue(self.control.get_config('tlc', 'down_amp_max'))
+        self.tlc_up_collector_gain_input.setValue(self.control.get_config('tlc', 'up_collector_gain'))
+        self.tlc_down_collect_gain_input.setValue(self.control.get_config('tlc', 'down_collector_gain'))
+
+                ################## TLV ##################
+
+        self.tlv_area_input.setValue(self.control.get_config('tlv', 'Probe area'))
+        self.tlv_dac_min_input.setValue(self.control.get_config('tlv', 'dac_min'))
+        self.tlv_dac_max_input.setValue(self.control.get_config('tlv', 'dac_max'))
+        self.tlv_up_amp_min_input.setValue(self.control.get_config('tlv', 'up_amp_min'))
+        self.tlv_up_amp_max_input.setValue(self.control.get_config('tlv', 'up_amp_max'))
+        self.tlv_float_collect_gain_input.setValue(self.control.get_config('tlv', 'float_collector_gain'))
+        self.tlv_up_collector_gain_input.setValue(self.control.get_config('tlv', 'up_collector_gain'))
+
+                ################## IEA ##################
+
+        self.iea_area_input.setValue(self.control.get_config('iea', 'Probe area'))
+        self.iea_mass_input.setValue(self.control.get_config('iea', 'Probe area'))
+        self.iea_dac_min_input.setValue(self.control.get_config('iea', 'dac_min'))
+        self.iea_dac_max_input.setValue(self.control.get_config('iea', 'dac_max'))
+        self.iea_reject_min_input.setValue(self.control.get_config('iea', 'rejector_min'))
+        self.iea_reject_max_input.setValue(self.control.get_config('iea', 'rejector_max'))
+        self.iea_collect_bias_min_input.setValue(self.control.get_config('iea', 'collector_bias_min'))
+        self.iea_collect_bias_max_input.setValue(self.control.get_config('iea', 'collector_bias_max'))
+        self.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
+        self.iea_collector_gain_input.setValue(self.control.get_config('iea', 'collector_gain'))
+        self.iea_sweep_min_input.setValue(self.control.get_config('iea', 'sweep_amp_min'))
+        self.iea_sweep_max_input.setValue(self.control.get_config('iea', 'sweep_amp_max'))
+
+
+                ################## HEA ##################
+
+        self.hea_area_input.setValue(self.control.get_config('hea', 'Probe area'))
+        self.hea_dac_min_input.setValue(self.control.get_config('hea', 'dac_min'))
+        self.hea_dac_max_input.setValue(self.control.get_config('hea', 'dac_max'))
+        self.hea_collect_bias_min_input.setValue(self.control.get_config('hea', 'collector_bias_min'))
+        self.hea_collect_bias_max_input.setValue(self.control.get_config('hea', 'collector_bias_max'))
+        self.hea_sweep_min_input.setValue(self.control.get_config('hea', 'sweep_amp_min'))
+        self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
+        self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
+        self.hea_collect_gain_input.setValue(self.control.get_config('hea', 'collector_gain'))
 
     def show_data_upload_settings(self):
         self.main_view.setCurrentWidget(self.data_upload_settings_page)

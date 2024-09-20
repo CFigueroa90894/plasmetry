@@ -341,7 +341,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="single_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1017,7 +1017,7 @@ QComboBox {
                  </font>
                 </property>
                 <property name="title">
-                 <string>Number of Measurements per Sweep:</string>
+                 <string>Measurements per Sweep:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1970,7 +1970,7 @@ QComboBox QAbstractItemView {
                  </font>
                 </property>
                 <property name="title">
-                 <string>Number of Measurements per Sweep:</string>
+                 <string>Measurements per Sweep:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4421,7 +4421,7 @@ QComboBox QAbstractItemView {
                  </font>
                 </property>
                 <property name="title">
-                 <string>Number of Measurements per Sweep:</string>
+                 <string>Measurements per Sweep:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -5520,7 +5520,7 @@ QComboBox QAbstractItemView {
                  </font>
                 </property>
                 <property name="title">
-                 <string>Number of Measurements per Sweep:</string>
+                 <string>Measurements per Sweep:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
