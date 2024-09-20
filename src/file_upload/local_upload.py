@@ -2,13 +2,13 @@ import os
 
 class LocalUpload:
         
-    def __init__(self, local_path=''):
+    def __init__(self, text_out, local_path=''):
         
         """LocalUpload construtor"""
-        
+        self.say = text_out
         # Validating the local path
         if not self.validate_path(local_path):
-            print('Local path not valid.')
+            self.say('Local path not valid.')
             
     def validate_path(self, local_path):
         

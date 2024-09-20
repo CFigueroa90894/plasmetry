@@ -13,7 +13,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
     
     targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] # get subdirs, exclude __pycache__
     for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-   # print(f"Path Hammer: subdirectories appended to python path")
+   # self.say(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
 
 
@@ -42,15 +42,15 @@ class FileUpload:
         
       
         # Storing wrapper for offsite data uploading
-        self.offsite_wrapper = GoogleDrive(credentials_path)
+        self.offsite_wrapper = GoogleDrive(text_out, credentials_path,)
         
         # Storing local upload object
-        self.local_uploader = LocalUpload(local_path) 
+        self.local_uploader = LocalUpload(text_out, local_path) 
         
         self.get_probe_folder(probe_type)
         # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
-            print('unform_data', unformatted_data)
+            self.say('unform_data', unformatted_data)
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
             self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
@@ -99,7 +99,7 @@ class FileUpload:
                 # Creating the csv containing the sweep data
                 self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.parent_folder}/ sweeps data.csv')
         else:
-            print('Local path set to a directory that does not exist!')
+            self.say('Local path set to a directory that does not exist!')
             
     def offsite_upload(self):
         
@@ -127,7 +127,7 @@ class FileUpload:
                     # Storing the sweep csv object
                     self.offsite_wrapper.put_request(self.sweep_csv, 'sweeps data.csv')
                     
-        else: print('No credentials path set!')
+        else: self.say('No credentials path set!')
     
     def folder_change(self, wrapper, folder_name):
         

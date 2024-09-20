@@ -23,10 +23,11 @@ from offsite_upload import OffsiteUpload
 
 class GoogleDrive(OffsiteUpload):
     
-    def __init__(self, credentials_path=''):
+    def __init__(self, text_out, credentials_path=''):
         
         """Offsite wrapper constructor."""
         
+        self.say = text_out
         # Storing the path to Google API credentials file
         self.credentials_path = credentials_path
         
