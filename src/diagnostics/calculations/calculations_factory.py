@@ -38,8 +38,13 @@ class CalculationsFactory:
 
     # TO DO
     particle_mass = {
-        "argon": 1,
-        "electron": 2,
+        "co2": 7.31063e-26,
+        "argon": 6.63588e-26,
+        "oxygen":2.65764e-26,
+        "nitrogen": 2.32674e-26,
+        "helium": 6.64883e-27,
+        "hydrogen":1.67425e-27,
+        "electron": 9.10938e-31
     }
     def __new__(cls, equation_type: PRB, config_ref):
         """<...>"""

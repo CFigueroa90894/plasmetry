@@ -56,6 +56,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
                  equations:list,
                  data_buff:Queue,
                  sampling_rate:int,
+                 num_samples:int,
                  relay_set:int,
                  sample_trig:Event=None,
                  *args, **kwargs
@@ -67,6 +68,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         self.id = probe_id                  # identifier for testing and validation
         self.sys_ref = sys_ref              # dictionary with system settings
         self.config_ref = config_ref        # dictionary with user settings
+        self.num_samples = num_samples      # samples per sweep (LP/EA) or averaging window (TLP)
 
         # SYSTEM FLAGS
         self.status_flags = status_flags    # system state indicators

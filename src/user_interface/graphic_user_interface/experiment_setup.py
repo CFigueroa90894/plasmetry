@@ -47,6 +47,7 @@ class ExperimentSetup(QMainWindow):
         # Connect the reset button to reset settings to default
         self.reset_btn.clicked.connect(self.reset_setup)
         
+        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)        
         # Set values from config file
         self.set_widget_values()
         
@@ -90,7 +91,7 @@ class ExperimentSetup(QMainWindow):
         self.dlp_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.dlp_num_measurements_input, -1, 'num_samples'))
         self.dlp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.dlp_num_measurements_input, +1, 'num_samples'))
 
-"""
+        
 
         ############################## TLP-C SIGNALS ##############################
         # Connect the QComboBox signal to the method that updates the combobox
@@ -121,7 +122,7 @@ class ExperimentSetup(QMainWindow):
         self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1))
         self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1))
 
-"""
+        
 
         ############################## IEA SIGNALS ##############################
         self.iea_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.iea_gas_select_cb.currentText()))
@@ -183,13 +184,13 @@ class ExperimentSetup(QMainWindow):
         self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
         self.tlc_up_amp_bias_input.setValue(self.control.get_config('tlc', 'up_amp_bias'))
         self.tlc_down_amp_bias_input.setValue(self.control.get_config('tlc', 'down_amp_bias'))
-        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', ''))
+        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'num_samples'))
 
         ################## TLV ##################
 
         self.tlv_sampling_rate_input.setValue(self.control.get_config('tlv', 'sampling_rate'))
         self.tlv_up_amp_bias_input.setValue(self.control.get_config('tlv', 'up_amp_bias'))
-        self.tlv_avg_window_input.setValue(self.control.get_config('tlv', ''))
+        self.tlv_avg_window_input.setValue(self.control.get_config('tlv', 'num_samples'))
 
         ################## IEA ##################
 
@@ -266,12 +267,6 @@ class ExperimentSetup(QMainWindow):
 
     def reset_setup(self):
         print("Reset button clicked...waiting for implementation")
-
-    def closeEvent(self, event):
-        # Emit the signal to notify GuiManager about the close request
-        self.close_signal.emit()
-        event.ignore()  # Ignore the default close event; GuiManager will handle it
-
     ############################## Other Functions ##############################
 
     def adjust_value(self, spinbox, direction, config_key):

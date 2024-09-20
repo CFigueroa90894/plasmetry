@@ -101,8 +101,3 @@ class ExperimentRun(QMainWindow):
         
     def emit_stop_signal(self):
         self.control.stop_experiment()
-
-    def closeEvent(self, event):
-        # Emit the signal to notify GuiManager about the close request
-        self.close_signal.emit()
-        event.ignore()  # Ignore the default close event; GuiManager will handle it
