@@ -3,8 +3,11 @@ Layer 4 - Hardware Interface - Component Factory
     Defines the ComponentFactory class, used to generate component objects.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - validate with team
+status: DONE
+
+Classes:
+    COMP - enumerator of component type identifiers
+    ComponentFactory - reuses channel factory when creating hardware component objects
 """
 
 # built-in imports
@@ -98,21 +101,24 @@ class ComponentFactory:
     # ----- Component Instantiators ----- #
     def _make_hv_amp(self, address:int, *args, **kwargs):
         """Return an instatiated HighVoltAmp object by making an analog output channel and
-        forwarding other given arguments."""
+        forwarding other given arguments.
+        """
         output_channel = self.__make_analog_out(address)
         return HighVoltAmp(analog_out=output_channel, *args, **kwargs)
 
 
     def _make_volt_sweeper(self, address:int, *args, **kwargs):
         """Return an instatiated VoltagerSweeper object by making an analog output channel and
-        forwarding other given arguments."""
+        forwarding other given arguments.
+        """
         output_channel = self.__make_analog_out(address)
         return VoltageSweeper(analog_out=output_channel, *args, **kwargs)
 
 
     def _make_volt_sensor(self, address:int, *args, **kwargs):
         """Return an instatiated VoltageSensor object by making an analog input channel and
-        forwarding other given arguments."""
+        forwarding other given arguments.
+        """
         input_channel = self.__make_analog_in(address)
         return VoltageSensor(analog_in=input_channel, *args, **kwargs)
 
