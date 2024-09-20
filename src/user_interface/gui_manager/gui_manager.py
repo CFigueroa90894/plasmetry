@@ -22,13 +22,12 @@ from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
 
-
 class GuiManager():
     
     def __init__(self):
         # Initialize control layer
         self.control = ControlLayer()
-        self.control.load_config_file()        
+        self.control.load_config_file()    
         
     def start_signals(self):
         app = QApplication(sys.argv)
