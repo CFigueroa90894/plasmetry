@@ -1,13 +1,13 @@
 """ G3 - Plasma Devs
 Utilities - Printer Thread
     Provides a class, PrinterThread, that provides thread-safe text output for objects and scripts.
-    The PrinterThread reads text from a queue and outputs it so the specified object.
+    The PrinterThread reads text from a queue and outputs it to the specified object.
 
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
 classes:
-    PrinterThread - reads from a buffer and print to the given output.
+    PrinterThread - reads from a buffer and prints to the given output/s
 """
 
 # built-in imports
