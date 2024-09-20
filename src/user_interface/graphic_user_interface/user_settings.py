@@ -17,7 +17,6 @@ class UserSettings(QMainWindow):
         # Connect buttons to switch between pages
         self.data_upload_settings_btn.clicked.connect(self.show_data_upload_settings)
         self.probe_config_settings_btn.clicked.connect(self.probe_config_settings)
-        self.plasma_param_settings_btn.clicked.connect(self.show_plasma_param_settings)
 
         # Connect QComboBox selection change to change pages in the probe_config_view
         self.probe_selection_cb.currentIndexChanged.connect(self.switch_probe_page)
@@ -40,31 +39,50 @@ class UserSettings(QMainWindow):
 
         ############################## PROBE CONFIG SETTINGS SIGNALS ##############################
 
-        # Connect Plus/Minus buttons for Min Voltage Ramp
+
+        # SLP
+
+            # ... to do: Jahn
+
         self.slp_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.slp_area_output, -1))
         self.slp_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.slp_area_output, +1))
 
-        # Connect Plus/Minus buttons for Min Voltage Ramp
+
+        # DLP
+
+            # ... to do: Jahn
+
         self.dlp_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.dlp_area_output, -1))
         self.dlp_area_btn.clicked.connect(lambda: self.adjust_value(self.dlp_area_output, +1))
 
-        # Connect Plus/Minus buttons for Min Voltage Ramp
+        # TLC
+
+            # ... to do: Jahn
+
+        # TLC
+
+            # ... to do: Jahn
+
+        # IEA
+
+            # ... to do: Jahn
+
         self.iea_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.iea_area_output, -1))
         self.iea_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.iea_area_output, +1))
 
-        # Connect Plus/Minus buttons for Min Voltage Ramp
         self.iea_mass_minus_btn.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, -1))
         self.iea_mass_plus_btn.clicked.connect(lambda: self.adjust_value(self.iea_mass_output, +1))
 
-        # Connect Plus/Minus buttons for Min Voltage Ramp
+        # HEA
+
+            # ... to do: Jahn
+
         self.tlp_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.tlp_area_output, -1))
         self.tlp_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.tlp_area_output, +1))
 
-        # Connect Plus/Minus buttons for Min Voltage Ramp
         self.hea_area_minus_btn.clicked.connect(lambda: self.adjust_value(self.hea_area_output, -1))
         self.hea_area_plus_btn.clicked.connect(lambda: self.adjust_value(self.hea_area_output, +1))
 
-        ############################## PLASMA PARAMETER SETTINGS SIGNALS ##############################
 
 
     def show_data_upload_settings(self):
@@ -74,10 +92,6 @@ class UserSettings(QMainWindow):
     def probe_config_settings(self):
         self.main_view.setCurrentWidget(self.probe_config_settings_page)
         self.probe_selection_cb.setVisible(True)  # Hide the combobox when switching away
-
-    def show_plasma_param_settings(self):
-        self.main_view.setCurrentWidget(self.plasma_param_settings_page)
-        self.probe_selection_cb.setVisible(False)  # Hide the combobox when switching away
 
     def switch_probe_page(self, index):
         """
