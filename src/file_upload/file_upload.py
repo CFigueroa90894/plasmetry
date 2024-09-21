@@ -50,7 +50,6 @@ class FileUpload:
         self.get_probe_folder(probe_type)
         # Verifying if unformatted data has been received, if true will commence to process the data
         if unformatted_data:
-            self.say('unform_data', unformatted_data)
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
             self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
