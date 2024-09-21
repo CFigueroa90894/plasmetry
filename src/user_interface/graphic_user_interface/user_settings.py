@@ -125,8 +125,8 @@ class UserSettings(QMainWindow):
         self.tlc_down_amp_max_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_max_input, +1, 'down_amp_max'))
 
         # Connect Plus/Minus buttons for Area
-        self.tlc_area_minus.clicked.connect(lambda: self.adjust_value(self.tlc_area_output, -1, 'Probe area'))
-        self.tlc_area_plus.clicked.connect(lambda: self.adjust_value(self.tlc_area_output, +1, 'Probe area'))
+        self.tlc_area_minus.clicked.connect(lambda: self.adjust_value(self.tlc_area_input, -1, 'Probe area'))
+        self.tlc_area_plus.clicked.connect(lambda: self.adjust_value(self.tlc_area_input, +1, 'Probe area'))
 
         # Connect Plus/Minus buttons for Up Collector Gain
         self.tlc_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_collector_gain_input, -1, 'up_collector_gain'))
@@ -155,8 +155,8 @@ class UserSettings(QMainWindow):
         self.tlv_up_amp_max_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_max_input, +1, 'up_amp_max'))
     
         # Connect Plus/Minus buttons for Area
-        self.tlv_area_minus.clicked.connect(lambda: self.adjust_value(self.tlv_area_output, -1, 'Probe area'))
-        self.tlv_area_plus.clicked.connect(lambda: self.adjust_value(self.tlv_area_output, +1, 'Probe area'))
+        self.tlv_area_minus.clicked.connect(lambda: self.adjust_value(self.tlv_area_input, -1, 'Probe area'))
+        self.tlv_area_plus.clicked.connect(lambda: self.adjust_value(self.tlv_area_input, +1, 'Probe area'))
 
         # Connect Plus/Minus buttons for Float Collector Gain
         self.tlv_float_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlv_float_collect_gain_input, -1, 'float_collector_gain'))
@@ -488,7 +488,11 @@ class UserSettings(QMainWindow):
         self.back_btn_clicked.emit() 
 
     def reset_settings(self):
-        print("Reset button clicked...waiting for implementation")
+        self.display_alert_message("Resetting Values")
+        # Receiving original config values
+        self.control.load_config_file()
+        # Reset values from config file
+        self.set_widget_values()
 
     def save_settings(self):
         self.control.save_config_file()

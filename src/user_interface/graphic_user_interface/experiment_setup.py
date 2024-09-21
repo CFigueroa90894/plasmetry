@@ -15,7 +15,8 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
     print(f"Path Hammer: {src_abs}")
 
 # Apply path hammer to append `abstract_layers` to Python path
-path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 from control_layer import ControlLayer
@@ -274,7 +275,12 @@ class ExperimentSetup(QMainWindow):
         self.switch_to_settings.emit() 
 
     def reset_setup(self):
-        print("Reset button clicked...waiting for implementation")
+        self.display_alert_message("Resetting Values")
+        # Receiving original config values
+        self.control.load_config_file()
+        # Reset values from config file
+        self.set_widget_values()
+
     ############################## Other Functions ##############################
 
     def adjust_value(self, spinbox, direction, config_key):

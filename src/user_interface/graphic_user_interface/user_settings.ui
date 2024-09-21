@@ -32,7 +32,7 @@
 }
 
 QFrame {
-	background-color: transparent;
+	background-color: #fafbff;
 }</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -304,8 +304,8 @@ QComboBox QAbstractItemView {
       </property>
       <property name="styleSheet">
        <string notr="true">QGroupBox {
-	border: 1px solid transparent;
-	background-color: transparent;
+	border: 1px solid #fafbff;
+	background-color: #fafbff;
     color: black; 
     margin-top: 30px;  /* Add margin to preserve space for the title */
 }
@@ -792,7 +792,7 @@ QComboBox {
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
-                      <height>112</height>
+                      <height>0</height>
                      </size>
                     </property>
                     <property name="font">
@@ -1092,6 +1092,12 @@ QComboBox {
                         </item>
                         <item>
                          <widget class="QFrame" name="frame_9">
+                          <property name="minimumSize">
+                           <size>
+                            <width>0</width>
+                            <height>58</height>
+                           </size>
+                          </property>
                           <property name="frameShape">
                            <enum>QFrame::StyledPanel</enum>
                           </property>
@@ -1242,7 +1248,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_45">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -1257,7 +1263,7 @@ QComboBox {
                 <number>0</number>
                </property>
                <item>
-                <widget class="QGroupBox" name="slp_sweep_min_frame">
+                <widget class="QGroupBox" name="slp_sweep_min_gb">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -1267,7 +1273,7 @@ QComboBox {
                   </font>
                  </property>
                  <property name="title">
-                  <string>Sweep Min:</string>
+                  <string>Sweep Amp Min:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1398,7 +1404,7 @@ QComboBox {
                 </widget>
                </item>
                <item>
-                <widget class="QGroupBox" name="slp_sweep_max_frame">
+                <widget class="QGroupBox" name="slp_sweep_max_gb">
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -1411,7 +1417,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Sweep Max:</string>
+                  <string>Sweep Amp Max:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1551,6 +1557,21 @@ QComboBox {
           </widget>
           <widget class="QWidget" name="slp_2">
            <layout class="QVBoxLayout" name="verticalLayout_9">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QFrame" name="frame_36">
               <property name="frameShape">
@@ -1599,13 +1620,13 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <property name="leftMargin">
-                   <number>0</number>
+                   <number>10</number>
                   </property>
                   <property name="topMargin">
                    <number>0</number>
                   </property>
                   <property name="rightMargin">
-                   <number>5</number>
+                   <number>10</number>
                   </property>
                   <property name="bottomMargin">
                    <number>0</number>
@@ -1743,13 +1764,13 @@ QComboBox {
                    <number>0</number>
                   </property>
                   <property name="leftMargin">
-                   <number>5</number>
+                   <number>10</number>
                   </property>
                   <property name="topMargin">
                    <number>0</number>
                   </property>
                   <property name="rightMargin">
-                   <number>0</number>
+                   <number>10</number>
                   </property>
                   <property name="bottomMargin">
                    <number>0</number>
@@ -2385,7 +2406,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_41">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -2410,7 +2431,7 @@ QComboBox {
                   </font>
                  </property>
                  <property name="title">
-                  <string>Sweep Min:</string>
+                  <string>Sweep Amp Min:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2551,7 +2572,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Sweep Max:</string>
+                  <string>Sweep Amp Max:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2716,7 +2737,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_44">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -3167,13 +3188,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3193,13 +3214,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>1000</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3244,13 +3265,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3369,13 +3390,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3395,13 +3416,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>1000</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3443,13 +3464,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3606,13 +3627,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3632,13 +3653,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>1000</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3683,13 +3704,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3808,13 +3829,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3834,13 +3855,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>1000</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -3882,13 +3903,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4004,13 +4025,13 @@ QComboBox {
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
-                      <height>20</height>
+                      <height>22</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>1000</width>
-                      <height>20</height>
+                      <height>22</height>
                      </size>
                     </property>
                     <property name="font">
@@ -4064,13 +4085,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4090,13 +4111,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>1000</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4141,13 +4162,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4212,13 +4233,13 @@ QComboBox {
                     <property name="minimumSize">
                      <size>
                       <width>42</width>
-                      <height>20</height>
+                      <height>22</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
                       <width>1000</width>
-                      <height>20</height>
+                      <height>22</height>
                      </size>
                     </property>
                     <property name="font">
@@ -4266,13 +4287,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4292,13 +4313,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>1000</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4340,13 +4361,13 @@ QComboBox {
                        <property name="minimumSize">
                         <size>
                          <width>58</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="maximumSize">
                         <size>
                          <width>16777215</width>
-                         <height>50</height>
+                         <height>58</height>
                         </size>
                        </property>
                        <property name="font">
@@ -4542,6 +4563,21 @@ QComboBox {
           </widget>
           <widget class="QWidget" name="tlc_3">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <property name="spacing">
+             <number>10</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QGroupBox" name="tlc_up_collector_gain_gb">
               <property name="font">
@@ -4569,7 +4605,7 @@ QComboBox {
                 <number>10</number>
                </property>
                <property name="topMargin">
-                <number>0</number>
+                <number>9</number>
                </property>
                <property name="rightMargin">
                 <number>10</number>
@@ -4719,7 +4755,7 @@ QComboBox {
                 <number>10</number>
                </property>
                <property name="topMargin">
-                <number>0</number>
+                <number>9</number>
                </property>
                <property name="rightMargin">
                 <number>10</number>
@@ -5743,6 +5779,21 @@ QComboBox {
           </widget>
           <widget class="QWidget" name="tlv_2">
            <layout class="QVBoxLayout" name="verticalLayout_26">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
              <widget class="QGroupBox" name="tlv_area_gb">
               <property name="minimumSize">
@@ -5782,7 +5833,7 @@ QComboBox {
                 <number>10</number>
                </property>
                <property name="topMargin">
-                <number>0</number>
+                <number>9</number>
                </property>
                <property name="rightMargin">
                 <number>10</number>
@@ -5918,7 +5969,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -6323,7 +6374,7 @@ QComboBox {
                    <widget class="QLabel" name="iea_dac_min_label">
                     <property name="minimumSize">
                      <size>
-                      <width>40</width>
+                      <width>0</width>
                       <height>22</height>
                      </size>
                     </property>
@@ -6531,7 +6582,7 @@ QComboBox {
                    <widget class="QLabel" name="iea_dac_max_label">
                     <property name="minimumSize">
                      <size>
-                      <width>42</width>
+                      <width>0</width>
                       <height>22</height>
                      </size>
                     </property>
@@ -7172,7 +7223,7 @@ QComboBox {
                </font>
               </property>
               <property name="title">
-               <string>Collector Bias Range:</string>
+               <string>Collector Bias Amp Range:</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_64">
                <property name="spacing">
@@ -7608,7 +7659,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_67">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -7950,6 +8001,11 @@ QComboBox {
             </property>
             <item>
              <widget class="QFrame" name="frame_11">
+              <property name="font">
+               <font>
+                <pointsize>8</pointsize>
+               </font>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -7958,7 +8014,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_70">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -7986,7 +8042,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Sweep Min:</string>
+                  <string>Sweep Amp Min:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -8138,7 +8194,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Sweep Max:</string>
+                  <string>Sweep Amp Max:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -8288,6 +8344,9 @@ QComboBox {
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="spacing">
+                <number>10</number>
+               </property>
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -8317,7 +8376,7 @@ QComboBox {
                  <property name="font">
                   <font>
                    <family>Calibri</family>
-                   <pointsize>17</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -8326,7 +8385,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Ion Energy Analyzer (IEA) Area:</string>
+                  <string>Collector Probe Area:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -8375,6 +8434,12 @@ QComboBox {
                   </item>
                   <item>
                    <widget class="QDoubleSpinBox" name="iea_area_input">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -8443,7 +8508,7 @@ QComboBox {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>58</width>
                       <height>58</height>
                      </size>
                     </property>
@@ -8467,6 +8532,12 @@ QComboBox {
                </item>
                <item>
                 <widget class="QGroupBox" name="iea_mass_gb">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -8482,7 +8553,7 @@ QComboBox {
                  <property name="font">
                   <font>
                    <family>Calibri</family>
-                   <pointsize>17</pointsize>
+                   <pointsize>18</pointsize>
                    <weight>75</weight>
                    <bold>true</bold>
                   </font>
@@ -8539,7 +8610,7 @@ QComboBox {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QDoubleSpinBox" name="iea_mass_output">
+                   <widget class="QDoubleSpinBox" name="iea_mass_input">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -9108,7 +9179,7 @@ QComboBox {
                </font>
               </property>
               <property name="title">
-               <string>Collector Bias Range:</string>
+               <string>Collector Bias Amp Range:</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_76">
                <property name="spacing">
@@ -9563,7 +9634,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_79">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -9591,7 +9662,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Sweep Min:</string>
+                  <string>Sweep Amp Min:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -9707,7 +9778,7 @@ QComboBox {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>58</width>
                       <height>58</height>
                      </size>
                     </property>
@@ -9743,7 +9814,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Sweep Max:</string>
+                  <string>Sweep Amp Max:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -9859,7 +9930,7 @@ QComboBox {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>58</width>
                       <height>58</height>
                      </size>
                     </property>
@@ -9894,7 +9965,7 @@ QComboBox {
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <property name="spacing">
-                <number>0</number>
+                <number>10</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -10036,7 +10107,7 @@ QComboBox {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>58</width>
                       <height>58</height>
                      </size>
                     </property>
@@ -10188,7 +10259,7 @@ QComboBox {
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>58</width>
                       <height>58</height>
                      </size>
                     </property>
@@ -10258,7 +10329,7 @@ QComboBox {
                <string notr="true"/>
               </property>
               <property name="title">
-               <string>Hyperbolic Energy Analyzer (HEA) Area:</string>
+               <string>Collector Probe Area:</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -10454,6 +10525,9 @@ QComboBox {
                <bold>true</bold>
               </font>
              </property>
+             <property name="styleSheet">
+              <string notr="true">color: white;</string>
+             </property>
              <property name="text">
               <string>&lt;-</string>
              </property>
@@ -10500,6 +10574,9 @@ QComboBox {
                <weight>75</weight>
                <bold>true</bold>
               </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: white;</string>
              </property>
              <property name="text">
               <string>-&gt;</string>
@@ -10616,6 +10693,11 @@ QComboBox {
           <font>
            <pointsize>18</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color: white;
+}</string>
          </property>
          <property name="text">
           <string/>
