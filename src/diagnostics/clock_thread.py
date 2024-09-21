@@ -3,8 +3,7 @@ Layer 3 - Diagnostics
     Provides a simple BaseThread subclass that signals when the next data sample should be taken.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - move tests to unittest module
+status: DONE
 
 classes:
     ClockThread - Controls synchronization for Probe Object thread's data sampling.
@@ -81,7 +80,7 @@ class ClockThread(BaseThread):
     # ----- Tick Methods ----- #
     def tick(self):
         """Notifies other threads that an interval has passed. Overloaded in constructor."""
-        raise NotImplementedError("Method tick()was not overloaded in the constructor!")
+        raise NotImplementedError("Method tick() was not overloaded in the constructor!")
 
     def _debug_tick_(self):
         """Notifies other threads an interval has passed and print a 'tick' message."""
@@ -123,58 +122,3 @@ class ClockThread(BaseThread):
         """Print out messages, by default to the console. Inherited from parent."""
         super().say(msg)    # call parent print
 
-
-# Basic tests
-if __name__ == "__main__":
-    import time
-    from threading import Thread
-    from queue import Queue
-
-    from utils.threads.printer_thread import PrinterThread
-
-    # Control setup
-    trig = Event()
-    kill = Event()
-    trig.clear()
-    kill.clear()
-    buff = Queue()
-
-    # Test parameters
-    rate = 5
-    test_duration = 6
-
-    # Test thread function
-    def hello_there():
-        max = 1/rate + 1
-        while not kill.is_set():
-            result = trig.wait(timeout=max)
-            if result:
-                buff.put("Hello : Hello there!")
-                trig.clear()
-            else:
-                print("Hello : I timed out!")
-        print("Hello : Bye!")
-
-    # Make threads
-    printer = PrinterThread(kill=kill, console_buff=buff, name="Print")
-    hello = Thread(target=hello_there, daemon=True)
-    clock = ClockThread(
-        tick_rate=rate,
-        trigger=trig,
-        kill=kill,
-        debug=True,
-        name="Clock",
-        console_buff=buff
-    )
-    
-    # launch threads
-    printer.start()
-    hello.start()
-    clock.start()
-
-    # end test
-    time.sleep(test_duration)
-    kill.set()
-    clock.join()
-    hello.join()
-    printer.join()
