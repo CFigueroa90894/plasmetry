@@ -20,8 +20,7 @@ from global_parameters import (
     filter_current,
     get_debye_length,
     get_number_of_electrons,
-    get_particle_density,
-    get_display_parameters
+    get_particle_density
 )
     
 
@@ -129,6 +128,25 @@ def get_electron_temperature(parameters):
     parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * ELECTRON_CHARGE
 
 
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters["Floating potential"])
+    display_parameters.append(parameters["Plasma potential"])
+    display_parameters.append(parameters["Electron saturation current"])
+    display_parameters.append(parameters["Electron temperature (eV)"])
+    display_parameters.append(parameters["Electron temperature (Joules)"])
+    display_parameters.append(parameters["Electron density"])
+    display_parameters.append(parameters["Debye Length"])
+    display_parameters.append(parameters["Number of electrons"])
+    
+    
+    
+    return display_parameters
+
 def get_equations():
 
     """This function returns a reference to the equations defined in this script"""
@@ -147,6 +165,7 @@ def get_equations():
     list_of_references.append(get_debye_length)
     list_of_references.append(get_number_of_electrons)
     list_of_references.append(get_display_parameters)
+    
     return list_of_references
 
 
