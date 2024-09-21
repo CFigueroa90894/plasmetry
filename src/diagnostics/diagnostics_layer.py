@@ -8,6 +8,10 @@ status: WIP
     - add docstrings
     - uncomment hardware shutdown when implemented (in diagnostics_shutdown)
     - validate with team
+
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Params for display changed to a list
+
 """
 # built-in imports
 import sys

@@ -3,6 +3,13 @@ from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal, QTimer
 from run_parameters import RunParameters
 
+"""
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Commented param update
+Printing recieved params
+
+"""
+
 class ExperimentRun(QMainWindow):
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
@@ -115,12 +122,12 @@ class ExperimentRun(QMainWindow):
         layout.addWidget(param_frame)
         
     def update_parameters(self):
-        print('updating parameters...')
+        print('UIEXPSET: updating parameters...')
         
-       # parameter_values = self.params_container
-       
-        parameter_values = [i * self.counter for i in range(10)]
-       
+        parameter_values = self.params_container
+        print(f'UIEXPSET: recieved {parameter_values}')
+        # parameter_values = [i * self.counter for i in range(10)]
+        
         self.counter = self.counter + 5
         
         for i in range(self.frame_left.layout().count()):

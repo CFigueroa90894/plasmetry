@@ -15,6 +15,10 @@ status: WIP
 classes:
     ProbeOperation - Control probe objects and perform general data acquisition control functions. 
 
+    
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Disabled calculations
+
 """
 # built-in imports
 import sys
@@ -209,12 +213,17 @@ class ProbeOperation(BaseThread):
         self.say("calculating paramaters...")
         params = ProtectedDictionary(samples)   # argument for calculations
 
+        # -------------- DEBUG ---------------- #
+        """ DISABLED FOR DEBUG
         # perform all calculations except last one
         for eq_index in range(len(self._probe.equations)-1):
             self._probe.equations[eq_index](params)    # in-place operations
-
+        """
+        self.say(f"PARAMS BEFORE CALC: {params}")
+        # ------------------------------------- #
+        
         # last calculation returns parameters specifically for display
-        display_params = self._probe.equation[-1](params)
+        display_params = self._probe.equations[-1](params)
         
         # cleanup
         self.status_flags.calculating.clear()   # indicate calculations are completed

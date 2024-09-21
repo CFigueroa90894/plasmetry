@@ -5,6 +5,11 @@ Layer 4 - Hardware Interface - Counter Wrapper
 author: figueroa_90894@students.pupr.edu
 status: WIP
   - add SayWriter usage
+
+
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Disabled printing arguments.
+
 """
 
 # built-in imports
@@ -65,14 +70,14 @@ class CounterWrapperTest(AbstractWrapper):
         """Prints arguments."""
         self.validate_address(address)
         self.analog_out_count += 1    # increment counter
-        self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
+        # self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
 
     @enforce_type
     def read_analog(self, address:int) -> float:
         """Print arguments. Return count value as float."""
         self.validate_address(address)
         self.analog_in_count += 1     # increment counter
-        self.say(f"Ain addr:{address} count:{self.analog_in_count}")
+        # self.say(f"Ain addr:{address} count:{self.analog_in_count}")
         return float(self.analog_in_count)
 
 
@@ -82,14 +87,14 @@ class CounterWrapperTest(AbstractWrapper):
         """Prints arguments."""
         self.validate_address(address)
         self.digital_out_count += 1    # increment counter
-        self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
+        # self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
     
     @enforce_type
     def read_digital(self, address: int) -> bool:
         """Print arguments. Returns True."""
         self.validate_address(address)
         self.digital_in_count += 1     # increment counter
-        self.say(f"Din addr:{address} count:{self.digital_in_count}")
+        # self.say(f"Din addr:{address} count:{self.digital_in_count}")
         return True
 
 

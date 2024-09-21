@@ -16,6 +16,11 @@ status: WIP
     - validate with team
 
     - time permitting, implement rerouting of stderr to printer thread
+
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Printing param container before returning
+Set default debug to False
+
 """
 
 # built-in imports
@@ -70,7 +75,7 @@ class ControlLayer(AbstractControl):
     # TO DO - Carlos
     def __init__(self,
                  name:str="CTRL",
-                 debug:bool=True,
+                 debug:bool=False,
                  buffer_text:bool=False, *args, **kwargs):
         """<...>"""
         # validate if a PrinterThread is needed
@@ -150,6 +155,9 @@ class ControlLayer(AbstractControl):
     
     def get_real_time_container(self) -> Tuple[dict, Event]:
         """<...>"""
+        # ------ DEBUG ------ #
+        self.say(f"RETURNING PARAM CONTAINER: {self._real_time_param}")
+        # ------------------- #
         return self._real_time_param, self._commands.refresh
 
 
