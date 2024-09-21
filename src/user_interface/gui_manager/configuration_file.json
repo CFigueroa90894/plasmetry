@@ -86,8 +86,8 @@
             "rejector_min": -300.0,
             "rejector_max": 300.0,
             "rejector_bias": 20.0,
-            "collector_min": -300.0,
-            "collector_max": 300.0,
+            "collector_bias_min": -300.0,
+            "collector_bias_max": 300.0,
             "collector_bias": 20.0,
             "Probe area": 1.0
         },
@@ -107,8 +107,8 @@
             "rejector_min": -300.0,
             "rejector_max": 300.0,
             "rejector_bias": 20.0,
-            "collector_min": -300.0,
-            "collector_max": 300.0,
+            "collector_bias_min": -300.0,
+            "collector_bias_max": 300.0,
             "collector_bias": 20.0,
             "Probe area": 1.0
         },
