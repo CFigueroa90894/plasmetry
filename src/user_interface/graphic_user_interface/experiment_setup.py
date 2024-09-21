@@ -15,8 +15,8 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
     print(f"Path Hammer: {src_abs}")
 
 # Apply path hammer to append `abstract_layers` to Python path
-if __name__ == "__main__":  # execute path hammer if this script is run directly
-    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
+# if __name__ == "__main__":  # execute path hammer if this script is run directly
+#     path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 from control_layer import ControlLayer
