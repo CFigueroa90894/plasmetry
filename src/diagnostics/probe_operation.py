@@ -221,11 +221,11 @@ class ProbeOperation(BaseThread):
         params = ProtectedDictionary(samples)   # argument for calculations
 
         # perform all calculations except last one
-        for eq_index in range(len(self._probe.equations)-1):
-            self._probe.equations[eq_index](params)    # in-place operations
+        #for eq_index in range(len(self._probe.equations)-1):
+        #    self._probe.equations[eq_index](params)    # in-place operations
 
         # last calculation returns parameters specifically for display
-        display_params = self._probe.equation[-1](params)
+        display_params = self._probe.equations[-1](params)
         
         # cleanup
         self.status_flags.calculating.clear()   # indicate calculations are completed
@@ -270,8 +270,16 @@ class ProbeOperation(BaseThread):
                 if self.calculate:
                     params, display_params = self._calculate_params(samples)  # perform all calculations
 
+
                     # update real-time parameter container for display
+                    """ DISABLED FOR DEBUG
                     self.real_time_param.update(display_params) # read by UI layer
+                    """
+                    ###### DEBUG ######
+                    if not self.command_flags.refresh.is_set():
+                        self.real_time_param.clear()
+                        self.real_time_param.extend(display_params)
+                    ###################
                     self.command_flags.refresh.set()            # indicate new data for display
                     self._aggregate_samples.append(params)      # append new samples
                 
