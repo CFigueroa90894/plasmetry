@@ -17,10 +17,17 @@ class ExperimentRun(QMainWindow):
         # Load the .ui file directly
         loadUi('../graphic_user_interface/experiment_run.ui', self)
 
+        # Disable stop_btn and enable run_btn initially
+        self.stop_btn.setEnabled(False)
+        self.run_btn.setEnabled(True)
+
         # Connect buttons to emit signals
         self.back_btn.clicked.connect(self.emit_back_signal)
         self.run_btn.clicked.connect(self.emit_run_signal)
         self.stop_btn.clicked.connect(self.emit_stop_signal)
+
+        # Sets the run_status_label to default stop color 
+        self.update_run_status(0)
 
         # Initialize a timer for updating parameters
         self.timer = QTimer()
@@ -153,6 +160,48 @@ class ExperimentRun(QMainWindow):
             if child.widget():
                 child.widget().deleteLater()
 
+    def update_run_status(self, status):
+        """
+        Update the background color of the run_status_label based on the experiment status.
+        
+        :param status: 0 for stopped, 1 for paused, 2 for running
+        """
+        # Define color mappings for each status
+        color_map = {
+            0: "#F33A3A",  # Fully stopped
+            1: "#FFBF00",  # Paused
+            2: "#61F65D"   # Running
+        }
+
+        # Modify only the background-color part of the stylesheet
+        new_stylesheet = f"""
+        border: 4px solid black;
+        border-radius: 30px;
+        background-color: {color_map[status]};
+        """
+
+        # Set the new stylesheet for the label
+        self.run_status_label.setStyleSheet(new_stylesheet)
+
+    def display_alert_message(self, message):
+        """
+        Display a message on alert_msg_label for 5 seconds, then clear the label.
+        
+        :param message: The message to display.
+        """
+        self.clear_alert_message()
+        # Set the message in the alert_msg_label
+        self.alert_msg_label.setText(message)
+
+        # Create a QTimer to clear the message after 5 seconds (5000 milliseconds)
+        QTimer.singleShot(5000, lambda: self.clear_alert_message())
+
+    def clear_alert_message(self):
+        """
+        Clear the message displayed on alert_msg_label.
+        """
+        self.alert_msg_label.setText("")
+
     def emit_back_signal(self):
         """Emit signal when back button is clicked."""
         
@@ -163,21 +212,47 @@ class ExperimentRun(QMainWindow):
         self.back_btn_clicked.emit()  # Emit back signal
 
     def emit_run_signal(self):
-         """Emit signal when run button is clicked."""
-         
-         self.running = True
+        """Emit signal when run button is clicked."""
 
-         self.control.start_experiment()
-         
-         self.start_timer()
-        
-         print("Experiment started.")
+        if not self.running:  # Ensure it only triggers if not already running
+            self.running = True
+            
+            # Disable run_btn to prevent double clicking
+            self.run_btn.setEnabled(False)
+
+            # Disable back_btn to prevent error in experiment run
+            self.back_btn.setEnabled(False)
+            
+            # Enable stop_btn to allow stopping the experiment
+            self.stop_btn.setEnabled(True)
+
+            # Start the experiment and timer
+            self.control.start_experiment()
+            self.start_timer()
+
+        # Setting the run_status_label to running
+        self.update_run_status(2)
+        print("Experiment started.")
+        self.display_alert_message("Experiment started")
 
     def emit_stop_signal(self):
          """Emit signal when stop button is clicked."""
-         
+         self.display_alert_message("Stopping experiment...")
          if self.running:
-             self.control.stop_experiment()
-             self.stop_timer()
+            self.running = False
+            
+            # Disable stop_btn 
+            self.stop_btn.setEnabled(False)
+            # Re-enable run_btn & back_btn
+            self.run_btn.setEnabled(True)
+            self.back_btn.setEnabled(True)
 
-             print("Experiment stopped.")
+            # Stop the experiment and timer
+            self.control.stop_experiment()
+            self.stop_timer()
+
+            # Setting the run_status_label to stopped
+            self.update_run_status(0)
+
+            print("Experiment stopped.")
+            self.display_alert_message("Experiment stopped")

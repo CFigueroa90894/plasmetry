@@ -150,7 +150,7 @@ QFrame {
         </spacer>
        </item>
        <item>
-        <widget class="QComboBox" name="probe_selection_cb">
+        <widget class="QWidget" name="cb_handler" native="true">
          <property name="minimumSize">
           <size>
            <width>384</width>
@@ -163,68 +163,107 @@ QFrame {
            <height>58</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>18</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
          <property name="styleSheet">
-          <string notr="true">QComboBox {
-	background-color: #FFFFFF;
+          <string notr="true">QWidget{
+    background-color: #fafbff;
+}</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="probe_selection_cb">
+            <property name="minimumSize">
+             <size>
+              <width>384</width>
+              <height>58</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>450</width>
+              <height>58</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Calibri</family>
+              <pointsize>18</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QComboBox {
+	background-color: #fafbff;
 	padding-left: 20px;
 	text-align: left;
 }
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
+    border: 1px solid #fafbff;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
-         </property>
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <item>
-          <property name="text">
-           <string>Single Langmuir Probe (SLP)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Double Langmuir Probe (DLP)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Triple Langmuir Probe Current (TLC)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Triple Langmuir Probe Voltage (TLV)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Ion Energy Analyzer (IEA)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Hyperbolic Energy Analyzer (HEA)</string>
-          </property>
-         </item>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>Single Langmuir Probe (SLP)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Double Langmuir Probe (DLP)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Triple Langmuir Probe Current (TLC)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Triple Langmuir Probe Voltage (TLV)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Ion Energy Analyzer (IEA)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Hyperbolic Energy Analyzer (HEA)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>

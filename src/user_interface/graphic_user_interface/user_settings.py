@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QMainWindow, QDialog, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QTimer
 from virtual_keyboard import VirtualKeyboard
 from pathlib import Path
 
@@ -15,7 +15,7 @@ class UserSettings(QMainWindow):
         self.control = control
 
         # Hide the probe_selection_cb by default
-        self.probe_selection_cb.setVisible(False)
+        self.cb_handler.setVisible(False)
         
         # Connect buttons to switch between pages
         self.data_upload_settings_btn.clicked.connect(self.show_data_upload_settings)
@@ -328,12 +328,12 @@ class UserSettings(QMainWindow):
 
     def show_data_upload_settings(self):
         self.main_view.setCurrentWidget(self.data_upload_settings_page)
-        self.probe_selection_cb.setVisible(False)  # Hide the combobox when switching away
+        self.cb_handler.setVisible(False)  # Hide the combobox when switching away
 
     def probe_config_settings(self):
         # Switch to the probe config page
         self.main_view.setCurrentWidget(self.probe_config_settings_page)
-        self.probe_selection_cb.setVisible(True)  # Show the probe selection combo box
+        self.cb_handler.setVisible(True)  # Show the probe selection combo box
         self.switch_probe_page(self.probe_selection_cb.currentIndex())  # Initialize the page view
 
     def switch_probe_page(self, index):
@@ -460,10 +460,29 @@ class UserSettings(QMainWindow):
         if self.main_view.currentWidget() != self.settings_select_page:
             # Jump to the settings_select_page
             self.main_view.setCurrentWidget(self.settings_select_page)
-            self.probe_selection_cb.setVisible(False)  # Hide the combobox when switching away
+            self.cb_handler.setVisible(False)  # Hide the combobox when switching away
         else:
             # If already on settings_select_page, emit the back button signal
             self.emit_back_signal()
+
+    def display_alert_message(self, message):
+        """
+        Display a message on alert_msg_label for 5 seconds, then clear the label.
+        
+        :param message: The message to display.
+        """
+        self.clear_alert_message()
+        # Set the message in the alert_msg_label
+        self.alert_msg_label.setText(message)
+
+        # Create a QTimer to clear the message after 5 seconds (5000 milliseconds)
+        QTimer.singleShot(5000, lambda: self.clear_alert_message())
+
+    def clear_alert_message(self):
+        """
+        Clear the message displayed on alert_msg_label.
+        """
+        self.alert_msg_label.setText("")
 
     def emit_back_signal(self):
         self.back_btn_clicked.emit() 

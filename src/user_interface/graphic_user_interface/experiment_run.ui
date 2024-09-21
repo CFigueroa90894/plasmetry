@@ -193,7 +193,7 @@ QFrame {
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">border: 2px solid black;
+          <string notr="true">border: 4px solid black;
 border-radius: 30px;
 background-color: #F33A3A;
 </string>
@@ -399,6 +399,11 @@ background-color: #F33A3A;
           <font>
            <pointsize>18</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color: white;
+}</string>
          </property>
          <property name="text">
           <string/>

@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QTimer
 import os
 
 # ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
@@ -252,18 +252,21 @@ class ExperimentSetup(QMainWindow):
             self.main_view.setCurrentWidget(self.hyper_energy_analyzer)
 
     def emit_switch_to_run_signal(self, run_window):
+        # Disables all interactables to prevent erros while system prepares for experiment run
+        self.disable_all()
+
         # Get the selected probe from the QComboBox
         # Set the selected probe in the experiment run window
         self.control.set_config(self.selected_probe, 'probe_id', self.selected_probe)
         
         self.control.setup_experiment(self.selected_probe)
         
-       
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
         self.run_window_ref.set_selected_probe(self.selected_probe)
 
-
+        # Restores all interactables as enables
+        self.enable_all()
        
     def emit_switch_to_settings_signal(self):
         
@@ -292,6 +295,33 @@ class ExperimentSetup(QMainWindow):
         # If the result is valid, a new value is set in the spinbox
         # Otherwise, previous value set
         spinbox.setValue(self.control.get_config(self.selected_probe, config_key))
+
+    def display_alert_message(self, message):
+        """
+        Display a message on alert_msg_label for 5 seconds, then clear the label.
+        
+        :param message: The message to display.
+        """
+        self.clear_alert_message()
+        # Set the message in the alert_msg_label
+        self.alert_msg_label.setText(message)
+
+        # Create a QTimer to clear the message after 5 seconds (5000 milliseconds)
+        QTimer.singleShot(5000, lambda: self.clear_alert_message())
+
+    def clear_alert_message(self):
+        """
+        Clear the message displayed on alert_msg_label.
+        """
+        self.alert_msg_label.setText("")
+
+    def disable_all(self):
+        """Disables all interaction in the main window."""
+        self.setEnabled(False)
+
+    def enable_all(self):
+        """Enables all interaction in the main window."""
+        self.setEnabled(True)
 
     def increment_last_decimal(self, value):
         return round(value + 1, 2)
