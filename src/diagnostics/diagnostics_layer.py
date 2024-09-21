@@ -55,7 +55,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  status_flags,
                  command_flags,
                  results_buffer:Queue=None,
-                 real_time_param:dict=None,
+                 real_time_param:list=None,
                  name:str="DIAGN",
                  perform_calculations:bool=True,
                  debug:bool=True,
@@ -70,7 +70,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         
         # default dict if none was specified
         if real_time_param is None:
-            real_time_param = {}        # redefine arg variable
+            real_time_param = []        # redefine arg variable
 
 
         # ----- Save Arguments ----- #
