@@ -1,5 +1,13 @@
-# author: figueroa_90894@students.pupr.edu
-# status: DONE
+""" G3 - Plasma Devs
+Layer 3 - Diagnostics - Probe Enum
+    Contain an enumerator object that defines the string identifiers for support probe types.
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
+
+classes:
+    PRB - enumerator
+"""
 
 # built-in imports
 from enum import Enum, unique
