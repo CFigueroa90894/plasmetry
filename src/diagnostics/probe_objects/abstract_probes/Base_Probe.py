@@ -1,7 +1,7 @@
 """ G3 - Plasma Devs
 Layer 3 - Diagnostics - Base Probe
     Provides a parent class for concrete probe classes that specifies required methods and
-    and implements common functioanality. Inherits from the built-in Thread class.
+    and implements common functionality. Inherits from the built-in Thread class.
 
 author: figueroa_90894@students.pupr.edu
 status: DONE
