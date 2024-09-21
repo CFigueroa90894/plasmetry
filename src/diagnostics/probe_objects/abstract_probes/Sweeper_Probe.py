@@ -66,7 +66,7 @@ class SweeperProbe(BaseProbe):
         samples = {
             "Bias 1": self._premap_bias,
             "Shunt 1":  self.config_ref["sweeper_shunt"],
-            "Raw Voltage 1": raw_samples,
+            "Raw voltage 1": raw_samples,
         }
         return samples
 

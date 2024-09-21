@@ -98,8 +98,8 @@ class TripleLangCurrent(BaseTLP):
 
         # pack sample dictionary
         samples = {
-            "Raw Voltage 1": self.up_probe_window[:],
-            "Raw Voltage 2": self.down_probe_window[:],
+            "Raw voltage 1": self.up_probe_window[:],
+            "Raw voltage 2": self.down_probe_window[:],
             "Shunt 1": self.up_shunt,
             "Shunt 2": self.down_shunt,
             "Bias 1": self.up_amp_bias,
