@@ -121,20 +121,38 @@ class ConfigManager:
         
     
     def validate_voltage(self, ref, probe_id, key, value):
-        if key[-3:] == 'min':
-            max_key = key[:-3] + "max"
-            if ref[probe_id][max_key] > value:
-                ref[probe_id][key]= value
+        
+        tokens = key.split('_')
+        if tokens[-1] == 'min':
+           tokens[-1] = 'max'
+           max_key = '_'.join(tokens)
+           self.say(max_key)
+           if ref[probe_id][max_key] > value:
+               ref[probe_id][key]= value
         
         elif key[-3:] == 'max':
              min_key = key[:-3] + "min"
              if ref[probe_id][min_key] < value:
                  ref[probe_id][key] = value
         else:
-             max_key = key[:-4] + "max"
-             min_key = key[:-4] + "min"
+            
+             if not 'collector' in tokens:
+                 tokens.pop()
+                 
+             max_token = tokens.copy()
+             min_token = tokens.copy()
+             
+             
+             max_token.append("max")
+             min_token.append("min")
+             
+             max_key = '_'.join(max_token)
+             min_key = '_'.join(min_token)
+             print(f'min key : {min_key}')
+             print(f'max key : {max_key}')
              if ref[probe_id][min_key] <= value <= ref[probe_id][max_key]:
-                 ref[key]= value            
+                ref[probe_id][key]= value    
+                
             
     def validate_paths(self, ref, key, value):
         
