@@ -1,59 +1,59 @@
 class RunParameters:
     def __init__(self):
         self.probe_parameters = {
-                "slp": {
-                "Floating Potential (Volts)": 0.5,
-                "Plasma Potential (Volts)": 0.0,
-                "Electron Saturation Current (Amperes)": 0.0,
-                "Electron Temperature (eV)": 10.0,
-                "Electron temperature (Joules)": 0,
-                "Electron Density": 0.0,
-                "Debye Length": 0.0,
-                "Number of electrons": 200000
-            },
+                "slp": [
+                "Floating Potential (Volts)",
+                "Plasma Potential (Volts)",
+                "Electron Saturation Current (Amperes)",
+                "Electron Temperature (eV)",
+                "Electron temperature (Joules)",
+                "Electron Density",
+                "Debye Length",
+                "Number of electrons"
+            ],
                 
-            "dlp": {
-                "Ion Saturation Current": 0.0,
-                "Electron Temperature": 0.0,
-                "Electron Density": 0.0,
-                "Ion Temperature": 0.0,
-                "Ion Density": 0.0,
-                "Debye Length": 0.0
-            },
-            "tlc": {
-                "Floating Potential": 0.0,
-                "Plasma Potential": 0.0,
-                "Electron Temperature": 0.0,
-                "Electron Density": 0.0,
-                "Ion Temperature": 0.0,
-                "Ion Density": 0.0,
-                "Debye Length": 0.0
-            },
-            "tlv": {
-                "Floating Potential": 0.0,
-                "Plasma Potential": 0.0,
-                "Electron Saturation Current": 0.0,
-                "Ion Saturation Current": 0.0,
-                "Electron Temperature": 0.0
-            },
-            "iea": {
-                "Floating Potential": 0.0,
-                "Plasma Potential": 0.0,
-                "Ion Saturation Current": 0.0,
-                "Electron Temperature": 0.0,
-                "Electron Density": 0.0,
-                "Ion Temperature": 0.0,
-                "Ion Density": 0.0,
-                "Debye Length": 0.0
-            },
-            "hea": {
-                "Floating Potential": 0.0,
-                "Plasma Potential": 0.0,
-                "Ion Saturation Current": 0.0,
-                "Electron Temperature": 0.0,
-                "Electron Density": 0.0,
-                "Ion Temperature": 0.0
-            }
+            "dlp": [
+                "Ion Saturation Current",
+                "Electron Temperature",
+                "Electron Density",
+                "Debye Length",
+                "Number of electrons"
+            ],
+            "tlc": [
+                "Floating Potential",
+                "Plasma Potential",
+                "Electron Temperature",
+                "Electron Density",
+                "Ion Temperature",
+                "Ion Density",
+                "Debye Length"
+            ],
+            "tlv": [
+                "Floating Potential",
+                "Plasma Potential",
+                "Electron Saturation Current",
+                "Ion Saturation Current",
+                "Electron Temperature"
+            ],
+            "iea": [
+                "Floating Potential",
+                "Plasma Potential",
+                "Ion Saturation Current",
+                "Electron Temperature",
+                "Electron Density",
+                "Ion Temperature",
+                "Ion Density",
+                "Debye Length"
+            ],
+            
+            "hea": [
+                "Floating Potential",
+                "Plasma Potential",
+                "Ion Saturation Current",
+                "Electron Temperature",
+                "Electron Density",
+                "Ion Temperature"
+            ]
         }
 
     def get_parameters_for_probe(self, probe_name):

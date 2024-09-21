@@ -63,7 +63,7 @@ class ExperimentRun(QMainWindow):
         if parameters:
             print('Loading calculations...')
 
-            self.keys = list(parameters.keys())
+            self.keys = parameters
             half = (len(self.keys)) // 2  # Divide roughly in half
 
             # Clear existing layouts before adding new widgets
@@ -72,21 +72,19 @@ class ExperimentRun(QMainWindow):
 
             # Add widgets to the left frame
             for key in self.keys[:half]:
-                print(f"Adding {key}: {parameters[key]}")  # Debug statement
                 self.add_calculation_to_frame(
-                    self.frame_left.layout(), key, parameters[key])
+                    self.frame_left.layout(), key)
 
             # Add widgets to the right frame
             for key in self.keys[half:]:
-                print(f"Adding {key}: {parameters[key]}")  # Debug statement
                 self.add_calculation_to_frame(
-                    self.frame_right.layout(), key, parameters[key])
+                    self.frame_right.layout(), key)
 
             print("Calculations loaded into frames.")
         else:
             print('No parameters provided.')
 
-    def add_calculation_to_frame(self, layout, param_name, param_value):
+    def add_calculation_to_frame(self, layout, param_name):
         """Add a parameter's calculation display to a specified layout."""
 
         # Create a frame for the parameter
@@ -110,7 +108,7 @@ class ExperimentRun(QMainWindow):
         line_edit.setMaximumSize(300, 35)
         line_edit.setStyleSheet("background-color: #FFFFFF; font-size: 20px;")
         line_edit.setReadOnly(True)  # Make it read-only to prevent editing
-        line_edit.setText(str(param_value))  # Set the line edit value as text
+        line_edit.setText(str(0.0))  # Set the line edit value as text
         vertical_layout.addWidget(line_edit)
 
         # Add the frame to the given layout
