@@ -24,9 +24,11 @@ class ExperimentRun(QMainWindow):
 
         # Initialize a timer for updating parameters
         self.timer = QTimer()
+        self.counter = 1
         self.timer.timeout.connect(self.update_parameters)
         
         self.params_container = self.control.get_real_time_container()[0]
+        
     def set_selected_probe(self, probe):
         params_dictionaries = RunParameters()
         params = params_dictionaries.get_parameters_for_probe(probe)
@@ -112,8 +114,10 @@ class ExperimentRun(QMainWindow):
         
        # parameter_values = self.params_container
        
-        parameter_values = [i + 2 for i in range(10)]
-
+        parameter_values = [i * self.counter for i in range(10)]
+       
+        self.counter = self.counter + 5
+        
         for i in range(self.frame_left.layout().count()):
             item = self.frame_left.layout().itemAt(i)
             if item:
@@ -163,7 +167,7 @@ class ExperimentRun(QMainWindow):
          
          self.running = True
 
-         self.control.start_experiment()
+        # self.control.start_experiment()
          
          self.start_timer()
         
