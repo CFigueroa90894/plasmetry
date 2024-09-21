@@ -53,6 +53,8 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     Includes initialization for flags, data buffer, equations, config, and data buffer. Defines
     abstract methods and implements a constructor to define common attributes for all probes.
     
+
+
     Attributes:
         + probe_id - identifier for the probe's type
         + sys_ref: dict - reference to system settings
@@ -62,11 +64,24 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         + data_buff: Queue - buffer to return data samples
         + sampling_rate: int - samples to obtain per second (Hz)
         + relay_set: RelaySet - collection of relays
+        ^+ delay: float - seconds that the thread should wait before entering its main loop
+        ^+ barrier: Barrier - synchronization primitive, blocks until other threads are ready
+        ^+ pause_sig: Event - flag used locally to pause a threads execution
+        ^# _say_obj: SayWriter - text output object used to write messages
 
     Methods:
         + __init__() - initialize the object, called by subclasses
         + run() - perform data acquistion, override in subclasses
         + preprocess_samples()
+        ^+ run() - executes the threads three life-cycle methods
+        ^+ pause() - blocks the thread's execution for a specified time
+        ^+ say() - text output method, using the SayWriter
+        ^# _THREAD_MAIN_() - the main loop of the thread
+        ^# _thread_setup_() - performs preparations before the _THREAD_MAIN_() method is called
+        ^# _thread_cleanup_() - performs exit actions before finally terminating the thread
+        ^# _delay_start() - blocks the thread's startup until a specified time passes
+        ^# _barrier_wait() - blocks the thread's startup until other threads are at the barrier
+        ^# _wake() - callback function to wake up a paused thread
     """
     def __init__(self,
                  probe_id,
