@@ -100,7 +100,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         """Constructor for the BaseProbe class. Saves all arguments to public attributes so they may
         be accesible to subclasses as well as other object.
         
-        Attributes:
+        Arguments:
            probe_id - identifier for the probe's type
            sys_ref: dict - reference to system settings
            config_ref: dict - reference to user settings
