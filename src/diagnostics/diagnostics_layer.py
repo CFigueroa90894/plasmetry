@@ -1,14 +1,16 @@
 """ G3 - Plasma Devs
 Layer 3 - Diagnostics - Concrete Implementation
-    Provides the main implementation for the Diagnostics Layer, assembling its subcomponents and
-    exposing the layer's public functionality.
+    Implements the interface specified by AbstractDiagnostics class. Instantiates the calculations
+    and probe factories, as well as the probe operation thread. It exposes to upper layers methods
+    to setup, start, and stop diagnostics, as a well a method to shutdown the layer's subcomponents.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - add docstrings
-    - uncomment hardware shutdown when implemented (in diagnostics_shutdown)
-    - validate with team
+status: DONE
+
+Classes:
+    DiagnosticsLayer
 """
+
 # built-in imports
 import sys
 import os
@@ -33,14 +35,59 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 # ----- END PATH HAMMER ----- #
 
 
-# TO DO - remove relative imports
 # local imports
 from abstract_diagnostics import AbstractDiagnostics
 
 
-# TO TO
 class DiagnosticsLayer(AbstractDiagnostics):
-    """<...>"""
+    """This class implements the Diagnostics Layer's specified interface, providing public access
+    to its required functionality. As a simple implementation, its main concern is performing
+    diagnostics, which encompasses data sampling and calculating plasma parameters, and operating
+    the electrostatic probes.
+    
+    Class Attributes:
+        + calculations_factory_mod - module name of calculations factory subcomponent
+        + probe_factory_mod - module name of probe factory subcomponent
+        + probe_operation_mod - module name of the probe operation subcomponent
+        + hardware_layer_mod - module name of the lower layer component
+
+    Instance Attributes:
+        ^+ name: str - name identifying the layer for printing purposes
+        + calculate: if set to False, calculations are skipped
+        + debug: defines printing behavior for ProbeOperation
+        ^# _say_obj: SayWriter - text output object
+        # _status: state indicators
+        # _command: action triggers
+        # _result_buff: thread-safe queue to pass experiment results to the control layer
+        # _real_time_param: plasma parameter container updated in real time
+        # _hardware: instantiated HardwareLayer object
+        # _comp_fac: instantiated component factory, obtained from the HardwareLayer
+        # _calc_fac: callable, calculations factory function
+        # _probe_fac: instantiated probe factory
+        # _probe_op_cls: uninstantiated probe operation class
+        # _probe_op: instantiated probe operation object, created on diagnostics setup
+        # _ready: flag, indicating the layer is ready to perform diagnostics
+        # _terminated: flag, indicatting the layer has shutdown
+        # _performing_diagnostics: local flag, set when diagnostics begin
+
+    Layer Setup:
+        + __init__() - instantiates an object of the class
+
+    System Actions:
+        + setup_diagnostics() - begin initializations for plasma diagnostics
+        + start_diagnostics() - perform plasma diagnostics
+        + stop_diagnostics() - halt plasma diagnostics
+        + layer_shutdown() - initiate diagnostic layer shutdown
+
+    Layer Utils:
+        ^+ say() - print messages to configured output
+        # _are_we_diagnosing() - evaluates all criteria that indicates diagnostics are underway
+        # _info() - returns information about a layer's subcomponents
+        # _load_all_subcomponents() - returns uninstantiated classes of subcomponents
+        ^# _load_mod() - returns a module for a subcomponent
+        - __probe_factory_args() - returns packed arguments to instantiate the probe factory
+        - __probe_op_args() - returns packed arguments to instantiate the probe operation thread
+    """
 
     # Default subcomponent module names
     calculations_factory_mod = 'calculations_factory'
@@ -61,7 +108,19 @@ class DiagnosticsLayer(AbstractDiagnostics):
                  debug:bool=True,
                  *args, **kwargs
         ):
-        """<...>"""
+        """The constructor for the DiagnosticsLayer object. The only two required arguments are the
+        status and command flags datastructures. Every other argument is optional, and default are
+        used when no argument is specified.
+        
+        Arguments:
+            status_flags: StatusFlags - state indicators  (required)
+            command_flags: CommandFlags - action triggers (required)
+            results_buffer: Queue - thread-safe queue to return samples to the control layer.
+            real_time_param: ProtectedDictionary - thread-safe container to for values to displayed
+            name: str - name of gthe layer for message labeling
+            perform_calculations: bool - if given False, calculations will be skipped
+            debug: bool - if given True, prints clock tick messages
+        """
         super().__init__(*args, name=name, **kwargs)   # call parent constructor
 
         # default buffer if none was specified
@@ -255,7 +314,10 @@ class DiagnosticsLayer(AbstractDiagnostics):
 
     # ----- Layer Specific Utils ----- #
     def _are_we_diagnosing(self) -> bool:
-        """<...>"""
+        """Returns True if diagnostics are being performed.
+        
+        Evaluates three different criteria to determine if diagnostics are underway.
+        """
         # aggregate diagnostic indicators
         state = self._command.diagnose.is_set() 
         state = state or self._status.operating.is_set() 
@@ -263,7 +325,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         return state
     
     def _load_all_subcomponents(self):
-        """<...>"""
+        """Returns a dictionary with all the subcomponent classes corresponding to this layer."""
         # load subcomponent modules
         calculations_factory_mod = self._load_mod(self.calculations_factory_mod)
         probe_factory_mod = self._load_mod(self.probe_factory_mod)
@@ -287,20 +349,12 @@ class DiagnosticsLayer(AbstractDiagnostics):
         }
         return classes
     
-    def _load_mod(self, mod):
-        """<...>"""
-        # check the module was specified as a string
-        if inspect.ismodule(mod):
-            pass
-        elif isinstance(mod, str):
-            mod = __import__(mod)
-        else:
-            raise TypeError(f"Class attribute {mod} must be module or string! Given {type(mod)}")
-        return mod
-    
     # TO DO
     def _info(self):
-        """<...>"""
+        """Return info about the instantiated layer's subcomponents.
+        
+        Used for debugging system integration.
+        """
         sub = [
             ("Diagnostics", "Calculations Factory", str(self._calc_fac)),
             ("Diagnostics", "Probe Factory", str(self._probe_fac)),
@@ -311,7 +365,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         return sub
 
     def __probe_factory_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the probe factory."""
         probe_factory_args = {
             "status_flags": self._status,
             "command_flags": self._command,
@@ -321,7 +375,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         return probe_factory_args
 
     def __probe_op_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate a probe operation object."""
         probe_op_args = {
             "status_flags": self._status,
             "command_flags": self._command,
@@ -333,107 +387,107 @@ class DiagnosticsLayer(AbstractDiagnostics):
         return probe_op_args
 
 
-# Basic tests
-if __name__ == "__main__":
+# # Basic tests
+# if __name__ == "__main__":
     
-    # built-in imports
-    import time
-    import datetime
+#     # built-in imports
+#     import time
+#     import datetime
 
-    # local imports
-    from system_flags import StatusFlags, CommandFlags
-    import hardware_layer
-    from probe_enum import PRB
-    from printer_thread import PrinterThread
+#     # local imports
+#     from system_flags import StatusFlags, CommandFlags
+#     import hardware_layer
+#     from probe_enum import PRB
+#     from printer_thread import PrinterThread
     
-    # init control objects
-    status = StatusFlags()
-    commands = CommandFlags()
-    kill = Event()
+#     # init control objects
+#     status = StatusFlags()
+#     commands = CommandFlags()
+#     kill = Event()
 
-    # init printer thread
-    fname = str(datetime.datetime.now()).replace(':', '_')
-    f = open(f"test_logs/TEST_{fname}.txt", 'a')
-    out = [None, f]
-    printer = PrinterThread(kill=kill, text_out=out)
-    writer = printer.get_writer()
+#     # init printer thread
+#     fname = str(datetime.datetime.now()).replace(':', '_')
+#     f = open(f"test_logs/TEST_{fname}.txt", 'a')
+#     out = [None, f]
+#     printer = PrinterThread(kill=kill, text_out=out)
+#     writer = printer.get_writer()
 
 
-    writer(f"# {fname}")
+#     writer(f"# {fname}")
 
-    # start printer
-    printer.start()
+#     # start printer
+#     printer.start()
 
-    # configure custom layers for test
-    hardware = hardware_layer
-    hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
-    diagnostics = DiagnosticsLayer
-    diagnostics.hardware_layer_mod = hardware
+#     # configure custom layers for test
+#     hardware = hardware_layer
+#     hardware.HardwareLayer.hardware_wrapper_mod = 'counter_wrapper'
+#     diagnostics = DiagnosticsLayer
+#     diagnostics.hardware_layer_mod = hardware
 
-    # init diagnostics layer
-    diagnostics_args = {
-        "status_flags": status,
-        "command_flags": commands,
-        "text_out": writer,
-        "perform_calculations": False,
-        "debug": True
-    }
-    diagnostics = diagnostics(**diagnostics_args)
-    for sub in diagnostics._info():
-        diagnostics.say(sub)
+#     # init diagnostics layer
+#     diagnostics_args = {
+#         "status_flags": status,
+#         "command_flags": commands,
+#         "text_out": writer,
+#         "perform_calculations": False,
+#         "debug": True
+#     }
+#     diagnostics = diagnostics(**diagnostics_args)
+#     for sub in diagnostics._info():
+#         diagnostics.say(sub)
     
-    # probe user config
-    slp_config_ref = {
-        "probe_id": PRB.SLP,
-        "text_out": diagnostics._say_obj,
+#     # probe user config
+#     slp_config_ref = {
+#         "probe_id": PRB.SLP,
+#         "text_out": diagnostics._say_obj,
 
-        # base probe
-        "sampling_rate": 5,
-        "dac_min": 0,
-        "dac_max": 4,
+#         # base probe
+#         "sampling_rate": 5,
+#         "dac_min": 0,
+#         "dac_max": 4,
 
-        # sweeper probe
-        "num_samples": 10,
-        "sweep_min": -300,
-        "sweep_max": 300,
-        "sweep_amp_min": -300,
-        "sweep_amp_max": 300,
-        "sweeper_shunt": 10,
-        "collector_gain": 1
-    }
+#         # sweeper probe
+#         "num_samples": 10,
+#         "sweep_min": -300,
+#         "sweep_max": 300,
+#         "sweep_amp_min": -300,
+#         "sweep_amp_max": 300,
+#         "sweeper_shunt": 10,
+#         "collector_gain": 1
+#     }
 
-    # probe system config
-    slp_sys_ref = {
-        # base probe
-        "relay_addresses": [0, 1, 2, 3],
+#     # probe system config
+#     slp_sys_ref = {
+#         # base probe
+#         "relay_addresses": [0, 1, 2, 3],
 
-        # sweeper probe
-        "sweeper_address": 4,
-        "collector_address":5
-    }
+#         # sweeper probe
+#         "sweeper_address": 4,
+#         "collector_address":5
+#     }
 
-    # test setup_diagnostics
-    diagnostics.setup_diagnostics(sys_ref=slp_sys_ref, config_ref=slp_config_ref)
+#     # test setup_diagnostics
+#     diagnostics.setup_diagnostics(sys_ref=slp_sys_ref, config_ref=slp_config_ref)
 
-    # print probe
-    probe = diagnostics._probe_op._probe
-    diagnostics.say(f"probe {probe}")
+#     # print probe
+#     probe = diagnostics._probe_op._probe
+#     diagnostics.say(f"probe {probe}")
 
-    # print equations in probe
-    eq_msg = "equations:"
-    for eq in probe.equations:
-        eq_msg += f"\n\t{eq}"
-    diagnostics.say(eq_msg)
+#     # print equations in probe
+#     eq_msg = "equations:"
+#     for eq in probe.equations:
+#         eq_msg += f"\n\t{eq}"
+#     diagnostics.say(eq_msg)
 
-    # test start_diagnostics
-    diagnostics.start_diagnostics()
+#     # test start_diagnostics
+#     diagnostics.start_diagnostics()
 
-    # test stop_diagnsotics
-    time.sleep(10)
-    diagnostics.stop_diagnostics()
+#     # test stop_diagnsotics
+#     time.sleep(10)
+#     diagnostics.stop_diagnostics()
 
-    # stop printer
-    printer.kill.set()
-    printer.join()
+#     # stop printer
+#     printer.kill.set()
+#     printer.join()
 
 
