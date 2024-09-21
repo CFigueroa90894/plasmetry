@@ -52,17 +52,13 @@ def get_display_parameters(parameters):
     
     Intended for all probe parameters."""
     
-    display_parameters = ProtectedDictionary(parameters)
-    
-    if 'Bias 1' in parameters:
-        if  not isinstance(parameters['Bias 1'], int):
-            del display_parameters['Bias 1']
-            del display_parameters['Filtered current']
-        else:
-            del display_parameters['Raw voltage 2']
+    display_parameters = []
+
+    display_parameters.append(parameters['Particle saturation current'])
+    display_parameters.append(parameters['Particle temperature (eV)'])
+    display_parameters.append(parameters['Particle temperature (Joules)'])
+    display_parameters.append(parameters['Particle density'])
             
-    del display_parameters['Raw voltage 1']
-    del display_parameters['config_ref']
     return display_parameters
 
 

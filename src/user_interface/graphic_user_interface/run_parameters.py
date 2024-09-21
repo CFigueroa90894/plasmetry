@@ -34,26 +34,20 @@ class RunParameters:
                 "Electron Temperature"
             ],
             "iea": [
-                "Floating Potential",
-                "Plasma Potential",
-                "Ion Saturation Current",
-                "Electron Temperature",
-                "Electron Density",
-                "Ion Temperature",
-                "Ion Density",
-                "Debye Length"
-            ],
-            
-            "hea": [
-                "Floating Potential",
-                "Plasma Potential",
-                "Ion Saturation Current",
-                "Electron Temperature",
-                "Electron Density",
-                "Ion Temperature"
-            ]
-        }
+            "Particle saturation current",
+            "Particle temperature (eV)",
+            "Particle temperature (Joules)",
+            "Particle density"
 
+        ],
+            "hea": [
+            "Particle saturation current",
+            "Particle temperature (eV)",
+            "Particle temperature (Joules)",
+            "Particle density"
+
+        ]
+            }
     def get_parameters_for_probe(self, probe_name):
         """
         Retrieve the parameters dictionary for the specified probe.
