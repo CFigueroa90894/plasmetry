@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics
+Layer 3 - Diagnostics - Clocl Thread
     Provides a simple BaseThread subclass that signals when the next data sample should be taken.
 
 author: figueroa_90894@students.pupr.edu
