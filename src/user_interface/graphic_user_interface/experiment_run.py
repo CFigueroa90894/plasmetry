@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel, QDoubleSpinBox, QFrame, QVBoxLayout, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QLabel, QLineEdit, QFrame, QVBoxLayout
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal, QTimer
 from run_parameters import RunParameters
@@ -13,25 +13,26 @@ class ExperimentRun(QMainWindow):
         super().__init__()
         self.control = control
         self.running = False
-        
-        loadUi('../graphic_user_interface/experiment_run.ui', self)  # Load the .ui file directly
-        
+
+        # Load the .ui file directly
+        loadUi('../graphic_user_interface/experiment_run.ui', self)
+
         # Connect buttons to emit signals
         self.back_btn.clicked.connect(self.emit_back_signal)
         self.run_btn.clicked.connect(self.emit_run_signal)
         self.stop_btn.clicked.connect(self.emit_stop_signal)
-        
-        self.timer = QTimer() 
-        self.timer.timeout.connect(self.update_parameters)
-        self.parameters = self.control.get_real_time_container()[0]
-        
 
+        # Initialize a timer for updating parameters
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_parameters)
+        
+        self.params_container = self.control.get_real_time_container()[0]
     def set_selected_probe(self, probe):
         params_dictionaries = RunParameters()
         params = params_dictionaries.get_parameters_for_probe(probe)
-        
+
         print(f"Parameters for {probe}: {params}")  # Debug statement
-        
+
         if params:
             self.load_probe_calculations(params)
             print(f"Selected probe for experiment run: {probe}")  # Debug statement
@@ -39,46 +40,51 @@ class ExperimentRun(QMainWindow):
             print(f"No parameters found for probe: {probe}")
 
     def start_timer(self):
-        self.timer.start(1000)
+        """Start the timer to update parameters every second."""
+        print("Starting timer...")
+        self.timer.start(1000)  # Update every second
 
     def stop_timer(self):
+        """Stop the timer."""
+        print("Stopping timer...")
         self.timer.stop()
 
     def load_probe_calculations(self, parameters):
         """Load and display calculations for the selected probe."""
         if parameters:
             print('Loading calculations...')
-            
+
             self.keys = list(parameters.keys())
-            half = (len(self.keys )) // 2  # Divide roughly in half
-            
+            half = (len(self.keys)) // 2  # Divide roughly in half
+
             # Clear existing layouts before adding new widgets
             self.clear_layout(self.frame_left.layout())
             self.clear_layout(self.frame_right.layout())
 
             # Add widgets to the left frame
             for key in self.keys[:half]:
-                print(parameters[key])
-                self.add_calculation_to_frame(self.frame_left.layout(), key, parameters[key])
+                print(f"Adding {key}: {parameters[key]}")  # Debug statement
+                self.add_calculation_to_frame(
+                    self.frame_left.layout(), key, parameters[key])
 
             # Add widgets to the right frame
             for key in self.keys[half:]:
-                print(parameters[key])
-                self.add_calculation_to_frame(self.frame_right.layout(), key, parameters[key])
-                
+                print(f"Adding {key}: {parameters[key]}")  # Debug statement
+                self.add_calculation_to_frame(
+                    self.frame_right.layout(), key, parameters[key])
+
             print("Calculations loaded into frames.")
         else:
             print('No parameters provided.')
 
     def add_calculation_to_frame(self, layout, param_name, param_value):
-        
         """Add a parameter's calculation display to a specified layout."""
-        
+
         # Create a frame for the parameter
         param_frame = QFrame()
         param_frame.setMinimumSize(400, 66)
         param_frame.setMaximumSize(400, 66)
-        
+
         # Create a vertical layout for the frame
         vertical_layout = QVBoxLayout(param_frame)
         vertical_layout.setContentsMargins(0, 0, 0, 0)
@@ -102,27 +108,39 @@ class ExperimentRun(QMainWindow):
         layout.addWidget(param_frame)
         
     def update_parameters(self):
+        print('updating parameters...')
         
-        parameter_values = self.parameters
-        print(parameter_values)
+       # parameter_values = self.params_container
+       
+        parameter_values = [i + 2 for i in range(10)]
+
         for i in range(self.frame_left.layout().count()):
-            items = self.frame_left.layout().itemAt(i)
-            if items is not None:
-               parameters = items.widget()
-               if isinstance(parameters, QLineEdit):
-                   parameters.setText(str(parameter_values.pop(0)))
-                   parameter_values.pop()
-        print(f'\n\n\n\n\n adoadokdoao \n\n\n\n\n {parameter_values}')
+            item = self.frame_left.layout().itemAt(i)
+            if item:
+                widget = item.widget()
+                if isinstance(widget, QFrame):
+                    for j in range(widget.layout().count()):
+                        inner_item = widget.layout().itemAt(j)
+                        inner_widget = inner_item.widget()
+                        if isinstance(inner_widget, QLineEdit):
+                            if parameter_values:
+                                new_value = str(parameter_values.pop(0))
+                                inner_widget.setText(new_value)
+            
         for i in range(self.frame_right.layout().count()):
-            items = self.frame_right.layout().itemAt(i)
-            if items is not None:
-               parameters = items.widget()
-               if isinstance(parameters, QLineEdit):
-                   parameters.setText(str(parameter_values.pop(0)))
-                   
-             
-               
-        
+            item = self.frame_right.layout().itemAt(i)
+            if item:
+                widget = item.widget()
+                if isinstance(widget, QFrame):
+                    for j in range(widget.layout().count()):
+                        inner_item = widget.layout().itemAt(j)
+                        inner_widget = inner_item.widget()
+                        if isinstance(inner_widget, QLineEdit):
+                            if parameter_values:
+                                new_value = str(parameter_values.pop(0))
+                                inner_widget.setText(new_value)
+            
+
     def clear_layout(self, layout):
         """Helper method to clear all widgets from a layout."""
         
@@ -137,23 +155,25 @@ class ExperimentRun(QMainWindow):
         if self.running:
             self.control.stop_experiment()
             self.stop_timer()
-            
+
         self.back_btn_clicked.emit()  # Emit back signal
-        
+
     def emit_run_signal(self):
-        """Emit signal when run button is clicked."""
+         """Emit signal when run button is clicked."""
+         
+         self.running = True
+
+         self.control.start_experiment()
+         
+         self.start_timer()
         
-        self.running = True
-        
-        self.control.start_experiment()
-        self.start_timer()
-        print("Experiment started.")
-        
+         print("Experiment started.")
+
     def emit_stop_signal(self):
-        """Emit signal when stop button is clicked."""
-        
-        if self.running:
-            self.control.stop_experiment()
-            self.stop_timer() 
-            
-            print("Experiment stopped.")
+         """Emit signal when stop button is clicked."""
+         
+         if self.running:
+             self.control.stop_experiment()
+             self.stop_timer()
+
+             print("Experiment stopped.")
