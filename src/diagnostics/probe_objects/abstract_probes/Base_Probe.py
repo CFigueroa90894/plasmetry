@@ -1,6 +1,15 @@
-# author: figueroa_90894@students.pupr.edu
-# status: WIP
-#   - 
+""" G3 - Plasma Devs
+Layer 3 - Diagnostics - Base Probe
+    Provides a parent class for concrete probe classes that specifies required methods and
+    and implements common functioanality. Inherits from the built-in Thread class.
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
+
+Classes:
+    BaseProbe
+
+"""
 
 # built-in imports
 import sys
@@ -41,8 +50,8 @@ from base_thread import BaseThread
 
 class BaseProbe(BaseThread, metaclass=ABCMeta):
     """The top-level, abstract class for all probe implementations.
-    Includes initialization for flags, data buffer, equations, config, and data buffer.
-    Defines abstract methods run(), and _graceful_exit().
+    Includes initialization for flags, data buffer, equations, config, and data buffer. Defines
+    abstract methods and implements a constructor to define common attributes for all probes.
     
     Attributes:
         + probe_id - identifier for the probe's type
@@ -57,7 +66,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     Methods:
         + __init__() - initialize the object, called by subclasses
         + run() - perform data acquistion, override in subclasses
-        # _graceful_exit() - complete pending actions and temrinate, override in subclasses
+        + preprocess_samples()
     """
     def __init__(self,
                  probe_id,
@@ -73,7 +82,20 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
                  sample_trig:Event=None,
                  *args, **kwargs
                  ):
-        """<...>"""
+        """Constructor for the BaseProbe class. Saves all arguments to public attributes so they may
+        be accesible to subclasses as well as other object.
+        
+        Attributes:
+           probe_id - identifier for the probe's type
+           sys_ref: dict - reference to system settings
+           config_ref: dict - reference to user settings
+           status_flags - state indicators
+           command_flags - action triggers
+           data_buff: Queue - buffer to return data samples
+           sampling_rate: int - samples to obtain per second (Hz)
+           relay_set: RelaySet - collection of relays
+
+        """
         super().__init__(*args, **kwargs)   # call parent constructor
 
         # PROBE INFO
@@ -103,10 +125,15 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     
     @abstractmethod
     def preprocess_samples(self, samples:dict):
-        """<...>"""
+        """Implements basic preprocessing that must be performed on the obtained data samples before
+        they can be passed to the equations callables for complex computations. This method should
+        NOT be called by the probe object's thread loop, instead it is merely there to provide probe
+        specific preprocessing invoked by the ProbeOperation object controlling the probe object.
+        
+        """
         raise NotImplementedError("This method was not overloaded in the subclass!")
 
     def say(self, msg):
-        """<...>"""
+        """Outputs labeled and formatted text to the configured output stream."""
         super().say(msg)
 
