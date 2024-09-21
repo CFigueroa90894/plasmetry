@@ -33,9 +33,9 @@ class GuiManager():
         app = QApplication(sys.argv)
         
        # sys.excepthook = self.global_exception_handler
-
-        setup_window = ExperimentSetup(self.control, ExperimentRun, UserSettings)
         run_window = ExperimentRun(self.control)
+        setup_window = ExperimentSetup(self.control, run_window, UserSettings)
+        
         settings_window = UserSettings(self.control)
 
         setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
@@ -48,10 +48,10 @@ class GuiManager():
         
         app.aboutToQuit.connect(lambda: self.control.layer_shutdown())
         
-       
         sys.exit(app.exec_())
         
     def global_exception_handler(self, exctype, value, traceback):
+        
         self.control.layer_shutdown()
        
 if __name__ == "__main__":

@@ -47,7 +47,9 @@ class ExperimentSetup(QMainWindow):
         # Connect the reset button to reset settings to default
         self.reset_btn.clicked.connect(self.reset_setup)
         
-        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)        
+        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)  
+        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+
         # Set values from config file
         self.set_widget_values()
         
@@ -215,7 +217,7 @@ class ExperimentSetup(QMainWindow):
         # Get the current index of the probe_selection_cb combobox
         current_index = self.probe_selection_cb.currentIndex()
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
-
+        
         
         # Update the main view based on the current index
         self.update_main_view(current_index)
@@ -224,13 +226,16 @@ class ExperimentSetup(QMainWindow):
         
         
         self.control.set_config(self.selected_probe, 'selected_gas', current_gas.lower())
-        print( self.control.get_config(self.selected_probe, 'selected_gas'))
+        
+        print(self.control.get_config(self.selected_probe, 'selected_gas'))
 
     def update_main_view(self, index):
         """
         Switch pages in the probe_config_view based on the current index of probe_selection_cb.
         """
+        
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
             
@@ -248,18 +253,18 @@ class ExperimentSetup(QMainWindow):
 
     def emit_switch_to_run_signal(self, run_window):
         # Get the selected probe from the QComboBox
-        
-        
+        # Set the selected probe in the experiment run window
         self.control.set_config(self.selected_probe, 'probe_id', self.selected_probe)
         
         self.control.setup_experiment(self.selected_probe)
+        
        
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
+        self.run_window_ref.set_selected_probe(self.selected_probe)
 
-        # Set the selected probe in the experiment run window
-        self.run_window_ref(self.control).set_selected_probe(self.selected_probe)
 
+       
     def emit_switch_to_settings_signal(self):
         
         # Emit the signal to switch to the user settings window

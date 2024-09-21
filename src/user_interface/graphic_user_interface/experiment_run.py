@@ -1,63 +1,79 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel, QDoubleSpinBox, QFrame, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QLabel, QDoubleSpinBox, QFrame, QVBoxLayout, QLineEdit
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import pyqtSignal
-from sys_control_mockup import SystemControlMockup
+from PyQt5.QtCore import pyqtSignal, QTimer
+from run_parameters import RunParameters
 
 class ExperimentRun(QMainWindow):
-    close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
+    close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
     run_btn_clicked = pyqtSignal()
     stop_btn_clicked = pyqtSignal()
+
     def __init__(self, control):
         super().__init__()
         self.control = control
-        self.running = None
-
+        self.running = False
         
         loadUi('../graphic_user_interface/experiment_run.ui', self)  # Load the .ui file directly
-        # Attribute to store the selected probe
-        self.selected_probe = None
-
-        # Connect the back button to emit the signal
+        
+        # Connect buttons to emit signals
         self.back_btn.clicked.connect(self.emit_back_signal)
-        
         self.run_btn.clicked.connect(self.emit_run_signal)
-        
         self.stop_btn.clicked.connect(self.emit_stop_signal)
+        
+        self.timer = QTimer() 
+        self.timer.timeout.connect(self.update_parameters)
+        self.parameters = self.control.get_real_time_container()[0]
         
 
     def set_selected_probe(self, probe):
-        self.selected_probe = probe
-        print(f"Selected probe for experiment run: {self.selected_probe}")  # Debug statement
-
-        # Get the calculations for the selected probe
-        self.load_probe_calculations(self.selected_probe)
-
-    def load_probe_calculations(self, probe_name):
+        params_dictionaries = RunParameters()
+        params = params_dictionaries.get_parameters_for_probe(probe)
         
-        # Get parameters for the selected probe from sys_control_mockup
-        parameters = SystemControlMockup().get_parameters_for_probe(probe_name)
+        print(f"Parameters for {probe}: {params}")  # Debug statement
         
+        if params:
+            self.load_probe_calculations(params)
+            print(f"Selected probe for experiment run: {probe}")  # Debug statement
+        else:
+            print(f"No parameters found for probe: {probe}")
+
+    def start_timer(self):
+        self.timer.start(1000)
+
+    def stop_timer(self):
+        self.timer.stop()
+
+    def load_probe_calculations(self, parameters):
+        """Load and display calculations for the selected probe."""
         if parameters:
-            # Divide the calculations between frame_left and frame_right
-            param_items = list(parameters.items())[:10]  # Only take the first 10 calculations if more
-            half = (len(param_items) + 1) // 2  # Divide roughly in half
-
-            # Clear the layouts before adding new widgets
-          #  self.clear_layout(self.frame_left.layout())
-           # self.clear_layout(self.frame_right.layout())
+            print('Loading calculations...')
+            
+            self.keys = list(parameters.keys())
+            half = (len(self.keys )) // 2  # Divide roughly in half
+            
+            # Clear existing layouts before adding new widgets
+            self.clear_layout(self.frame_left.layout())
+            self.clear_layout(self.frame_right.layout())
 
             # Add widgets to the left frame
-            for param, value in param_items[:half]:
-                self.add_calculation_to_frame(self.frame_left.layout(), param, value)
+            for key in self.keys[:half]:
+                print(parameters[key])
+                self.add_calculation_to_frame(self.frame_left.layout(), key, parameters[key])
 
             # Add widgets to the right frame
-            for param, value in param_items[half:]:
-                self.add_calculation_to_frame(self.frame_right.layout(), param, value)
+            for key in self.keys[half:]:
+                print(parameters[key])
+                self.add_calculation_to_frame(self.frame_right.layout(), key, parameters[key])
+                
+            print("Calculations loaded into frames.")
         else:
-            print(f"No parameters found for probe: {probe_name}")
+            print('No parameters provided.')
 
     def add_calculation_to_frame(self, layout, param_name, param_value):
+        
+        """Add a parameter's calculation display to a specified layout."""
+        
         # Create a frame for the parameter
         param_frame = QFrame()
         param_frame.setMinimumSize(400, 66)
@@ -70,40 +86,74 @@ class ExperimentRun(QMainWindow):
         # Create a label for the parameter name
         label = QLabel(param_name)
         label.setMaximumSize(1000, 25)
-        label.setStyleSheet("font-size: 20px; font-weight: bold;")
+        label.setStyleSheet("font-size: 14px; font-weight: bold;")
         vertical_layout.addWidget(label)
 
-        # Create a QDoubleSpinBox for the parameter value
-        spin_box = QDoubleSpinBox()
-        spin_box.setMinimumSize(300, 35)
-        spin_box.setMaximumSize(300, 35)
-        spin_box.setStyleSheet("background-color: #FFFFFF; font-size: 20px;")
-        spin_box.setButtonSymbols(QDoubleSpinBox.NoButtons)
-        spin_box.setReadOnly(True)
-        spin_box.setDecimals(3)  # Set decimals to 3 for better precision
-        spin_box.setMinimum(-1e10)
-        spin_box.setMaximum(1e10)
-        spin_box.setValue(param_value)  # Set the spin box value
-        vertical_layout.addWidget(spin_box)
+        # Create a QLineEdit for the parameter value as a non-editable field
+        line_edit = QLineEdit()
+        line_edit.setMinimumSize(300, 35)
+        line_edit.setMaximumSize(300, 35)
+        line_edit.setStyleSheet("background-color: #FFFFFF; font-size: 20px;")
+        line_edit.setReadOnly(True)  # Make it read-only to prevent editing
+        line_edit.setText(str(param_value))  # Set the line edit value as text
+        vertical_layout.addWidget(line_edit)
 
         # Add the frame to the given layout
         layout.addWidget(param_frame)
-
+        
+    def update_parameters(self):
+        
+        parameter_values = self.parameters
+        print(parameter_values)
+        for i in range(self.frame_left.layout().count()):
+            items = self.frame_left.layout().itemAt(i)
+            if items is not None:
+               parameters = items.widget()
+               if isinstance(parameters, QLineEdit):
+                   parameters.setText(str(parameter_values.pop(0)))
+                   parameter_values.pop()
+        print(f'\n\n\n\n\n adoadokdoao \n\n\n\n\n {parameter_values}')
+        for i in range(self.frame_right.layout().count()):
+            items = self.frame_right.layout().itemAt(i)
+            if items is not None:
+               parameters = items.widget()
+               if isinstance(parameters, QLineEdit):
+                   parameters.setText(str(parameter_values.pop(0)))
+                   
+             
+               
+        
     def clear_layout(self, layout):
-        # Helper method to clear all widgets from a layout
+        """Helper method to clear all widgets from a layout."""
+        
         while layout.count():
             child = layout.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
 
     def emit_back_signal(self):
+        """Emit signal when back button is clicked."""
+        
         if self.running:
             self.control.stop_experiment()
-        self.back_btn_clicked.emit()  # Emit the signal when the back button is clicked
+            self.stop_timer()
+            
+        self.back_btn_clicked.emit()  # Emit back signal
         
     def emit_run_signal(self):
-        self.control.start_experiment()
+        """Emit signal when run button is clicked."""
+        
         self.running = True
+        
+        self.control.start_experiment()
+        self.start_timer()
+        print("Experiment started.")
+        
     def emit_stop_signal(self):
-        self.control.stop_experiment()
-        self.running =False
+        """Emit signal when stop button is clicked."""
+        
+        if self.running:
+            self.control.stop_experiment()
+            self.stop_timer() 
+            
+            print("Experiment stopped.")
