@@ -142,7 +142,7 @@ class HardwareLayer(AbstractHardware):
             self.say("DACs cleared")
 
     def _load_all_subcomponents(self):
-        """Returns a dictionary with all the classes corresponding to this layer."""
+        """Returns a dictionary with all the subcomponent classes corresponding to this layer."""
         classes = {
             "hardware_wrapper": self._load_mod(self.hardware_wrapper_mod).wrapper,
             "channel_factory": self._load_mod(self.channel_factory_mod).ChannelFactory,
