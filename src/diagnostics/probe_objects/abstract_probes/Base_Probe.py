@@ -71,7 +71,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     Methods:
         + __init__() - initialize the object, called by subclasses
         + run() - perform data acquistion, override in subclasses
-        + preprocess_samples()
+        + preprocess_samples() - provides external threads formatting required by calculations
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time
         ^+ say() - text output method, using the SayWriter
