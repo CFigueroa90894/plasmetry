@@ -91,7 +91,7 @@ class ControlLayer(AbstractControl):
         self._status = StatusFlags()        # state indicators
         self._commands = CommandFlags()     # action triggers
         self._results = Queue()             # thread-safe queue to recieve experiment results
-        self._real_time_param = ProtectedDictionary()  # thread-safe container for plasma parameters
+        self._real_time_param = []  # thread-safe container for plasma parameters
 
         # ----- Assemble Control Layer ----- #
         sub = self._load_all_subcomponents()    # import subcompoenents, returns in a dict
@@ -195,6 +195,10 @@ class ControlLayer(AbstractControl):
             if self._diagnostics._ready.is_set():
                 self._ready.set()
                 self.say("READY")
+                for eq in self._diagnostics._probe_op._probe.equations:
+                    print(eq)
+                    
+                    
             else:
                 raise RuntimeError("Could not set up diagnostics layer!")
 
