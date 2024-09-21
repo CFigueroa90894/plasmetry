@@ -235,11 +235,8 @@ class VoltageSweeper(HighVoltAmp):
             index: int - index to the corresponding, premapped voltage-value pair 
         """
         step = self._premap[index]  # access premapped value pairs
-        low_volt = step[0]          # get the amp's required low-volt stimulus
-        high_volt = step[1]         # get the amp's desired high-volt output
-
-        self._output.write(low_volt)    # drive the amp's input through the associated channel
-        return high_volt                # return the applied high voltage for calculations
+        self._output.write(step[0])    # drive the amp's input through the associated channel
+        return step[1]                # return the applied high voltage for calculations
 
     def _map_volts(self) -> Tuple[float, float]:
         """Return a tuple of low-voltage and high-voltage value pairs.

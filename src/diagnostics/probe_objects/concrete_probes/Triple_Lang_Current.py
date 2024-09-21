@@ -20,20 +20,30 @@ Triple Langmuir Probe - Current Mode
 import sys
 import os
 
-# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 3             # how many parent folders to reach /plasmetry/src
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
 
-    # absolute path to plasmetry/src
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..')
+    # locate project root
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    split = src_abs.split('\\')     # separate path into folders for validation
-    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
-    # get subdirs, exclude __pycache__
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] 
-    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: subdirectories appended to python path")
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 # local imports
@@ -61,48 +71,49 @@ class TripleLangCurrent(BaseTLP):
         self.down_amp = down_amp              # set applied voltage to lower source
         self.down_collector = down_collector  # obtain voltage to calculate current through probe
 
+        # Averaging windows
+        self.up_probe_window = []
+        self.down_probe_window = []
+
     def run(self):
         """<...>"""
         super().run() 
 
-    def __continue(self):
-        """<...>"""
-        conditionA = self.command_flags.diagnose.is_set()
-        conditionB = not self.command_flags.shutdown.is_set()
-        return conditionA and conditionB
+    def preprocess_samples(self, raw_samples:list):
+        """<...>
+        <...in-place operation...>
+        raw_samples[0]: up collector sample,
+        raw_samples[1]: down collector sample
+        """
+        # append raw samples to windows
+        self.up_probe_window.append(raw_samples[0])
+        self.down_probe_window.append(raw_samples[1])
+
+        # trim excess samples
+        if len(self.up_probe_window) > self.num_samples:
+            self.up_probe_window.pop(0)  # remove the first (oldest) sample
+            
+        if len(self.down_probe_window) > self.num_samples:
+            self.down_probe_window.pop(0)  # remove the first (oldest) sample
+
+        # pack sample dictionary
+        samples = {
+            "Raw voltage 1": self.up_probe_window[:],
+            "Raw voltage 2": self.down_probe_window[:],
+            "Shunt 1": self.up_shunt,
+            "Shunt 2": self.down_shunt,
+            "Bias 1": self.up_amp_bias,
+            "Bias 2": self.down_amp_bias,
+        }
+        return samples
 
     def _THREAD_MAIN_(self):
         """<...>"""
         self.say("starting data acquisition...")  # log message to file
-
-        # get initial samples for dummy averaging window
-        first_up_probe_sample = self.up_collector.read()
-        first_float_probe_sample = self.float_collector.read()
-
-        # pregen averaging windows from initial samples - list elements duplicated n times, len n
-        up_probe_window = [first_up_probe_sample]*self.num_samples
-        down_probe_window = [first_float_probe_sample]*self.num_samples
-
         # Continuously acquire data samples until user halts the operation
-        while self.__continue():
-            
-            # get voltage samples
-            up_volt = self.up_collector.read()
-            down_volt = self.float_collector.read()
-
-            # slice old window to create new list (needed since list operations are in place)
-            # exclude first element by slicing and append new sample
-            up_probe_window = up_probe_window[1:].append(up_volt)
-            down_probe_window = down_probe_window[1:].append(down_volt)
-
-            # pack samples to pass to ProbeOperation
-            samples = {
-                "Raw Voltage 1": up_probe_window,
-                "Raw Voltage 2": down_probe_window,
-                "Bias 1": self.up_amp_bias,
-                "Bias 2": self.down_amp_bias,
-            }
-            self.data_buff.put(samples) # return samples to ProbeOperation
+        while self.diagnose.is_set():
+             # get and return samples to ProbeOperation as two element list
+            self.data_buff.put([self.up_collector.read(), self.down_collector.read()])
         self.say("completed data acquisition")  # log message to file
 
     def _thread_setup_(self):
