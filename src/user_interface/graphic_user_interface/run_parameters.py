@@ -14,19 +14,17 @@ class RunParameters:
                 
             "dlp": [
                 "Ion Saturation Current",
-                "Electron Temperature",
+                "Electron Temperature (eV)",
+                "Electron temperature (Joules)",
                 "Electron Density",
                 "Debye Length",
                 "Number of electrons"
             ],
             "tlc": [
-                "Floating Potential",
-                "Plasma Potential",
-                "Electron Temperature",
+                'Particle saturation current',
+                "Electron Temperature (eV)",
+                "Electron Temperature (Joules)",
                 "Electron Density",
-                "Ion Temperature",
-                "Ion Density",
-                "Debye Length"
             ],
             "tlv": [
                 "Floating Potential",

@@ -19,8 +19,7 @@ import numpy as np
 from global_parameters import (
     filter_current,
     get_debye_length,
-    get_number_of_electrons,
-    get_display_parameters
+    get_number_of_electrons
 )
 
 
@@ -54,9 +53,12 @@ def get_electron_temperature( parameters):
     filtered_current_list = parameters['Filtered current'] 
     voltage_list =  parameters['Bias 1'] 
     ion_saturation_current = parameters['Ion saturation current'] 
-    
+    if voltage_list:
+        
     # Storing the index where the voltage is closest to 0.
-    voltage_at_zero_index = np.argmin(abs(voltage_list))
+        voltage_at_zero_index = np.argmin([abs(i) for i in voltage_list])
+    else:
+        voltage_at_zero_index = 1
     
     # Storing the derivative of the I-V values.
     I_V_derivative = np.gradient(filtered_current_list, voltage_list )
@@ -87,6 +89,21 @@ def get_electron_density(parameters):
                                         (ELECTRON_CHARGE *  probe_area) * \
                                         (square_root_term * np.exp(0.5)))
 
+
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters['Ion saturation current'])
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Electron density'])
+    display_parameters.append(parameters['Debye length'])
+    display_parameters.append(parameters['Number of electrons'])
+
+    return display_parameters
 
 def get_equations():
     

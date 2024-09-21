@@ -132,6 +132,7 @@ class ExperimentRun(QMainWindow):
         if self.params_flag.is_set():
             self.display_container = self.params_container.copy()
             self.params_flag.clear()
+            print('\n\n\n\n\n got params!')
  
         parameter_values = self.display_container.copy()
         for i in range(self.frame_left.layout().count()):

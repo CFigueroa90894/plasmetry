@@ -49,7 +49,8 @@ class ExperimentSetup(QMainWindow):
         
         self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)  
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
-
+        
+        
         # Set values from config file
         self.set_widget_values()
         
@@ -211,7 +212,7 @@ class ExperimentSetup(QMainWindow):
         self.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
         self.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
 #        self.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
-        
+
     def initialize_view(self):
         # Initialize the view to display the correct page based on QComboBox selection.
         # Get the current index of the probe_selection_cb combobox
@@ -227,7 +228,6 @@ class ExperimentSetup(QMainWindow):
         
         self.control.set_config(self.selected_probe, 'selected_gas', current_gas.lower())
         
-        print(self.control.get_config(self.selected_probe, 'selected_gas'))
 
     def update_main_view(self, index):
         """
@@ -235,21 +235,33 @@ class ExperimentSetup(QMainWindow):
         """
         
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        
 
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
-            
             self.main_view.setCurrentWidget(self.single_lang_probe)
+            self.set_selected_gas(self.slp_gas_select_cb.currentText())
+
         elif index == 1:
             self.main_view.setCurrentWidget(self.double_lang_probe)
+            self.set_selected_gas(self.dlp_gas_select_cb.currentText())
+
         elif index == 2:
             self.main_view.setCurrentWidget(self.triple_lang_c_probe)
+            self.set_selected_gas(self.tlc_gas_select_cb.currentText())
+
         elif index == 3:
             self.main_view.setCurrentWidget(self.triple_lang_v_probe)
+            self.set_selected_gas(self.tlv_gas_select_cb.currentText())
+
         elif index == 4:
             self.main_view.setCurrentWidget(self.ion_energy_analyzer)
+            self.set_selected_gas(self.iea_gas_select_cb.currentText())
+            
         elif index == 5:
             self.main_view.setCurrentWidget(self.hyper_energy_analyzer)
+            self.set_selected_gas(self.hea_gas_select_cb.currentText())
+            
 
     def emit_switch_to_run_signal(self, run_window):
         # Disables all interactables to prevent erros while system prepares for experiment run

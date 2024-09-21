@@ -1,7 +1,6 @@
 import numpy as np 
 from global_parameters import (
-    get_particle_density,
-    get_display_parameters
+    get_particle_density
 )
 
 # Storing the charge of the electron particle, since it shall be used for calculation
@@ -121,6 +120,19 @@ def get_probe_current(parameters):
     parameters['Probe 1 filtered current'] = -1 * (parameters['Probe 3 filtered current'] + \
                                                  
                                                    parameters['Probe 2 filtered current'])
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters['Particle saturation current'])
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Particle density'])
+
+    return display_parameters
+
 def get_equations(): 
     
     """ This function returns a list containing a reference to the equations."""

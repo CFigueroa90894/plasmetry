@@ -49,7 +49,8 @@
             "sweep_amp_min": 0.0,
             "sweep_amp_max": 0.0,
             "sweeper_shunt": 0.0,
-            "collector_gain": 0.0
+            "collector_gain": 0.0,
+            "Shunt 1": 200
         },
         "dlp": {
             "sampling_rate": 0,
@@ -61,7 +62,8 @@
             "sweep_amp_min": 0.0,
             "sweep_amp_max": 0.0,
             "sweeper_shunt": 0.0,
-            "collector_gain": 0.0
+            "collector_gain": 0.0,
+            "Shunt 1": 200
         },
         "hea": {
             "sampling_rate": 0,
@@ -79,7 +81,9 @@
             "rejector_bias": 0.0,
             "collector_bias_min": 0.0,
             "collector_bias_max": 0.0,
-            "collector_bias": 0.0
+            "collector_bias": 0.0,
+            "Shunt 1": 200
+
         },
         "iea": {
             "sampling_rate": 0,
@@ -97,7 +101,8 @@
             "rejector_bias": 0.0,
             "collector_bias_min": 0.0,
             "collector_bias_max": 0.0,
-            "collector_bias": 0.0
+            "collector_bias": 0.0,
+            "Shunt 1": 200
         },
         "tlc": {
             "sampling_rate": 0,
@@ -112,7 +117,9 @@
             "down_amp_max": 0.0,
             "down_amp_bias": 0.0,
             "down_collector_gain": 0.0,
-            "down_shunt": 0.0
+            "down_shunt": 0.0,
+            "Shunt 1": 200,
+            "Shunt 2": 200
         },
         "tlv": {
             "sampling_rate": 0,
@@ -123,7 +130,9 @@
             "up_amp_bias": 0.0,
             "up_collector_gain": 0.0,
             "up_shunt": 0.0,
-            "0.0_collector_gain": 0.0
+            "float_collector_gain": 0.0,
+            "Shunt 1": 200,
+            "Shunt 2": 200
         }
     }
 }

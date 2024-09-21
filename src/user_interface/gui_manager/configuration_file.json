@@ -54,7 +54,8 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 1.0,
-            "Probe area": 1.0
+            "Probe area": 1.0,
+            "Shunt 1": 200
         },
         "dlp": {
             "probe_id": "dlp",
@@ -69,7 +70,8 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 1.0,
-            "Probe area": 1.0
+            "Probe area": 1.0,
+            "Shunt 1": 200
         },
         "hea": {
             "probe_id": "hea",
@@ -89,7 +91,8 @@
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 21.0,
-            "Probe area": 1.0
+            "Probe area": 1.0,
+            "Shunt 1": 200
         },
         "iea": {
             "probe_id": "iea",
@@ -110,12 +113,13 @@
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 20.01,
-            "Probe area": 1.0
+            "Probe area": 1.0,
+            "Shunt 1": 200
         },
         "tlc": {
             "probe_id": "tlc",
             "selected_gas": "",
-            "sampling_rate": 50,
+            "sampling_rate": 0.5,
             "dac_min": 0.0,
             "dac_max": 4.0,
             "up_amp_min": -300.0,
@@ -129,7 +133,9 @@
             "down_collector_gain": 1.0,
             "down_shunt": 200.0,
             "num_samples": 50,
-            "Probe area": 1.0
+            "Probe area": 1.0,
+            "Shunt 1": 200,
+            "Shunt 2": 200
         },
         "tlv": {
             "probe_id": "tlv",
@@ -144,7 +150,9 @@
             "up_shunt": 200.0,
             "float_collector_gain": 1.0,
             "num_samples": 50,
-            "Probe area": 1.0
+            "Probe area": 1.0,
+            "Shunt 1": 200,
+            "Shunt 2": 200
         }
     }
 }

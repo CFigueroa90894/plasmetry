@@ -34,7 +34,6 @@ class ConfigManager:
             ]
     def load_config_file(self):
         
-        self.say( os.path.dirname(os.path.realpath(__file__)))
 
         if self.validate_json_path(self.file_name):
             

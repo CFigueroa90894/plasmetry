@@ -134,15 +134,14 @@ def get_display_parameters(parameters):
     
     Intended for all probe parameters."""
     display_parameters = []
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    display_parameters.append(1000)
-    
+    display_parameters.append(parameters['Floating potential'])
+    display_parameters.append(parameters['Plasma potential'])
+    display_parameters.append(parameters['Electron saturation current'])
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Electron density'])
+    display_parameters.append(parameters['Debye length'])
+    display_parameters.append(parameters['Number of electrons'])
 
     return display_parameters
 
