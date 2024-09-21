@@ -54,7 +54,6 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     abstract methods and implements a constructor to define common attributes for all probes.
     
 
-
     Attributes:
         + probe_id - identifier for the probe's type
         + sys_ref: dict - reference to system settings
@@ -82,6 +81,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         ^# _delay_start() - blocks the thread's startup until a specified time passes
         ^# _barrier_wait() - blocks the thread's startup until other threads are at the barrier
         ^# _wake() - callback function to wake up a paused thread
+
     """
     def __init__(self,
                  probe_id,
