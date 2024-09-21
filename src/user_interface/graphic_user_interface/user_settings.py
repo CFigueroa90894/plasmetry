@@ -185,12 +185,12 @@ class UserSettings(QMainWindow):
         self.iea_reject_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_reject_max_input, +1, 'rejector_max'))
 
         # Connect Plus/Minus buttons for Collector Bias MIN
-        self.iea_collect_bias_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_min_input, -1, 'collector_min'))
-        self.iea_collect_bias_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_min_input, +1, 'collector_min'))
+        self.iea_collect_bias_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_min_input, -1, 'collector_bias_min'))
+        self.iea_collect_bias_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_min_input, +1, 'collector_bias_min'))
 
         # Connect Plus/Minus buttons for Collector Bias MAX
-        self.iea_collect_bias_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_max_input, -1, 'collector_max'))
-        self.iea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_max_input, +1, 'collector_max'))
+        self.iea_collect_bias_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_max_input, -1, 'collector_bias_max'))
+        self.iea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_collect_bias_max_input, +1, 'collector_bias_max'))
 
         # Connect Plus/Minus buttons for Collector Probe Bias
         self.iea_collector_probe_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_probe_input, -1, 'collector_bias'))
@@ -227,12 +227,12 @@ class UserSettings(QMainWindow):
         self.hea_dac_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_dac_max_input, +1, 'dac_max'))
 
         # Connect Plus/Minus buttons for Collector Bias MIN
-        self.hea_collect_bias_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_min_input, -1, 'collector_min'))
-        self.hea_collect_bias_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_min_input, +1, 'collector_min'))
+        self.hea_collect_bias_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_min_input, -1, 'collector_bias_min'))
+        self.hea_collect_bias_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_min_input, +1, 'collector_bias_min'))
 
         # Connect Plus/Minus buttons for Collector Bias MAX
-        self.hea_collect_bias_max_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_max_input, -1, 'collector_max'))
-        self.hea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_max_input, +1, 'collector_max'))
+        self.hea_collect_bias_max_minus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_max_input, -1, 'collector_bias_max'))
+        self.hea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_collect_bias_max_input, +1, 'collector_bias_max'))
 
         # Connect Plus/Minus buttons for Sweep MIN
         self.hea_sweep_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_sweep_min_input, -1, 'sweep_amp_min'))
@@ -307,8 +307,8 @@ class UserSettings(QMainWindow):
         self.iea_dac_max_input.setValue(self.control.get_config('iea', 'dac_max'))
         self.iea_reject_min_input.setValue(self.control.get_config('iea', 'rejector_min'))
         self.iea_reject_max_input.setValue(self.control.get_config('iea', 'rejector_max'))
-        self.iea_collect_bias_min_input.setValue(self.control.get_config('iea', 'collector_min'))
-        self.iea_collect_bias_max_input.setValue(self.control.get_config('iea', 'collector_max'))
+        self.iea_collect_bias_min_input.setValue(self.control.get_config('iea', 'collector_bias_min'))
+        self.iea_collect_bias_max_input.setValue(self.control.get_config('iea', 'collector_bias_max'))
         self.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
         self.iea_collector_gain_input.setValue(self.control.get_config('iea', 'collector_gain'))
         self.iea_sweep_min_input.setValue(self.control.get_config('iea', 'sweep_amp_min'))
@@ -319,8 +319,8 @@ class UserSettings(QMainWindow):
         self.hea_area_output.setValue(self.control.get_config('hea', 'Probe area'))
         self.hea_dac_min_input.setValue(self.control.get_config('hea', 'dac_min'))
         self.hea_dac_max_input.setValue(self.control.get_config('hea', 'dac_max'))
-        self.hea_collect_bias_min_input.setValue(self.control.get_config('hea', 'collector_min'))
-        self.hea_collect_bias_max_input.setValue(self.control.get_config('hea', 'collector_max'))
+        self.hea_collect_bias_min_input.setValue(self.control.get_config('hea', 'collector_bias_min'))
+        self.hea_collect_bias_max_input.setValue(self.control.get_config('hea', 'collector_bias_max'))
         self.hea_sweep_min_input.setValue(self.control.get_config('hea', 'sweep_amp_min'))
         self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
      #   self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
