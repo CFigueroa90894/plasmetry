@@ -250,7 +250,7 @@ class ExperimentSetup(QMainWindow):
         # Get the selected probe from the QComboBox
         
         
-        self.control.set_config(self.selected_probe, 'probe_id', PRB(self.selected_probe))
+        self.control.set_config(self.selected_probe, 'probe_id', self.selected_probe)
         
         self.control.setup_experiment(self.selected_probe)
        

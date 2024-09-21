@@ -45,10 +45,10 @@
             "probe_id": "slp",
             "selected_gas": "",
             "sampling_rate": 45.0,
-            "dac_min": 1.41,
-            "dac_max": 4.0,
+            "dac_min": 0.0,
+            "dac_max": 4.09,
             "num_samples": 50,
-            "sweep_min": 10.0,
+            "sweep_min": 19.0,
             "sweep_max": 20.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
@@ -88,7 +88,7 @@
             "rejector_bias": 20.0,
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
-            "collector_bias": 20.0,
+            "collector_bias": 21.0,
             "Probe area": 1.0
         },
         "iea": {
@@ -106,10 +106,10 @@
             "collector_gain": 1.0,
             "rejector_min": -300.0,
             "rejector_max": 300.0,
-            "rejector_bias": 20.0,
+            "rejector_bias": 22.0,
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
-            "collector_bias": 20.0,
+            "collector_bias": 20.01,
             "Probe area": 1.0
         },
         "tlc": {

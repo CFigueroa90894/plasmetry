@@ -117,8 +117,8 @@ class ConfigManager:
             
         elif key in self.list_of_biases:
             self.validate_voltage(ref, probe_id, key, value)
-            
-        
+        else: 
+            ref[probe_id][key]= value
     
     def validate_voltage(self, ref, probe_id, key, value):
         
