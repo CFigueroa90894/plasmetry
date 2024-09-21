@@ -167,7 +167,7 @@ class ExperimentRun(QMainWindow):
          
          self.running = True
 
-        # self.control.start_experiment()
+         self.control.start_experiment()
          
          self.start_timer()
         
