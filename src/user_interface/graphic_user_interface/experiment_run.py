@@ -3,6 +3,14 @@ from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal, QTimer
 from run_parameters import RunParameters
 
+"""
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Commented param update
+Printing recieved params
+
+
+"""
+
 class ExperimentRun(QMainWindow):
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
@@ -13,6 +21,9 @@ class ExperimentRun(QMainWindow):
         super().__init__()
         self.control = control
         self.running = False
+
+        self.display_container = []
+
 
         # Load the .ui file directly
         loadUi('../graphic_user_interface/experiment_run.ui', self)
@@ -34,7 +45,9 @@ class ExperimentRun(QMainWindow):
         self.counter = 1
         self.timer.timeout.connect(self.update_parameters)
         
-        self.params_container = self.control.get_real_time_container()[0]
+        self.container = self.control.get_real_time_container()
+        self.params_container = self.container[0]
+        self.params_flag = self.container[1]
         
     def set_selected_probe(self, probe):
         params_dictionaries = RunParameters()
@@ -115,14 +128,12 @@ class ExperimentRun(QMainWindow):
         layout.addWidget(param_frame)
         
     def update_parameters(self):
-        print('updating parameters...')
         
-       # parameter_values = self.params_container
-       
-        parameter_values = [i * self.counter for i in range(10)]
-       
-        self.counter = self.counter + 5
-        
+        if self.params_flag.is_set():
+            self.display_container = self.params_container.copy()
+            self.params_flag.clear()
+ 
+        parameter_values = self.display_container.copy()
         for i in range(self.frame_left.layout().count()):
             item = self.frame_left.layout().itemAt(i)
             if item:
