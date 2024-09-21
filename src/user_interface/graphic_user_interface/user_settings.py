@@ -316,8 +316,7 @@ class UserSettings(QMainWindow):
 
 
                 ################## HEA ##################
-
-#        self.hea_area_input.setValue(self.control.get_config('hea', 'Probe area'))
+        self.hea_area_output.setValue(self.control.get_config('hea', 'Probe area'))
         self.hea_dac_min_input.setValue(self.control.get_config('hea', 'dac_min'))
         self.hea_dac_max_input.setValue(self.control.get_config('hea', 'dac_max'))
         self.hea_collect_bias_min_input.setValue(self.control.get_config('hea', 'collector_bias_min'))
@@ -427,7 +426,7 @@ class UserSettings(QMainWindow):
                 filenames = dialog.selectedFiles()
                 
                 if filenames:
-                    self.control.set_config(probe_id='', key=key, value = str(Path(filenames[0])))
+                    self.control.set_config(probe_id='', key=key, value=str(Path(filenames[0])))
                     line_edit.setText(self.control.get_config(probe_id='',key=key))
                     
     def adjust_value(self, spinbox, direction, config_key):
@@ -474,4 +473,3 @@ class UserSettings(QMainWindow):
 
     def save_settings(self):
         self.control.save_config_file()
-

@@ -279,6 +279,140 @@ QComboBox QAbstractItemView {
      </widget>
     </item>
     <item>
+     <widget class="QFrame" name="footer">
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>74</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>800</width>
+        <height>74</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QFrame {
+	background-color: #3C3C3C;
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::WinPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="reset_btn">
+         <property name="minimumSize">
+          <size>
+           <width>104</width>
+           <height>58</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>104</width>
+           <height>58</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>18</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-color: #F33A3A;
+}</string>
+         </property>
+         <property name="text">
+          <string>Reset</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="alert_msg_label">
+         <property name="minimumSize">
+          <size>
+           <width>560</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>560</width>
+           <height>72</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>18</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>110</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="QStackedWidget" name="main_view">
       <property name="minimumSize">
        <size>
@@ -341,7 +475,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="single_lang_probe">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -508,8 +642,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
@@ -538,6 +672,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="layoutDirection">
@@ -586,8 +722,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -741,6 +877,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="layoutDirection">
@@ -910,8 +1048,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -937,6 +1075,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -967,10 +1107,13 @@ QComboBox {
                     <number>2</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>0.010000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -991,8 +1134,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -1055,8 +1198,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1082,6 +1225,8 @@ QComboBox {
                     <font>
                      <family>Calibri</family>
                      <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
@@ -1103,10 +1248,10 @@ QComboBox {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>1.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
@@ -1130,8 +1275,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
+                     <weight>50</weight>
+                     <bold>false</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -1920,10 +2065,13 @@ QComboBox QAbstractItemView {
                     <number>2</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>0.010000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -2058,10 +2206,10 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>1.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
@@ -2427,10 +2575,13 @@ QComboBox QAbstractItemView {
                     <number>2</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>0.010000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -2892,10 +3043,10 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>1.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
@@ -3272,10 +3423,13 @@ QComboBox QAbstractItemView {
                     <number>2</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>0.010000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -3587,10 +3741,10 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>1.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
@@ -3969,6 +4123,9 @@ QComboBox QAbstractItemView {
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -4371,10 +4528,13 @@ QComboBox QAbstractItemView {
                     <number>2</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>0.010000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -4509,10 +4669,10 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>1.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
@@ -5470,10 +5630,13 @@ QComboBox QAbstractItemView {
                     <number>2</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>0.010000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -5608,10 +5771,10 @@ QComboBox QAbstractItemView {
                     <bool>false</bool>
                    </property>
                    <property name="decimals">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <property name="minimum">
-                    <double>-10000.000000000000000</double>
+                    <double>1.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>10000.000000000000000</double>
@@ -5951,140 +6114,6 @@ QComboBox QAbstractItemView {
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item>
-     <widget class="QFrame" name="footer">
-      <property name="minimumSize">
-       <size>
-        <width>800</width>
-        <height>74</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>800</width>
-        <height>74</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QFrame {
-	background-color: #3C3C3C;
-}</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::WinPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="reset_btn">
-         <property name="minimumSize">
-          <size>
-           <width>104</width>
-           <height>58</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>104</width>
-           <height>58</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>18</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	background-color: #F33A3A;
-}</string>
-         </property>
-         <property name="text">
-          <string>Reset</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="alert_msg_label">
-         <property name="minimumSize">
-          <size>
-           <width>560</width>
-           <height>72</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>560</width>
-           <height>72</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>18</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="wordWrap">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>110</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
      </widget>
     </item>
    </layout>

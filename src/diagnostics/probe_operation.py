@@ -44,6 +44,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 from base_thread import BaseThread
 from protected_dictionary import ProtectedDictionary
 from clock_thread import ClockThread
+from probe_enum import PRB
 
 
 # Constants - local config
@@ -150,7 +151,7 @@ class ProbeOperation(BaseThread):
         self._config_ref = config_ref
 
         # extract config
-        probe_id = config_ref["probe_id"]
+        probe_id = PRB(config_ref["probe_id"])
         sampling_rate = config_ref["sampling_rate"]
 
         # initialize synchronization objects

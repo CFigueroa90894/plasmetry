@@ -47,7 +47,9 @@ class ExperimentSetup(QMainWindow):
         # Connect the reset button to reset settings to default
         self.reset_btn.clicked.connect(self.reset_setup)
         
-        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)        
+        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)  
+        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+
         # Set values from config file
         self.set_widget_values()
         
@@ -97,30 +99,30 @@ class ExperimentSetup(QMainWindow):
         # Connect the QComboBox signal to the method that updates the combobox
         self.tlc_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlc_gas_select_cb.currentText()))
         
-        self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1))
-        self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1))
+        self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1, 'sampling_rate'))
+        self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, -1))
-        self.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, +1))
+        self.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, -1, 'up_amp_bias'))
+        self.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, +1, 'up_amp_bias'))
 
-        self.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, -1))
-        self.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, +1))
+        self.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, -1, 'down_amp_bias'))
+        self.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, +1, 'down_amp_bias'))
 
-        self.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, -1))
-        self.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, +1))
+        self.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, -1,'num_samples'))
+        self.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, +1,'num_samples'))
 
         ############################## TLP-V SIGNALS ##############################
 
         self.tlv_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlv_gas_select_cb.currentText()))
 
-        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1))
-        self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1))
+        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1,'sampling_rate'))
+        self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1))
-        self.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, +1))
+        self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1, 'up_amp_bias'))
+        self.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, +1, 'up_amp_bias'))
 
-        self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1))
-        self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1))
+        self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1,'num_samples'))
+        self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1,'num_samples'))
 
         
 
@@ -181,7 +183,7 @@ class ExperimentSetup(QMainWindow):
         
         ################## TLC ##################
 
-        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
+        self.tlc_sampling_rate_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
         self.tlc_up_amp_bias_input.setValue(self.control.get_config('tlc', 'up_amp_bias'))
         self.tlc_down_amp_bias_input.setValue(self.control.get_config('tlc', 'down_amp_bias'))
         self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'num_samples'))
@@ -215,7 +217,7 @@ class ExperimentSetup(QMainWindow):
         # Get the current index of the probe_selection_cb combobox
         current_index = self.probe_selection_cb.currentIndex()
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
-
+        
         
         # Update the main view based on the current index
         self.update_main_view(current_index)
@@ -224,13 +226,16 @@ class ExperimentSetup(QMainWindow):
         
         
         self.control.set_config(self.selected_probe, 'selected_gas', current_gas.lower())
-        print( self.control.get_config(self.selected_probe, 'selected_gas'))
+        
+        print(self.control.get_config(self.selected_probe, 'selected_gas'))
 
     def update_main_view(self, index):
         """
         Switch pages in the probe_config_view based on the current index of probe_selection_cb.
         """
+        
         self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
             
@@ -248,18 +253,18 @@ class ExperimentSetup(QMainWindow):
 
     def emit_switch_to_run_signal(self, run_window):
         # Get the selected probe from the QComboBox
-        
-        
-        self.control.set_config(self.selected_probe, 'probe_id', PRB(self.selected_probe))
+        # Set the selected probe in the experiment run window
+        self.control.set_config(self.selected_probe, 'probe_id', self.selected_probe)
         
         self.control.setup_experiment(self.selected_probe)
+        
        
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
+        self.run_window_ref.set_selected_probe(self.selected_probe)
 
-        # Set the selected probe in the experiment run window
-        self.run_window_ref(self.control).set_selected_probe(self.selected_probe)
 
+       
     def emit_switch_to_settings_signal(self):
         
         # Emit the signal to switch to the user settings window
@@ -289,10 +294,10 @@ class ExperimentSetup(QMainWindow):
         spinbox.setValue(self.control.get_config(self.selected_probe, config_key))
 
     def increment_last_decimal(self, value):
-        return round(value + 0.01, 2)
+        return round(value + 1, 2)
 
     def decrement_last_decimal(self, value):
-        return round(value - 0.01, 2)
+        return round(value - 1, 2)
 
 if __name__ == "__main__":
     from experiment_run import ExperimentRun
