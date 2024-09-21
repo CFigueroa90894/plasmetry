@@ -143,8 +143,6 @@ def get_display_parameters(parameters):
     display_parameters.append(parameters["Debye Length"])
     display_parameters.append(parameters["Number of electrons"])
     
-    
-    
     return display_parameters
 
 def get_equations():
