@@ -15,13 +15,20 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
    # print(f"Path Hammer: subdirectories appended to python path")
 # ----- END PATH HAMMER ----- #
 
+
+"""
+############################### MODIFIED FOR DEBUG ###############################
+Defined dummy get_display_parameters method
+
+"""
+
 import numpy as np
 from global_parameters import (
     filter_current,
     get_debye_length,
     get_number_of_electrons,
     get_particle_density,
-    get_display_parameters
+    # get_display_parameters
 )
     
 
@@ -128,10 +135,24 @@ def get_electron_temperature(parameters):
     # yields the electron temperature in Joules
     parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * ELECTRON_CHARGE
 
+#################### DEBUG ####################
+def get_display_parameters(parameters):
+    display_parameters = []
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+    display_parameters.append(1000)
+
+    return display_parameters
 
 def get_equations():
 
     """This function returns a reference to the equations defined in this script"""
+
 
     # List containing the references
     list_of_references = []

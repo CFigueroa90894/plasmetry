@@ -8,6 +8,7 @@ from run_parameters import RunParameters
 Commented param update
 Printing recieved params
 
+
 """
 
 class ExperimentRun(QMainWindow):
@@ -20,6 +21,9 @@ class ExperimentRun(QMainWindow):
         super().__init__()
         self.control = control
         self.running = False
+
+        self.display_container = []
+
 
         # Load the .ui file directly
         loadUi('../graphic_user_interface/experiment_run.ui', self)
@@ -41,7 +45,10 @@ class ExperimentRun(QMainWindow):
         self.counter = 1
         self.timer.timeout.connect(self.update_parameters)
         
-        self.params_container = self.control.get_real_time_container()[0]
+        self.container = self.control.get_real_time_container()
+        self.params_container = self.container[0]
+        self.params_flag = self.container[1]
+        print(f"RT CONTAINER: {self.container}")
         
     def set_selected_probe(self, probe):
         params_dictionaries = RunParameters()
@@ -122,14 +129,14 @@ class ExperimentRun(QMainWindow):
         layout.addWidget(param_frame)
         
     def update_parameters(self):
-        print('UIEXPSET: updating parameters...')
-        
-        parameter_values = self.params_container
-        print(f'UIEXPSET: recieved {parameter_values}')
-        # parameter_values = [i * self.counter for i in range(10)]
-        
         self.counter = self.counter + 5
         
+        if self.params_flag.is_set():
+            self.display_container = self.params_container.copy()
+            self.params_flag.clear()
+            print(f"UIEXPSET: new display params")
+
+        parameter_values = self.display_container.copy()
         for i in range(self.frame_left.layout().count()):
             item = self.frame_left.layout().itemAt(i)
             if item:

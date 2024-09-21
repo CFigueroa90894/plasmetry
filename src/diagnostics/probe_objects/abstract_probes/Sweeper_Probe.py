@@ -6,7 +6,10 @@
 # built-in imports
 import sys
 import os
-
+"""
+########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
+Disabled printing sweep values
+"""
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 3             # how many parent folders to reach /plasmetry/src
@@ -56,7 +59,7 @@ class SweeperProbe(BaseProbe):
             # get sample
             bias = self.sweeper.write(index)    # output the voltage step in the given index
             volt = self.collector.read()        # get a voltage sample
-            self.say(f"sweep bias: {round(bias, 4)}V")
+            # self.say(f"sweep bias: {round(bias, 4)}V")
             # save sample
             applied_bias.append(bias)           # save outputted bias
             sampled_volt.append(volt)           # save the measured voltage
