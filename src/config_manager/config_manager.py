@@ -157,25 +157,47 @@ class ConfigManager:
              return False
         else:
             if tokens[1] == 'min':
-                if ref[probe_id][amp_min_key] > value:
+                if ref[probe_id][amp_min_key] >= value:
                    ref[probe_id][key]= ref[probe_id][amp_min_key]
                    return True
                 
             elif tokens[1] == 'max': 
-               if ref[probe_id][amp_max_key] < value:
+               if ref[probe_id][amp_max_key] <= value:
                    ref[probe_id][key] = ref[probe_id][amp_max_key]
                    return True
         return False
-              
+    
+    def validate_amp(self, ref, probe_id, key, value, tokens):
+        sweep_tokens = tokens.copy()
+        sweep_tokens.pop(1)
+        applied_value ='_'.join(sweep_tokens)
+        if tokens[-1] == 'max':
+            
+            if value < ref[probe_id][applied_value]:
+                ref[probe_id][applied_value] = value
+                return True
+             
+        elif tokens[-1] == 'min':
+        
+            if value > ref[probe_id][applied_value]:
+                ref[probe_id][applied_value] = value
+                
+                
+            
+        
+            
         
     def validate_voltage(self, ref, probe_id, key, value, tokens):
         
         if not isinstance(value,(int, float)):
            return
        
-        if tokens[0] == 'sweep' and 'amp' != tokens[1]:
-            if self.validate_sweep(ref, probe_id, key, value, tokens):
-                return
+        if tokens[0] == 'sweep':
+            if 'amp' != tokens[1]:
+                if self.validate_sweep(ref, probe_id, key, value, tokens):
+                    return
+            else: 
+                self.validate_amp(ref, probe_id, key, value, tokens)
         
         if tokens[-1] == 'min':
            tokens[-1] = 'max'
@@ -184,8 +206,10 @@ class ConfigManager:
            if ref[probe_id][max_key] > value:
                ref[probe_id][key]= value
         
-        elif key[-3:] == 'max':
-             min_key = key[:-3] + "min"
+        elif tokens[-1] == 'max':
+             tokens[-1] = "min"
+             min_key = '_'.join(tokens)
+             
              if ref[probe_id][min_key] < value:
                  ref[probe_id][key] = value
         else:

@@ -486,9 +486,10 @@ class UserSettings(QMainWindow):
         self.alert_msg_label.setText("")
 
     def emit_back_signal(self):
-
         self.back_btn_clicked.emit() 
         self.setup_window.set_widget_values()
+
+        
 
     def reset_settings(self):
         print("Reset button clicked...waiting for implementation")
@@ -496,3 +497,4 @@ class UserSettings(QMainWindow):
     def save_settings(self):
         self.control.save_config_file()
         self.setup_window.set_widget_values()
+
