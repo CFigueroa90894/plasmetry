@@ -64,7 +64,7 @@ class SweeperProbe(BaseProbe):
         ^# _say_obj: SayWriter - text output object used to write messages
     
     Attributes (Data Acquisition)
-        + sweeper_shunt: float - shunt resistance associated with sweeper's collector
+        + sweeper_shunt: float - shunt resistance to calculate current through the probe
         + sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
         # _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
         ^+ sampling_rate: int - samples to obtain per second (Hz)

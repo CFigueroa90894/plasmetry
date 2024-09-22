@@ -62,7 +62,7 @@ class BaseTLP(BaseProbe):
         + up_amp: HighVoltAmp - hardware object to control the associated amplifier
         + up_amp_bias: float - desired high voltage output for the upper probe amplifier (Volts)
         + up_collector: VoltageSensor - obtains voltage measurements
-        + up_shunt: float - shunt resistance associated with the upper probe collector (Ohms)
+        + up_shunt: float - shunt resistance to calculate current through the upper probe
         ^+ sampling_rate: int - samples to obtain per second (Hz)
         ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
 
@@ -93,7 +93,7 @@ class BaseTLP(BaseProbe):
             up_amp_bias: float - desired HV amplifier output (Volts)
             up_amp: HighVoltAmp - takes a desired bias and outputs it from the amplifier
             up_collector: VoltageSensor - reads voltage samples across the collector shunt resistor
-            up_shunt: float - resistance of the associated shunt (Ohms)
+            up_shunt: float - resistance of the associated shunt
 
         """
         super().__init__(*args, **kwargs)
