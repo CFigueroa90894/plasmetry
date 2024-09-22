@@ -142,11 +142,11 @@ class LangmuirProbe(SweeperProbe):
         exceptions are raised in the main loop. This allows the thread to safely disable the probe
         circuit in the event of a system crash.
 
-        This method sets the sweeper amplifier's output to 0, then disables its relays. It blocks to
-        allow the relays to open. Once the amplifiers are no longer energized, the thread resets its
-        DAC output to zero and clears the operating status flag. Finally it invokes its parent's
-        cleanup method to terminate.
-        
+        This method sets the sweeper amplifier's output to 0 volts, then disables its relays. It
+        blocks to allow the relays to open. Once the amplifiers are no longer energized, the thread
+        resets its DAC output to 0 volts and clears the operating status flag. Finally, it invokes
+        its parent's cleanup method to terminate.
+
         """
         self.say("disabling probe circuit...")  # log message to file
 
