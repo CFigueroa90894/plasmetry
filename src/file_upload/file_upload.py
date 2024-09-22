@@ -29,7 +29,7 @@ from google_drive import GoogleDrive
 from local_upload import LocalUpload
 
 from probe_enum import PRB 
-
+from threading import Thread
 class FileUpload:
     
     def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path=''):
@@ -53,9 +53,8 @@ class FileUpload:
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
             self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
-            self.upload_data()
-
-        
+            Thread(target=self.upload_data(), daemon=False).start()
+            
                     
     def new_data(self, parameters):
         

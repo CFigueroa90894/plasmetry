@@ -57,46 +57,47 @@ def get_electron_temperature(parameters):
     potential_difference = parameters['Potential difference']
     
     bias =  parameters['Bias 1']
-    
-    # Storing the counter, shall be used to know the number of iterations
-    counter = 0
-    
-    # Variable storing the previous guess at the beginning of each iteration
-    previous_guess = 0
-   
-    # Storing initial guess for Newton-Raphson approximation iterations
-    estimated_guess = np.log(2) / (bias - potential_difference)
-    
-    # The Newton-Raphson approximation iterations occur in this while loop
-    while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
+    if bias and potential_difference:
         
-        # Storing previous guess, to compare with the final value of each iteration
-        previous_guess = estimated_guess
+        # Storing the counter, shall be used to know the number of iterations
+        counter = 0
         
-        # Try/except clause to verify if the derivative is not 0.
-        # If derivative == 0, exiting function
-        try:
+        # Variable storing the previous guess at the beginning of each iteration
+        previous_guess = 0
+       
+        # Storing initial guess for Newton-Raphson approximation iterations
+        estimated_guess = np.log(2) / (bias - potential_difference)
+        
+        # The Newton-Raphson approximation iterations occur in this while loop
+        while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
             
-            function_output, derivative_output = iteration(potential_difference, 
-                                                           bias,
-                                                           estimated_guess)
-        except TypeError:
-            return 'No Solution Found.'
+            # Storing previous guess, to compare with the final value of each iteration
+            previous_guess = estimated_guess
+            
+            # Try/except clause to verify if the derivative is not 0.
+            # If derivative == 0, exiting function
+            try:
+                
+                function_output, derivative_output = iteration(potential_difference, 
+                                                               bias,
+                                                               estimated_guess)
+            except TypeError:
+                return 'No Solution Found.'
+            
+            # Storing the next estimated value
+            estimated_guess = (estimated_guess - function_output / derivative_output)
+            
+            counter +=1
+            
+        if counter ==NUMBER_OF_ITERATIONS:
+            
+            return f'After {counter} iterations, no accurate value has been yielded.'
         
-        # Storing the next estimated value
-        estimated_guess = (estimated_guess - function_output / derivative_output)
+        # Storing the electron temperature in eV
+        parameters['Electron temperature (eV)'] = 1/estimated_guess
         
-        counter +=1
-        
-    if counter ==NUMBER_OF_ITERATIONS:
-        
-        return f'After {counter} iterations, no accurate value has been yielded.'
-    
-    # Storing the electron temperature in eV
-    parameters['Electron temperature (eV)'] = 1/estimated_guess
-    
-    # Storing the electron temperature in Joules
-    parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE *  parameters['Electron temperature (eV)']
+        # Storing the electron temperature in Joules
+        parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE *  parameters['Electron temperature (eV)']
 
 
 def get_electron_density(parameters):
@@ -125,6 +126,17 @@ def get_electron_density(parameters):
     # Storing electron density
     parameters['Electron density'] = numerator_of_equation / denominator_of_equation
     
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Electron density'])
+
+    return display_parameters
 
 def get_equations():
     

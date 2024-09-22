@@ -21,17 +21,15 @@ class RunParameters:
                 "Number of electrons"
             ],
             "tlc": [
-                'Particle saturation current',
+                'Electron saturation current',
                 "Electron Temperature (eV)",
                 "Electron Temperature (Joules)",
                 "Electron Density",
             ],
             "tlv": [
-                "Floating Potential",
-                "Plasma Potential",
-                "Electron Saturation Current",
-                "Ion Saturation Current",
-                "Electron Temperature"
+                "Electron Temperature (eV)",
+                "Electron Temperature (Joules)",
+                "Electron Density",
             ],
             "iea": [
             "Particle saturation current",
@@ -39,7 +37,7 @@ class RunParameters:
             "Particle temperature (Joules)",
             "Particle density"
 
-        ],
+            ],
             "hea": [
             "Particle saturation current",
             "Particle temperature (eV)",

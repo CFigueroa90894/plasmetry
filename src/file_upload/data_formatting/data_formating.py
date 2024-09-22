@@ -17,19 +17,19 @@ def is_a_sweep(unformatted_data):
 def process_sweep(sweep_data, experiment_run):
     
     """Prepares the sweep data for csv upload."""
-    
-    for i in range(len(experiment_run['Bias 1'])):
-        
-        # Appending the sweep data
-        sweep_data.append({'Bias' : experiment_run['Bias 1'][i], \
-                           'Raw Signal' : experiment_run['Raw voltage 1'][i]
-                           #\
-                          # 'Filtered current': experiment_run['Filtered current'][i]})
-            })
-    # Deleting the appended sweep data
-    del experiment_run['Bias 1']
-    del experiment_run['Raw voltage 1']
-  #  del experiment_run['Filtered current']  
+    if isinstance(experiment_run['Bias 1'],list):
+        for i in range(len(experiment_run['Bias 1'])):
+            
+            # Appending the sweep data
+            sweep_data.append({'Bias' : experiment_run['Bias 1'][i], \
+                               'Raw Signal' : experiment_run['Raw voltage 1'][i]
+                               #\
+                              # 'Filtered current': experiment_run['Filtered current'][i]})
+                })
+        # Deleting the appended sweep data
+        del experiment_run['Bias 1']
+        del experiment_run['Raw voltage 1']
+      #  del experiment_run['Filtered current']  
     
 def create_csv_object(data):
     

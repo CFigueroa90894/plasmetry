@@ -44,8 +44,6 @@ def filter_current(parameters):
     print(parameters['config_ref'])
     parameters['Filtered current'] = filteredSignal / parameters['config_ref']['Shunt 1']
     
- 
-    
 def get_display_parameters(parameters):
     
     """This function returns a ProtectedDictionary object containing the parameters used for display.
@@ -60,7 +58,6 @@ def get_display_parameters(parameters):
     display_parameters.append(parameters['Particle density'])
             
     return display_parameters
-
 
 def get_debye_length(parameters):
     
@@ -108,7 +105,7 @@ def get_particle_density(parameters):
     if  'Electron saturation current' in parameters:
         particle_saturation_current = parameters['Electron saturation current']
         particle_temperature = parameters['Electron temperature (Joules)'] 
-     
+    
     else:
         particle_temperature = parameters['Particle temperature (Joules)']
         particle_saturation_current = parameters['Particle saturation current']

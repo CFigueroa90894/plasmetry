@@ -109,7 +109,7 @@ def get_electron_temperature(parameters):
 def get_electron_density(parameters):
     
     # Storing ion saturation current
-    parameters['Particle saturation current'] = parameters['Probe 3 filtered current']
+    parameters['Electron saturation current'] = parameters['Probe 3 filtered current']
     
     # Calling global electron density function, which is deployed by SLP, HEA, and IEA
     get_particle_density(parameters)
@@ -126,10 +126,10 @@ def get_display_parameters(parameters):
     
     Intended for all probe parameters."""
     display_parameters = []
-    display_parameters.append(parameters['Particle saturation current'])
+    display_parameters.append(parameters['Electron saturation current'])
     display_parameters.append(parameters['Electron temperature (eV)'])
     display_parameters.append(parameters['Electron temperature (Joules)'])
-    display_parameters.append(parameters['Particle density'])
+    display_parameters.append(parameters['Electron density'])
 
     return display_parameters
 
