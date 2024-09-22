@@ -64,6 +64,7 @@ class BaseTLP(BaseProbe):
         + up_collector: VoltageSensor - obtains voltage measurements
         + up_shunt: float - shunt resistance to calculate current through the upper probe
         ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ num_samples: int - number of measurements per averaging window
         ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
 
     Methods:
@@ -107,8 +108,8 @@ class BaseTLP(BaseProbe):
         self.up_collector = up_collector   # Obtain voltage samples to calculate probe current.
 
     def run(self):
-        """Invokes parent method; called by the threading library when start() is called
+        """Invokes the parent run() method; called by the threading library when start() is called
         on this object.
 
         """
-        super().run() 
+        super().run()
