@@ -323,7 +323,7 @@ class UserSettings(QMainWindow):
         self.hea_collect_bias_max_input.setValue(self.control.get_config('hea', 'collector_bias_max'))
         self.hea_sweep_min_input.setValue(self.control.get_config('hea', 'sweep_amp_min'))
         self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
-     #   self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
+        self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'rejector_bias'))
         self.hea_collect_gain_input.setValue(self.control.get_config('hea', 'collector_gain'))
 
     def show_data_upload_settings(self):
