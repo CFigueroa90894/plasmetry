@@ -59,12 +59,12 @@ class BaseTLP(BaseProbe):
         ^# _say_obj: SayWriter - text output object used to write messages
     
     Attributes (Data Acquisition)
-        ^+ sampling_rate: int - samples to obtain per second (Hz)
-        ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
         + up_amp: HighVoltAmp - hardware object to control the associated amplifier
         + up_amp_bias: float - desired high voltage output for the upper probe amplifier (Volts)
         + up_collector: VoltageSensor - obtains voltage measurements
         + up_shunt: float - shunt resistance associated with the upper probe collector (Ohms)
+        ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
 
     Methods:
         + __init__() - initialize the object, called by subclasses
@@ -92,7 +92,7 @@ class BaseTLP(BaseProbe):
         Arguments:
             up_amp_bias: float - desired HV amplifier output (Volts)
             up_amp: HighVoltAmp - takes a desired bias and outputs it from the amplifier
-            up_collector: VoltageSensor - reads voltage samples the collector's shunt resistor
+            up_collector: VoltageSensor - reads voltage samples across the collector shunt resistor
             up_shunt: float - resistance of the associated shunt (Ohms)
 
         """
