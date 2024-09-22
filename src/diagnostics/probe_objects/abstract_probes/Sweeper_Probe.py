@@ -1,7 +1,15 @@
-# author: figueroa_90894@students.pupr.edu
-# status: WIP
-#   - add subcomponents once hardware interface is implemented
-#   - implement sweep method
+""" G3 - Plasma Devs
+Layer 3 - Diagnostics - Sweeper Probe
+    Provides a parent class for concrete probe classes that require voltage sweeps. This class
+    specifies required methods and implements common functionality.
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
+
+Classes:
+    SweeperProbe
+
+"""
 
 # built-in imports
 import sys
@@ -36,17 +44,66 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 # local imports
 from Base_Probe import BaseProbe        # parent class
 
-# TO DO
+
 class SweeperProbe(BaseProbe):
-    """<...>"""
+    """This class defines a base parent for any probe type that requires voltage sweeps. For
+    our current implementation, this includes Single Langmuir Probes, Double Langmuir Probes,
+    Hyperbolic Energy Analyzers, and Ion Energy Analyzers. It inherits general attributes from
+    BaseProbe.
+
+    Attributes (Config and Control):
+        ^+ probe_id - identifier for the probe's type
+        ^+ sys_ref: dict - reference to system settings
+        ^+ config_ref: dict - reference to user settings
+        ^+ status_flags - state indicators
+        ^+ command_flags - action triggers
+        ^+ data_buff: Queue - buffer to return data samples
+        ^+ delay: float - seconds that the thread should wait before entering its main loop
+        ^+ barrier: Barrier - synchronization primitive, blocks until other threads are ready
+        ^+ pause_sig: Event - flag used locally to pause a threads execution
+        ^# _say_obj: SayWriter - text output object used to write messages
+    
+    Attributes (Data Acquisition)
+        + sweeper_shunt: float - shunt resistance associated with sweeper's collector
+        + sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
+        # _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
+        ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
+
+    Methods:
+        + __init__() - initialize the object, called by subclasses
+        + sweep() - performs one voltage sweep, applying one voltage when sample trigger is set
+        + preprocess_samples() - formats data samples and adds config data required by calculations
+        ^+ run() - perform data acquistion, override in subclasses
+        ^+ preprocess_samples() - provides external threads formatting required by calculations
+        ^+ run() - executes the threads three life-cycle methods
+        ^+ pause() - blocks the thread's execution for a specified time
+        ^+ say() - text output method, using the SayWriter
+        ^# _THREAD_MAIN_() - the main loop of the thread
+        ^# _thread_setup_() - performs preparations before the _THREAD_MAIN_() method is called
+        ^# _thread_cleanup_() - performs exit actions before finally terminating the thread
+        ^# _delay_start() - blocks the thread's startup until a specified time passes
+        ^# _barrier_wait() - blocks the thread's startup until other threads are at the barrier
+        ^# _wake() - callback function to wake up a paused thread
+
+    """
     def __init__(self,
                  sweeper,
                  collector,
                  sweeper_shunt:float,
                  *args, **kwargs
                  ):
+        """Constructor for the SweeperProbe class, accepts arguments related with the voltage
+        sweeper amplifier and its associated collector.
+
+        Arguments:
+            sweeper: VoltageSweeper - outputs premapped voltage steps from its associated amplifier
+            collector: VoltageSensor - reads voltage samples across the collector shunt resistor
+            sweeper_shunt: float - resistance of the associated shunt
+
+        """
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
-        
+
         # PROBE INFO
         self.sweeper_shunt = sweeper_shunt
 
@@ -60,9 +117,10 @@ class SweeperProbe(BaseProbe):
             self._premap_bias.append(pair[1])  # make list of desired high voltage bias
 
     def preprocess_samples(self, raw_samples: list):
-        """<...>
-        <...in-place operation...>
-        <...should not be called by probe thread loop, probe op instead...>"""
+        """Implements simple preprocessing for sweeper probe data samples, packs data samples and
+        config values as key-value pairs so the calculations objects can correctly access them.
+        
+        """
         samples = {
             "Bias 1": self._premap_bias,
             "Shunt 1":  self.config_ref["sweeper_shunt"],
@@ -72,7 +130,9 @@ class SweeperProbe(BaseProbe):
 
     def sweep(self) -> dict:
         """Performs a single voltage sweep on the sweeper object.
-        Returns a dictionary consisting of applied biases and raw sampled voltages."""
+        Returns a dictionary consisting of applied biases and raw sampled voltages.
+        
+        """
         # setup
         volt_samps = []   # list of measured voltages
 
