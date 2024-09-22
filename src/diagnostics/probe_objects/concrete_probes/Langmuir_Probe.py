@@ -93,10 +93,9 @@ class LangmuirProbe(SweeperProbe):
         ^# _barrier_wait() - blocks the thread's startup until other threads are at the barrier
         ^# _wake() - callback function to wake up a paused thread
 
-    
     """
     def __init__(self, *args, **kwargs):
-        """The constructor for LangmuirProbe class, it is directly inherited from its parent."""
+        """The constructor for the LangmuirProbe class, it is directly inherited from its parent."""
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
 
     def run(self):
@@ -118,11 +117,10 @@ class LangmuirProbe(SweeperProbe):
 
     def _thread_setup_(self):
         """Called before _THREAD_MAIN_ by the run() method. Initially, it sets the operating status
-        flag to true to indicate the high voltage amplifiers are energized. Next, it sets the DAC
-        output to the value that produces a 0 volt bias at the amplifier's output, then it sets all
-        DOUT channel that enable the amplifier's relays. After pausing to allow the relays to close,
-        the thread executes its parent's setup method, that blocks it until the clock thread is 
-        synchronized. Once it releases, the thread proceeds to its main loop.
+        flag to true to indicate the high voltage amplifiers are energized. Next, it sets the
+        sweeper amplifier's output to 0 volts, and enables its relays. After pausing to allow the
+        relays to close, the thread blocks in the parent's setup method until it synchronizes with
+        the clock thread. Once it releases, the thread proceeds to its main loop.
 
         """
         # notify circuit is active
@@ -140,15 +138,15 @@ class LangmuirProbe(SweeperProbe):
         super()._thread_setup_()
 
     def _thread_cleanup_(self):
-        """The thread's exit script, called after its main loop if the user halts diagnostics or
-        unhandled exceptions are raised in the main loop. This allows the thread to safely disable
-        the probe circuit in the event of a system crash.
+        """Called after the thread exits the main loop when the user halts diagnostics or unhandled
+        exceptions are raised in the main loop. This allows the thread to safely disable the probe
+        circuit in the event of a system crash.
 
-        First, this method sets the DAC output that produces a 0 volt bias at the amplifier output.
-        It then clears DOUT channels to disable the amplifier's relays and blocks to allow the
-        relays to open. Once the amplifiers are no longer energized, the thread sets its DAC output
-        to zero and clears the operating status flag. Finally it invokes its parent's cleanup
-        method, to terminate the cleanly.
+        This method sets the sweeper amplifier's output to 0, then disables its relays. It blocks to
+        allow the relays to open. Once the amplifiers are no longer energized, the thread resets its
+        DAC output to zero and clears the operating status flag. Finally it invokes its parent's
+        cleanup method to terminate.
+        
         """
         self.say("disabling probe circuit...")  # log message to file
 
@@ -164,5 +162,4 @@ class LangmuirProbe(SweeperProbe):
 
         self.status_flags.operating.clear() # notify circuit is inactive
         super()._thread_cleanup_()          # call parent cleanup
-
 
