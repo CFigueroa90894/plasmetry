@@ -185,8 +185,8 @@ class TripleLangCurrent(BaseTLP):
 
         # pack sample dictionary
         samples = {
-            "Raw Voltage 1": self.up_probe_window[:],
-            "Raw Voltage 2": self.down_probe_window[:],
+            "Raw voltage 1": self.up_probe_window[:],
+            "Raw voltage 2": self.down_probe_window[:],
             "Shunt 1": self.up_shunt,
             "Shunt 2": self.down_shunt,
             "Bias 1": self.up_amp_bias,
@@ -205,8 +205,10 @@ class TripleLangCurrent(BaseTLP):
         self.say("starting data acquisition...")  # log message to file
         # Continuously acquire data samples until user halts the operation
         while self.diagnose.is_set():
-             # get and return samples to ProbeOperation as two element list
+            self.sample_trig.wait()
+            # get and return samples to ProbeOperation as two element list
             self.data_buff.put([self.up_collector.read(), self.down_collector.read()])
+            self.sample_trig.clear()
         self.say("completed data acquisition")  # log message to file
 
     def _thread_setup_(self):
