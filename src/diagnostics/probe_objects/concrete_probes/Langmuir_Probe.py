@@ -75,6 +75,7 @@ class LangmuirProbe(SweeperProbe):
         ^+ sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
         ^# _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
         ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ num_samples: int - number of measurements per voltage sweep
         ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
 
     Methods:
@@ -105,7 +106,8 @@ class LangmuirProbe(SweeperProbe):
     def _THREAD_MAIN_(self):
         """The main loop of the LangmuirProbe data acquisition process. It traps the thread's
         execution in a while loop until the user halts diagnostics. Every iteration blocks until
-        a full voltage sweep is performed, and places the obtained samples a in thread-safe queue.
+        a full voltage sweep is performed. The sweep() method returns a list of samples, enqueued in
+        the data buffer as a single data point.
         
         """
         self.say("starting data acquisition...")
