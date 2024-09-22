@@ -8,10 +8,10 @@ class UserSettings(QMainWindow):
     close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
 
-    def __init__(self, control):
+    def __init__(self, control, setup_window):
         super().__init__()
         loadUi('../graphic_user_interface/user_settings.ui', self)  # Load the .ui file directly
-        
+        self.setup_window = setup_window
         self.control = control
 
         # Hide the probe_selection_cb by default
@@ -450,10 +450,10 @@ class UserSettings(QMainWindow):
 
 
     def increment_last_decimal(self, value):
-        return round(value + 0.01, 2)
+        return round(value +1, 2)
 
     def decrement_last_decimal(self, value):
-        return round(value - 0.01, 2)
+        return round(value -1, 2)
 
     def handle_back_button(self):
         # Check if the current page is not the settings_select_page
@@ -466,6 +466,7 @@ class UserSettings(QMainWindow):
             self.emit_back_signal()
 
     def display_alert_message(self, message):
+        
         """
         Display a message on alert_msg_label for 5 seconds, then clear the label.
         
@@ -485,10 +486,13 @@ class UserSettings(QMainWindow):
         self.alert_msg_label.setText("")
 
     def emit_back_signal(self):
+
         self.back_btn_clicked.emit() 
+        self.setup_window.set_widget_values()
 
     def reset_settings(self):
         print("Reset button clicked...waiting for implementation")
 
     def save_settings(self):
         self.control.save_config_file()
+        self.setup_window.set_widget_values()

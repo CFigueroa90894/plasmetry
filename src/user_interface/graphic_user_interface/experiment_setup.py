@@ -116,7 +116,7 @@ class ExperimentSetup(QMainWindow):
 
         self.tlv_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlv_gas_select_cb.currentText()))
 
-        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1,'sampling_rate'))
+        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, -1,'sampling_rate'))
         self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1, 'sampling_rate'))
 
         self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1, 'up_amp_bias'))
@@ -198,7 +198,7 @@ class ExperimentSetup(QMainWindow):
         ################## IEA ##################
 
         self.iea_volt_ramp_min_input.setValue(self.control.get_config('iea', 'sweep_min'))
-        self.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_min'))
+        self.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_max'))
         self.iea_sampling_rate_input.setValue(self.control.get_config('iea', 'sampling_rate'))
         self.iea_num_measurements_input.setValue(self.control.get_config('iea', 'num_samples'))
 #        self.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
@@ -207,7 +207,7 @@ class ExperimentSetup(QMainWindow):
         ################## HEA ##################
 
         self.hea_volt_ramp_min_input.setValue(self.control.get_config('hea', 'sweep_min'))
-        self.hea_volt_rampt_max_input.setValue(self.control.get_config('hea', 'sweep_min'))
+        self.hea_volt_rampt_max_input.setValue(self.control.get_config('hea', 'sweep_max'))
         self.hea_sampling_rate_input.setValue(self.control.get_config('hea', 'sampling_rate'))
         self.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
         self.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
@@ -336,10 +336,10 @@ class ExperimentSetup(QMainWindow):
         self.setEnabled(True)
 
     def increment_last_decimal(self, value):
-        return round(value + 1, 2)
+        return value + 1
 
     def decrement_last_decimal(self, value):
-        return round(value - 1, 2)
+        return value - 1
 
 if __name__ == "__main__":
     from experiment_run import ExperimentRun

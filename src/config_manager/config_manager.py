@@ -24,32 +24,29 @@ class ConfigManager:
         self.file_name = path_name
         self.complete_file = {}
         self.say = text_out
-        self.list_of_biases = [
-            "dac_min", "dac_max", 
-            "sweep_min", "sweep_max", "sweep_amp_min", "sweep_amp_max", 
-            "rejector_bias", "rejector_min", "rejector_max",
-            "collector_bias", "collector_bias_min", "collector_bias_max",
-            "up_amp_bias", "up_amp_min", "up_amp_max",
-            "down_amp_bias", "down_amp_max", "down_amp_min"
-            ]
+        self.list_of_biases = ['min', 'max', 'bias']
+        self.list_of_positive_floats = ['rate','gain', '1', '2','area', 'shunt' ]
+        
     def load_config_file(self):
         
 
         if self.validate_json_path(self.file_name):
             
             self.say("loading config...")
-            
             with open(f'{self.file_name}', 'r') as config:
                 
                 self.complete_file = (json.load(config))
                 
                 self.sys_ref = self.complete_file['sys_ref']
                 self.config_ref= self.complete_file['config_ref']
+                
+            self.validate_all()
             self.say('config loaded!')
  
     def save_config_file(self):
         
         if self.validate_json_path(self.file_name):
+            self.validate_all()
             
             self.complete_file['sys_ref'] = self.sys_ref
             self.complete_file['config_ref'] = self.config_ref
@@ -59,6 +56,17 @@ class ConfigManager:
             with open(f'{self.file_name}', 'w') as config_file:
                 json.dump(self.complete_file, config_file, indent=4)
             self.say('Successfully saved!\n')
+            
+    def validate_all(self):
+        probe_ids = list(self.sys_ref.keys())
+        
+        for probe_id in probe_ids:
+            for key in self.sys_ref[probe_id].keys():
+                self.validate_entry(self.sys_ref, probe_id, key, self.sys_ref[probe_id][key])
+                
+            for key in self.config_ref[probe_id].keys():
+                self.validate_entry(self.config_ref, probe_id, key, self.config_ref[probe_id][key])
+             
             
     def validate_json_path(self, file_name):
         
@@ -100,6 +108,7 @@ class ConfigManager:
              
              if key in self.config_ref.keys() and probe_id == '':
                  return self.config_ref[key]
+             
              elif key in self.sys_ref[probe_id].keys():
                  return self.sys_ref[probe_id][key]
                  
@@ -110,22 +119,68 @@ class ConfigManager:
                  self.say('wrong key!')
       
     def validate_entry(self, ref, probe_id, key, value):
-        
+        tokens = key.split('_')
         if not probe_id:
             self.validate_paths(ref, key, value)
             
-        elif key in self.list_of_biases:
-            self.validate_voltage(ref, probe_id, key, value)
-        else: 
-            ref[probe_id][key]= value
+        elif tokens[-1] in self.list_of_biases:
+            self.validate_voltage(ref, probe_id, key, value, tokens)
+            
+        elif tokens[-1] in self.list_of_positive_floats:
+            self.validate_positive_floats(ref, probe_id, key, value)
     
-    def validate_voltage(self, ref, probe_id, key, value):
+        else:
+            if isinstance(value, (int, float)):
+                if value % 1 == 0:
+                    ref[probe_id][key]= int(value)
+            
+    def validate_positive_floats(self, ref, probe_id, key, value):
+        if isinstance(value,(int, float)):
+            if value >= 0 :
+                ref[probe_id][key]= value
+                
+    def validate_sweep(self, ref, probe_id, key, value, tokens):
+        sweep_amp_max = tokens.copy()
+        sweep_amp_min = tokens.copy()
         
-        tokens = key.split('_')
+        sweep_amp_max.insert(1, 'amp')
+        sweep_amp_max[-1] = 'max'
+        sweep_amp_min.insert(1, 'amp')
+        sweep_amp_min[-1] = 'min'
+        
+        amp_max_key = '_'.join(sweep_amp_max)
+        amp_min_key = '_'.join(sweep_amp_min)
+        
+       
+        if ref[probe_id][amp_min_key] <= value <= ref[probe_id][amp_max_key]:
+             
+             return False
+        else:
+            if tokens[1] == 'min':
+                if ref[probe_id][amp_min_key] > value:
+                   ref[probe_id][key]= ref[probe_id][amp_min_key]
+                   return True
+                
+            elif tokens[1] == 'max': 
+               if ref[probe_id][amp_max_key] < value:
+                   ref[probe_id][key] = ref[probe_id][amp_max_key]
+                   return True
+        return False
+              
+        
+    def validate_voltage(self, ref, probe_id, key, value, tokens):
+        
+        if not isinstance(value,(int, float)):
+           return
+       
+        if tokens[0] == 'sweep' and 'amp' != tokens[1]:
+            if self.validate_sweep(ref, probe_id, key, value, tokens):
+                return
+        
         if tokens[-1] == 'min':
            tokens[-1] = 'max'
            max_key = '_'.join(tokens)
-           self.say(max_key)
+          
            if ref[probe_id][max_key] > value:
                ref[probe_id][key]= value
         
@@ -147,8 +202,7 @@ class ConfigManager:
              
              max_key = '_'.join(max_token)
              min_key = '_'.join(min_token)
-             print(f'min key : {min_key}')
-             print(f'max key : {max_key}')
+           
              if ref[probe_id][min_key] <= value <= ref[probe_id][max_key]:
                 ref[probe_id][key]= value    
                 

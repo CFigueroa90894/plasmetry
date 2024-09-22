@@ -36,7 +36,7 @@ class GuiManager():
         run_window = ExperimentRun(self.control)
         setup_window = ExperimentSetup(self.control, run_window, UserSettings)
         
-        settings_window = UserSettings(self.control)
+        settings_window = UserSettings(self.control, setup_window)
 
         setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
         
