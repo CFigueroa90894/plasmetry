@@ -53,7 +53,6 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
     Includes initialization for flags, data buffer, equations, config, and data buffer. Defines
     abstract methods and implements a constructor to define common attributes for all probes.
     
-
     Attributes:
         + probe_id - identifier for the probe's type
         + sys_ref: dict - reference to system settings
@@ -61,6 +60,7 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
         + status_flags - state indicators
         + command_flags - action triggers
         + data_buff: Queue - buffer to return data samples
+        + num_samples: int - number of measurements required to perform one set of calculations
         + sampling_rate: int - samples to obtain per second (Hz)
         + relay_set: RelaySet - collection of relays
         ^+ delay: float - seconds that the thread should wait before entering its main loop
