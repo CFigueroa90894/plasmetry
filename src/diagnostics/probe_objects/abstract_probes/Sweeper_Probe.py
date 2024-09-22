@@ -49,7 +49,11 @@ class SweeperProbe(BaseProbe):
     """This class defines a base parent for any probe type that requires voltage sweeps. For
     our current implementation, this includes Single Langmuir Probes, Double Langmuir Probes,
     Hyperbolic Energy Analyzers, and Ion Energy Analyzers. It inherits general attributes from
-    BaseProbe.
+    BaseProbe. Sweeper probes in general apply a biasing voltage in incremental steps. The measured
+    voltages are used to calculate current through the sweeper probe. This current can be plotted
+    against the applied voltage steps, yielding a plot known as Current-Voltage Curve (I-V curve).
+    This plot is analyzed to obtain several plasma parameters, which turn allow us to calculate
+    more plasma parameters.
 
     Attributes (Config and Control):
         ^+ probe_id - identifier for the probe's type
@@ -68,6 +72,7 @@ class SweeperProbe(BaseProbe):
         + sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
         # _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
         ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ num_samples: int - number of measurements per voltage sweep
         ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
 
     Methods:
@@ -117,9 +122,25 @@ class SweeperProbe(BaseProbe):
             self._premap_bias.append(pair[1])  # make list of desired high voltage bias
 
     def preprocess_samples(self, raw_samples: list):
-        """Implements simple preprocessing for sweeper probe data samples, packs data samples and
-        config values as key-value pairs so the calculations objects can correctly access them.
+        """Returns a packed dictionary with raw samples and config values identified by the standard
+        keys that the calculations subcomponent uses to retrieve them.
+
+        The raw_samples argument should be the unmodified value enqueued by the sweep() method into
+        the data buffer. This guarantees that for any 'n-th' step in the sweep, indexing both the
+        self._premap_bias list and the raw_samples argument list by 'n' will yield the premapped
+        applied-bias that produced the measured raw-voltage response from the plasma:
+            i.e. 'n' maps applied biases to measured voltages.
+
+        Sweeper probe equations use "<...analytic methods...>" to obtain initial values for
+        the sequentially applied equations. Therefore, they require a complete data set in order to 
+        obtain plasma parameters. In this case, a complete data set corresponds to a full sweep.
         
+        This method should NOT be invoked by the probe's data acquisition thread. Instead, the
+        ProbeOperation thread must collect the samples from the data buffer and call this method
+        from a separate thread. This method solely exists to ensure the ProbeOperation thread and
+        the calculations subcomponent are decoupled from specific probe implementations while still
+        maintaining compatibility.
+
         """
         samples = {
             "Bias 1": self._premap_bias,
@@ -128,9 +149,9 @@ class SweeperProbe(BaseProbe):
         }
         return samples
 
-    def sweep(self) -> dict:
-        """Performs a single voltage sweep on the sweeper object.
-        Returns a dictionary consisting of applied biases and raw sampled voltages.
+    def sweep(self):
+        """Performs a single voltage sweep using the sweeper object. Returns a list of measured
+        voltages acquired for each sweep step.
         
         """
         # setup
