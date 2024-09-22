@@ -87,6 +87,7 @@ class EnergyAnalyzer(SweeperProbe):
         ^+ sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
         ^# _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
         ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ num_samples: int - number of measurements per voltage sweep
         ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
 
     Methods:
