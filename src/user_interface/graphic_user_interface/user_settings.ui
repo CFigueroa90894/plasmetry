@@ -9108,7 +9108,7 @@ QComboBox {
                </font>
               </property>
               <property name="title">
-               <string>Collector Bias Range:</string>
+               <string>Collimator Bias Range:</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_76">
                <property name="spacing">
@@ -10072,7 +10072,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Collector Gain:</string>
+                  <string>Collimator Gain:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
