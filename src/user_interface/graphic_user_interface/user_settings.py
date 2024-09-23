@@ -24,6 +24,13 @@ class UserSettings(QMainWindow):
         # Connect QComboBox selection change to change pages in the probe_config_view
         self.probe_selection_cb.currentIndexChanged.connect(self.switch_probe_page)
 
+        # Set up the page switching logic
+        self.main_view.currentChanged.connect(self.handle_page_switch)
+
+        # Ensure window starts on experiment_name
+        self.main_view.setCurrentIndex(0)
+        self.handle_page_switch()
+
         # Connect left and right buttons to change pages
         self.page_left_btn.clicked.connect(self.go_to_previous_page)
         self.page_right_btn.clicked.connect(self.go_to_next_page)
@@ -281,6 +288,29 @@ class UserSettings(QMainWindow):
         # Connect Plus/Minus buttons for Collector Shunt Resistance
         #self.hea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, -1, ''))
         #self.hea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, +1, ''))
+
+    def showEvent(self, event):
+        """Called every time the window is shown. Reset the view to experiment_name page."""
+        super().showEvent(event)
+        
+        # Set the current page to experiment_name (index 0)
+        self.main_view.setCurrentIndex(0)
+        
+        # Ensure buttons are correctly hidden or shown
+        self.handle_page_switch()
+
+    def handle_page_switch(self):
+        """Handles hiding/showing buttons and initializing frames based on page switch."""
+        current_index = self.main_view.currentIndex()
+
+        if current_index == 0:
+            self.reset_btn.setVisible(False)
+            self.save_btn.setVisible(False)
+
+        else:  
+            self.reset_btn.setVisible(True)
+            self.save_btn.setVisible(True)
+
 
     def set_widget_values(self):
         
