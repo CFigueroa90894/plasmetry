@@ -90,19 +90,14 @@ class ExperimentRun(QMainWindow):
     def handle_page_switch(self):
         """Handles hiding/showing buttons and initializing frames based on page switch."""
         current_index = self.main_view.currentIndex()
-        
-        # Debugging: print current index and page switching events
-        print(f"Current page index: {current_index}")
 
         # Assuming experiment_name is at index 0 and run_page is at index 1
         if current_index == 0:  # Experiment Name page
-            print("Switched to experiment_name page.")
             self.run_btn.setVisible(False)
             self.stop_btn.setVisible(False)
             self.initialize_experiment_name_view()
 
         elif current_index == 1:  # Run Page
-            print("Switched to run_page.")
             self.run_btn.setVisible(True)
             self.stop_btn.setVisible(True)
 
@@ -110,11 +105,9 @@ class ExperimentRun(QMainWindow):
         params_dictionaries = RunParameters()
         params = params_dictionaries.get_parameters_for_probe(probe)
 
-        print(f"Parameters for {probe}: {params}")  # Debug statement
 
         if params:
             self.load_probe_calculations(params)
-            print(f"Selected probe for experiment run: {probe}")  # Debug statement
         else:
             print(f"No parameters found for probe: {probe}")
 
@@ -299,7 +292,6 @@ class ExperimentRun(QMainWindow):
 
         # Setting the run_status_label to running
         self.update_run_status(2)
-        print("Experiment started.")
         self.display_alert_message("Experiment started")
 
     def emit_stop_signal(self):
@@ -321,5 +313,4 @@ class ExperimentRun(QMainWindow):
             # Setting the run_status_label to stopped
             self.update_run_status(0)
 
-            print("Experiment stopped.")
             self.display_alert_message("Experiment stopped")
