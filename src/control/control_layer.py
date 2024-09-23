@@ -395,7 +395,8 @@ class ControlLayer(AbstractControl):
             "command_flags": self._commands,
             "probe_type": self.__selected_probe,
             "local_path": self._config_manager.config_ref["local_path"],
-            "credentials_path": self._config_manager.config_ref["credentials_path"]
+            "credentials_path": self._config_manager.config_ref["credentials_path"],
+            "experiment_name": self._config_manager.config_ref["experiment_name"]
         }
         return args
     
