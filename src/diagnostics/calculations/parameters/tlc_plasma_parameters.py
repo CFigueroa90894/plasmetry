@@ -23,27 +23,27 @@ def filter_current(parameters):
     
     parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
     parameters['Raw voltage 2'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    parameters['Probe 2 filtered current'] =  parameters['Raw voltage 1'] / parameters['Shunt 1']
-    parameters['Probe 3 filtered current'] = parameters['Raw voltage 2'] / parameters['Shunt 2']
+    parameters['Probe 2 filtered current (Amperes)'] =  parameters['Raw voltage 1'] / parameters['Shunt 1']
+    parameters['Probe 3 filtered current (Amperes)'] = parameters['Raw voltage 2'] / parameters['Shunt 2']
     
 
 def iteration(parameters, estimated_guess):
     
     # First exponential term, shall be used for function and derivative calculation
-    first_exp_term =  (parameters['Probe 1 filtered current'] - \
-                       parameters['Probe 3 filtered current']) * \
+    first_exp_term =  (parameters['Probe 1 filtered current (Amperes)'] - \
+                       parameters['Probe 3 filtered current (Amperes)']) * \
                        np.exp(np.clip(parameters['Bias 1'] * estimated_guess, None, LIMIT))
      
     # Second exponential term,  shall be used for function and derivative calculation
-    second_exp_term =(parameters['Probe 1 filtered current'] - \
-                      parameters['Probe 2 filtered current']) * \
+    second_exp_term =(parameters['Probe 1 filtered current (Amperes)'] - \
+                      parameters['Probe 2 filtered current (Amperes)']) * \
                       np.exp(np.clip(parameters['Bias 2'] * estimated_guess, None, LIMIT))
     
     
     # Storing the function, to be used for the next estimated guess calculation
     function_output =  first_exp_term - second_exp_term - \
-                       parameters['Probe 2 filtered current'] + \
-                       parameters['Probe 3 filtered current']
+                       parameters['Probe 2 filtered current (Amperes)'] + \
+                       parameters['Probe 3 filtered current (Amperes)']
     
     # Storing the prime value, to be used for the next estimated guess calculation
     derivative_output = parameters['Bias 1'] * first_exp_term - \
@@ -109,7 +109,7 @@ def get_electron_temperature(parameters):
 def get_electron_density(parameters):
     
     # Storing ion saturation current
-    parameters['Electron saturation current'] = parameters['Probe 3 filtered current']
+    parameters['Electron saturation current (Amperes)'] = parameters['Probe 3 filtered current (Amperes)']
     
     # Calling global electron density function, which is deployed by SLP, HEA, and IEA
     get_particle_density(parameters)
@@ -117,19 +117,19 @@ def get_electron_density(parameters):
 
 def get_probe_current(parameters):
     "This function returns "
-    parameters['Probe 1 filtered current'] = -1 * (parameters['Probe 3 filtered current'] + \
+    parameters['Probe 1 filtered current (Amperes)'] = -1 * (parameters['Probe 3 filtered current (Amperes)'] + \
                                                  
-                                                   parameters['Probe 2 filtered current'])
+                                                   parameters['Probe 2 filtered current (Amperes)'])
 def get_display_parameters(parameters):
     
     """This function returns a ProtectedDictionary object containing the parameters used for display.
     
     Intended for all probe parameters."""
     display_parameters = []
-    display_parameters.append(parameters['Electron saturation current'])
+    display_parameters.append(parameters['Electron saturation current (Amperes)'])
     display_parameters.append(parameters['Electron temperature (eV)'])
     display_parameters.append(parameters['Electron temperature (Joules)'])
-    display_parameters.append(parameters['Electron density'])
+    display_parameters.append(parameters['Electron density (m-3)'])
 
     return display_parameters
 

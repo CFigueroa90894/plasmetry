@@ -33,7 +33,7 @@ def get_ion_saturation_current(parameters):
     """
     
     # Storing the ion saturation current.
-    parameters['Ion saturation current'] = np.min(parameters['Filtered current'] )
+    parameters['Ion saturation current (Amperes)'] = np.min(parameters['Filtered current (Amperes)'] )
    
     
 def get_electron_temperature( parameters):
@@ -50,9 +50,9 @@ def get_electron_temperature( parameters):
     ELECTRON_CHARGE = 1.60217657e-19
     
     # Storing parameters used for calculations
-    filtered_current_list = parameters['Filtered current'] 
+    filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1'] 
-    ion_saturation_current = parameters['Ion saturation current'] 
+    ion_saturation_current = parameters['Ion saturation current (Amperes)'] 
     if voltage_list:
         
     # Storing the index where the voltage is closest to 0.
@@ -85,7 +85,7 @@ def get_electron_density(parameters):
     
     # Acquiring electron density 
     square_root_term =  np.sqrt(ion_mass / parameters['Electron temperature (Joules)'])
-    parameters['Electron density'] = abs(parameters['Ion saturation current'] / \
+    parameters['Electron density (m-3)'] = abs(parameters['Ion saturation current (Amperes)'] / \
                                         (ELECTRON_CHARGE *  probe_area) * \
                                         (square_root_term * np.exp(0.5)))
 
@@ -96,11 +96,11 @@ def get_display_parameters(parameters):
     
     Intended for all probe parameters."""
     display_parameters = []
-    display_parameters.append(parameters['Ion saturation current'])
+    display_parameters.append(parameters['Ion saturation current (Amperes)'])
     display_parameters.append(parameters['Electron temperature (eV)'])
     display_parameters.append(parameters['Electron temperature (Joules)'])
-    display_parameters.append(parameters['Electron density'])
-    display_parameters.append(parameters['Debye length'])
+    display_parameters.append(parameters['Electron density (m-3)'])
+    display_parameters.append(parameters['Debye length (Meters)'])
     display_parameters.append(parameters['Number of electrons'])
 
     return display_parameters

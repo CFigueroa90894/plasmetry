@@ -36,12 +36,12 @@ def get_floating_and_plasma_potential(parameters):
     """
     
     # Storing filtered current and applied bias 
-    filtered_current_list = parameters['Filtered current'] 
+    filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list = parameters['Bias 1']
 
     # Storing the index of the floating potential and its value
     parameters['Floating potential index'] = np.argmin(abs(filtered_current_list)) 
-    parameters['Floating potential'] = voltage_list[parameters['Floating potential index']]
+    parameters['Floating potential (Volts)'] = voltage_list[parameters['Floating potential index']]
     
 
     """The plasma potential may be yielded from the value of the voltage where the 
@@ -55,11 +55,11 @@ def get_floating_and_plasma_potential(parameters):
     
     # Storing the index of the plasma potential and its value
     parameters['Plasma potential index'] = np.argmin(second_derivative)
-    parameters['Plasma potential'] = voltage_list[parameters['Plasma potential index']]
+    parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
     
     # If the calculated plasma potential is negative,
     # biases entered or data captured does not produce expected sigmoid.
-    if parameters['Plasma potential'] <= 0: 
+    if parameters['Plasma potential (Volts)'] <= 0: 
         return 'This sweep is not valid'
     
     
@@ -76,7 +76,7 @@ def get_electron_saturation_current(parameters):
     saturation_index = parameters['Plasma potential index']
     
     # Storing the current acquired at the plasma potential, A.K.A the electron saturation current
-    parameters['Electron saturation current'] = parameters['Filtered current'][saturation_index]
+    parameters['Electron saturation current (Amperes)'] = parameters['Filtered current (Amperes)'][saturation_index]
 
 
 def get_electron_temperature(parameters):
@@ -116,8 +116,8 @@ def get_electron_temperature(parameters):
     final_index= int(np.ceil(points_number * 0.75 )) + parameters['Floating potential index']
    
     # To calculate the slope, the numerator and denominator shall be acquired.
-    numerator_of_slope = np.log(parameters['Filtered current'][final_index]) - \
-    np.log(abs(parameters['Filtered current'] [starting_index]))
+    numerator_of_slope = np.log(parameters['Filtered current (Amperes)'][final_index]) - \
+    np.log(abs(parameters['Filtered current (Amperes)'] [starting_index]))
     denominator_of_slope = parameters['Bias 1'][final_index] - parameters['Bias 1'][starting_index]
     
     # Denominator / numerator is being performed 
@@ -134,13 +134,13 @@ def get_display_parameters(parameters):
     
     Intended for all probe parameters."""
     display_parameters = []
-    display_parameters.append(parameters['Floating potential'])
-    display_parameters.append(parameters['Plasma potential'])
-    display_parameters.append(parameters['Electron saturation current'])
+    display_parameters.append(parameters['Floating potential (Volts)'])
+    display_parameters.append(parameters['Plasma potential (Volts)'])
+    display_parameters.append(parameters['Electron saturation current (Amperes)'])
     display_parameters.append(parameters['Electron temperature (eV)'])
     display_parameters.append(parameters['Electron temperature (Joules)'])
-    display_parameters.append(parameters['Electron density'])
-    display_parameters.append(parameters['Debye length'])
+    display_parameters.append(parameters['Electron density (m-3)'])
+    display_parameters.append(parameters['Debye length (Meters)'])
     display_parameters.append(parameters['Number of electrons'])
 
     return display_parameters

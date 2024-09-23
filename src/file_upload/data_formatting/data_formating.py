@@ -21,14 +21,14 @@ def process_sweep(sweep_data, experiment_run):
         for i in range(len(experiment_run['Bias 1'])):
             
             # Appending the sweep data
-            sweep_data.append({'Bias' : experiment_run['Bias 1'][i], \
-                               'Raw Signal' : experiment_run['Raw voltage 1'][i],  \
-                               'Filtered current': experiment_run['Filtered current'][i]})
+            sweep_data.append({'Bias (Volts)':experiment_run['Bias 1'][i], \
+                               'Raw Signal (Volts)' : experiment_run['Raw voltage 1'][i],  \
+                               'Filtered current (Amperes)': experiment_run['Filtered current (Amperes)'][i]})
         
         # Deleting the appended sweep data
         del experiment_run['Bias 1']
         del experiment_run['Raw voltage 1']
-        del experiment_run['Filtered current']  
+        del experiment_run['Filtered current (Amperes)']  
     
 def create_csv_object(data):
     

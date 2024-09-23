@@ -16,7 +16,7 @@ def filter_current(parameters):
     parameters['Potential difference'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
     del parameters['Raw voltage 2']
     parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
-    parameters['Filtered current'] = parameters['Raw voltage 1'] / parameters['config_ref']['Shunt 1']
+    parameters['Filtered current (Amperes)'] = parameters['Raw voltage 1'] / parameters['config_ref']['Shunt 1']
     
 def iteration(potential_difference, bias, estimated_guess):
     
@@ -118,14 +118,14 @@ def get_electron_density(parameters):
                                   electron_temperature))
                                  
     # Since the density formula is composed of a division, yielding the numerator and denominator
-    numerator_of_equation= abs( parameters['Filtered current']  * exponential_term)
+    numerator_of_equation= abs( parameters['Filtered current (Amperes)']  * exponential_term)
     
     denominator_of_equation = abs(0.61 * probe_area * ELECTRON_CHARGE * \
                                   np.sqrt(electron_temperature / ion_mass) * \
                                  (1 - exponential_term))
     
     # Storing electron density
-    parameters['Electron density'] = numerator_of_equation / denominator_of_equation
+    parameters['Electron density (m-3)'] = numerator_of_equation / denominator_of_equation
     
 def get_display_parameters(parameters):
     
@@ -135,7 +135,7 @@ def get_display_parameters(parameters):
     display_parameters = []
     display_parameters.append(parameters['Electron temperature (eV)'])
     display_parameters.append(parameters['Electron temperature (Joules)'])
-    display_parameters.append(parameters['Electron density'])
+    display_parameters.append(parameters['Electron density (m-3)'])
 
     return display_parameters
 
