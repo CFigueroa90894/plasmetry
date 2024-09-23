@@ -28,11 +28,9 @@ from google_drive import GoogleDrive
 
 from local_upload import LocalUpload
 
-from probe_enum import PRB 
-from threading import Thread
 class FileUpload:
     
-    def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path=''):
+    def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path='', experiment_name=''):
         
         self.say = text_out
         """FileUpload construtor"""
@@ -46,6 +44,8 @@ class FileUpload:
         
         # Storing local upload object
         self.local_uploader = LocalUpload(text_out, local_path) 
+        
+        self.experiment_name = experiment_name
         
         self.get_probe_folder(probe_type)
         # Verifying if unformatted data has been received, if true will commence to process the data
@@ -109,7 +109,10 @@ class FileUpload:
              
             # Verifying if there is a connection with the offsite storage to commence upload requests
             if self.offsite_wrapper.validate_connection():
-                
+                if self.experiment_name:
+                    # Switching to folder with current date for uploading
+                    self.folder_change(self.offsite_wrapper, f'{self.experiment_name}')
+                    
                 # Switching to folder with current date for uploading
                 self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()}')
             
