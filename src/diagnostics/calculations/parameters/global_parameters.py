@@ -56,7 +56,7 @@ def get_display_parameters(parameters):
     display_parameters.append(parameters['Particle temperature (eV)'])
     display_parameters.append(parameters['Particle temperature (Joules)'])
     display_parameters.append(parameters['Particle density'])
-            
+    
     return display_parameters
 
 def get_debye_length(parameters):
@@ -74,16 +74,19 @@ def get_debye_length(parameters):
                                          parameters['Electron temperature (Joules)'] /  \
                                         (parameters['Electron density'] * ELECTRON_CHARGE ** 2))
 
-
+ 
 def get_number_of_electrons(parameters):
     
     """DLP and SLP number of particles in the debye sphere is yielded from this function."""
     
+    if np.isnan(parameters['Debye length']) or np.isnan(parameters['Electron density']): 
+        parameters['Number of electrons'] = 'nan'
+        return None
     # Obtaining the number of electrons in the debye sphere 
     parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length'] * \
                                             parameters['Electron density'])
-
-
+        
+        
 def get_particle_density(parameters):
     
     """This function yields the density for SLP, HEA, and IEA, in Kilograms per cubic meter.
