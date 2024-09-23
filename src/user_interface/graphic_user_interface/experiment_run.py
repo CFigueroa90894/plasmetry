@@ -59,7 +59,7 @@ class ExperimentRun(QMainWindow):
 
         # Connect the query buttons in experiment_name page
         self.query_no_btn.clicked.connect(self.show_exp_path_name_frame)
-        self.query_yes_btn.clicked.connect(self.switch_to_run_page)
+        self.query_yes_btn.clicked.connect(self.no_path_change)
 
         # Connect confirm button in exp_path_name_frame
         self.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
@@ -104,6 +104,7 @@ class ExperimentRun(QMainWindow):
             self.stop_btn.setVisible(True)
 
     def set_selected_probe(self, probe):
+        self.selected_probe = probe
         params_dictionaries = RunParameters()
         params = params_dictionaries.get_parameters_for_probe(probe)
 
@@ -296,6 +297,10 @@ class ExperimentRun(QMainWindow):
         self.update_run_status(2)
         self.display_alert_message("Experiment started")
         
+    def no_path_change(self):
+        self.control.set_config(probe_id='', key='experiment_name', value="")
+        self.switch_to_run_page()
+        
     def open_file_dialog(self, line_edit):
             dialog = QFileDialog(self)
             dialog.setDirectory(r'C:/')
@@ -309,7 +314,8 @@ class ExperimentRun(QMainWindow):
                 if filenames:
                     self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))
                     line_edit.setText(self.control.get_config(probe_id='', key='local_path'))
-                    
+                    self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
+                
     def emit_stop_signal(self):
          """Emit signal when stop button is clicked."""
          self.display_alert_message("Stopping experiment...")
