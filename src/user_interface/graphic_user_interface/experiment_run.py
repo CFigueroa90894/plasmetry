@@ -1,7 +1,8 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel, QLineEdit, QFrame, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QLabel, QLineEdit, QFrame, QVBoxLayout, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal, QTimer
 from run_parameters import RunParameters
+from pathlib import Path
 
 """
 ########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
@@ -62,6 +63,7 @@ class ExperimentRun(QMainWindow):
 
         # Connect confirm button in exp_path_name_frame
         self.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
+        self.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.exp_path_name_input))
 
     def initialize_experiment_name_view(self):
         """Shows the query frame by default when switching to experiment_name page."""
@@ -301,7 +303,21 @@ class ExperimentRun(QMainWindow):
         self.update_run_status(2)
         print("Experiment started.")
         self.display_alert_message("Experiment started")
+        
+    def open_file_dialog(self, line_edit):
+            dialog = QFileDialog(self)
+            dialog.setDirectory(r'C:/')
+          
+            dialog.setFileMode(QFileDialog.FileMode.Directory) 
 
+            dialog.setViewMode(QFileDialog.ViewMode.List)
+            if dialog.exec():
+                filenames = dialog.selectedFiles()
+                
+                if filenames:
+                    self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))
+                    line_edit.setText(self.control.get_config(probe_id='', key='local_path'))
+                    
     def emit_stop_signal(self):
          """Emit signal when stop button is clicked."""
          self.display_alert_message("Stopping experiment...")
