@@ -79,7 +79,8 @@ def process_data(unformatted_data):
         
         
         del experiment_run['config_ref']
-        
+        del experiment_run['sys_ref']
+
         # Storing the parameters data.
         calculated_parameters.append(experiment_run)
 
