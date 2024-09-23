@@ -24,7 +24,7 @@ import os
 
 import datetime
 
-from threading import Event
+from threading import Event, Thread
 from queue import Queue, Empty
 
 from typing import Tuple
@@ -267,11 +267,13 @@ class ControlLayer(AbstractControl):
 
                 # TO DO - CALL FILE UPLOAD
                 # Make a single-use FileUpload object
-                uploader = self._file_upload_cls(unformatted_data=results,
-                                                 **self.__file_upload_args())
+                
+                uploader = self._file_upload_cls(**self.__file_upload_args())
+                Thread(target=uploader.new_data(results), daemon=False).start()
+
                 self.__selected_probe = None    # clear probe selection
 
-            # get results timed out
+            # get results timed out 
             except Empty:
                 self.say("could not obtain results!")
 
