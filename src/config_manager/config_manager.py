@@ -236,10 +236,12 @@ class ConfigManager:
         if key=='credentials_path':
             if self.validate_json_path(value):
                self.set_value(ref, key, value)
-        else:
+        elif key=='local_path':
             if os.path.isdir(value):
                 self.set_value(ref, key, value)
-            
+        else:
+            self.set_value(ref, key, value)
+
     
     def set_value(self, ref, key, value):
         ref[key] = value
