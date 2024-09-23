@@ -34,8 +34,18 @@
 	background-color: #fafbff;
 }
 
+QLabel {
+	color: black;
+}
+
 QFrame {
 	background-color: #fafbff;
+	border: none;
+}
+
+QPushButton {
+	color: black;
+	border: none;
 }</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -407,6 +417,12 @@ QComboBox {
             <height>112</height>
            </size>
           </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Calibri</family>
@@ -439,13 +455,13 @@ QComboBox {
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>92</height>
+               <height>93</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>1000</width>
-               <height>1000</height>
+               <height>100</height>
               </size>
              </property>
              <property name="styleSheet">
@@ -661,7 +677,7 @@ QComboBox {
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>0</height>
+               <height>92</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -1382,13 +1398,13 @@ QComboBox QAbstractItemView {
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>112</height>
+            <height>125</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>128</height>
+            <height>125</height>
            </size>
           </property>
           <property name="font">
@@ -1420,6 +1436,12 @@ QComboBox QAbstractItemView {
            </property>
            <item>
             <widget class="QFrame" name="dlp_min_frame">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>93</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>1000</width>
@@ -1900,7 +1922,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -2704,7 +2726,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -3235,7 +3257,7 @@ QComboBox QAbstractItemView {
                <widget class="QGroupBox" name="tlv_sampling_rate_gb">
                 <property name="maximumSize">
                  <size>
-                  <width>390</width>
+                  <width>395</width>
                   <height>108</height>
                  </size>
                 </property>

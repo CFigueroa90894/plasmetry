@@ -71,6 +71,10 @@ class UserSettings(QMainWindow):
         # Connect Plus/Minus buttons for Collector Gain
         self.slp_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, -1, 'collector_gain'))
         self.slp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, +1, 'collector_gain'))
+
+        # Connect Plus/Minus buttons for Collector Shunt Resistance
+        #self.slp_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.slp_collector_shunt_rest_input, -1, ''))
+        #self.slp_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_shunt_rest_input, +1, ''))
         
                                 ################## DLP ##################
 
@@ -97,6 +101,10 @@ class UserSettings(QMainWindow):
         # Connect Plus/Minus buttons for Collector Gain
         self.dlp_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, -1, 'collector_gain'))
         self.dlp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, +1, 'collector_gain'))
+
+        # Connect Plus/Minus buttons for Collector Shunt Resistance
+        #self.dlp_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_shunt_rest_input, -1, ''))
+        #self.dlp_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_shunt_rest_input, +1, ''))
 
                                 ################## TLC ##################
 
@@ -136,6 +144,14 @@ class UserSettings(QMainWindow):
         self.tlc_down_collect_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_collect_gain_input, -1, 'down_collector_gain'))
         self.tlc_down_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_collect_gain_input, +1, 'down_collector_gain'))
 
+        # Connect Plus/Minus buttons for Up Collector Shunt Resistance
+        #self.tlc_up_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_shunt_rest_input, -1, ''))
+        #self.tlc_up_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_shunt_rest_input, +1, ''))
+
+        # Connect Plus/Minus buttons for Down Collector Shunt Resistance
+        #self.tlc_down_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_shunt_rest_input, -1, ''))
+        #self.tlc_down_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_shunt_rest_input, +1, ''))
+
                                 ################## TLV ##################
 
         # Connect Plus/Minus buttons for DAC MIN
@@ -165,6 +181,10 @@ class UserSettings(QMainWindow):
         # Connect Plus/Minus buttons for Up Collector Gain
         self.tlv_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_collector_gain_input, -1, 'up_collector_gain'))
         self.tlv_up_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_collector_gain_input, +1, 'up_collector_gain'))
+
+        # Connect Plus/Minus buttons for Up Collector Shunt Resistance
+        #self.tlv_up_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_shunt_rest_input, -1, ''))
+        #self.tlv_up_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_shunt_rest_input, +1, ''))
 
                                 ################## IEA ##################
 
@@ -216,6 +236,10 @@ class UserSettings(QMainWindow):
         self.iea_mass_minus.clicked.connect(lambda: self.adjust_value(self.iea_mass_input, -1, 'Probe area'))
         self.iea_mass_plus.clicked.connect(lambda: self.adjust_value(self.iea_mass_input, +1, 'Probe area'))
 
+        # Connect Plus/Minus buttons for Collector Shunt Resistance
+        #self.iea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_shunt_rest_input, -1, ''))
+        #self.iea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.iea_collector_shunt_rest_input, +1, ''))
+
                                 ################## HEA ##################
 
         # Connect Plus/Minus buttons for DAC MIN
@@ -254,6 +278,10 @@ class UserSettings(QMainWindow):
         self.hea_area_minus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, -1, 'Probe area'))
         self.hea_area_plus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, +1, 'Probe area'))
 
+        # Connect Plus/Minus buttons for Collector Shunt Resistance
+        #self.hea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, -1, ''))
+        #self.hea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, +1, ''))
+
     def set_widget_values(self):
         
         self.credentials_path_input.setText(self.control.get_config(probe_id = '', key = 'credentials_path'))
@@ -267,6 +295,7 @@ class UserSettings(QMainWindow):
         self.slp_sweep_min_input.setValue(self.control.get_config('slp', 'sweep_amp_min'))
         self.slp_sweep_max_input.setValue(self.control.get_config('slp', 'sweep_amp_max'))
         self.slp_collector_gain_input.setValue(self.control.get_config('slp', 'collector_gain'))
+        #self.slp_collector_shunt_rest_input.setValue(self.control.get_config('slp', ''))
         
                 ################## SLP ##################
 
@@ -276,6 +305,7 @@ class UserSettings(QMainWindow):
         self.dlp_sweep_min_input.setValue(self.control.get_config('dlp', 'sweep_amp_min'))
         self.dlp_sweep_max_input.setValue(self.control.get_config('dlp', 'sweep_amp_max'))
         self.dlp_collector_gain_input.setValue(self.control.get_config('dlp', 'collector_gain'))
+        #self.dlp_collector_shunt_rest_input.setValue(self.control.get_config('dlp', ''))
 
                 ################## TLC ##################
 
@@ -288,6 +318,8 @@ class UserSettings(QMainWindow):
         self.tlc_down_amp_max_input.setValue(self.control.get_config('tlc', 'down_amp_max'))
         self.tlc_up_collector_gain_input.setValue(self.control.get_config('tlc', 'up_collector_gain'))
         self.tlc_down_collect_gain_input.setValue(self.control.get_config('tlc', 'down_collector_gain'))
+        #self.tlc_up_shunt_rest_input.setValue(self.control.get_config('tlc', ''))
+        #self.tlc_down_shunt_rest_input.setValue(self.control.get_config('tlc', ''))
 
                 ################## TLV ##################
 
@@ -298,6 +330,7 @@ class UserSettings(QMainWindow):
         self.tlv_up_amp_max_input.setValue(self.control.get_config('tlv', 'up_amp_max'))
         self.tlv_float_collect_gain_input.setValue(self.control.get_config('tlv', 'float_collector_gain'))
         self.tlv_up_collector_gain_input.setValue(self.control.get_config('tlv', 'up_collector_gain'))
+        #self.tlv_up_shunt_rest_input.setValue(self.control.get_config('tlv', ''))
 
                 ################## IEA ##################
 
@@ -313,7 +346,7 @@ class UserSettings(QMainWindow):
         self.iea_collector_gain_input.setValue(self.control.get_config('iea', 'collector_gain'))
         self.iea_sweep_min_input.setValue(self.control.get_config('iea', 'sweep_amp_min'))
         self.iea_sweep_max_input.setValue(self.control.get_config('iea', 'sweep_amp_max'))
-
+        #self.iea_collector_shunt_rest_input.setValue(self.control.get_config('iea', ''))
 
                 ################## HEA ##################
         self.hea_area_output.setValue(self.control.get_config('hea', 'Probe area'))
@@ -325,6 +358,7 @@ class UserSettings(QMainWindow):
         self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
      #   self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'collimator_bias'))
         self.hea_collect_gain_input.setValue(self.control.get_config('hea', 'collector_gain'))
+        #self.hea_collector_shunt_rest_input.setValue(self.control.get_config('hea', ''))
 
     def show_data_upload_settings(self):
         self.main_view.setCurrentWidget(self.data_upload_settings_page)

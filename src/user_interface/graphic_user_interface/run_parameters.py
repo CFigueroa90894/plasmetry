@@ -9,7 +9,7 @@ class RunParameters:
                 "Electron temperature (Joules)": 0,
                 "Electron Density": 0.0,
                 "Debye Length": 0.0,
-                "Number of electrons": 200000
+                "Electrons in Debye Sphere": 200000
             },
                 
             "dlp": {

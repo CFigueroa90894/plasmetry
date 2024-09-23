@@ -39,7 +39,7 @@
         }
     },
     "config_ref": {
-        "local_path": "testing_folder/",
+        "local_path": "C:\\",
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
         "slp": {
             "probe_id": "slp",
