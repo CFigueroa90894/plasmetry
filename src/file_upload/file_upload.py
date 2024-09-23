@@ -87,15 +87,15 @@ class FileUpload:
             
             self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.probe_folder}')
             
-            self.local_uploader.write_file(self.experiment_metadata, f'{self.local_uploader.parent_folder}/ experiment metadata.csv' )
+            self.local_uploader.write_file(self.experiment_metadata, f"{self.local_uploader.parent_folder}/ experiment metadata.csv" )
 
             # Creating the csv containing parameters date
-            self.local_uploader.write_file(self.parameters_csv, f'{self.local_uploader.parent_folder}/{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} parameters.csv' )
+            self.local_uploader.write_file(self.parameters_csv, f"{self.local_uploader.parent_folder}/{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} parameters.csv" )
             
             # Verifying if there is sweep data
             if  self.sweep_csv: 
                 # Creating the csv containing the sweep data
-                self.local_uploader.write_file(self.sweep_csv, f'{self.local_uploader.parent_folder}/{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} sweeps data.csv')
+                self.local_uploader.write_file(self.sweep_csv, f"{self.local_uploader.parent_folder}/{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} sweeps data.csv")
         else:
             self.say('Local path set to a directory that does not exist!')
             
@@ -114,16 +114,16 @@ class FileUpload:
                 self.folder_change(self.offsite_wrapper, f'{self.probe_folder}')
                 
                 # Storing the parameters csv object
-                self.offsite_wrapper.put_request(self.experiment_metadata, 'experiment metadata.csv')
+                self.offsite_wrapper.put_request(self.experiment_metadata,"experiment metadata.csv")
                 
                 # Storing the parameters csv object
-                self.offsite_wrapper.put_request(self.parameters_csv, f'{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} parameters.csv')
+                self.offsite_wrapper.put_request(self.parameters_csv, f"{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} parameters.csv")
                 
                 # Verifying if there is sweep data
                 if  self.sweep_csv:
                     
                     # Storing the sweep csv object
-                    self.offsite_wrapper.put_request(self.sweep_csv, f'{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} sweeps data.csv')
+                    self.offsite_wrapper.put_request(self.sweep_csv, f"{self.current_datetime.hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} sweeps data.csv")
                     
         else: self.say('No credentials path set!')
     
