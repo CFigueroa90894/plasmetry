@@ -45,10 +45,67 @@ class ExperimentRun(QMainWindow):
         self.counter = 1
         self.timer.timeout.connect(self.update_parameters)
         
+
         self.container = self.control.get_real_time_container()
         self.params_container = self.container[0]
         self.params_flag = self.container[1]
+        # Set up the page switching logic
+        self.main_view.currentChanged.connect(self.handle_page_switch)
+
+        # Ensure window starts on experiment_name
+        self.main_view.setCurrentIndex(0)
+        self.handle_page_switch()
+
+        # Connect the query buttons in experiment_name page
+        self.query_no_btn.clicked.connect(self.show_exp_path_name_frame)
+        self.query_yes_btn.clicked.connect(self.switch_to_run_page)
+
+        # Connect confirm button in exp_path_name_frame
+        self.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
+
+    def initialize_experiment_name_view(self):
+        """Shows the query frame by default when switching to experiment_name page."""
+        self.exp_path_name_query_frame.setVisible(True)
+        self.exp_path_name_frame.setVisible(False)
+
+    def showEvent(self, event):
+        """Called every time the window is shown. Reset the view to experiment_name page."""
+        super().showEvent(event)
         
+        # Set the current page to experiment_name (index 0)
+        self.main_view.setCurrentIndex(0)
+        
+        # Ensure buttons are correctly hidden or shown
+        self.handle_page_switch()
+
+    def show_exp_path_name_frame(self):
+        """Shows exp_path_name_frame and hides exp_path_name_query_frame."""
+        self.exp_path_name_query_frame.setVisible(False)
+        self.exp_path_name_frame.setVisible(True)
+
+    def switch_to_run_page(self):
+        """Switches to the run_page when the user confirms or clicks yes."""
+        self.main_view.setCurrentIndex(1)  # Assuming run_page is at index 1
+
+    def handle_page_switch(self):
+        """Handles hiding/showing buttons and initializing frames based on page switch."""
+        current_index = self.main_view.currentIndex()
+        
+        # Debugging: print current index and page switching events
+        print(f"Current page index: {current_index}")
+
+        # Assuming experiment_name is at index 0 and run_page is at index 1
+        if current_index == 0:  # Experiment Name page
+            print("Switched to experiment_name page.")
+            self.run_btn.setVisible(False)
+            self.stop_btn.setVisible(False)
+            self.initialize_experiment_name_view()
+
+        elif current_index == 1:  # Run Page
+            print("Switched to run_page.")
+            self.run_btn.setVisible(True)
+            self.stop_btn.setVisible(True)
+
     def set_selected_probe(self, probe):
         params_dictionaries = RunParameters()
         params = params_dictionaries.get_parameters_for_probe(probe)
@@ -112,7 +169,7 @@ class ExperimentRun(QMainWindow):
         # Create a label for the parameter name
         label = QLabel(param_name)
         label.setMaximumSize(1000, 25)
-        label.setStyleSheet("font-size: 14px; font-weight: bold;")
+        label.setStyleSheet("font-size: 18px; font-weight: bold;")
         vertical_layout.addWidget(label)
 
         # Create a QLineEdit for the parameter value as a non-editable field

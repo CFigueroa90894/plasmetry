@@ -34,8 +34,18 @@
 	background-color: #fafbff;
 }
 
+QLabel {
+	color: black;
+}
+
 QFrame {
-	background-color: transparent;
+	background-color: #fafbff;
+	border: none;
+}
+
+QPushButton {
+	color: black;
+	border: none;
 }</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -340,7 +350,7 @@ QComboBox QAbstractItemView {
       <property name="styleSheet">
        <string notr="true">QGroupBox {
 	border: 1px solid #fafbff;
-	background-color: transparent;
+	background-color: #fafbff;
     color: black; 
     margin-top: 30px;  /* Add margin to preserve space for the title */
 }
@@ -407,6 +417,12 @@ QComboBox {
             <height>112</height>
            </size>
           </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>125</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <family>Calibri</family>
@@ -432,14 +448,20 @@ QComboBox {
             <number>10</number>
            </property>
            <property name="bottomMargin">
-            <number>10</number>
+            <number>0</number>
            </property>
            <item alignment="Qt::AlignVCenter">
             <widget class="QFrame" name="slp_min_frame">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>93</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>1000</width>
-               <height>1000</height>
+               <height>100</height>
               </size>
              </property>
              <property name="styleSheet">
@@ -471,7 +493,7 @@ QComboBox {
                <widget class="QLabel" name="slp_min_label">
                 <property name="minimumSize">
                  <size>
-                  <width>40</width>
+                  <width>42</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -547,8 +569,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="styleSheet">
@@ -585,7 +607,9 @@ QComboBox {
                     <enum>Qt::LeftToRight</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true"/>
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -620,15 +644,15 @@ QComboBox {
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>58</width>
                      <height>58</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -653,7 +677,7 @@ QComboBox {
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>0</height>
+               <height>92</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -790,7 +814,9 @@ QComboBox {
                     <enum>Qt::LeftToRight</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true"/>
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -825,7 +851,7 @@ QComboBox {
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>58</width>
                      <height>58</height>
                     </size>
                    </property>
@@ -863,7 +889,7 @@ QComboBox {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -953,8 +979,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -991,7 +1017,9 @@ QComboBox {
                     <enum>Qt::LeftToRight</enum>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true"/>
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -1032,15 +1060,15 @@ QComboBox {
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>58</width>
                      <height>58</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -1103,8 +1131,8 @@ QComboBox {
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="text">
@@ -1135,7 +1163,9 @@ QComboBox {
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true"/>
+                    <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
@@ -1173,15 +1203,15 @@ QComboBox {
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
+                     <width>58</width>
                      <height>58</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <pointsize>20</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
+                     <weight>75</weight>
+                     <bold>true</bold>
                     </font>
                    </property>
                    <property name="focusPolicy">
@@ -1220,7 +1250,7 @@ QComboBox {
                <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>10</number>
+               <number>0</number>
               </property>
               <item>
                <widget class="QGroupBox" name="slp_gas_select_gb">
@@ -1261,7 +1291,7 @@ QComboBox {
                   <widget class="QComboBox" name="slp_gas_select_cb">
                    <property name="minimumSize">
                     <size>
-                     <width>0</width>
+                     <width>368</width>
                      <height>58</height>
                     </size>
                    </property>
@@ -1291,13 +1321,13 @@ QComboBox {
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
                    </property>
                    <property name="frame">
@@ -1368,13 +1398,13 @@ QComboBox QAbstractItemView {
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>112</height>
+            <height>125</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>128</height>
+            <height>125</height>
            </size>
           </property>
           <property name="font">
@@ -1402,10 +1432,16 @@ QComboBox QAbstractItemView {
             <number>10</number>
            </property>
            <property name="bottomMargin">
-            <number>10</number>
+            <number>0</number>
            </property>
            <item>
             <widget class="QFrame" name="dlp_min_frame">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>93</height>
+              </size>
+             </property>
              <property name="maximumSize">
               <size>
                <width>1000</width>
@@ -1438,7 +1474,7 @@ QComboBox QAbstractItemView {
                <widget class="QLabel" name="dlp_min_label">
                 <property name="minimumSize">
                  <size>
-                  <width>40</width>
+                  <width>42</width>
                   <height>22</height>
                  </size>
                 </property>
@@ -1525,7 +1561,7 @@ QComboBox QAbstractItemView {
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>0</height>
+                     <height>58</height>
                     </size>
                    </property>
                    <property name="maximumSize">
@@ -1727,7 +1763,7 @@ QComboBox QAbstractItemView {
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>0</height>
+                     <height>58</height>
                     </size>
                    </property>
                    <property name="maximumSize">
@@ -1821,7 +1857,7 @@ QComboBox QAbstractItemView {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -1886,13 +1922,13 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="dlp_sampling_rate_minus">
@@ -2042,7 +2078,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="dlp_num_measurements_minus">
@@ -2249,13 +2285,13 @@ QComboBox QAbstractItemView {
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
                    </property>
                    <property name="frame">
@@ -2331,7 +2367,7 @@ QComboBox QAbstractItemView {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_34">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -2690,7 +2726,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -3059,13 +3095,13 @@ QComboBox QAbstractItemView {
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
                    </property>
                    <property name="frame">
@@ -3179,7 +3215,7 @@ QComboBox QAbstractItemView {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_41">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -3219,6 +3255,12 @@ QComboBox QAbstractItemView {
               </property>
               <item>
                <widget class="QGroupBox" name="tlv_sampling_rate_gb">
+                <property name="maximumSize">
+                 <size>
+                  <width>395</width>
+                  <height>108</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -3244,7 +3286,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -3394,7 +3436,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -3540,6 +3582,12 @@ QComboBox QAbstractItemView {
               </property>
               <item>
                <widget class="QGroupBox" name="tlv_avg_window_gb">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>108</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <family>Calibri</family>
@@ -3565,7 +3613,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -3715,7 +3763,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="topMargin">
-                  <number>0</number>
+                  <number>9</number>
                  </property>
                  <property name="rightMargin">
                   <number>10</number>
@@ -3757,13 +3805,13 @@ QComboBox QAbstractItemView {
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
                    </property>
                    <property name="frame">
@@ -3827,7 +3875,7 @@ QComboBox QAbstractItemView {
          <number>0</number>
         </property>
         <property name="bottomMargin">
-         <number>10</number>
+         <number>0</number>
         </property>
         <item>
          <widget class="QGroupBox" name="iea_ret_mesh_volt_ramp_gb">
@@ -4284,7 +4332,7 @@ QComboBox QAbstractItemView {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_29">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -4355,7 +4403,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="iea_sampling_rate_minus">
@@ -4505,7 +4553,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="iea_num_measurements_minus">
@@ -4676,7 +4724,7 @@ QComboBox QAbstractItemView {
                   <number>10</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>0</number>
+                  <number>10</number>
                  </property>
                  <item>
                   <widget class="QToolButton" name="iea_rejector_mesh_bias_minus">
@@ -4828,7 +4876,7 @@ QComboBox QAbstractItemView {
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
+                 <item alignment="Qt::AlignTop">
                   <widget class="QComboBox" name="iea_gas_select_cb">
                    <property name="minimumSize">
                     <size>
@@ -4862,13 +4910,13 @@ QComboBox QAbstractItemView {
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
                    </property>
                    <property name="frame">
@@ -5386,7 +5434,7 @@ QComboBox QAbstractItemView {
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_18">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
             <number>0</number>
@@ -5930,7 +5978,7 @@ QComboBox QAbstractItemView {
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
+                 <item alignment="Qt::AlignTop">
                   <widget class="QComboBox" name="hea_gas_select_cb">
                    <property name="minimumSize">
                     <size>
@@ -5964,13 +6012,13 @@ QComboBox QAbstractItemView {
 
 QComboBox:focus {
     outline: none; 
-    border: 1px solid gray;
 }
 
 QComboBox QAbstractItemView {
-    selection-background-color: white;
+    selection-background-color: #fafbff;
     selection-color: black; 
 }
+
 </string>
                    </property>
                    <property name="frame">
@@ -6124,6 +6172,11 @@ QComboBox QAbstractItemView {
           <font>
            <pointsize>18</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color: white;
+}</string>
          </property>
          <property name="text">
           <string/>
