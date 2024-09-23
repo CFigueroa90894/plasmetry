@@ -7,42 +7,42 @@ class RunParameters:
                 "Electron Saturation Current (Amperes)",
                 "Electron Temperature (eV)",
                 "Electron temperature (Joules)",
-                "Electron Density",
-                "Debye Length",
+                "Electron Density (m-3)",
+                "Debye Length (Meters)",
                 "Number of electrons"
             ],
                 
             "dlp": [
-                "Ion Saturation Current",
+                "Ion Saturation Current (Amperes)",
                 "Electron Temperature (eV)",
                 "Electron temperature (Joules)",
-                "Electron Density",
-                "Debye Length",
+                "Electron Density (m-3)",
+                "Debye Length  (Meters)",
                 "Number of electrons"
             ],
             "tlc": [
-                'Electron saturation current',
+                'Electron saturation current (Amperes)"',
                 "Electron Temperature (eV)",
                 "Electron Temperature (Joules)",
-                "Electron Density",
+                "Electron Density (m-3)",
             ],
             "tlv": [
                 "Electron Temperature (eV)",
                 "Electron Temperature (Joules)",
-                "Electron Density",
+                "Electron Density (m-3)",
             ],
             "iea": [
-            "Particle saturation current",
+            "Particle saturation current (Amperes)",
             "Particle temperature (eV)",
             "Particle temperature (Joules)",
-            "Particle density"
+            "Particle density (m-3)"
 
             ],
             "hea": [
-            "Particle saturation current",
+            "Particle saturation current (Amperes)",
             "Particle temperature (eV)",
             "Particle temperature (Joules)",
-            "Particle density"
+            "Particle density (m-3)"
 
         ]
             }
