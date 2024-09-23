@@ -432,7 +432,7 @@ QComboBox {
            </font>
           </property>
           <property name="title">
-           <string>Retarding Potential Ramp:</string>
+           <string>Retarding Potential Ramp  (Volts):</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
            <property name="spacing">
@@ -941,7 +941,7 @@ QComboBox {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Sampling Rate:</string>
+                 <string>Sampling Rate (Hertz):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1416,7 +1416,7 @@ QComboBox QAbstractItemView {
            </font>
           </property>
           <property name="title">
-           <string>Retarding Potential Ramp:</string>
+           <string>Retarding Potential Ramp (Volts):</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <property name="spacing">
@@ -1909,7 +1909,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Sampling Rate:</string>
+                 <string>Sampling Rate (Hertz):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2419,7 +2419,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Sampling Rate:</string>
+                 <string>Sampling Rate (Hertz):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2569,7 +2569,7 @@ QComboBox QAbstractItemView {
                  </font>
                 </property>
                 <property name="title">
-                 <string>Up Amp Bias:</string>
+                 <string>Up Amp Bias (Volts):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -2713,7 +2713,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Down Amp Bias:</string>
+                 <string>Down Amp Bias  (Volts):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3273,7 +3273,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Sampling Rate:</string>
+                 <string>Sampling Rate (Hertz):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3423,7 +3423,7 @@ QComboBox QAbstractItemView {
                  </font>
                 </property>
                 <property name="title">
-                 <string>Up Amp Bias:</string>
+                 <string>Up Amp Bias  (Volts):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3894,7 +3894,7 @@ QComboBox QAbstractItemView {
            </font>
           </property>
           <property name="title">
-           <string>Retarding Mesh Voltage Ramp:</string>
+           <string>Retarding Mesh Voltage Ramp (Volts):</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_26">
            <property name="spacing">
@@ -4384,7 +4384,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Sampling Rate:</string>
+                 <string>Sampling Rate (Hertz):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -4705,7 +4705,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Rejector Mesh Bias:</string>
+                 <string>Rejector Mesh Bias (Volts):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -4999,7 +4999,7 @@ QComboBox QAbstractItemView {
            </font>
           </property>
           <property name="title">
-           <string>Hyperboloid Lens Voltage Ramp:</string>
+           <string>Hyperboloid Lens Voltage Ramp  (Volts):</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_22">
            <property name="spacing">
@@ -5486,7 +5486,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Sampling Rate:</string>
+                 <string>Sampling Rate (Hertz):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -5807,7 +5807,7 @@ QComboBox QAbstractItemView {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Faraday Cup Bias:</string>
+                 <string>Faraday Cup Bias  (Volts):</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
