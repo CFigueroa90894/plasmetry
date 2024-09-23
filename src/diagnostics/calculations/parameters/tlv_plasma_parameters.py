@@ -13,9 +13,10 @@ TOLERANCE = 1e-5
 
 def filter_current(parameters):
     
-    parameters['Potential difference'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
-    raw_current = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    parameters['Filtered current'] = raw_current / parameters['config_ref']['Shunt 1']
+    parameters['Potential difference'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
+    del parameters['Raw voltage 2']
+    parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
+    parameters['Filtered current'] = parameters['Raw voltage 1'] / parameters['config_ref']['Shunt 1']
     
 def iteration(potential_difference, bias, estimated_guess):
     
