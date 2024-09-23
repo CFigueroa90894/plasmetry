@@ -58,6 +58,7 @@
     "config_ref": {
         "local_path": "C:\\Users\\ajco2\\OneDrive\\Desktop\\new_testing_folder\\2024-09-23",
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
+        "experiment_name": "",
         "slp": {
             "probe_id": "slp",
             "selected_gas": "argon",
