@@ -28,15 +28,30 @@ class GoogleDrive(OffsiteUpload):
         """Offsite wrapper constructor."""
         
         self.say = text_out
-        # Storing the path to Google API credentials file
         self.credentials_path = credentials_path
+        self.validate_path(credentials_path)
         
-        # Storing credentials object, used to authenticate API requests
-        self.creds = self.authenticate_connection()
         
         # Parent folder ID, extracted from URL of the google drive folder
         self.parent_folder = "1S2Mgdg2mYHTfx46-rcClnhwOMm6fXnUO"
     
+            
+    def validate_path(self, credentials_path):
+        
+        """Returns boolean value validating the received path."""
+
+        # Check if the directory exists 
+        if  os.path.exists(credentials_path):
+            # Set the path for local storage
+            self.credentials_path = credentials_path
+            
+            # Storing credentials object, used to authenticate API requests
+            self.creds = self.authenticate_connection()
+            if self.creds:
+                return True
+        else:
+            self.credentials_path= ''
+        
     def validate_connection(self):
         
         """Internet connection validation."""
@@ -52,7 +67,7 @@ class GoogleDrive(OffsiteUpload):
         # Usually raised due to network issues, DNS problems 
         # and firewall or proxy settings that block the request
         except socket.gaierror as er:
-            print(f'{er}: Cannot connect to Google Drive. Verify your internet connection')
+            self.say(f'{er}: Cannot connect to Google Drive. Verify your internet connection')
             return None
             
     def authenticate_connection(self):
@@ -62,37 +77,42 @@ class GoogleDrive(OffsiteUpload):
         # Scope of the account (TEMPORARY PLACE, WILL REMOVE)
         SCOPES = ['https://www.googleapis.com/auth/drive']
         
-        # Storing the credentials object
-        creds = service_account.Credentials.from_service_account_file(self.credentials_path, scopes=SCOPES)
-        
+        try:
+            # Storing the credentials object
+            creds = service_account.Credentials.from_service_account_file(self.credentials_path, scopes=SCOPES)
+        except Exception as e:
+            self.say(e)
+            creds = ''
+       
         # Returning the credentials object
         return creds
 
     def put_request(self, csv_obj, file_name):
 
         """Uploads data to google drive folder"""
-        # Object used to interact with the Google Drive API
-        service = build('drive', 'v3', credentials= self.creds)
+        if self.creds:
+            # Object used to interact with the Google Drive API
+            service = build('drive', 'v3', credentials= self.creds)
 
-        # File metadata, must be defined as such to use service.files().create
-        file_metadata = {
-        'name':file_name,
-        'parents':[self.parent_folder],
-        'mimeType':'text/csv'
-         }
-       
-        # Encoding the csv to a bytes-like object, necessary to invoke MediaIoBaseUpload 
-        encoded_data= csv_obj.encode('utf-8')
-        
-        # Creating csv media object from the endoded data
-        media = MediaIoBaseUpload(io.BytesIO(encoded_data), mimetype='text/csv', resumable=True)
-        
-        # Uploading the csv media object, must be invoked as such to execute the upload
-        file = service.files().create(
-            body=file_metadata,
-            media_body=media
-        ).execute()
-        
+            # File metadata, must be defined as such to use service.files().create
+            file_metadata = {
+            'name':file_name,
+            'parents':[self.parent_folder],
+            'mimeType':'text/csv'
+             }
+           
+            # Encoding the csv to a bytes-like object, necessary to invoke MediaIoBaseUpload 
+            encoded_data= csv_obj.encode('utf-8')
+            
+            # Creating csv media object from the endoded data
+            media = MediaIoBaseUpload(io.BytesIO(encoded_data), mimetype='text/csv', resumable=True)
+            
+            # Uploading the csv media object, must be invoked as such to execute the upload
+            file = service.files().create(
+                body=file_metadata,
+                media_body=media
+            ).execute()
+            
     def folder_exists(self, folder_name):
         """Check if the folder exists in the Google Drive."""
         service = build('drive', 'v3', credentials=self.creds)

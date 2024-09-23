@@ -42,7 +42,7 @@ class FileUpload:
         
       
         # Storing wrapper for offsite data uploading
-        self.offsite_wrapper = GoogleDrive(text_out, credentials_path,)
+        self.offsite_wrapper = GoogleDrive(text_out, credentials_path)
         
         # Storing local upload object
         self.local_uploader = LocalUpload(text_out, local_path) 
@@ -52,8 +52,10 @@ class FileUpload:
         if unformatted_data:
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
+            
             self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
-            Thread(target=self.upload_data(), daemon=False).start()
+            if  self.offsite_wrapper.validate_path(credentials_path) and self.local_uploader.validate_path(local_path):
+                Thread(target=self.upload_data(), daemon=False).start()
             
                     
     def new_data(self, parameters):
