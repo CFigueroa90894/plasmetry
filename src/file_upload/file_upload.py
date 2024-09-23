@@ -52,10 +52,8 @@ class FileUpload:
         if unformatted_data:
             # Setting the csv contents objects containing sweep and parameters data
             # If no sweep data, the object will remain empty.
-            
             self.experiment_metadata, self.parameters_csv, self.sweep_csv = process_data(unformatted_data)
-            if  self.offsite_wrapper.validate_path(credentials_path) and self.local_uploader.validate_path(local_path):
-                Thread(target=self.upload_data(), daemon=False).start()
+            
             
                     
     def new_data(self, parameters):
@@ -68,6 +66,7 @@ class FileUpload:
 
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
+        self.upload_data()
             
     def upload_data(self):
         
@@ -105,7 +104,8 @@ class FileUpload:
         
         """Offsite storage data uploading."""
         # Verifying if the credentials path is set
-        if self.offsite_wrapper.credentials_path:
+        
+        if self.offsite_wrapper.validate_path(self.offsite_wrapper.credentials_path):
              
             # Verifying if there is a connection with the offsite storage to commence upload requests
             if self.offsite_wrapper.validate_connection():
