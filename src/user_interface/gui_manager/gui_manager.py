@@ -1,31 +1,42 @@
-import sys
 import os
+import sys
 
-# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
-def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+def path_hammer(num_dir: int, root_target: list[str], exclude: list[str], suffix: str = "") -> None:
     """Resolve absolute imports by recursing into subdirs and appending them to python path."""
-    # os delimeters
+    # OS delimiters
     win_delimeter, rpi_delimeter = "\\", "/"
 
-    # locate project root
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
+    # Locate project root
+    if getattr(sys, 'frozen', False):  # Check if running in a PyInstaller bundle
+        src_abs = os.path.abspath(os.path.dirname(sys.executable) + num_dir * '/..' + suffix)
+    else:
+        src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir * '/..' + suffix)
+
     print(f"Path Hammer: {src_abs}")
 
-    # select path delimeter
-    if win_delimeter in src_abs: delimeter = win_delimeter
-    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
-    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+    # Select path delimiter
+    if win_delimeter in src_abs:
+        delimeter = win_delimeter
+    elif rpi_delimeter in src_abs:
+        delimeter = rpi_delimeter
+    else:
+        raise RuntimeError("Path Hammer could not determine path delimiter!")
 
-    # validate correct top folder
-    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
-    
-    # get subdirs, exclude unwanted
+    # Validate correct top folder
+    try:
+        assert src_abs.split(delimeter)[-1 * len(root_target):] == root_target
+    except AssertionError:
+        print(f"Assertion failed for Path Hammer with resolved path: {src_abs}")
+        print(f"Expected target: {root_target}")
+        return  # Exit if assertion fails
+
+    # Get subdirs, exclude unwanted (uncomment to use)
     dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
-    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+    for dir in dirs:
+        sys.path.append(dir)  # Add all subdirectories to Python path
 
-if __name__ == "__main__":  # execute path hammer if this script is run directly
-    path_hammer(2, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
-# ----- END PATH HAMMER ----- #
+if __name__ == "__main__":  # Execute path hammer if this script is run directly
+    path_hammer(2, ['plasmetry', 'src'], ['__pycache__'])  # Hammer subdirs in plasmetry/src
 
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from experiment_run import ExperimentRun

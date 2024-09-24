@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QMainWindow, QLabel, QLineEdit, QFrame, QVBoxLayout, QFileDialog
-from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal, QTimer
 from run_parameters import RunParameters
 from pathlib import Path
+from experiment_run_ui import Ui_experiment_run_view
 
 """
 ########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
@@ -24,88 +24,88 @@ class ExperimentRun(QMainWindow):
         self.running = False
 
         self.display_container = []
+        
+        self.ui = Ui_experiment_run_view() 
+        self.ui.setupUi(self) 
 
-
-        # Load the .ui file directly
-        loadUi('../graphic_user_interface/experiment_run.ui', self)
 
         # Disable stop_btn and enable run_btn initially
-        self.stop_btn.setEnabled(False)
-        self.run_btn.setEnabled(True)
+        self.ui.stop_btn.setEnabled(False)
+        self.ui.run_btn.setEnabled(True)
 
         # Connect buttons to emit signals
-        self.back_btn.clicked.connect(self.emit_back_signal)
-        self.run_btn.clicked.connect(self.emit_run_signal)
-        self.stop_btn.clicked.connect(self.emit_stop_signal)
+        self.ui.back_btn.clicked.connect(self.emit_back_signal)
+        self.ui.run_btn.clicked.connect(self.emit_run_signal)
+        self.ui.stop_btn.clicked.connect(self.emit_stop_signal)
 
         # Sets the run_status_label to default stop color 
         self.update_run_status(0)
 
         # Initialize a timer for updating parameters
-        self.timer = QTimer()
+        self.ui.timer = QTimer()
         self.counter = 1
-        self.timer.timeout.connect(self.update_parameters)
+        self.ui.timer.timeout.connect(self.update_parameters)
         
 
         self.container = self.control.get_real_time_container()
         self.params_container = self.container[0]
         self.params_flag = self.container[1]
         # Set up the page switching logic
-        self.main_view.currentChanged.connect(self.handle_page_switch)
+        self.ui.main_view.currentChanged.connect(self.handle_page_switch)
 
         # Ensure window starts on experiment_name
-        self.main_view.setCurrentIndex(0)
+        self.ui.main_view.setCurrentIndex(0)
         self.handle_page_switch()
 
         # Connect the query buttons in experiment_name page
-        self.query_no_btn.clicked.connect(self.show_exp_path_name_frame)
-        self.query_yes_btn.clicked.connect(self.no_path_change)
+        self.ui.query_no_btn.clicked.connect(self.show_exp_path_name_frame)
+        self.ui.query_yes_btn.clicked.connect(self.no_path_change)
 
         # Connect confirm button in exp_path_name_frame
-        self.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
-        self.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.exp_path_name_input))
+        self.ui.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
+        self.ui.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.ui.exp_path_name_input))
         
-        self.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
+        self.ui.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
         
     
 
     def initialize_experiment_name_view(self):
         """Shows the query frame by default when switching to experiment_name page."""
-        self.exp_path_name_query_frame.setVisible(True)
-        self.exp_path_name_frame.setVisible(False)
+        self.ui.exp_path_name_query_frame.setVisible(True)
+        self.ui.exp_path_name_frame.setVisible(False)
 
     def showEvent(self, event):
         """Called every time the window is shown. Reset the view to experiment_name page."""
         super().showEvent(event)
         
         # Set the current page to experiment_name (index 0)
-        self.main_view.setCurrentIndex(0)
+        self.ui.main_view.setCurrentIndex(0)
         
         # Ensure buttons are correctly hidden or shown
         self.handle_page_switch()
 
     def show_exp_path_name_frame(self):
         """Shows exp_path_name_frame and hides exp_path_name_query_frame."""
-        self.exp_path_name_query_frame.setVisible(False)
-        self.exp_path_name_frame.setVisible(True)
+        self.ui.exp_path_name_query_frame.setVisible(False)
+        self.ui.exp_path_name_frame.setVisible(True)
 
     def switch_to_run_page(self):
         """Switches to the run_page when the user confirms or clicks yes."""
-        self.main_view.setCurrentIndex(1)  # Assuming run_page is at index 1
+        self.ui.main_view.setCurrentIndex(1)  # Assuming run_page is at index 1
 
     def handle_page_switch(self):
         """Handles hiding/showing buttons and initializing frames based on page switch."""
-        current_index = self.main_view.currentIndex()
+        current_index = self.ui.main_view.currentIndex()
 
         # Assuming experiment_name is at index 0 and run_page is at index 1
         if current_index == 0:  # Experiment Name page
-            self.run_btn.setVisible(False)
-            self.stop_btn.setVisible(False)
+            self.ui.run_btn.setVisible(False)
+            self.ui.stop_btn.setVisible(False)
             self.initialize_experiment_name_view()
 
         elif current_index == 1:  # Run Page
-            self.run_btn.setVisible(True)
-            self.stop_btn.setVisible(True)
+            self.ui.run_btn.setVisible(True)
+            self.ui.stop_btn.setVisible(True)
 
     def set_selected_probe(self, probe):
         self.selected_probe = probe
@@ -121,12 +121,13 @@ class ExperimentRun(QMainWindow):
     def start_timer(self):
         """Start the timer to update parameters every second."""
         print("Starting timer...")
-        self.timer.start(1000)  # Update every second
+        self.ui.timer.start(1000)  # Update every second
 
     def stop_timer(self):
         """Stop the timer."""
         print("Stopping timer...")
-        self.timer.stop()
+        self.ui.timer.stop()
+        print("timer stopped.")
 
     def load_probe_calculations(self, parameters):
         """Load and display calculations for the selected probe."""
@@ -137,18 +138,18 @@ class ExperimentRun(QMainWindow):
             half = (len(self.keys)) // 2  # Divide roughly in half
 
             # Clear existing layouts before adding new widgets
-            self.clear_layout(self.frame_left.layout())
-            self.clear_layout(self.frame_right.layout())
+            self.clear_layout(self.ui.frame_left.layout())
+            self.clear_layout(self.ui.frame_right.layout())
 
             # Add widgets to the left frame
             for key in self.keys[:half]:
                 self.add_calculation_to_frame(
-                    self.frame_left.layout(), key)
+                    self.ui.frame_left.layout(), key)
 
             # Add widgets to the right frame
             for key in self.keys[half:]:
                 self.add_calculation_to_frame(
-                    self.frame_right.layout(), key)
+                    self.ui.frame_right.layout(), key)
 
             print("Calculations loaded into frames.")
         else:
@@ -192,8 +193,8 @@ class ExperimentRun(QMainWindow):
             print('\n\n\n\n\n got params!')
  
         parameter_values = self.display_container.copy()
-        for i in range(self.frame_left.layout().count()):
-            item = self.frame_left.layout().itemAt(i)
+        for i in range(self.ui.frame_left.layout().count()):
+            item = self.ui.frame_left.layout().itemAt(i)
             if item:
                 widget = item.widget()
                 if isinstance(widget, QFrame):
@@ -205,8 +206,8 @@ class ExperimentRun(QMainWindow):
                                 new_value = str(parameter_values.pop(0))
                                 inner_widget.setText(new_value)
             
-        for i in range(self.frame_right.layout().count()):
-            item = self.frame_right.layout().itemAt(i)
+        for i in range(self.ui.frame_right.layout().count()):
+            item = self.ui.frame_right.layout().itemAt(i)
             if item:
                 widget = item.widget()
                 if isinstance(widget, QFrame):
@@ -248,7 +249,7 @@ class ExperimentRun(QMainWindow):
         """
 
         # Set the new stylesheet for the label
-        self.run_status_label.setStyleSheet(new_stylesheet)
+        self.ui.run_status_label.setStyleSheet(new_stylesheet)
 
     def display_alert_message(self, message):
         """
@@ -258,7 +259,7 @@ class ExperimentRun(QMainWindow):
         """
         self.clear_alert_message()
         # Set the message in the alert_msg_label
-        self.alert_msg_label.setText(message)
+        self.ui.alert_msg_label.setText(message)
 
         # Create a QTimer to clear the message after 5 seconds (5000 milliseconds)
         QTimer.singleShot(5000, lambda: self.clear_alert_message())
@@ -267,7 +268,7 @@ class ExperimentRun(QMainWindow):
         """
         Clear the message displayed on alert_msg_label.
         """
-        self.alert_msg_label.setText("")
+        self.ui.alert_msg_label.setText("")
 
     def emit_back_signal(self):
         """Emit signal when back button is clicked."""
@@ -277,6 +278,7 @@ class ExperimentRun(QMainWindow):
             self.stop_timer()
 
         self.back_btn_clicked.emit()  # Emit back signal
+        
 
     def emit_run_signal(self):
         """Emit signal when run button is clicked."""
@@ -285,13 +287,13 @@ class ExperimentRun(QMainWindow):
             self.running = True
             
             # Disable run_btn to prevent double clicking
-            self.run_btn.setEnabled(False)
+            self.ui.run_btn.setEnabled(False)
 
             # Disable back_btn to prevent error in experiment run
-            self.back_btn.setEnabled(False)
+            self.ui.back_btn.setEnabled(False)
             
             # Enable stop_btn to allow stopping the experiment
-            self.stop_btn.setEnabled(True)
+            self.ui.stop_btn.setEnabled(True)
 
             # Start the experiment and timer
             self.control.start_experiment()
@@ -319,7 +321,7 @@ class ExperimentRun(QMainWindow):
                     
                     self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))
                     
-                    line_edit.setText(self.control.get_config(probe_id='', key='local_path').name)
+                    line_edit.setText(Path(self.control.get_config(probe_id='', key='local_path')).name)
                     
                     self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
 
@@ -330,10 +332,10 @@ class ExperimentRun(QMainWindow):
             self.running = False
             
             # Disable stop_btn 
-            self.stop_btn.setEnabled(False)
+            self.ui.stop_btn.setEnabled(False)
             # Re-enable run_btn & back_btn
-            self.run_btn.setEnabled(True)
-            self.back_btn.setEnabled(True)
+            self.ui.run_btn.setEnabled(True)
+            self.ui.back_btn.setEnabled(True)
 
             # Stop the experiment and timer
             self.control.stop_experiment()

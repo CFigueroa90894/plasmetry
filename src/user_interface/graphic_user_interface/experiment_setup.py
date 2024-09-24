@@ -1,6 +1,5 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.uic import loadUi
 from PyQt5.QtCore import pyqtSignal, QTimer
 import os
 
@@ -21,6 +20,7 @@ def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:st
 
 from control_layer import ControlLayer
 from probe_enum import PRB
+from experiment_setup_ui import Ui_experiment_setup_view
 class ExperimentSetup(QMainWindow):
     close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
@@ -32,24 +32,26 @@ class ExperimentSetup(QMainWindow):
         self.control= control
         self.run_window_ref = run_window
         self.settings_window_ref = settings_window
-        loadUi('../graphic_user_interface/experiment_setup.ui', self)  # Load the .ui file directly
 
         ############################## GENERAL SIGNALS ##############################
+        self.ui = Ui_experiment_setup_view() 
+        self.ui.setupUi(self) 
+
 
         # Initialize the view based on the QComboBox selection
         self.initialize_view()
 
         # Connect the continue button to switch to the experiment run window
-        self.continue_btn.clicked.connect(self.emit_switch_to_run_signal)
+        self.ui.continue_btn.clicked.connect(self.emit_switch_to_run_signal)
 
         # Connect the view settings button to switch to the user settings window
-        self.view_settings_btn.clicked.connect(self.emit_switch_to_settings_signal)
+        self.ui.view_settings_btn.clicked.connect(self.emit_switch_to_settings_signal)
         
         # Connect the reset button to reset settings to default
-        self.reset_btn.clicked.connect(self.reset_setup)
+        self.ui.reset_btn.clicked.connect(self.reset_setup)
         
-        self.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)  
-        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        self.ui.probe_selection_cb.currentIndexChanged.connect(self.update_main_view)  
+        self.selected_probe = self.ui.probe_selection_cb.currentText()[-4:-1].lower()
         
         
         # Set values from config file
@@ -58,99 +60,99 @@ class ExperimentSetup(QMainWindow):
         ############################## SLP SIGNALS ##############################
       
         # Connect Plus/Minus buttons for Min Voltage Ramp
-        self.slp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_volt_ramp_min_input, -1, 'sweep_min'))
-        self.slp_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_volt_ramp_min_input, +1, 'sweep_min'))
+        self.ui.slp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.ui.slp_volt_ramp_min_input, -1, 'sweep_min'))
+        self.ui.slp_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.ui.slp_volt_ramp_min_input, +1, 'sweep_min'))
 
         # Connect Plus/Minus buttons for Max Voltage Ramp
-        self.slp_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.slp_volt_rampt_max_input, -1, 'sweep_max'))
-        self.slp_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.slp_volt_rampt_max_input, +1, 'sweep_max'))
+        self.ui.slp_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.ui.slp_volt_rampt_max_input, -1, 'sweep_max'))
+        self.ui.slp_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.ui.slp_volt_rampt_max_input, +1, 'sweep_max'))
 
         # Connect Plus/Minus buttons for Sampling Rate
-        self.slp_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.slp_sampling_rate_input, -1, 'sampling_rate'))
-        self.slp_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.slp_sampling_rate_input, +1, 'sampling_rate'))
+        self.ui.slp_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.ui.slp_sampling_rate_input, -1, 'sampling_rate'))
+        self.ui.slp_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.ui.slp_sampling_rate_input, +1, 'sampling_rate'))
 
         # Connect Plus/Minus buttons for Number of Measurements 
-        self.slp_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.slp_num_measurements_input, -1, 'num_samples'))
-        self.slp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.slp_num_measurements_input, +1, 'num_samples'))
+        self.ui.slp_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.ui.slp_num_measurements_input, -1, 'num_samples'))
+        self.ui.slp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.ui.slp_num_measurements_input, +1, 'num_samples'))
 
         ############################## DLP SIGNALS ##############################
 
         # Connect Plus/Minus buttons for Min Voltage Ramp
-        self.dlp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_volt_ramp_min_input, -1, 'sweep_min'))
-        self.dlp_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.dlp_volt_ramp_min_input, +1, 'sweep_min'))
+        self.ui.dlp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_volt_ramp_min_input, -1, 'sweep_min'))
+        self.ui.dlp_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_volt_ramp_min_input, +1, 'sweep_min'))
 
         # Connect Plus/Minus buttons for Max Voltage Ramp
-        self.dlp_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.dlp_volt_rampt_max_input, -1, 'sweep_max'))
-        self.dlp_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.dlp_volt_rampt_max_input, +1, 'sweep_max'))
+        self.ui.dlp_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_volt_rampt_max_input, -1, 'sweep_max'))
+        self.ui.dlp_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_volt_rampt_max_input, +1, 'sweep_max'))
 
         # Connect Plus/Minus buttons for Sampling Rate
-        self.dlp_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.dlp_sampling_rate_input, -1, 'sampling_rate'))
-        self.dlp_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.dlp_sampling_rate_input, +1, 'sampling_rate'))
+        self.ui.dlp_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_sampling_rate_input, -1, 'sampling_rate'))
+        self.ui.dlp_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_sampling_rate_input, +1, 'sampling_rate'))
 
         # Connect Plus/Minus buttons for Number of Measurements 
-        self.dlp_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.dlp_num_measurements_input, -1, 'num_samples'))
-        self.dlp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.dlp_num_measurements_input, +1, 'num_samples'))
+        self.ui.dlp_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_num_measurements_input, -1, 'num_samples'))
+        self.ui.dlp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.ui.dlp_num_measurements_input, +1, 'num_samples'))
 
         
 
         ############################## TLP-C SIGNALS ##############################        
-        self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1, 'sampling_rate'))
-        self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1, 'sampling_rate'))
+        self.ui.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_sampling_rate_input, -1, 'sampling_rate'))
+        self.ui.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, -1, 'up_amp_bias'))
-        self.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_amp_bias_input, +1, 'up_amp_bias'))
+        self.ui.tlc_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_up_amp_bias_input, -1, 'up_amp_bias'))
+        self.ui.tlc_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_up_amp_bias_input, +1, 'up_amp_bias'))
 
-        self.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, -1, 'down_amp_bias'))
-        self.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_amp_bias_input, +1, 'down_amp_bias'))
+        self.ui.tlc_down_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_down_amp_bias_input, -1, 'down_amp_bias'))
+        self.ui.tlc_down_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_down_amp_bias_input, +1, 'down_amp_bias'))
 
-        self.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, -1,'num_samples'))
-        self.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlc_avg_window_input, +1,'num_samples'))
+        self.ui.tlc_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_avg_window_input, -1,'num_samples'))
+        self.ui.tlc_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlc_avg_window_input, +1,'num_samples'))
 
         ############################## TLP-V SIGNALS ##############################
 
 
-        self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, -1,'sampling_rate'))
-        self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1, 'sampling_rate'))
+        self.ui.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlv_sampling_rate_input, -1,'sampling_rate'))
+        self.ui.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlv_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, -1, 'up_amp_bias'))
-        self.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_amp_bias_input, +1, 'up_amp_bias'))
+        self.ui.tlv_up_amp_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlv_up_amp_bias_input, -1, 'up_amp_bias'))
+        self.ui.tlv_up_amp_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlv_up_amp_bias_input, +1, 'up_amp_bias'))
 
-        self.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, -1,'num_samples'))
-        self.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.tlv_avg_window_input, +1,'num_samples'))
+        self.ui.tlv_avg_window_minus.clicked.connect(lambda: self.adjust_value(self.ui.tlv_avg_window_input, -1,'num_samples'))
+        self.ui.tlv_avg_window_plus.clicked.connect(lambda: self.adjust_value(self.ui.tlv_avg_window_input, +1,'num_samples'))
 
         
 
         ############################## IEA SIGNALS ##############################
-        self.iea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_volt_ramp_min_input, -1, 'sweep_min'))
-        self.iea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_volt_ramp_min_input, +1, 'sweep_min'))
+        self.ui.iea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_volt_ramp_min_input, -1, 'sweep_min'))
+        self.ui.iea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_volt_ramp_min_input, +1, 'sweep_min'))
 
-        self.iea_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.iea_volt_rampt_max_input, -1, 'sweep_max'))
-        self.iea_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.iea_volt_rampt_max_input, +1, 'sweep_max'))
+        self.ui.iea_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_volt_rampt_max_input, -1, 'sweep_max'))
+        self.ui.iea_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_volt_rampt_max_input, +1, 'sweep_max'))
 
-        self.iea_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.iea_sampling_rate_input, -1,'sampling_rate'))
-        self.iea_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.iea_sampling_rate_input, +1, 'sampling_rate'))
+        self.ui.iea_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_sampling_rate_input, -1,'sampling_rate'))
+        self.ui.iea_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_sampling_rate_input, +1, 'sampling_rate'))
 
-        self.iea_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.iea_num_measurements_input, -1,'num_samples'))
-        self.iea_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.iea_num_measurements_input, +1,'num_samples'))
+        self.ui.iea_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_num_measurements_input, -1,'num_samples'))
+        self.ui.iea_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_num_measurements_input, +1,'num_samples'))
 
-        self.iea_rejector_mesh_bias_minus.clicked.connect(lambda: self.adjust_value(self.iea_rejector_mesh_bias_input, -1, 'rejector_bias'))
-        self.iea_rejector_mesh_bias_plus.clicked.connect(lambda: self.adjust_value(self.iea_rejector_mesh_bias_input, +1, 'rejector_bias'))
+        self.ui.iea_rejector_mesh_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_rejector_mesh_bias_input, -1, 'rejector_bias'))
+        self.ui.iea_rejector_mesh_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_rejector_mesh_bias_input, +1, 'rejector_bias'))
 
         ############################## HEA SIGNALS ##############################
-        self.hea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_volt_ramp_min_input, -1, 'sweep_min'))
-        self.hea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_volt_ramp_min_input, +1, 'sweep_min'))
+        self.ui.hea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_volt_ramp_min_input, -1, 'sweep_min'))
+        self.ui.hea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_volt_ramp_min_input, +1, 'sweep_min'))
         
-        self.hea_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.hea_volt_rampt_max_input, -1, 'sweep_max'))
-        self.hea_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.hea_volt_rampt_max_input, +1, 'sweep_max'))
+        self.ui.hea_volt_ramp_max_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_volt_rampt_max_input, -1, 'sweep_max'))
+        self.ui.hea_volt_ramp_max_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_volt_rampt_max_input, +1, 'sweep_max'))
 
-        self.hea_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.hea_sampling_rate_input, -1,'sampling_rate'))
-        self.hea_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.hea_sampling_rate_input, +1,'sampling_rate'))
+        self.ui.hea_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_sampling_rate_input, -1,'sampling_rate'))
+        self.ui.hea_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_sampling_rate_input, +1,'sampling_rate'))
 
-        self.hea_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.hea_num_measurements_input, -1,'num_samples'))
-        self.hea_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.hea_num_measurements_input, +1, 'num_samples'))
+        self.ui.hea_num_measurements_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_num_measurements_input, -1,'num_samples'))
+        self.ui.hea_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_num_measurements_input, +1, 'num_samples'))
 
-        self.hea_faraday_cup_bias_minus.clicked.connect(lambda: self.adjust_value(self.hea_faraday_cup_bias_input, -1,'collector_bias'))
-        self.hea_faraday_cup_bias_plus.clicked.connect(lambda: self.adjust_value(self.hea_faraday_cup_bias_input, +1,'collector_bias'))
+        self.ui.hea_faraday_cup_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_faraday_cup_bias_input, -1,'collector_bias'))
+        self.ui.hea_faraday_cup_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_faraday_cup_bias_input, +1,'collector_bias'))
 
 
     ############################## GENERAL SLOTS ##############################
@@ -159,55 +161,55 @@ class ExperimentSetup(QMainWindow):
 
         ################## SLP ##################
 
-        self.slp_volt_ramp_min_input.setValue(self.control.get_config('slp', 'sweep_min'))
-        self.slp_volt_rampt_max_input.setValue(self.control.get_config('slp', 'sweep_max'))
-        self.slp_sampling_rate_input.setValue(self.control.get_config('slp', 'sampling_rate'))
-        self.slp_num_measurements_input.setValue(self.control.get_config('slp', 'num_samples'))
+        self.ui.slp_volt_ramp_min_input.setValue(self.control.get_config('slp', 'sweep_min'))
+        self.ui.slp_volt_rampt_max_input.setValue(self.control.get_config('slp', 'sweep_max'))
+        self.ui.slp_sampling_rate_input.setValue(self.control.get_config('slp', 'sampling_rate'))
+        self.ui.slp_num_measurements_input.setValue(self.control.get_config('slp', 'num_samples'))
         
         ################## DLP ##################
 
-        self.dlp_volt_ramp_min_input.setValue(self.control.get_config('dlp', 'sweep_min'))
-        self.dlp_volt_rampt_max_input.setValue(self.control.get_config('dlp', 'sweep_max'))
-        self.dlp_sampling_rate_input.setValue(self.control.get_config('dlp', 'sampling_rate'))
-        self.dlp_num_measurements_input.setValue(self.control.get_config('dlp', 'num_samples'))
+        self.ui.dlp_volt_ramp_min_input.setValue(self.control.get_config('dlp', 'sweep_min'))
+        self.ui.dlp_volt_rampt_max_input.setValue(self.control.get_config('dlp', 'sweep_max'))
+        self.ui.dlp_sampling_rate_input.setValue(self.control.get_config('dlp', 'sampling_rate'))
+        self.ui.dlp_num_measurements_input.setValue(self.control.get_config('dlp', 'num_samples'))
         
         ################## TLC ##################
 
-        self.tlc_sampling_rate_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
-        self.tlc_up_amp_bias_input.setValue(self.control.get_config('tlc', 'up_amp_bias'))
-        self.tlc_down_amp_bias_input.setValue(self.control.get_config('tlc', 'down_amp_bias'))
-        self.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'num_samples'))
+        self.ui.tlc_sampling_rate_input.setValue(self.control.get_config('tlc', 'sampling_rate'))
+        self.ui.tlc_up_amp_bias_input.setValue(self.control.get_config('tlc', 'up_amp_bias'))
+        self.ui.tlc_down_amp_bias_input.setValue(self.control.get_config('tlc', 'down_amp_bias'))
+        self.ui.tlc_avg_window_input.setValue(self.control.get_config('tlc', 'num_samples'))
 
         ################## TLV ##################
 
-        self.tlv_sampling_rate_input.setValue(self.control.get_config('tlv', 'sampling_rate'))
-        self.tlv_up_amp_bias_input.setValue(self.control.get_config('tlv', 'up_amp_bias'))
-        self.tlv_avg_window_input.setValue(self.control.get_config('tlv', 'num_samples'))
+        self.ui.tlv_sampling_rate_input.setValue(self.control.get_config('tlv', 'sampling_rate'))
+        self.ui.tlv_up_amp_bias_input.setValue(self.control.get_config('tlv', 'up_amp_bias'))
+        self.ui.tlv_avg_window_input.setValue(self.control.get_config('tlv', 'num_samples'))
 
         ################## IEA ##################
 
-        self.iea_volt_ramp_min_input.setValue(self.control.get_config('iea', 'sweep_min'))
-        self.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_max'))
-        self.iea_sampling_rate_input.setValue(self.control.get_config('iea', 'sampling_rate'))
-        self.iea_num_measurements_input.setValue(self.control.get_config('iea', 'num_samples'))
-#        self.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
-        self.iea_rejector_mesh_bias_input.setValue(self.control.get_config('iea', 'rejector_bias'))
+        self.ui.iea_volt_ramp_min_input.setValue(self.control.get_config('iea', 'sweep_min'))
+        self.ui.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_max'))
+        self.ui.iea_sampling_rate_input.setValue(self.control.get_config('iea', 'sampling_rate'))
+        self.ui.iea_num_measurements_input.setValue(self.control.get_config('iea', 'num_samples'))
+#        self.ui.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
+        self.ui.iea_rejector_mesh_bias_input.setValue(self.control.get_config('iea', 'rejector_bias'))
         
         ################## HEA ##################
 
-        self.hea_volt_ramp_min_input.setValue(self.control.get_config('hea', 'sweep_min'))
-        self.hea_volt_rampt_max_input.setValue(self.control.get_config('hea', 'sweep_max'))
-        self.hea_sampling_rate_input.setValue(self.control.get_config('hea', 'sampling_rate'))
-        self.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
-        self.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
-#        self.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
+        self.ui.hea_volt_ramp_min_input.setValue(self.control.get_config('hea', 'sweep_min'))
+        self.ui.hea_volt_rampt_max_input.setValue(self.control.get_config('hea', 'sweep_max'))
+        self.ui.hea_sampling_rate_input.setValue(self.control.get_config('hea', 'sampling_rate'))
+        self.ui.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
+        self.ui.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
+#        self.ui.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
 
 
     def initialize_view(self):
         # Initialize the view to display the correct page based on QComboBox selection.
         # Get the current index of the probe_selection_cb combobox
-        current_index = self.probe_selection_cb.currentIndex()
-        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        current_index = self.ui.probe_selection_cb.currentIndex()
+        self.selected_probe = self.ui.probe_selection_cb.currentText()[-4:-1].lower()
         
         
         # Update the main view based on the current index
@@ -219,27 +221,27 @@ class ExperimentSetup(QMainWindow):
         Switch pages in the probe_config_view based on the current index of probe_selection_cb.
         """
         
-        self.selected_probe = self.probe_selection_cb.currentText()[-4:-1].lower()
+        self.selected_probe = self.ui.probe_selection_cb.currentText()[-4:-1].lower()
         
 
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
-            self.main_view.setCurrentWidget(self.single_lang_probe)
+            self.ui.main_view.setCurrentWidget(self.ui.single_lang_probe)
 
         elif index == 1:
-            self.main_view.setCurrentWidget(self.double_lang_probe)
+            self.ui.main_view.setCurrentWidget(self.ui.double_lang_probe)
 
         elif index == 2:
-            self.main_view.setCurrentWidget(self.triple_lang_c_probe)
+            self.ui.main_view.setCurrentWidget(self.ui.triple_lang_c_probe)
 
         elif index == 3:
-            self.main_view.setCurrentWidget(self.triple_lang_v_probe)
+            self.ui.main_view.setCurrentWidget(self.ui.triple_lang_v_probe)
 
         elif index == 4:
-            self.main_view.setCurrentWidget(self.ion_energy_analyzer)
+            self.ui.main_view.setCurrentWidget(self.ui.ion_energy_analyzer)
             
         elif index == 5:
-            self.main_view.setCurrentWidget(self.hyper_energy_analyzer)
+            self.ui.main_view.setCurrentWidget(self.ui.hyper_energy_analyzer)
             
 
     def emit_switch_to_run_signal(self, run_window):
@@ -255,9 +257,11 @@ class ExperimentSetup(QMainWindow):
         # Emit the signal to switch to the experiment run window
         self.switch_to_run.emit()
         self.run_window_ref.set_selected_probe(self.selected_probe)
-
+        
         # Restores all interactables as enables
         self.enable_all()
+
+        
        
     def emit_switch_to_settings_signal(self):
         
@@ -300,7 +304,7 @@ class ExperimentSetup(QMainWindow):
         """
         self.clear_alert_message()
         # Set the message in the alert_msg_label
-        self.alert_msg_label.setText(message)
+        self.ui.alert_msg_label.setText(message)
 
         # Create a QTimer to clear the message after 5 seconds (5000 milliseconds)
         QTimer.singleShot(5000, lambda: self.clear_alert_message())
@@ -309,7 +313,7 @@ class ExperimentSetup(QMainWindow):
         """
         Clear the message displayed on alert_msg_label.
         """
-        self.alert_msg_label.setText("")
+        self.ui.alert_msg_label.setText("")
 
     def disable_all(self):
         """Disables all interaction in the main window."""
