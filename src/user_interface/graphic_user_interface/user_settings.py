@@ -56,9 +56,20 @@ class UserSettings(QMainWindow):
             self.credentials_path_input, 'credentials_path'))
         self.local_path_btn.clicked.connect(
             lambda: self.open_file_dialog(self.local_path_input, 'local_path'))
+    
 
         ############################## PROBE CONFIG SETTINGS SIGNALS ##############################
         self.set_widget_values()
+        self.gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.gas_select_cb.currentText()))
+        
+        self.button_adjust_minus.clicked.connect(
+            lambda: self.adjust_value(self.button_adjust_input, -1, 'button_adjust'))
+        
+        self.button_adjust_plus.clicked.connect(
+            lambda: self.adjust_value(self.button_adjust_input, +1,'button_adjust'))    
+        
+        self.selected_probe = self.probe_selection_cb.currentText(
+        )[-4:-1].lower()
 
         ################## SLP ##################
 
@@ -436,9 +447,14 @@ class UserSettings(QMainWindow):
             Path(self.control.get_config(probe_id='', key='credentials_path')).name)
         self.local_path_input.setText(
             Path(self.control.get_config(probe_id='', key='experiment_name')).name)
+        
+        self.button_adjust_input.setValue(
+            self.control.get_config(probe_id='', key='button_adjust'))
+        
+        self.gas_select_cb.setCurrentText(self.control.get_config(probe_id='', key='selected_gas'))
 
         ################## SLP ##################
-
+         
         self.slp_area_input.setValue(
             self.control.get_config('slp', 'Probe area'))
         self.slp_dac_min_input.setValue(
@@ -576,6 +592,10 @@ class UserSettings(QMainWindow):
         self.cb_handler.setVisible(True)  # Show the probe selection combo box
         # Initialize the page view
         self.switch_probe_page(self.probe_selection_cb.currentIndex())
+        
+    def set_selected_gas(self, current_gas):
+        
+        self.control.set_config(probe_id = '', key='selected_gas', value=current_gas.lower())
 
     def switch_probe_page(self, index):
         """
@@ -683,25 +703,33 @@ class UserSettings(QMainWindow):
         :param spinbox: The QDoubleSpinBox to update.
         :param direction: 1 for increment, -1 for decrement.
         """
-
+    
         current_value = spinbox.value()
-        new_value = self.increment_last_decimal(
-            current_value) if direction == 1 else self.decrement_last_decimal(current_value)
-
-        # Invoking mutator function of in memory config dictionary
-        # Validations are also executed during the call stack of this method
-        self.control.set_config(self.selected_probe, config_key, new_value)
-
+        
+        if config_key!='button_adjust':
+            new_value = self.increment(current_value) if direction == 1 else self.decrement(current_value)
+            # Invoking mutator function of in memory config dictionary
+            # Validations are also executed during the call stack of this method
+            self.control.set_config(self.selected_probe, config_key, new_value)
+            probe= self.selected_probe
+            
+        else:
+            new_value= self.new_adjust_scale(current_value, direction)
+            self.control.set_config(probe_id='',key=config_key, value=new_value)
+            probe=''
         # If the result is valid, a new value is set in the spinbox
         # Otherwise, previous value set
-        spinbox.setValue(self.control.get_config(
-            self.selected_probe, config_key))
+        spinbox.setValue(self.control.get_config(probe, config_key))
+        
+    def new_adjust_scale(self, current_value, direction):
+        return current_value * pow(10, direction)
+    
+    def increment(self, value):
+        
+        return value + self.control.get_config(probe_id='',key='button_adjust')
 
-    def increment_last_decimal(self, value):
-        return round(value + 1, 2)
-
-    def decrement_last_decimal(self, value):
-        return round(value - 1, 2)
+    def decrement(self, value):
+        return value - self.control.get_config(probe_id='',key='button_adjust')
 
     def handle_back_button(self):
         # Check if the current page is not the settings_select_page

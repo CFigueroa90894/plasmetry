@@ -57,9 +57,6 @@ class ExperimentSetup(QMainWindow):
         
         ############################## SLP SIGNALS ##############################
       
-        # Connect the QComboBox signal to the method that updates the QStackedWidget
-        self.slp_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.slp_gas_select_cb.currentText()))
-        
         # Connect Plus/Minus buttons for Min Voltage Ramp
         self.slp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.slp_volt_ramp_min_input, -1, 'sweep_min'))
         self.slp_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.slp_volt_ramp_min_input, +1, 'sweep_min'))
@@ -77,7 +74,6 @@ class ExperimentSetup(QMainWindow):
         self.slp_num_measurements_plus.clicked.connect(lambda: self.adjust_value(self.slp_num_measurements_input, +1, 'num_samples'))
 
         ############################## DLP SIGNALS ##############################
-        self.dlp_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.dlp_gas_select_cb.currentText()))
 
         # Connect Plus/Minus buttons for Min Voltage Ramp
         self.dlp_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.dlp_volt_ramp_min_input, -1, 'sweep_min'))
@@ -97,10 +93,7 @@ class ExperimentSetup(QMainWindow):
 
         
 
-        ############################## TLP-C SIGNALS ##############################
-        # Connect the QComboBox signal to the method that updates the combobox
-        self.tlc_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlc_gas_select_cb.currentText()))
-        
+        ############################## TLP-C SIGNALS ##############################        
         self.tlc_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, -1, 'sampling_rate'))
         self.tlc_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlc_sampling_rate_input, +1, 'sampling_rate'))
 
@@ -115,7 +108,6 @@ class ExperimentSetup(QMainWindow):
 
         ############################## TLP-V SIGNALS ##############################
 
-        self.tlv_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.tlv_gas_select_cb.currentText()))
 
         self.tlv_sampling_rate_minus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, -1,'sampling_rate'))
         self.tlv_sampling_rate_plus.clicked.connect(lambda: self.adjust_value(self.tlv_sampling_rate_input, +1, 'sampling_rate'))
@@ -129,8 +121,6 @@ class ExperimentSetup(QMainWindow):
         
 
         ############################## IEA SIGNALS ##############################
-        self.iea_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.iea_gas_select_cb.currentText()))
-
         self.iea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.iea_volt_ramp_min_input, -1, 'sweep_min'))
         self.iea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.iea_volt_ramp_min_input, +1, 'sweep_min'))
 
@@ -147,8 +137,6 @@ class ExperimentSetup(QMainWindow):
         self.iea_rejector_mesh_bias_plus.clicked.connect(lambda: self.adjust_value(self.iea_rejector_mesh_bias_input, +1, 'rejector_bias'))
 
         ############################## HEA SIGNALS ##############################
-        self.hea_gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.hea_gas_select_cb.currentText()))
-
         self.hea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.hea_volt_ramp_min_input, -1, 'sweep_min'))
         self.hea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.hea_volt_ramp_min_input, +1, 'sweep_min'))
         
@@ -225,11 +213,6 @@ class ExperimentSetup(QMainWindow):
         # Update the main view based on the current index
         self.update_main_view(current_index)
         
-    def set_selected_gas(self, current_gas):
-        
-        
-        self.control.set_config(self.selected_probe, 'selected_gas', current_gas.lower())
-        
 
     def update_main_view(self, index):
         """
@@ -242,27 +225,21 @@ class ExperimentSetup(QMainWindow):
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
             self.main_view.setCurrentWidget(self.single_lang_probe)
-            self.set_selected_gas(self.slp_gas_select_cb.currentText())
 
         elif index == 1:
             self.main_view.setCurrentWidget(self.double_lang_probe)
-            self.set_selected_gas(self.dlp_gas_select_cb.currentText())
 
         elif index == 2:
             self.main_view.setCurrentWidget(self.triple_lang_c_probe)
-            self.set_selected_gas(self.tlc_gas_select_cb.currentText())
 
         elif index == 3:
             self.main_view.setCurrentWidget(self.triple_lang_v_probe)
-            self.set_selected_gas(self.tlv_gas_select_cb.currentText())
 
         elif index == 4:
             self.main_view.setCurrentWidget(self.ion_energy_analyzer)
-            self.set_selected_gas(self.iea_gas_select_cb.currentText())
             
         elif index == 5:
             self.main_view.setCurrentWidget(self.hyper_energy_analyzer)
-            self.set_selected_gas(self.hea_gas_select_cb.currentText())
             
 
     def emit_switch_to_run_signal(self, run_window):
@@ -305,7 +282,7 @@ class ExperimentSetup(QMainWindow):
         """
         
         current_value = spinbox.value()
-        new_value = self.increment_last_decimal(current_value) if direction == 1 else self.decrement_last_decimal(current_value)
+        new_value = self.increment(current_value) if direction == 1 else self.decrement(current_value)
 
         # Invoking mutator function of in memory config dictionary
         # Validations are also executed during the call stack of this method
@@ -342,11 +319,11 @@ class ExperimentSetup(QMainWindow):
         """Enables all interaction in the main window."""
         self.setEnabled(True)
 
-    def increment_last_decimal(self, value):
-        return value + 1
+    def increment(self, value):
+        return value + self.control.get_config(probe_id='',key='button_adjust')
 
-    def decrement_last_decimal(self, value):
-        return value - 1
+    def decrement(self, value):
+        return value - self.control.get_config(probe_id='',key='button_adjust')
 
 if __name__ == "__main__":
     from experiment_run import ExperimentRun
