@@ -81,8 +81,8 @@ class UserSettings(QMainWindow):
         self.slp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_gain_input, +1, 'collector_gain'))
 
         # Connect Plus/Minus buttons for Collector Shunt Resistance
-        #self.slp_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.slp_collector_shunt_rest_input, -1, ''))
-        #self.slp_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_shunt_rest_input, +1, ''))
+        self.slp_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.slp_collector_shunt_rest_input, -1, 'Shunt 1'))
+        self.slp_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.slp_collector_shunt_rest_input, +1, 'Shunt 1'))
         
                                 ################## DLP ##################
 
@@ -111,8 +111,8 @@ class UserSettings(QMainWindow):
         self.dlp_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_gain_input, +1, 'collector_gain'))
 
         # Connect Plus/Minus buttons for Collector Shunt Resistance
-        #self.dlp_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_shunt_rest_input, -1, ''))
-        #self.dlp_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_shunt_rest_input, +1, ''))
+        self.dlp_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_shunt_rest_input, -1, 'Shunt 1'))
+        self.dlp_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.dlp_collector_shunt_rest_input, +1, 'Shunt 1'))
 
                                 ################## TLC ##################
 
@@ -153,12 +153,12 @@ class UserSettings(QMainWindow):
         self.tlc_down_collect_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_collect_gain_input, +1, 'down_collector_gain'))
 
         # Connect Plus/Minus buttons for Up Collector Shunt Resistance
-        #self.tlc_up_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_shunt_rest_input, -1, ''))
-        #self.tlc_up_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_shunt_rest_input, +1, ''))
+        self.tlc_up_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlc_up_shunt_rest_input, -1, 'Shunt 1'))
+        self.tlc_up_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlc_up_shunt_rest_input, +1, 'Shunt 1'))
 
         # Connect Plus/Minus buttons for Down Collector Shunt Resistance
-        #self.tlc_down_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_shunt_rest_input, -1, ''))
-        #self.tlc_down_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_shunt_rest_input, +1, ''))
+        self.tlc_down_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlc_down_shunt_rest_input, -1, 'Shunt 2'))
+        self.tlc_down_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlc_down_shunt_rest_input, +1, 'Shunt 2'))
 
                                 ################## TLV ##################
 
@@ -191,8 +191,8 @@ class UserSettings(QMainWindow):
         self.tlv_up_collector_gain_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_collector_gain_input, +1, 'up_collector_gain'))
 
         # Connect Plus/Minus buttons for Up Collector Shunt Resistance
-        #self.tlv_up_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_shunt_rest_input, -1, ''))
-        #self.tlv_up_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_shunt_rest_input, +1, ''))
+        self.tlv_up_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.tlv_up_shunt_rest_input, -1, 'Shunt 1'))
+        self.tlv_up_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.tlv_up_shunt_rest_input, +1, 'Shunt 1'))
 
                                 ################## IEA ##################
 
@@ -245,8 +245,8 @@ class UserSettings(QMainWindow):
         self.iea_mass_plus.clicked.connect(lambda: self.adjust_value(self.iea_mass_input, +1, 'Probe area'))
 
         # Connect Plus/Minus buttons for Collector Shunt Resistance
-        #self.iea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_shunt_rest_input, -1, ''))
-        #self.iea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.iea_collector_shunt_rest_input, +1, ''))
+        self.iea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.iea_collector_shunt_rest_input, -1, 'Shunt 1'))
+        self.iea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.iea_collector_shunt_rest_input, +1, 'Shunt 1'))
 
                                 ################## HEA ##################
 
@@ -287,8 +287,8 @@ class UserSettings(QMainWindow):
         self.hea_area_plus.clicked.connect(lambda: self.adjust_value(self.hea_area_output, +1, 'Probe area'))
 
         # Connect Plus/Minus buttons for Collector Shunt Resistance
-        #self.hea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, -1, ''))
-        #self.hea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, +1, ''))
+        self.hea_collector_shunt_rest_minus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, -1, 'Shunt 1'))
+        self.hea_collector_shunt_rest_plus.clicked.connect(lambda: self.adjust_value(self.hea_collector_shunt_rest_input, +1, 'Shunt 1'))
 
     def showEvent(self, event):
         """Called every time the window is shown. Reset the view to experiment_name page."""
