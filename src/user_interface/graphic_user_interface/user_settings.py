@@ -431,15 +431,8 @@ class UserSettings(QMainWindow):
 
     def handle_page_switch(self):
         """Handles hiding/showing buttons and initializing frames based on page switch."""
-        current_index = self.main_view.currentIndex()
-
-        if current_index == 0:
-            self.reset_btn.setVisible(False)
-            self.save_btn.setVisible(False)
-
-        else:
-            self.reset_btn.setVisible(True)
-            self.save_btn.setVisible(True)
+        self.reset_btn.setVisible(True)
+        self.save_btn.setVisible(True)
 
     def set_widget_values(self):
 
