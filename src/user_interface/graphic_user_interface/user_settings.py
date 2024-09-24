@@ -49,6 +49,7 @@ class UserSettings(QMainWindow):
         # Connect QToolButton clicks to open the virtual keyboard
         self.credentials_path_btn.clicked.connect(lambda: self.open_file_dialog(self.credentials_path_input, 'credentials_path'))
         self.local_path_btn.clicked.connect(lambda: self.open_file_dialog(self.local_path_input, 'local_path'))
+        
 
         ############################## PROBE CONFIG SETTINGS SIGNALS ##############################
         self.set_widget_values()
@@ -315,7 +316,7 @@ class UserSettings(QMainWindow):
     def set_widget_values(self):
         
         self.credentials_path_input.setText(Path(self.control.get_config(probe_id = '', key = 'credentials_path')).name)
-        self.local_path_input.setText(Path(self.control.get_config(probe_id = '', key = 'local_path')).name)
+        self.local_path_input.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
 
                 ################## SLP ##################
 
