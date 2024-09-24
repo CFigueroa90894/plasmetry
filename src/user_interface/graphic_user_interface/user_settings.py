@@ -722,7 +722,10 @@ class UserSettings(QMainWindow):
         spinbox.setValue(self.control.get_config(probe, config_key))
         
     def new_adjust_scale(self, current_value, direction):
-        return current_value * pow(10, direction)
+        if current_value!= 0:
+            return current_value * pow(10, direction)
+        else:
+            return 0.01
     
     def increment(self, value):
         
