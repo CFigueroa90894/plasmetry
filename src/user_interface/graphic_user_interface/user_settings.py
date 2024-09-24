@@ -326,7 +326,7 @@ class UserSettings(QMainWindow):
         self.slp_sweep_min_input.setValue(self.control.get_config('slp', 'sweep_amp_min'))
         self.slp_sweep_max_input.setValue(self.control.get_config('slp', 'sweep_amp_max'))
         self.slp_collector_gain_input.setValue(self.control.get_config('slp', 'collector_gain'))
-        #self.slp_collector_shunt_rest_input.setValue(self.control.get_config('slp', ''))
+        self.slp_collector_shunt_rest_input.setValue(self.control.get_config('slp', 'sweeper_shunt'))
         
                 ################## SLP ##################
 
@@ -336,7 +336,7 @@ class UserSettings(QMainWindow):
         self.dlp_sweep_min_input.setValue(self.control.get_config('dlp', 'sweep_amp_min'))
         self.dlp_sweep_max_input.setValue(self.control.get_config('dlp', 'sweep_amp_max'))
         self.dlp_collector_gain_input.setValue(self.control.get_config('dlp', 'collector_gain'))
-        #self.dlp_collector_shunt_rest_input.setValue(self.control.get_config('dlp', ''))
+        self.dlp_collector_shunt_rest_input.setValue(self.control.get_config('dlp', 'sweeper_shunt'))
 
                 ################## TLC ##################
 
@@ -349,8 +349,8 @@ class UserSettings(QMainWindow):
         self.tlc_down_amp_max_input.setValue(self.control.get_config('tlc', 'down_amp_max'))
         self.tlc_up_collector_gain_input.setValue(self.control.get_config('tlc', 'up_collector_gain'))
         self.tlc_down_collect_gain_input.setValue(self.control.get_config('tlc', 'down_collector_gain'))
-        #self.tlc_up_shunt_rest_input.setValue(self.control.get_config('tlc', ''))
-        #self.tlc_down_shunt_rest_input.setValue(self.control.get_config('tlc', ''))
+        self.tlc_up_shunt_rest_input.setValue(self.control.get_config('tlc', 'up_shunt'))
+        self.tlc_down_shunt_rest_input.setValue(self.control.get_config('tlc', 'down_shunt'))
 
                 ################## TLV ##################
 
@@ -361,7 +361,7 @@ class UserSettings(QMainWindow):
         self.tlv_up_amp_max_input.setValue(self.control.get_config('tlv', 'up_amp_max'))
         self.tlv_float_collect_gain_input.setValue(self.control.get_config('tlv', 'float_collector_gain'))
         self.tlv_up_collector_gain_input.setValue(self.control.get_config('tlv', 'up_collector_gain'))
-        #self.tlv_up_shunt_rest_input.setValue(self.control.get_config('tlv', ''))
+        self.tlv_up_shunt_rest_input.setValue(self.control.get_config('tlv', 'up_shunt'))
 
                 ################## IEA ##################
 
@@ -377,7 +377,7 @@ class UserSettings(QMainWindow):
         self.iea_collector_gain_input.setValue(self.control.get_config('iea', 'collector_gain'))
         self.iea_sweep_min_input.setValue(self.control.get_config('iea', 'sweep_amp_min'))
         self.iea_sweep_max_input.setValue(self.control.get_config('iea', 'sweep_amp_max'))
-        #self.iea_collector_shunt_rest_input.setValue(self.control.get_config('iea', ''))
+        self.iea_collector_shunt_rest_input.setValue(self.control.get_config('iea', 'sweeper_shunt'))
 
                 ################## HEA ##################
         self.hea_area_output.setValue(self.control.get_config('hea', 'Probe area'))
@@ -389,7 +389,7 @@ class UserSettings(QMainWindow):
         self.hea_sweep_max_input.setValue(self.control.get_config('hea', 'sweep_amp_max'))
         self.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'rejector_bias'))
         self.hea_collect_gain_input.setValue(self.control.get_config('hea', 'collector_gain'))
-        #self.hea_collector_shunt_rest_input.setValue(self.control.get_config('hea', ''))
+        self.hea_collector_shunt_rest_input.setValue(self.control.get_config('hea', 'sweeper_shunt'))
 
     def show_data_upload_settings(self):
         self.main_view.setCurrentWidget(self.data_upload_settings_page)
