@@ -314,8 +314,8 @@ class UserSettings(QMainWindow):
 
     def set_widget_values(self):
         
-        self.credentials_path_input.setText(self.control.get_config(probe_id = '', key = 'credentials_path'))
-        self.local_path_input.setText(self.control.get_config(probe_id = '', key = 'local_path'))
+        self.credentials_path_input.setText(Path(self.control.get_config(probe_id = '', key = 'credentials_path')).name)
+        self.local_path_input.setText(Path(self.control.get_config(probe_id = '', key = 'local_path')).name)
 
                 ################## SLP ##################
 
@@ -491,7 +491,7 @@ class UserSettings(QMainWindow):
                 
                 if filenames:
                     self.control.set_config(probe_id='', key=key, value=str(Path(filenames[0])))
-                    line_edit.setText(self.control.get_config(probe_id='',key=key))
+                    line_edit.setText(Path(self.control.get_config(probe_id='',key=key)).name)
                     
     def adjust_value(self, spinbox, direction, config_key):
         """

@@ -64,6 +64,10 @@ class ExperimentRun(QMainWindow):
         # Connect confirm button in exp_path_name_frame
         self.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
         self.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.exp_path_name_input))
+        
+        self.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
+        
+    
 
     def initialize_experiment_name_view(self):
         """Shows the query frame by default when switching to experiment_name page."""
@@ -312,10 +316,13 @@ class ExperimentRun(QMainWindow):
                 filenames = dialog.selectedFiles()
                 
                 if filenames:
+                    
                     self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))
-                    line_edit.setText(self.control.get_config(probe_id='', key='local_path'))
+                    
+                    line_edit.setText(self.control.get_config(probe_id='', key='local_path').name)
+                    
                     self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
-                
+
     def emit_stop_signal(self):
          """Emit signal when stop button is clicked."""
          self.display_alert_message("Stopping experiment...")

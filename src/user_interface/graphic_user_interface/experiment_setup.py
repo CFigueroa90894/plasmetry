@@ -214,6 +214,7 @@ class ExperimentSetup(QMainWindow):
         self.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
 #        self.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
 
+
     def initialize_view(self):
         # Initialize the view to display the correct page based on QComboBox selection.
         # Get the current index of the probe_selection_cb combobox

@@ -324,7 +324,7 @@ QGroupBox:title {
               </font>
              </property>
              <property name="text">
-              <string>Would you like to continue with this experiment path name?</string>
+              <string>Would you like to continue with this experiment name?</string>
              </property>
             </widget>
            </item>

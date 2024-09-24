@@ -518,7 +518,7 @@ QComboBox {
            <string notr="true"/>
           </property>
           <property name="title">
-           <string>Credentials Path:</string>
+           <string>Credentials File:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -628,7 +628,7 @@ QComboBox {
            <string notr="true"/>
           </property>
           <property name="title">
-           <string>Local Storage Path:</string>
+           <string>Local Storage Folder:</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
