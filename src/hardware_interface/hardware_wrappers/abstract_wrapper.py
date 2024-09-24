@@ -14,6 +14,7 @@ Classes:
 from abc import ABCMeta, abstractmethod
 
 
+
 class AbstractWrapper(metaclass=ABCMeta):
     """An abstract class specifying the required methods that hardware wrappers must implement.
     
