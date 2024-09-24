@@ -393,193 +393,125 @@ QComboBox {
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>0</y>
-             <width>649</width>
-             <height>330</height>
-            </rect>
+          <layout class="QVBoxLayout" name="verticalLayout_50">
+           <property name="spacing">
+            <number>0</number>
            </property>
-           <property name="title">
-            <string/>
+           <property name="leftMargin">
+            <number>0</number>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
+           <property name="topMargin">
+            <number>0</number>
            </property>
-           <property name="flat">
-            <bool>false</bool>
+           <property name="rightMargin">
+            <number>0</number>
            </property>
-           <widget class="QPushButton" name="data_upload_settings_btn">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>40</y>
-              <width>500</width>
-              <height>58</height>
-             </rect>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>500</width>
-              <height>58</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>58</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>18</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-	background-color: #FFFFFF;
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="frame_48">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_90">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>20</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QGroupBox" name="gas_select_gb">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>125</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>125</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding-left: 0px; 
+    padding-right: 0px;
 }</string>
-            </property>
-            <property name="text">
-             <string>Data Upload</string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="probe_config_settings_btn">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>110</y>
-              <width>500</width>
-              <height>58</height>
-             </rect>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>500</width>
-              <height>58</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>58</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>18</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="autoFillBackground">
-             <bool>false</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-	background-color: #FFFFFF;
-}</string>
-            </property>
-            <property name="text">
-             <string>Probe Configurations</string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>16</width>
-              <height>16</height>
-             </size>
-            </property>
-           </widget>
-           <widget class="QGroupBox" name="gas_select_gb">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>190</y>
-              <width>181</width>
-              <height>91</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>18</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="title">
-             <string>Gas Selection:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_49">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>10</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>10</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QComboBox" name="gas_select_cb">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Calibri</family>
-                 <pointsize>18</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QComboBox {
+                </property>
+                <property name="title">
+                 <string>Gas Selection:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_49">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item alignment="Qt::AlignHCenter">
+                  <widget class="QComboBox" name="gas_select_cb">
+                   <property name="minimumSize">
+                    <size>
+                     <width>200</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="cursor">
+                    <cursorShape>PointingHandCursor</cursorShape>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QComboBox {
 	background-color: #FFFFFF;
 	padding-left: 20px;
 	text-align: left;
@@ -595,221 +527,345 @@ QComboBox QAbstractItemView {
 }
 
 </string>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <property name="frame">
-                <bool>false</bool>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Argon</string>
+                   </property>
+                   <property name="frame">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Argon</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Helium</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Nitrogen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>CO2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Oxygen</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Hydrogen</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="button_adjust_gb">
+                <property name="minimumSize">
+                 <size>
+                  <width>450</width>
+                  <height>125</height>
+                 </size>
                 </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Helium</string>
+                <property name="maximumSize">
+                 <size>
+                  <width>395</width>
+                  <height>125</height>
+                 </size>
                 </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Nitrogen</string>
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
                 </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>CO2</string>
+                <property name="styleSheet">
+                 <string notr="true">QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding-left: 0px; 
+    padding-right: 0px;
+}</string>
                 </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Oxygen</string>
+                <property name="title">
+                 <string>Increment/Decrement Value Adjusment:</string>
                 </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Hydrogen</string>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QGroupBox" name="button_adjust">
-            <property name="geometry">
-             <rect>
-              <x>190</x>
-              <y>180</y>
-              <width>395</width>
-              <height>125</height>
-             </rect>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>395</width>
-              <height>125</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>395</width>
-              <height>125</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>18</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="title">
-             <string>                       Button Adjust Scale</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_364">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>64</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>10</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QToolButton" name="button_adjust_minus">
-               <property name="minimumSize">
-                <size>
-                 <width>58</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>58</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>20</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>-</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="button_adjust_input">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Calibri</family>
-                 <pointsize>18</pointsize>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QDoubleSpinBox {
+                <layout class="QHBoxLayout" name="horizontalLayout_364">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>30</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>30</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QToolButton" name="button_adjust_minus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>-</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="button_adjust_input">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>1000</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>18</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QDoubleSpinBox {
 	background-color: #FFFFFF;
 }</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::NoButtons</enum>
-               </property>
-               <property name="correctionMode">
-                <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-               </property>
-               <property name="showGroupSeparator" stdset="0">
-                <bool>false</bool>
-               </property>
-               <property name="decimals">
-                <number>2</number>
-               </property>
-               <property name="minimum">
-                <double>0.010000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>10000.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>1.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QToolButton" name="button_adjust_plus">
-               <property name="minimumSize">
-                <size>
-                 <width>58</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>58</width>
-                 <height>58</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>20</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
-               </property>
-               <property name="text">
-                <string>+</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
+                   <property name="buttonSymbols">
+                    <enum>QAbstractSpinBox::NoButtons</enum>
+                   </property>
+                   <property name="correctionMode">
+                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                   </property>
+                   <property name="showGroupSeparator" stdset="0">
+                    <bool>false</bool>
+                   </property>
+                   <property name="decimals">
+                    <number>2</number>
+                   </property>
+                   <property name="minimum">
+                    <double>-10000.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>10000.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QToolButton" name="button_adjust_plus">
+                   <property name="minimumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>58</width>
+                     <height>58</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>20</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="text">
+                    <string>+</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="page_nav_gb">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>186</height>
+              </size>
+             </property>
+             <property name="title">
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_48">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="data_upload_settings_btn">
+                <property name="minimumSize">
+                 <size>
+                  <width>500</width>
+                  <height>58</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>58</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+	background-color: #FFFFFF;
+}</string>
+                </property>
+                <property name="text">
+                 <string>Data Upload</string>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter">
+               <widget class="QPushButton" name="probe_config_settings_btn">
+                <property name="minimumSize">
+                 <size>
+                  <width>500</width>
+                  <height>58</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>58</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>18</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+	background-color: #FFFFFF;
+}</string>
+                </property>
+                <property name="text">
+                 <string>Probe Configurations</string>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -1070,7 +1126,7 @@ QComboBox QAbstractItemView {
            </size>
           </property>
           <property name="currentIndex">
-           <number>8</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="slp_1">
            <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -4281,7 +4337,7 @@ QComboBox QAbstractItemView {
                      </font>
                     </property>
                     <property name="text">
-                     <string>Min Voltage</string>
+                     <string>Min</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -4489,7 +4545,7 @@ QComboBox QAbstractItemView {
                      </font>
                     </property>
                     <property name="text">
-                     <string>Max Voltage</string>
+                     <string>Max</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -6496,7 +6552,7 @@ QComboBox QAbstractItemView {
                      </font>
                     </property>
                     <property name="text">
-                     <string>Min Voltage</string>
+                     <string>Min</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -6704,7 +6760,7 @@ QComboBox QAbstractItemView {
                      </font>
                     </property>
                     <property name="text">
-                     <string>Max Voltage</string>
+                     <string>Max</string>
                     </property>
                     <property name="alignment">
                      <set>Qt::AlignCenter</set>
@@ -11550,158 +11606,20 @@ QComboBox QAbstractItemView {
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item>
-                <widget class="QGroupBox" name="hea_collimator_bias_gb">
-                 <property name="font">
-                  <font>
-                   <family>Calibri</family>
-                   <pointsize>18</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="title">
-                  <string>Collimator Bias (Volts):</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_82">
-                  <property name="spacing">
-                   <number>0</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>10</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>10</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QToolButton" name="hea_collimator_bias_minus">
-                    <property name="minimumSize">
-                     <size>
-                      <width>58</width>
-                      <height>58</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>58</width>
-                      <height>58</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>-</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="hea_collimator_bias_input">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>58</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>1000</width>
-                      <height>58</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Calibri</family>
-                      <pointsize>18</pointsize>
-                     </font>
-                    </property>
-                    <property name="focusPolicy">
-                     <enum>Qt::NoFocus</enum>
-                    </property>
-                    <property name="layoutDirection">
-                     <enum>Qt::LeftToRight</enum>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">QDoubleSpinBox {
-	background-color: #FFFFFF;
-}</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                    <property name="readOnly">
-                     <bool>true</bool>
-                    </property>
-                    <property name="buttonSymbols">
-                     <enum>QAbstractSpinBox::NoButtons</enum>
-                    </property>
-                    <property name="correctionMode">
-                     <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                    </property>
-                    <property name="showGroupSeparator" stdset="0">
-                     <bool>false</bool>
-                    </property>
-                    <property name="decimals">
-                     <number>2</number>
-                    </property>
-                    <property name="minimum">
-                     <double>-10000.000000000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>10000.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QToolButton" name="hea_collimator_bias_plus">
-                    <property name="minimumSize">
-                     <size>
-                      <width>58</width>
-                      <height>58</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>58</width>
-                      <height>58</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="focusPolicy">
-                     <enum>Qt::NoFocus</enum>
-                    </property>
-                    <property name="text">
-                     <string>+</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
+               <item alignment="Qt::AlignLeft">
                 <widget class="QGroupBox" name="hea_collect_gain_gb">
+                 <property name="minimumSize">
+                  <size>
+                   <width>395</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>395</width>
+                   <height>125</height>
+                  </size>
+                 </property>
                  <property name="font">
                   <font>
                    <family>Calibri</family>
@@ -11714,7 +11632,7 @@ QComboBox QAbstractItemView {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Collimator Gain:</string>
+                  <string>Collector Gain:</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
