@@ -342,6 +342,11 @@ QGroupBox:title {
                <height>58</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true">background-color: #FFFFFF;
 border: 2px solid #4d5bbe;
@@ -645,7 +650,7 @@ background-color: #FFFFFF;
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="run_page" native="true">
+      <widget class="QWidget" name="run_page">
        <layout class="QHBoxLayout" name="horizontalLayout_9">
         <property name="spacing">
          <number>0</number>
