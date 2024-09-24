@@ -1765,7 +1765,7 @@ QComboBox {
                   </font>
                  </property>
                  <property name="title">
-                  <string>Single Langmuir Probe Area (Meter):</string>
+                  <string>Single Langmuir Probe Area (mm):</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1853,10 +1853,16 @@ QComboBox {
                      <bool>false</bool>
                     </property>
                     <property name="decimals">
-                     <number>2</number>
+                     <number>5</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.000000000000000</double>
                     </property>
                     <property name="maximum">
                      <double>10000.000000000000000</double>
+                    </property>
+                    <property name="singleStep">
+                     <double>0.000010000000000</double>
                     </property>
                    </widget>
                   </item>
@@ -3072,7 +3078,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Double Langmuir Probe Area (Meter):</string>
+                  <string>Double Langmuir Probe Area (mm):</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -4771,7 +4777,7 @@ QComboBox {
                <string notr="true"/>
               </property>
               <property name="title">
-               <string>Triple Langmuir Probe Current Area (Meter):</string>
+               <string>Triple Langmuir Probe Current Area (mm):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -6547,7 +6553,7 @@ QComboBox {
                <string notr="true"/>
               </property>
               <property name="title">
-               <string>Triple Langmuir Probe Voltage Area (Meter):</string>
+               <string>Triple Langmuir Probe Voltage Area (mm):</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -9359,7 +9365,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Collector Probe Area (Meter):</string>
+                  <string>Collector Probe Area (mm):</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -11579,7 +11585,7 @@ QComboBox {
                   <string notr="true"/>
                  </property>
                  <property name="title">
-                  <string>Collector Probe Area (Meter):</string>
+                  <string>Collector Probe Area (mm):</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
