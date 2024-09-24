@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 3 - Diagnostics Interface
+Layer 2 - Diagnostics Interface
     Defines the required public functionality for concrete implementations of the Diagnostics Layer.
 
 author: figueroa_90894@students.pupr.edu
@@ -38,7 +38,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 from abstract_base_layer import AbstractBaseLayer
 
 class AbstractDiagnostics(AbstractBaseLayer):
-    """This class defines all public methods that 'Layer 3 - Diagnostics' implementations must
+    """This class defines all public methods that 'Layer 2 - Diagnostics' implementations must
     must exppose to the upper layers.
 
     Public methods include start/stop/setup functions for diagnostics, a system-wide shutdown.

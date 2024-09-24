@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Probe Operation
+Layer 2 - Diagnostics - Probe Operation
     Provides the main implementation for the Diagnostics Layer's thread, controlling probes and 
     calculating plasma parameters. Creates Probe Objects that access the Hardware Interface Layer
     through a set of hardware objects.

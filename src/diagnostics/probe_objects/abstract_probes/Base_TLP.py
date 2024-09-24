@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Base TLP
+Layer 2 - Diagnostics - Base TLP
     Provides a base class for concrete TLP probe classes, implementing the attributes they share.
 
 author: figueroa_90894@students.pupr.edu

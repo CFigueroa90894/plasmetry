@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Counter Wrapper
+Layer 1 - Hardware Interface - Counter Wrapper
     Implements a testing variant of the hardware wrapper interface that does not depend on physical
     hardware components or external packages.
 

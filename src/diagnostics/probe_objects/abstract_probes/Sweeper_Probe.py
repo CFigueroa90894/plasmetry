@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Sweeper Probe
+Layer 2 - Diagnostics - Sweeper Probe
     Provides a parent class for concrete probe classes that require voltage sweeps. This class
     specifies required methods and implements common functionality.
 

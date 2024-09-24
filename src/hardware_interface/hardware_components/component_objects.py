@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Component Objects
+Layer 1 - Hardware Interface - Component Objects
     Defines classes for probe subcomponents, including basic sensors and amplifiers.
 
 author: figueroa_90894@students.pupr.edu

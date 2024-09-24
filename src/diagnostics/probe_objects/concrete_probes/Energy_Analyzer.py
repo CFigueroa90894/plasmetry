@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Energy Analyzer
+Layer 2 - Diagnostics - Energy Analyzer
     Provides a concrete class for Energy Analyzers, a specialized type of sweeper probes. Currently,
     our implementations supports Hyperbolic Energy Analyzers and Ion energy Analyzers. The equations
     provided by the calculations factory allow them to obtain either electron parameters, or ion

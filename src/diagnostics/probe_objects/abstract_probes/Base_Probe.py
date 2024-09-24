@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Base Probe
+Layer 2 - Diagnostics - Base Probe
     Provides a parent class for concrete probe classes that specifies required methods and
     and implements common functionality. Inherits from our BaseThread class.
 

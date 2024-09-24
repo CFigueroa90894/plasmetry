@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - DAQC2plate Wrapper
+Layer 1 - Hardware Interface - DAQC2plate Wrapper
     Implements the hardware interfacing methods specified by the AbstractWrapper class using the
     piplates.DAQC2plate library. Provides basic analog and digital I/O methods.
 

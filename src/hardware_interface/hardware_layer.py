@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Concrete Implementation
+Layer 1 - Hardware Interface - Concrete Implementation
     Implements the interface specified by AbstractHardware class. Instantiates hardware factories
     for use by upper by layers, as well as providing a failsafe to reset all hardware I/O channels.
 

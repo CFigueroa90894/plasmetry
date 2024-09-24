@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Probe Factory
+Layer 2 - Diagnostics - Probe Factory
     The Probe Factory class provides a simplified call to instantiate probes, abstracting away
     the complexity of selecting equations, instantiating hardware components, and selecting config
     values for specific probe object implementations. 

@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Concrete Implementation
+Layer 2 - Diagnostics - Concrete Implementation
     Implements the interface specified by AbstractDiagnostics class. Instantiates the calculations
     and probe factories, as well as the probe operation thread. It exposes to upper layers methods
     to setup, start, and stop diagnostics, as a well a method to shutdown the layer's subcomponents.

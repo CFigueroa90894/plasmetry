@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Test DAQC2 Wrapper
+Layer 1 - Hardware Interface - Test DAQC2 Wrapper
     Implements a testing variant of the hardware wrapper interface that incorporates CounterWrapper
     and DAQC2plateWrapper methods into a single call. Allows debug printing while also operating
     the physical DAQC2plate channels.

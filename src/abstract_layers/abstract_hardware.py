@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface
+Layer 1 - Hardware Interface
     Defines the required public functionality for concrete implementations of the Hardware
     Interface Layer.
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 from abstract_base_layer import AbstractBaseLayer
 
 class AbstractHardware(AbstractBaseLayer):
-    """This class defines all public methods that 'Layer 4 - Hardware Interface' implementations
+    """This class defines all public methods that 'Layer 1 - Hardware Interface' implementations
     must expose to upper layers.
     
     The two public methods offered are getters to the factories that generate configured 

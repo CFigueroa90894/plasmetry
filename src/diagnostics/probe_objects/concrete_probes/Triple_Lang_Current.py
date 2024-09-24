@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Triple Lang Current
+Layer 2 - Diagnostics - Triple Lang Current
     Provides a concrete class to operate a Triple Langmuir Probe, specifically in its Current Mode
     configuration. It inherits from the BaseTLP class.
 

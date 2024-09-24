@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Abstract Wrapper
+Layer 1 - Hardware Interface - Abstract Wrapper
     Specifies the interface for hardware wrappers in order to provide consistent analog and
     digital I/O methods to hardware object representations.
 

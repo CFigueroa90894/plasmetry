@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Probe Enum
+Layer 2 - Diagnostics - Probe Enum
     Contains an enumerator object that defines the string identifiers for supported probe types.
 
 author: figueroa_90894@students.pupr.edu

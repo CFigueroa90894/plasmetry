@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Triple Lang Voltage
+Layer 2 - Diagnostics - Triple Lang Voltage
     Provides a concrete class to operate a Triple Langmuir Probe, specifically in its Voltage Mode
     configuration. It inherits from the BaseTLP class.
 

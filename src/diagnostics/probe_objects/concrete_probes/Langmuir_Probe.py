@@ -1,5 +1,5 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics - Langmuir Probe
+Layer 2 - Diagnostics - Langmuir Probe
     Provides a concrete class for Langmuir Probes, for our current implementations this supports
     Single Langmuir Probes and Double Langmuir Probes. It inherits from the SweeperProbe class.
 

@@ -1,5 +1,5 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Component Factory
+Layer 1 - Hardware Interface - Component Factory
     Defines the ComponentFactory class, used to generate component objects.
 
 author: figueroa_90894@students.pupr.edu
