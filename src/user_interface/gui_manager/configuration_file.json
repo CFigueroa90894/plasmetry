@@ -67,7 +67,7 @@
             "dac_min": 0.0,
             "dac_max": 4.0,
             "num_samples": 30,
-            "sweep_min": 0.20000000000000284,
+            "sweep_min": 50.2,
             "sweep_max": 53.0,
             "sweep_amp_min": -86.8,
             "sweep_amp_max": 299.0,
@@ -75,7 +75,8 @@
             "collector_gain": 3.0,
             "Probe area": 1,
             "Shunt 1": 200,
-            "Particle mass": 9.10938e-31
+            "Particle mass": 9.10938e-31,
+            "selected_gas": "nitrogen"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -90,7 +91,8 @@
             "sweeper_shunt": 200.0,
             "collector_gain": 1.0,
             "Probe area": 1,
-            "Shunt 1": 200
+            "Shunt 1": 200,
+            "selected_gas": "nitrogen"
         },
         "hea": {
             "probe_id": "hea",
@@ -111,7 +113,8 @@
             "collector_bias_max": 300.0,
             "collector_bias": 25.0,
             "Probe area": 1,
-            "Shunt 1": 200
+            "Shunt 1": 200,
+            "selected_gas": "nitrogen"
         },
         "iea": {
             "probe_id": "iea",
@@ -132,7 +135,8 @@
             "collector_bias_max": 300.0,
             "collector_bias": 20.0,
             "Probe area": 1,
-            "Shunt 1": 200
+            "Shunt 1": 200,
+            "selected_gas": "nitrogen"
         },
         "tlc": {
             "probe_id": "tlc",
@@ -142,7 +146,7 @@
             "up_amp_min": -300.0,
             "up_amp_max": 300.0,
             "up_amp_bias": -120.0,
-            "up_collector_gain": 1.0,
+            "up_collector_gain": 101.0,
             "up_shunt": 200,
             "down_amp_min": -300.0,
             "down_amp_max": 300.0,
@@ -152,7 +156,8 @@
             "num_samples": 0,
             "Probe area": 1,
             "Shunt 1": 200,
-            "Shunt 2": 200
+            "Shunt 2": 200,
+            "selected_gas": "nitrogen"
         },
         "tlv": {
             "probe_id": "tlv",
@@ -168,7 +173,8 @@
             "num_samples": 50,
             "Probe area": 1,
             "Shunt 1": 200,
-            "Shunt 2": 200
+            "Shunt 2": 200,
+            "selected_gas": "nitrogen"
         }
     }
 }

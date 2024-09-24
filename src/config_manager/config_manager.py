@@ -239,8 +239,12 @@ class ConfigManager:
         elif key=='local_path':
             if os.path.isdir(value):
                 self.set_value(ref, key, value)
+        elif key == 'selected_gas':
+            for probe_id in self.sys_ref:
+                ref[probe_id][key] = value
         else:
             self.set_value(ref, key, value)
+            
 
     
     def set_value(self, ref, key, value):

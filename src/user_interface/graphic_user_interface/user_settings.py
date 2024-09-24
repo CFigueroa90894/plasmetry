@@ -396,11 +396,7 @@ class UserSettings(QMainWindow):
         self.ui.hea_sweep_max_plus.clicked.connect(lambda: self.adjust_value(
             self.ui.hea_sweep_max_input, +1, 'sweep_amp_max'))
 
-        # Connect Plus/Minus buttons for Collimator Bias
-        self.ui.hea_collimator_bias_minus.clicked.connect(lambda: self.adjust_value(
-            self.ui.hea_collimator_bias_input, -1, 'collimator_bias'))
-        self.ui.hea_collimator_bias_plus.clicked.connect(lambda: self.adjust_value(
-            self.ui.hea_collimator_bias_input, +1, 'collimator_bias'))
+   
 
         # Connect Plus/Minus buttons for Collector Gain
         self.ui.hea_collect_gain_minus.clicked.connect(lambda: self.adjust_value(
@@ -568,8 +564,7 @@ class UserSettings(QMainWindow):
             self.control.get_config('hea', 'sweep_amp_min'))
         self.ui.hea_sweep_max_input.setValue(
             self.control.get_config('hea', 'sweep_amp_max'))
-        self.ui.hea_collimator_bias_input.setValue(
-            self.control.get_config('hea', 'rejector_bias'))
+      
         self.ui.hea_collect_gain_input.setValue(
             self.control.get_config('hea', 'collector_gain'))
         self.ui.hea_collector_shunt_rest_input.setValue(
