@@ -60,7 +60,7 @@
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\config_manager\\configuration_file.json",
         "experiment_name": "experiment #123123123",
         "selected_gas": "nitrogen",
-        "button_adjust": 100.0,
+        "button_adjust": 1.0,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 74.0,

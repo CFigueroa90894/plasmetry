@@ -214,7 +214,7 @@ class ConfigManager:
              if ref[probe_id][min_key] < value:
                  ref[probe_id][key] = value
         else:
-            
+
              if not 'collector' in tokens:
                  tokens.pop()
                  

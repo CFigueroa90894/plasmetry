@@ -294,6 +294,9 @@ class ExperimentSetup(QMainWindow):
         
         current_value = spinbox.value()
         new_value = self.increment(current_value) if direction == 1 else self.decrement(current_value)
+        
+        if 'bias' in config_key and abs(new_value) < 0.01:
+            new_value = current_value * -1 
 
         # Invoking mutator function of in memory config dictionary
         # Validations are also executed during the call stack of this method

@@ -706,6 +706,11 @@ class UserSettings(QMainWindow):
             #Converting areas into meter
             if 'area' in config_key:
                 scale = 1000
+            elif 'bias' in config_key and abs(new_value) < 0.01:
+                
+                new_value = current_value * -1 
+                    
+                
             
             # Invoking mutator function of in memory config dictionary
             # Validations are also executed during the call stack of this method
