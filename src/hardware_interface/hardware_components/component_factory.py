@@ -92,7 +92,11 @@ class ComponentFactory:
         self.__CHN = channel_factory.ID
 
     def make(self, type: COMP, *args, **kwargs):
-        """<...>"""
+        """Returns an instantiated hardware component object, specified by the given ID. This method
+        takes an arbitrary number of keyword arguments, that must match the requested object's
+        constructor function signature.
+        
+        """
         # Select component to instantiate
         match type:
             case COMP.HVAMP:  # HighVoltAmp
