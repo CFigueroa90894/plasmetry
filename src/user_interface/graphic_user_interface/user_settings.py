@@ -316,12 +316,6 @@ class UserSettings(QMainWindow):
         self.ui.iea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(
             self.ui.iea_collect_bias_max_input, +1, 'collector_bias_max'))
 
-        # Connect Plus/Minus buttons for Collector Probe Bias
-        self.ui.iea_collector_probe_minus.clicked.connect(lambda: self.adjust_value(
-            self.ui.iea_collector_probe_input, -1, 'collector_bias'))
-        self.ui.iea_collector_probe_plus.clicked.connect(lambda: self.adjust_value(
-            self.ui.iea_collector_probe_input, +1, 'collector_bias'))
-
         # Connect Plus/Minus buttons for Collector Gain
         self.ui.iea_collector_gain_minus.clicked.connect(lambda: self.adjust_value(
             self.ui.iea_collector_gain_input, -1, 'collector_gain'))
@@ -345,12 +339,6 @@ class UserSettings(QMainWindow):
             lambda: self.adjust_value(self.ui.iea_area_input, -1, 'Probe area'))
         self.ui.iea_area_plus.clicked.connect(
             lambda: self.adjust_value(self.ui.iea_area_input, +1, 'Probe area'))
-
-        # Connect Plus/Minus buttons for Custom Gas
-        self.ui.iea_mass_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.iea_mass_input, -1, 'Probe area'))
-        self.ui.iea_mass_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.iea_mass_input, +1, 'Probe area'))
 
         # Connect Plus/Minus buttons for Collector Shunt Resistance
         self.ui.iea_collector_shunt_rest_minus.clicked.connect(
@@ -383,6 +371,19 @@ class UserSettings(QMainWindow):
             self.ui.hea_collect_bias_max_input, -1, 'collector_bias_max'))
         self.ui.hea_collect_bias_max_plus.clicked.connect(lambda: self.adjust_value(
             self.ui.hea_collect_bias_max_input, +1, 'collector_bias_max'))
+        
+        # Connect Plus/Minus buttons for Collimator Bias min
+        self.ui.hea_collimator_bias_min_minus.clicked.connect(lambda: self.adjust_value(
+            self.ui.hea_collimator_bias_min_input, -1, 'rejector_min'))
+        self.ui.hea_collimator_bias_min_plus.clicked.connect(lambda: self.adjust_value(
+            self.ui.hea_collimator_bias_min_input, +1, 'rejector_min'))
+        
+        # Connect Plus/Minus buttons for Collimator Bias MIN
+        self.ui.hea_collimator_bias_max_minus.clicked.connect(lambda: self.adjust_value(
+            self.ui.hea_collimator_bias_max_input, -1, 'rejector_max'))
+        self.ui.hea_collimator_bias_max_plus.clicked.connect(lambda: self.adjust_value(
+            self.ui.hea_collimator_bias_max_input, +1, 'rejector_max'))
+        
 
         # Connect Plus/Minus buttons for Sweep MIN
         self.ui.hea_sweep_min_minus.clicked.connect(
@@ -538,8 +539,6 @@ class UserSettings(QMainWindow):
             self.control.get_config('iea', 'collector_bias_min'))
         self.ui.iea_collect_bias_max_input.setValue(
             self.control.get_config('iea', 'collector_bias_max'))
-        self.ui.iea_collector_probe_input.setValue(
-            self.control.get_config('iea', 'collector_bias'))
         self.ui.iea_collector_gain_input.setValue(
             self.control.get_config('iea', 'collector_gain'))
         self.ui.iea_sweep_min_input.setValue(
@@ -556,6 +555,10 @@ class UserSettings(QMainWindow):
             self.control.get_config('hea', 'dac_min'))
         self.ui.hea_dac_max_input.setValue(
             self.control.get_config('hea', 'dac_max'))
+        self.ui.hea_collimator_bias_min_input.setValue(
+            self.control.get_config('hea', 'rejector_min'))
+        self.ui.hea_collimator_bias_max_input.setValue(
+            self.control.get_config('hea', 'rejector_max'))
         self.ui.hea_collect_bias_min_input.setValue(
             self.control.get_config('hea', 'collector_bias_min'))
         self.ui.hea_collect_bias_max_input.setValue(
@@ -565,6 +568,8 @@ class UserSettings(QMainWindow):
         self.ui.hea_sweep_max_input.setValue(
             self.control.get_config('hea', 'sweep_amp_max'))
       
+        self.ui.hea_collect_gain_input.setValue(
+            self.control.get_config('hea', 'collector_gain'))
         self.ui.hea_collect_gain_input.setValue(
             self.control.get_config('hea', 'collector_gain'))
         self.ui.hea_collector_shunt_rest_input.setValue(

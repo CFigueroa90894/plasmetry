@@ -37,6 +37,7 @@ def filter_current(parameters):
     Outputs:
         filteredSignal = signal after being processed by a butterworth digital filter.
     """
+
     
     sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
     

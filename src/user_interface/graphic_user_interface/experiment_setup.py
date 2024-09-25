@@ -137,7 +137,11 @@ class ExperimentSetup(QMainWindow):
 
         self.ui.iea_rejector_mesh_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_rejector_mesh_bias_input, -1, 'rejector_bias'))
         self.ui.iea_rejector_mesh_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_rejector_mesh_bias_input, +1, 'rejector_bias'))
-
+        
+        # Connect Plus/Minus buttons for Collector Probe Bias
+        self.ui.iea_collector_probe_minus.clicked.connect(lambda: self.adjust_value(self.ui.iea_collector_probe_input, -1, 'collector_bias'))
+        self.ui.iea_collector_probe_plus.clicked.connect(lambda: self.adjust_value(self.ui.iea_collector_probe_input, +1, 'collector_bias'))
+        
         ############################## HEA SIGNALS ##############################
         self.ui.hea_volt_ramp_min_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_volt_ramp_min_input, -1, 'sweep_min'))
         self.ui.hea_volt_ramp_min_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_volt_ramp_min_input, +1, 'sweep_min'))
@@ -153,6 +157,9 @@ class ExperimentSetup(QMainWindow):
 
         self.ui.hea_faraday_cup_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_faraday_cup_bias_input, -1,'collector_bias'))
         self.ui.hea_faraday_cup_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_faraday_cup_bias_input, +1,'collector_bias'))
+        
+        self.ui.hea_collimator_bias_minus.clicked.connect(lambda: self.adjust_value(self.ui.hea_collimator_bias_input, -1,'rejector_bias'))
+        self.ui.hea_collimator_bias_plus.clicked.connect(lambda: self.adjust_value(self.ui.hea_collimator_bias_input, +1,'rejector_bias'))
 
 
     ############################## GENERAL SLOTS ##############################
@@ -192,7 +199,7 @@ class ExperimentSetup(QMainWindow):
         self.ui.iea_volt_rampt_max_input.setValue(self.control.get_config('iea', 'sweep_max'))
         self.ui.iea_sampling_rate_input.setValue(self.control.get_config('iea', 'sampling_rate'))
         self.ui.iea_num_measurements_input.setValue(self.control.get_config('iea', 'num_samples'))
-#        self.ui.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
+        self.ui.iea_collector_probe_input.setValue(self.control.get_config('iea', 'collector_bias'))
         self.ui.iea_rejector_mesh_bias_input.setValue(self.control.get_config('iea', 'rejector_bias'))
         
         ################## HEA ##################
@@ -202,7 +209,7 @@ class ExperimentSetup(QMainWindow):
         self.ui.hea_sampling_rate_input.setValue(self.control.get_config('hea', 'sampling_rate'))
         self.ui.hea_num_measurements_input.setValue(self.control.get_config('hea', 'num_samples'))
         self.ui.hea_faraday_cup_bias_input.setValue(self.control.get_config('hea', 'collector_bias'))
-#        self.ui.hea_cullinator_cup_input.setValue(self.control.get_config('hea', 'rejector_bias'))
+        self.ui.hea_collimator_bias_input.setValue(self.control.get_config('hea', 'rejector_bias'))
 
 
     def initialize_view(self):

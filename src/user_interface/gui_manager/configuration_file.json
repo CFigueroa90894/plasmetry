@@ -66,9 +66,9 @@
             "sampling_rate": 74.0,
             "dac_min": 0.0,
             "dac_max": 4.0,
-            "num_samples": 30,
-            "sweep_min": 50.2,
-            "sweep_max": 53.0,
+            "num_samples": -90,
+            "sweep_min": 20.2,
+            "sweep_max": 253.0,
             "sweep_amp_min": -86.8,
             "sweep_amp_max": 299.0,
             "sweeper_shunt": 802.0,
@@ -76,7 +76,7 @@
             "Probe area": 1,
             "Shunt 1": 200,
             "Particle mass": 9.10938e-31,
-            "selected_gas": "nitrogen"
+            "selected_gas": "helium"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -92,33 +92,33 @@
             "collector_gain": 1.0,
             "Probe area": 1,
             "Shunt 1": 200,
-            "selected_gas": "nitrogen"
+            "selected_gas": "helium"
         },
         "hea": {
             "probe_id": "hea",
             "sampling_rate": 50,
             "dac_min": 0.0,
             "dac_max": 4.0,
-            "num_samples": 50,
-            "sweep_min": -90.0,
-            "sweep_max": 250.0,
+            "num_samples": 70,
+            "sweep_min": -70.0,
+            "sweep_max": 220.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 1.0,
             "rejector_min": -300.0,
             "rejector_max": 300.0,
-            "rejector_bias": 20.0,
+            "rejector_bias": 50.0,
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 25.0,
             "Probe area": 1,
             "Shunt 1": 200,
-            "selected_gas": "nitrogen"
+            "selected_gas": "helium"
         },
         "iea": {
             "probe_id": "iea",
-            "sampling_rate": 50,
+            "sampling_rate": 60.0,
             "dac_min": 0.0,
             "dac_max": 4.0,
             "num_samples": 50,
@@ -130,13 +130,13 @@
             "collector_gain": 1.0,
             "rejector_min": -300.0,
             "rejector_max": 300.0,
-            "rejector_bias": 15.0,
+            "rejector_bias": 35.0,
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 20.0,
             "Probe area": 1,
             "Shunt 1": 200,
-            "selected_gas": "nitrogen"
+            "selected_gas": "helium"
         },
         "tlc": {
             "probe_id": "tlc",
@@ -157,7 +157,7 @@
             "Probe area": 1,
             "Shunt 1": 200,
             "Shunt 2": 200,
-            "selected_gas": "nitrogen"
+            "selected_gas": "helium"
         },
         "tlv": {
             "probe_id": "tlv",
@@ -174,7 +174,7 @@
             "Probe area": 1,
             "Shunt 1": 200,
             "Shunt 2": 200,
-            "selected_gas": "nitrogen"
+            "selected_gas": "helium"
         }
     }
 }

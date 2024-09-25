@@ -515,7 +515,7 @@ QComboBox {
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>Min Voltage</string>
+                 <string>Min</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -731,7 +731,7 @@ QComboBox {
                  </font>
                 </property>
                 <property name="text">
-                 <string>Max Voltage</string>
+                 <string>Max</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1401,7 +1401,7 @@ QComboBox {
                  </font>
                 </property>
                 <property name="text">
-                 <string>Min Voltage</string>
+                 <string>Min</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1609,7 +1609,7 @@ QComboBox {
                  </font>
                 </property>
                 <property name="text">
-                 <string>Max Voltage</string>
+                 <string>Max</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -2617,7 +2617,7 @@ QComboBox {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Averaging Window</string>
+                 <string>Averaging Window:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3403,7 +3403,7 @@ QComboBox {
                  <string notr="true"/>
                 </property>
                 <property name="title">
-                 <string>Averaging Window</string>
+                 <string>Averaging Window:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3631,7 +3631,7 @@ QComboBox {
            </font>
           </property>
           <property name="title">
-           <string>Retarding Mesh Voltage Ramp (Volts):</string>
+           <string>Retarding Potential Ramp (Volts):</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_26">
            <property name="spacing">
@@ -4428,166 +4428,335 @@ QComboBox {
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <item alignment="Qt::AlignTop">
-               <widget class="QGroupBox" name="iea_rejector_mesh_bias_gb">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>101</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>101</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>18</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="title">
-                 <string>Rejector Mesh Bias (Volts):</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_33">
-                 <property name="spacing">
-                  <number>0</number>
+              <item>
+               <widget class="QWidget" name="widget" native="true">
+                <widget class="QGroupBox" name="iea_rejector_mesh_bias_gb">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>100</y>
+                   <width>395</width>
+                   <height>101</height>
+                  </rect>
                  </property>
-                 <property name="leftMargin">
-                  <number>10</number>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>101</height>
+                  </size>
                  </property>
-                 <property name="topMargin">
-                  <number>0</number>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>101</height>
+                  </size>
                  </property>
-                 <property name="rightMargin">
-                  <number>10</number>
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
                  </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
+                 <property name="styleSheet">
+                  <string notr="true"/>
                  </property>
-                 <item>
-                  <widget class="QToolButton" name="iea_rejector_mesh_bias_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="iea_rejector_mesh_bias_input">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>1000</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
+                 <property name="title">
+                  <string>Rejector Bias (Volts):</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                 <widget class="QToolButton" name="iea_rejector_mesh_bias_minus">
+                  <property name="geometry">
+                   <rect>
+                    <x>11</x>
+                    <y>36</y>
+                    <width>58</width>
+                    <height>58</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>58</width>
+                    <height>58</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>58</width>
+                    <height>58</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>-</string>
+                  </property>
+                 </widget>
+                 <widget class="QDoubleSpinBox" name="iea_rejector_mesh_bias_input">
+                  <property name="geometry">
+                   <rect>
+                    <x>69</x>
+                    <y>36</y>
+                    <width>261</width>
+                    <height>58</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>58</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>1000</width>
+                    <height>58</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>18</pointsize>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::LeftToRight</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QDoubleSpinBox {
 	background-color: #FFFFFF;
 }</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="iea_rejector_mesh_bias_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="text">
-                    <string>+</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                  <property name="readOnly">
+                   <bool>true</bool>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::NoButtons</enum>
+                  </property>
+                  <property name="correctionMode">
+                   <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                  </property>
+                  <property name="showGroupSeparator" stdset="0">
+                   <bool>false</bool>
+                  </property>
+                  <property name="decimals">
+                   <number>2</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-10000.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>10000.000000000000000</double>
+                  </property>
+                 </widget>
+                 <widget class="QToolButton" name="iea_rejector_mesh_bias_plus">
+                  <property name="geometry">
+                   <rect>
+                    <x>326</x>
+                    <y>36</y>
+                    <width>58</width>
+                    <height>58</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>58</width>
+                    <height>58</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>58</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="text">
+                   <string>+</string>
+                  </property>
+                 </widget>
+                </widget>
+                <widget class="QGroupBox" name="iea_collector_probe_gb">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>0</y>
+                   <width>391</width>
+                   <height>101</height>
+                  </rect>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="title">
+                  <string>Collector Bias (Volts):</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_68">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>10</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QToolButton" name="iea_collector_probe_minus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>-</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QDoubleSpinBox" name="iea_collector_probe_input">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>1000</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Calibri</family>
+                      <pointsize>18</pointsize>
+                      <weight>50</weight>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                    <property name="buttonSymbols">
+                     <enum>QAbstractSpinBox::NoButtons</enum>
+                    </property>
+                    <property name="correctionMode">
+                     <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                    </property>
+                    <property name="showGroupSeparator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="decimals">
+                     <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-10000.000000000000000</double>
+                    </property>
+                    <property name="maximum">
+                     <double>10000.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="iea_collector_probe_plus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>58</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>58</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="text">
+                     <string>+</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
                </widget>
               </item>
              </layout>
@@ -4638,7 +4807,7 @@ QComboBox {
            </font>
           </property>
           <property name="title">
-           <string>Hyperboloid Lens Voltage Ramp (Volts):</string>
+           <string>Hyperboloid Lens Potential Ramp (Volts):</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_22">
            <property name="spacing">
@@ -5440,185 +5609,342 @@ QComboBox {
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="spacing">
-               <number>0</number>
+             <widget class="QGroupBox" name="hea_faraday_cup_bias_gb">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>391</width>
+                <height>101</height>
+               </rect>
               </property>
-              <property name="leftMargin">
-               <number>0</number>
+              <property name="minimumSize">
+               <size>
+                <width>30</width>
+                <height>101</height>
+               </size>
               </property>
-              <property name="topMargin">
-               <number>0</number>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>101</height>
+               </size>
               </property>
-              <property name="rightMargin">
-               <number>0</number>
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
               </property>
-              <property name="bottomMargin">
-               <number>0</number>
+              <property name="styleSheet">
+               <string notr="true"/>
               </property>
-              <item alignment="Qt::AlignTop">
-               <widget class="QGroupBox" name="hea_faraday_cup_bias_gb">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>101</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>101</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Calibri</family>
-                  <pointsize>18</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="title">
-                 <string>Faraday Cup Bias (Volts):</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_21">
-                 <property name="spacing">
-                  <number>0</number>
+              <property name="title">
+               <string>Faraday Cup Bias (Volts):</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_21">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QToolButton" name="hea_faraday_cup_bias_minus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
                  </property>
-                 <property name="leftMargin">
-                  <number>10</number>
+                 <property name="maximumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
                  </property>
-                 <property name="topMargin">
-                  <number>0</number>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
                  </property>
-                 <property name="rightMargin">
-                  <number>10</number>
+                 <property name="text">
+                  <string>-</string>
                  </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="hea_faraday_cup_bias_input">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>58</height>
+                  </size>
                  </property>
-                 <item>
-                  <widget class="QToolButton" name="hea_faraday_cup_bias_minus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>-</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="hea_faraday_cup_bias_input">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>1000</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>18</pointsize>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">QDoubleSpinBox {
+                 <property name="maximumSize">
+                  <size>
+                   <width>1000</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                  </font>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
 	background-color: #FFFFFF;
 }</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="readOnly">
-                    <bool>true</bool>
-                   </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::NoButtons</enum>
-                   </property>
-                   <property name="correctionMode">
-                    <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-                   </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="decimals">
-                    <number>2</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-10000.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>10000.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QToolButton" name="hea_faraday_cup_bias_plus">
-                   <property name="minimumSize">
-                    <size>
-                     <width>58</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>58</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>20</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                    </font>
-                   </property>
-                   <property name="focusPolicy">
-                    <enum>Qt::NoFocus</enum>
-                   </property>
-                   <property name="text">
-                    <string>+</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="correctionMode">
+                  <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>false</bool>
+                 </property>
+                 <property name="decimals">
+                  <number>2</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-10000.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="hea_faraday_cup_bias_plus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>+</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QGroupBox" name="hea_faraday_cup_bias_gb_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>100</y>
+                <width>395</width>
+                <height>101</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>101</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>101</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Calibri</family>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="title">
+               <string>Collimator Bias (Volts):</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_25">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>7</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QToolButton" name="hea_collimator_bias_minus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>-</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="hea_collimator_bias_input">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1000</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Calibri</family>
+                   <pointsize>18</pointsize>
+                  </font>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="layoutDirection">
+                  <enum>Qt::LeftToRight</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QDoubleSpinBox {
+	background-color: #FFFFFF;
+}</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="readOnly">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="correctionMode">
+                  <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>false</bool>
+                 </property>
+                 <property name="decimals">
+                  <number>2</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-10000.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>10000.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="hea_collimator_bias_plus">
+                 <property name="minimumSize">
+                  <size>
+                   <width>58</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>58</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="text">
+                  <string>+</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </widget>
            </item>
           </layout>
