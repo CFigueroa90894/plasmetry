@@ -158,6 +158,7 @@ class HighVoltAmp(BaseAmp):
         ^+ __init__() - constructor inherited from parent
         + write(float) - produce the desired voltage at the HV-amp's output
         + zero() - reset the amp's output to zero volts
+        # _translate() - maps a desired high voltage to the low voltage that drives it
     """
 
     def __init__(self, *args, **kwargs):

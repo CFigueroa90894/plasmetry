@@ -58,6 +58,13 @@ class CounterWrapperTest(AbstractWrapper):
         + digital_out_count - number calls to write_analog()
         + max_addr - highest address number allowed by the wrapper
         # _say_obj - text output object
+    
+    Methods:
+        + __init__() - hardware wrapper constructor
+        + write_analog() - sets an analog voltage output
+        + read_analog() - reads an analog voltage input
+        + write_digital() - sets a digital voltage output
+        + read_digital() - reads a digital voltage input
     """
     def __init__(self, name:str="CountHW", output:SayWriter=None):
         """Initialize CounterWrapperTest.
