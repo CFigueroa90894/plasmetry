@@ -57,10 +57,10 @@
     },
     "config_ref": {
         "local_path": "C:\\Users\\ajco2\\OneDrive\\Desktop\\experiment #123123123",
-        "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
+        "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\config_manager\\configuration_file.json",
         "experiment_name": "experiment #123123123",
         "selected_gas": "nitrogen",
-        "button_adjust": 10.0,
+        "button_adjust": 100.0,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 74.0,
@@ -68,12 +68,12 @@
             "dac_max": 4.0,
             "num_samples": -90,
             "sweep_min": 20.2,
-            "sweep_max": 253.0,
+            "sweep_max": 213.0,
             "sweep_amp_min": -86.8,
             "sweep_amp_max": 299.0,
-            "sweeper_shunt": 802.0,
+            "sweeper_shunt": 202.0,
             "collector_gain": 3.0,
-            "Probe area": 1,
+            "Probe area": 1.0,
             "Shunt 1": 200,
             "Particle mass": 9.10938e-31,
             "selected_gas": "helium"

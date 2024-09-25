@@ -366,7 +366,7 @@ QComboBox {
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="settings_select_page">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1126,7 +1126,7 @@ QComboBox QAbstractItemView {
            </size>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>16</number>
           </property>
           <widget class="QWidget" name="slp_1">
            <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -2257,7 +2257,10 @@ QComboBox QAbstractItemView {
                      <double>10000.000000000000000</double>
                     </property>
                     <property name="singleStep">
-                     <double>0.000010000000000</double>
+                     <double>1.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>1.000000000000000</double>
                     </property>
                    </widget>
                   </item>
@@ -3567,10 +3570,16 @@ QComboBox QAbstractItemView {
                      <bool>false</bool>
                     </property>
                     <property name="decimals">
-                     <number>2</number>
+                     <number>5</number>
+                    </property>
+                    <property name="minimum">
+                     <double>0.000000000000000</double>
                     </property>
                     <property name="maximum">
                      <double>10000.000000000000000</double>
+                    </property>
+                    <property name="value">
+                     <double>1.000000000000000</double>
                     </property>
                    </widget>
                   </item>
@@ -5266,15 +5275,18 @@ QComboBox QAbstractItemView {
                   <bool>false</bool>
                  </property>
                  <property name="decimals">
-                  <number>2</number>
+                  <number>5</number>
                  </property>
                  <property name="minimum">
-                  <double>-10000.000000000000000</double>
+                  <double>0.000000000000000</double>
                  </property>
                  <property name="maximum">
                   <double>10000.000000000000000</double>
                  </property>
                  <property name="singleStep">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="value">
                   <double>1.000000000000000</double>
                  </property>
                 </widget>
@@ -7042,15 +7054,18 @@ QComboBox QAbstractItemView {
                   <bool>false</bool>
                  </property>
                  <property name="decimals">
-                  <number>2</number>
+                  <number>5</number>
                  </property>
                  <property name="minimum">
-                  <double>-10000.000000000000000</double>
+                  <double>0.000000000000000</double>
                  </property>
                  <property name="maximum">
                   <double>10000.000000000000000</double>
                  </property>
                  <property name="singleStep">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="value">
                   <double>1.000000000000000</double>
                  </property>
                 </widget>
@@ -9709,15 +9724,18 @@ QComboBox QAbstractItemView {
                      <bool>false</bool>
                     </property>
                     <property name="decimals">
-                     <number>2</number>
+                     <number>5</number>
                     </property>
                     <property name="minimum">
-                     <double>-10000.000000000000000</double>
+                     <double>0.000000000000000</double>
                     </property>
                     <property name="maximum">
                      <double>10000.000000000000000</double>
                     </property>
                     <property name="singleStep">
+                     <double>1.000000000000000</double>
+                    </property>
+                    <property name="value">
                      <double>1.000000000000000</double>
                     </property>
                    </widget>
@@ -11596,16 +11614,19 @@ QComboBox QAbstractItemView {
                    <bool>false</bool>
                   </property>
                   <property name="decimals">
-                   <number>2</number>
+                   <number>5</number>
                   </property>
                   <property name="minimum">
-                   <double>-10000.000000000000000</double>
+                   <double>0.000000000000000</double>
                   </property>
                   <property name="maximum">
                    <double>10000.000000000000000</double>
                   </property>
                   <property name="singleStep">
-                   <double>1.000000000000000</double>
+                   <double>0.000010000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.000000000000000</double>
                   </property>
                  </widget>
                 </item>

@@ -126,7 +126,7 @@ class ConfigManager:
         elif tokens[-1] in self.list_of_biases:
             self.validate_voltage(ref, probe_id, key, value, tokens)
             
-        elif tokens[-1] in self.list_of_positive_floats:
+        elif tokens[-1] in self.list_of_positive_floats or 'area' in key:
             self.validate_positive_floats(ref, probe_id, key, value)
     
         else:
@@ -136,8 +136,9 @@ class ConfigManager:
             
     def validate_positive_floats(self, ref, probe_id, key, value):
         if isinstance(value,(int, float)):
-            if value >= 0 :
-                ref[probe_id][key]= value
+            if value > 0:
+                ref[probe_id][key]= value     
+
                 
     def validate_sweep(self, ref, probe_id, key, value, tokens):
         sweep_amp_max = tokens.copy()

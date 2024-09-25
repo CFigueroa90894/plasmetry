@@ -447,7 +447,7 @@ class UserSettings(QMainWindow):
         ################## SLP ##################
          
         self.ui.slp_area_input.setValue(
-            self.control.get_config('slp', 'Probe area'))
+            self.control.get_config('slp', 'Probe area')*1000)
         self.ui.slp_dac_min_input.setValue(
             self.control.get_config('slp', 'dac_min'))
         self.ui.slp_dac_max_input.setValue(
@@ -464,7 +464,7 @@ class UserSettings(QMainWindow):
         ################## SLP ##################
 
         self.ui.dlp_area_input.setValue(
-            self.control.get_config('dlp', 'Probe area'))
+            self.control.get_config('dlp', 'Probe area')*1000)
         self.ui.dlp_dac_min_input.setValue(
             self.control.get_config('dlp', 'dac_min'))
         self.ui.dlp_dac_max_input.setValue(
@@ -481,7 +481,7 @@ class UserSettings(QMainWindow):
         ################## TLC ##################
 
         self.ui.tlc_area_input.setValue(
-            self.control.get_config('tlc', 'Probe area'))
+            self.control.get_config('tlc', 'Probe area')*1000)
         self.ui.tlc_dac_min_input.setValue(
             self.control.get_config('tlc', 'dac_min'))
         self.ui.tlc_dac_max_input.setValue(
@@ -506,7 +506,7 @@ class UserSettings(QMainWindow):
         ################## TLV ##################
 
         self.ui.tlv_area_input.setValue(
-            self.control.get_config('tlv', 'Probe area'))
+            self.control.get_config('tlv', 'Probe area')*1000)
         self.ui.tlv_dac_min_input.setValue(
             self.control.get_config('tlv', 'dac_min'))
         self.ui.tlv_dac_max_input.setValue(
@@ -525,7 +525,7 @@ class UserSettings(QMainWindow):
         ################## IEA ##################
 
         self.ui.iea_area_input.setValue(
-            self.control.get_config('iea', 'Probe area'))
+            self.control.get_config('iea', 'Probe area')*1000)
         # self.ui.iea_mass_input.setValue(self.control.get_config('iea', 'custom_mass'))
         self.ui.iea_dac_min_input.setValue(
             self.control.get_config('iea', 'dac_min'))
@@ -550,7 +550,7 @@ class UserSettings(QMainWindow):
 
         ################## HEA ##################
         self.ui.hea_area_output.setValue(
-            self.control.get_config('hea', 'Probe area'))
+            self.control.get_config('hea', 'Probe area')*1000)
         self.ui.hea_dac_min_input.setValue(
             self.control.get_config('hea', 'dac_min'))
         self.ui.hea_dac_max_input.setValue(
@@ -699,12 +699,17 @@ class UserSettings(QMainWindow):
         """
     
         current_value = spinbox.value()
-        
+        scale = 1
         if config_key!='button_adjust':
             new_value = self.increment(current_value) if direction == 1 else self.decrement(current_value)
+
+            #Converting areas into meter
+            if 'area' in config_key:
+                scale = 1000
+            
             # Invoking mutator function of in memory config dictionary
             # Validations are also executed during the call stack of this method
-            self.control.set_config(self.selected_probe, config_key, new_value)
+            self.control.set_config(self.selected_probe, config_key, new_value/scale)
             probe= self.selected_probe
             
         else:
@@ -713,7 +718,7 @@ class UserSettings(QMainWindow):
             probe=''
         # If the result is valid, a new value is set in the spinbox
         # Otherwise, previous value set
-        spinbox.setValue(self.control.get_config(probe, config_key))
+        spinbox.setValue(self.control.get_config(probe, config_key)*scale)
         
     def new_adjust_scale(self, current_value, direction):
         current_value = current_value * pow(10, direction)
