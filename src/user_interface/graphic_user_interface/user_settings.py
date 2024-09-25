@@ -69,16 +69,17 @@ class UserSettings(QMainWindow):
         self.ui.button_adjust_plus.clicked.connect(
             lambda: self.adjust_value(self.ui.button_adjust_input, +1,'button_adjust'))    
         
-        self.selected_probe = self.ui.probe_selection_cb.currentText(
-        )[-4:-1].lower()
+        self.selected_probe = self.ui.probe_selection_cb.currentText()[-4:-1].lower()
 
         ################## SLP ##################
+        self.ui.slp_area_units_cb.currentIndexChanged.connect(lambda: self.set_area_units('slp', self.ui.slp_area_units_cb))
+            
 
         # Connect Plus/Minus buttons for Area
         self.ui.slp_area_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.slp_area_input, -1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.slp_area_input, -1, {"area_units":"display_value"}))
         self.ui.slp_area_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.slp_area_input, +1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.slp_area_input, +1, {"area_units":"display_value"}))
 
         # Connect Plus/Minus buttons for DAC MIN
         self.ui.slp_dac_min_minus.clicked.connect(
@@ -117,12 +118,14 @@ class UserSettings(QMainWindow):
             self.ui.slp_collector_shunt_rest_input, +1, 'sweeper_shunt'))
 
         ################## DLP ##################
+        self.ui.dlp_area_units_cb.currentIndexChanged.connect(lambda: self.set_area_units('dlp', self.ui.dlp_area_units_cb))
 
         # Connect Plus/Minus buttons for Area
         self.ui.dlp_area_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.dlp_area_input, -1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.dlp_area_input, -1, {"area_units":"display_value"}))
         self.ui.dlp_area_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.dlp_area_input, +1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.dlp_area_input, +1, {"area_units":"display_value"}))
+        
 
         # Connect Plus/Minus buttons for DAC MIN
         self.ui.dlp_dac_min_minus.clicked.connect(
@@ -161,7 +164,8 @@ class UserSettings(QMainWindow):
             lambda: self.adjust_value(self.ui.dlp_collector_shunt_rest_input, +1, 'sweeper_shunt'))
 
         ################## TLC ##################
-
+        self.ui.tlc_area_units_cb.currentIndexChanged.connect(lambda: self.set_area_units('tlc', self.ui.tlc_area_units_cb))
+        
         # Connect Plus/Minus buttons for DAC MIN
         self.ui.tlc_dac_min_minus.clicked.connect(
             lambda: self.adjust_value(self.ui.tlc_dac_min_input, -1, 'dac_min'))
@@ -200,9 +204,10 @@ class UserSettings(QMainWindow):
 
         # Connect Plus/Minus buttons for Area
         self.ui.tlc_area_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.tlc_area_input, -1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.tlc_area_input, -1, {"area_units":"display_value"}))
         self.ui.tlc_area_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.tlc_area_input, +1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.tlc_area_input, +1, {"area_units":"display_value"}))
+
 
         # Connect Plus/Minus buttons for Up Collector Gain
         self.ui.tlc_up_collector_gain_minus.clicked.connect(lambda: self.adjust_value(
@@ -229,6 +234,8 @@ class UserSettings(QMainWindow):
             lambda: self.adjust_value(self.ui.tlc_down_shunt_rest_input, +1, 'down_shunt'))
 
         ################## TLV ##################
+        
+        self.ui.tlv_area_units_cb.currentIndexChanged.connect(lambda: self.set_area_units('tlv', self.ui.tlv_area_units_cb))
 
         # Connect Plus/Minus buttons for DAC MIN
         self.ui.tlv_dac_min_minus.clicked.connect(
@@ -256,9 +263,10 @@ class UserSettings(QMainWindow):
 
         # Connect Plus/Minus buttons for Area
         self.ui.tlv_area_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.tlv_area_input, -1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.tlv_area_input, -1, {"area_units":"display_value"}))
         self.ui.tlv_area_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.tlv_area_input, +1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.tlv_area_input, +1, {"area_units":"display_value"}))
+
 
         # Connect Plus/Minus buttons for Float Collector Gain
         self.ui.tlv_float_collect_gain_minus.clicked.connect(lambda: self.adjust_value(
@@ -279,6 +287,8 @@ class UserSettings(QMainWindow):
             lambda: self.adjust_value(self.ui.tlv_up_shunt_rest_input, +1, 'up_shunt'))
 
         ################## IEA ##################
+        self.ui.iea_area_units_cb.currentIndexChanged.connect(lambda: self.set_area_units('iea', self.ui.iea_area_units_cb))
+
 
         # Connect Plus/Minus buttons for DAC MIN
         self.ui.iea_dac_min_minus.clicked.connect(
@@ -336,10 +346,10 @@ class UserSettings(QMainWindow):
 
         # Connect Plus/Minus buttons for Area
         self.ui.iea_area_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.iea_area_input, -1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.iea_area_input, -1, {"area_units":"display_value"}))
         self.ui.iea_area_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.iea_area_input, +1, 'Probe area'))
-
+            lambda: self.adjust_value(self.ui.iea_area_input, +1, {"area_units":"display_value"}))
+        
         # Connect Plus/Minus buttons for Collector Shunt Resistance
         self.ui.iea_collector_shunt_rest_minus.clicked.connect(
             lambda: self.adjust_value(self.ui.iea_collector_shunt_rest_input, -1, 'sweeper_shunt'))
@@ -347,6 +357,8 @@ class UserSettings(QMainWindow):
             lambda: self.adjust_value(self.ui.iea_collector_shunt_rest_input, +1, 'sweeper_shunt'))
 
         ################## HEA ##################
+        self.ui.hea_area_units_cb.currentIndexChanged.connect(lambda: self.set_area_units('hea', self.ui.hea_area_units_cb))
+
 
         # Connect Plus/Minus buttons for DAC MIN
         self.ui.hea_dac_min_minus.clicked.connect(
@@ -407,9 +419,10 @@ class UserSettings(QMainWindow):
 
         # Connect Plus/Minus buttons for Area
         self.ui.hea_area_minus.clicked.connect(
-            lambda: self.adjust_value(self.ui.hea_area_output, -1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.hea_area_input, -1, {"area_units":"display_value"}))
         self.ui.hea_area_plus.clicked.connect(
-            lambda: self.adjust_value(self.ui.hea_area_output, +1, 'Probe area'))
+            lambda: self.adjust_value(self.ui.hea_area_input, +1, {"area_units":"display_value"}))
+
 
         # Connect Plus/Minus buttons for Collector Shunt Resistance
         self.ui.hea_collector_shunt_rest_minus.clicked.connect(
@@ -443,11 +456,12 @@ class UserSettings(QMainWindow):
             self.control.get_config(probe_id='', key='button_adjust'))
         
         self.ui.gas_select_cb.setCurrentText(self.control.get_config(probe_id='', key='selected_gas'))
-
+        
+        
         ################## SLP ##################
          
         self.ui.slp_area_input.setValue(
-            self.control.get_config('slp', 'Probe area')*1000)
+            self.control.get_config('slp', {'area_units':'display_value'}))
         self.ui.slp_dac_min_input.setValue(
             self.control.get_config('slp', 'dac_min'))
         self.ui.slp_dac_max_input.setValue(
@@ -460,11 +474,13 @@ class UserSettings(QMainWindow):
             self.control.get_config('slp', 'collector_gain'))
         self.ui.slp_collector_shunt_rest_input.setValue(
             self.control.get_config('slp', 'sweeper_shunt'))
+        self.ui.slp_area_units_cb.setCurrentText(self.control.get_config(probe_id='slp', key={'area_units':'unit'}))
+
 
         ################## SLP ##################
 
         self.ui.dlp_area_input.setValue(
-            self.control.get_config('dlp', 'Probe area')*1000)
+            self.control.get_config('dlp', {'area_units':'display_value'}))
         self.ui.dlp_dac_min_input.setValue(
             self.control.get_config('dlp', 'dac_min'))
         self.ui.dlp_dac_max_input.setValue(
@@ -477,11 +493,12 @@ class UserSettings(QMainWindow):
             self.control.get_config('dlp', 'collector_gain'))
         self.ui.dlp_collector_shunt_rest_input.setValue(
             self.control.get_config('dlp', 'sweeper_shunt'))
+        self.ui.dlp_area_units_cb.setCurrentText(self.control.get_config(probe_id='dlp', key={'area_units':'unit'}))
 
         ################## TLC ##################
 
         self.ui.tlc_area_input.setValue(
-            self.control.get_config('tlc', 'Probe area')*1000)
+            self.control.get_config('tlc', {'area_units':'display_value'}))
         self.ui.tlc_dac_min_input.setValue(
             self.control.get_config('tlc', 'dac_min'))
         self.ui.tlc_dac_max_input.setValue(
@@ -502,11 +519,13 @@ class UserSettings(QMainWindow):
             self.control.get_config('tlc', 'up_shunt'))
         self.ui.tlc_down_shunt_rest_input.setValue(
             self.control.get_config('tlc', 'down_shunt'))
+        self.ui.tlc_area_units_cb.setCurrentText(self.control.get_config(probe_id='tlc', key={'area_units':'unit'}))
+
 
         ################## TLV ##################
 
         self.ui.tlv_area_input.setValue(
-            self.control.get_config('tlv', 'Probe area')*1000)
+            self.control.get_config('tlv', {'area_units':'display_value'}))
         self.ui.tlv_dac_min_input.setValue(
             self.control.get_config('tlv', 'dac_min'))
         self.ui.tlv_dac_max_input.setValue(
@@ -521,12 +540,14 @@ class UserSettings(QMainWindow):
             self.control.get_config('tlv', 'up_collector_gain'))
         self.ui.tlv_up_shunt_rest_input.setValue(
             self.control.get_config('tlv', 'up_shunt'))
+        self.ui.tlv_area_units_cb.setCurrentText(self.control.get_config(probe_id='tlv', key={'area_units':'unit'}))
+
 
         ################## IEA ##################
+        
 
         self.ui.iea_area_input.setValue(
-            self.control.get_config('iea', 'Probe area')*1000)
-        # self.ui.iea_mass_input.setValue(self.control.get_config('iea', 'custom_mass'))
+            self.control.get_config('iea', {'area_units':'display_value'}))
         self.ui.iea_dac_min_input.setValue(
             self.control.get_config('iea', 'dac_min'))
         self.ui.iea_dac_max_input.setValue(
@@ -547,10 +568,14 @@ class UserSettings(QMainWindow):
             self.control.get_config('iea', 'sweep_amp_max'))
         self.ui.iea_collector_shunt_rest_input.setValue(
             self.control.get_config('iea', 'sweeper_shunt'))
+        self.ui.iea_area_units_cb.setCurrentText(self.control.get_config(probe_id='iea', key={'area_units':'unit'}))
+
 
         ################## HEA ##################
-        self.ui.hea_area_output.setValue(
-            self.control.get_config('hea', 'Probe area')*1000)
+        
+        
+        self.ui.hea_area_input.setValue(
+            self.control.get_config('hea', {'area_units':'display_value'}))
         self.ui.hea_dac_min_input.setValue(
             self.control.get_config('hea', 'dac_min'))
         self.ui.hea_dac_max_input.setValue(
@@ -567,13 +592,14 @@ class UserSettings(QMainWindow):
             self.control.get_config('hea', 'sweep_amp_min'))
         self.ui.hea_sweep_max_input.setValue(
             self.control.get_config('hea', 'sweep_amp_max'))
-      
         self.ui.hea_collect_gain_input.setValue(
             self.control.get_config('hea', 'collector_gain'))
         self.ui.hea_collect_gain_input.setValue(
             self.control.get_config('hea', 'collector_gain'))
         self.ui.hea_collector_shunt_rest_input.setValue(
             self.control.get_config('hea', 'sweeper_shunt'))
+        self.ui.hea_area_units_cb.setCurrentText(self.control.get_config(probe_id='hea', key={'area_units':'unit'}))
+
 
     def show_data_upload_settings(self):
         self.ui.main_view.setCurrentWidget(self.ui.data_upload_settings_page)
@@ -590,7 +616,11 @@ class UserSettings(QMainWindow):
     def set_selected_gas(self, current_gas):
         
         self.control.set_config(probe_id = '', key='selected_gas', value=current_gas.lower())
-
+        
+    def set_area_units(self, probe_id, combo_box):
+         
+        self.control.set_config(probe_id = probe_id, key={'area_units':'unit'}, value=combo_box.currentText())
+        
     def switch_probe_page(self, index):
         """
         Switch pages in the probe_config_view based on the selected probe in the QComboBox.
@@ -738,6 +768,15 @@ class UserSettings(QMainWindow):
 
     def decrement(self, value):
         return value - self.control.get_config(probe_id='',key='button_adjust')
+    
+    def change_title(self):
+        
+        self.ui.slp_area_gb.setTitle(self.ui.slp_area_gb.title())
+        self.ui.dlp_area_gb.setTitle(self.ui.dlp_area_gb.title())
+        self.ui.tlv_area_gb.setTitle(self.ui.tlv_area_gb.title())
+        self.ui.tlc_area_gb.setTitle(self.ui.tlc_area_gb.title())
+        self.ui.hea_area_gb.setTitle(self.ui.hea_area_gb.title())
+        self.ui.iea_area_gb.setTitle(self.ui.iea_area_gb.title())
 
     def handle_back_button(self):
         # Check if the current page is not the settings_select_page

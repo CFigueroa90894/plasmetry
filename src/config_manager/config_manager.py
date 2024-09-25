@@ -85,10 +85,13 @@ class ConfigManager:
     def set_config(self, probe_id, key, value):
         
         if self.config_references_loaded():
-           
-            if key in self.config_ref.keys() and probe_id == '':
+          
+            if isinstance(key, dict):
+                self.validate_area(probe_id, key, value)
+                
+            elif key in self.config_ref.keys() and probe_id == '':
                 self.validate_entry(ref=self.config_ref,probe_id='', key=key, value=value)
-            
+
                 
             elif key in self.config_ref[probe_id].keys():
                 self.validate_entry(ref=self.config_ref,probe_id=probe_id, key=key, value=value)
@@ -101,10 +104,31 @@ class ConfigManager:
            
             else:
                 self.say(f'Wrong key {key} passed as argument!')
+    def validate_area(self, probe_id, key, value):
+        units = {'km': 1e+3,
+                 'hm': 1e+2,
+                 'dam': 1e+1,
+                 'm': 1,
+                 'dm':1e-1,
+                 'cm':1e-2,
+                 'mm':1e-3,
+                 'dmm':1e-4,
+                 'cmm':1e-5,
+                 'µm':1e-6,
+                 'nm':1e-9
+            }
+        config_key = list(key.keys())[0]
+        dictionary_key = list(key.values())[0]
+        self.config_ref[probe_id][config_key][dictionary_key] = value
+      
+        self.config_ref[probe_id]['Probe area'] = units[self.config_ref[probe_id][config_key]['unit']] * self.config_ref[probe_id][config_key]['display_value']
         
     def get_config(self, probe_id, key):
         
          if self.config_references_loaded():
+             
+             if isinstance(key, dict):
+                 return self.config_ref[probe_id][list(key.keys())[0]][list(key.values())[0]]
              
              if key in self.config_ref.keys() and probe_id == '':
                  return self.config_ref[key]
