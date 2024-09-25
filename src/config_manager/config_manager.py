@@ -130,9 +130,18 @@ class ConfigManager:
             self.validate_positive_floats(ref, probe_id, key, value)
     
         else:
-            if isinstance(value, (int, float)):
+            self.validate_integers(ref, probe_id, key, value)
+            
+    def validate_integers(self, ref, probe_id, key, value):
+        if 'samples' in key:
+            if value < 10:
+                if 'tl' not in probe_id:
+                    value = 10
+        
+        if isinstance(value, (int, float)):
                 if value % 1 == 0:
                     ref[probe_id][key]= int(value)
+        
             
     def validate_positive_floats(self, ref, probe_id, key, value):
         if isinstance(value,(int, float)):
