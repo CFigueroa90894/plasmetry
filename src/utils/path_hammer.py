@@ -1,6 +1,6 @@
 """ G3 - Plasma Devs
 Utilities - Path Hammer
-    Provides a parametrized method that recursively searches for subdirectories in a given path,
+    Provides a parameterized method that recursively searches for subdirectories in a given path,
     and appends them to the python path, allowing absolute imports of local modules regardless of
     where they reside in the project folder structure. 
 

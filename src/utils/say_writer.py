@@ -1,7 +1,7 @@
 """ G3 - Plasma Devs
 Utilities - Say Writer
     Provides printing a utility class, capable of outputting text to various I/O objects, as well
-    as well as Queue objects from the built-in queue module.
+    as Queue objects from the built-in queue module.
 
 author: figueroa_90894@students.pupr.edu
 status: DONE
@@ -112,7 +112,7 @@ class SayWriter:
         self.__buffer.put(msg)      # enqueue text
 
     def __whisper(self, msg) -> None:
-        """Method invoked to print text in the __call__ method. Overriden by the object
+        """Method invoked to print text in the __call__ method. Overridden by the object
         with the corresponding print method depending on the object's mode
         """
         raise NotImplementedError("The __whisper() method was not overriden in the constructor!")

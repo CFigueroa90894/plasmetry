@@ -52,7 +52,7 @@ from say_writer import SayWriter
 class BaseThread(Thread, metaclass=ABCMeta):
     """This base class extends the functionality of python's built-in Thread class.
     
-    The traditional Thread class uses the run() method to define of all of its threaded life-cycle;
+    The traditional Thread class uses the run() method to define all of its threaded life-cycle;
     BaseThread enhances reusability by dividing a thread's life-cycle execution into three parts:
     setup, main loop, and cleanup. This allows safer recovery from exceptions by wrapping the main
     loop in a try/except statement; should errors occur, the thread can still proceed to the cleanup
