@@ -119,8 +119,10 @@ class ConfigManager:
             }
         config_key = list(key.keys())[0]
         dictionary_key = list(key.values())[0]
+        if value<0.01:
+            value = 0.01
         self.config_ref[probe_id][config_key][dictionary_key] = value
-      
+        
         self.config_ref[probe_id]['Probe area'] = units[self.config_ref[probe_id][config_key]['unit']] * self.config_ref[probe_id][config_key]['display_value']
         
     def get_config(self, probe_id, key):
