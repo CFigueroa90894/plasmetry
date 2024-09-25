@@ -49,7 +49,7 @@ from abstract_hardware import AbstractHardware
 # local config
 RELAY_PAUSE = 3
 
-# TO DO
+
 class HardwareLayer(AbstractHardware):
     """This class implements the Hardware Interface Layer's specified interface, providing
     public access to its required functionality. As a simple implementation, its main concern
@@ -111,7 +111,6 @@ class HardwareLayer(AbstractHardware):
         """Return the instantiated ChannelFactory."""
         return self._channel
     
-    # TO DO
     def reset_components(self):
         """This function attempts clear all output channels of the ADC/DAC associated with this
         layer's hardware wrapper. For DAC and DOUT channels, this function iterates over channel
