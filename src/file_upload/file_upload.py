@@ -31,9 +31,8 @@ from local_upload import LocalUpload
 class FileUpload:
     
     def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path='', experiment_name=''):
-        
-        self.say = text_out
         """FileUpload construtor"""
+        self.say = text_out
         
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
@@ -109,9 +108,9 @@ class FileUpload:
              
             # Verifying if there is a connection with the offsite storage to commence upload requests
             if self.offsite_wrapper.validate_connection():
-                if self.experiment_name:
-                    # Switching to folder with current date for uploading
-                    self.folder_change(self.offsite_wrapper, f'{self.experiment_name}')
+                
+                # Switching to folder with current date for uploading
+                self.folder_change(self.offsite_wrapper, f'{self.experiment_name}')
                     
                 # Switching to folder with current date for uploading
                 self.folder_change(self.offsite_wrapper, f'{self.current_datetime.date()}')

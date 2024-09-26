@@ -4,14 +4,6 @@ from run_parameters import RunParameters
 from pathlib import Path
 from experiment_run_ui import Ui_experiment_run_view
 
-"""
-########################## !!!! MODIFIED FOR DEBUG !!!! ##########################
-Commented param update
-Printing recieved params
-
-
-"""
-
 class ExperimentRun(QMainWindow):
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
@@ -120,14 +112,11 @@ class ExperimentRun(QMainWindow):
 
     def start_timer(self):
         """Start the timer to update parameters every second."""
-        print("Starting timer...")
         self.ui.timer.start(1000)  # Update every second
 
     def stop_timer(self):
         """Stop the timer."""
-        print("Stopping timer...")
         self.ui.timer.stop()
-        print("timer stopped.")
 
     def load_probe_calculations(self, parameters):
         """Load and display calculations for the selected probe."""
@@ -151,7 +140,6 @@ class ExperimentRun(QMainWindow):
                 self.add_calculation_to_frame(
                     self.ui.frame_right.layout(), key)
 
-            print("Calculations loaded into frames.")
         else:
             print('No parameters provided.')
 
@@ -190,7 +178,6 @@ class ExperimentRun(QMainWindow):
         if self.params_flag.is_set():
             self.display_container = self.params_container.copy()
             self.params_flag.clear()
-            print('\n\n\n\n\n got params!')
  
         parameter_values = self.display_container.copy()
         for i in range(self.ui.frame_left.layout().count()):
