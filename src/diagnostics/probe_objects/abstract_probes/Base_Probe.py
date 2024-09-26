@@ -1,6 +1,6 @@
 """ G3 - Plasma Devs
 Layer 2 - Diagnostics - Base Probe
-    Provides a parent class for concrete probe classes that specifies required methods and
+    Provides a parent class for concrete probe classes that specifies required methods
     and implements common functionality. Inherits from our BaseThread class.
 
 author: figueroa_90894@students.pupr.edu
@@ -70,7 +70,6 @@ class BaseProbe(BaseThread, metaclass=ABCMeta):
 
     Methods:
         + __init__() - initialize the object, called by subclasses
-        + run() - perform data acquistion, override in subclasses
         + preprocess_samples() - provides external threads formatting required by calculations
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time

@@ -85,6 +85,7 @@ class EnergyAnalyzer(SweeperProbe):
         + collector_amp: HighVoltAmp - controls the amplifier that biases the particle collector
         ^+ sweeper_shunt: float - shunt resistance to calculate current through the probe
         ^+ sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
+        ^+ collector: VoltageSensor - reads voltages across the associated shunt
         ^# _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
         ^+ sampling_rate: int - samples to obtain per second (Hz)
         ^+ num_samples: int - number of measurements per voltage sweep
@@ -97,8 +98,6 @@ class EnergyAnalyzer(SweeperProbe):
         # _thread_cleanup_() - zeros and disables the probe circuit, then resets the DAC output
         ^+ sweep() - performs one voltage sweep, applying one voltage when sample trigger is set
         ^+ preprocess_samples() - formats data samples and adds config data required by calculations
-        ^+ run() - perform data acquistion, override in subclasses
-        ^+ preprocess_samples() - provides external threads formatting required by calculations
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time
         ^+ say() - text output method, using the SayWriter

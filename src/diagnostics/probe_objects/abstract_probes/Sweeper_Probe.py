@@ -52,7 +52,7 @@ class SweeperProbe(BaseProbe):
     BaseProbe. Sweeper probes in general apply a biasing voltage in incremental steps. The measured
     voltages are used to calculate current through the sweeper probe. This current can be plotted
     against the applied voltage steps, yielding a plot known as Current-Voltage Curve (I-V curve).
-    This plot is analyzed to obtain several plasma parameters, which turn allow us to calculate
+    This plot is analyzed to obtain several plasma parameters, which in turn allow us to calculate
     more plasma parameters.
 
     Attributes (Config and Control):
@@ -71,6 +71,7 @@ class SweeperProbe(BaseProbe):
         + sweeper_shunt: float - shunt resistance to calculate current through the probe
         + sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
         # _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
+        + collector: VoltageSensor - reads voltages across the associated shunt
         ^+ sampling_rate: int - samples to obtain per second (Hz)
         ^+ num_samples: int - number of measurements per voltage sweep
         ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
@@ -80,8 +81,6 @@ class SweeperProbe(BaseProbe):
         + sweep() - performs one voltage sweep, applying one voltage when sample trigger is set
         + preprocess_samples() - formats data samples and adds config data required by calculations
         ^+ run() - perform data acquistion, override in subclasses
-        ^+ preprocess_samples() - provides external threads formatting required by calculations
-        ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time
         ^+ say() - text output method, using the SayWriter
         ^# _THREAD_MAIN_() - the main loop of the thread
