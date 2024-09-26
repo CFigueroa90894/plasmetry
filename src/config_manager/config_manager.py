@@ -202,15 +202,31 @@ class ConfigManager:
     
    
     def validate_integers(self, ref, probe_id, key, value):
-    
+        """validate_integers validates integer related key-value pairs for the probe specified."""
+        
+        # Number of samples cannot be less than 10 in order to use scipy's butterworth signal filtering 
+        # Otherwise (For Triple Langmuir), number of samples cannot be less than 2.
         if 'samples' in key:
+            # If the value set for num samples is less than 10, verifying value set.
             if value < 10:
+                # If not Triple Langmuir, setting 10 for num samples.
                 if 'tl' not in probe_id:
                     value = 10
+                    
+                # If Triple Langmuir, setting value as 2
+                elif value<2:
+                    value = 2
+            
+            # Setting in-memory value for num samples
+            ref[probe_id][key] = value
+            return
         
-        if isinstance(value, (int, float)):
-                if value % 1 == 0:
-                    ref[probe_id][key]= int(value)
+        #Other wise, validating 
+        if isinstance(value,list):
+            for i in value:
+                if  isinstance(i, (int, float)):
+                    if i % 1 == 0:
+                        ref[probe_id][key]= int(value)
         
             
     def validate_positive_floats(self, ref, probe_id, key, value):
