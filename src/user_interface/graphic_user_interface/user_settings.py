@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog
 from PyQt5.QtCore import pyqtSignal, QTimer
 from virtual_keyboard import VirtualKeyboard
 from pathlib import Path
@@ -57,8 +57,9 @@ class UserSettings(QMainWindow):
             self.ui.credentials_path_input, 'credentials_path'))
         self.ui.local_path_btn.clicked.connect(
             lambda: self.open_file_dialog(self.ui.local_path_input, 'local_path'))
-    
-
+        
+        self.ui.folder_id_btn.clicked.connect(
+            lambda: self.open_keyboard(self.ui.folder_id_input, 'folder_id'))
         ############################## PROBE CONFIG SETTINGS SIGNALS ##############################
         self.set_widget_values()
         self.ui.gas_select_cb.currentIndexChanged.connect(lambda: self.set_selected_gas(self.ui.gas_select_cb.currentText()))
@@ -452,6 +453,8 @@ class UserSettings(QMainWindow):
         self.ui.local_path_input.setText(
             Path(self.control.get_config(probe_id='', key='experiment_name')).name)
         
+        self.ui.folder_id_input.setText(self.control.get_config(probe_id='', key='folder_id'))
+        
         self.ui.button_adjust_input.setValue(
             self.control.get_config(probe_id='', key='button_adjust'))
         
@@ -701,7 +704,21 @@ class UserSettings(QMainWindow):
             self.update_page_view()  # Update the view
         else:
             print("Already on the first page")
+            
+            
+    def open_keyboard(self, line_edit, key):
+        keyboard = VirtualKeyboard(self)
+        input_text = ''
+        keyboard.setAccessibleName(line_edit.text())
+        # Show the keyboard dialog
+        if keyboard.exec_() == QDialog.Accepted:
+            # Get the input text and set it in the line edit
+            input_text = keyboard.get_input_text()
+            line_edit.setText(input_text)
+        if input_text:
+            self.control.set_config( probe_id='', key=key, value=input_text)
 
+        
     def open_file_dialog(self, line_edit, key):
         dialog = QFileDialog(self)
         dialog.setDirectory(r'C:/')

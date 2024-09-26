@@ -32,7 +32,7 @@ from local_upload import LocalUpload
 class FileUpload:
     """FileUpload is defined to act as an interface for data storage."""
     
-    def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path='', experiment_name=''):
+    def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path='', experiment_name='', folder_id=''):
         """FileUpload construtor"""
         self.say = text_out
         
@@ -41,7 +41,7 @@ class FileUpload:
         
       
         # Storing wrapper for offsite data uploading
-        self.offsite_wrapper = GoogleDrive(text_out, credentials_path)
+        self.offsite_wrapper = GoogleDrive(text_out, credentials_path, folder_id)
         
         # Storing local upload object
         self.local_uploader = LocalUpload(text_out, local_path) 

@@ -25,7 +25,7 @@ class GoogleDrive(OffsiteUpload):
     
     """GoogleDrive is defined to act as the interface for communication with the Google Drive Client. """
     
-    def __init__(self, text_out, credentials_path=''):
+    def __init__(self, text_out, credentials_path='', folder_id=''):
         
         """Offsite wrapper constructor."""
         
@@ -35,7 +35,7 @@ class GoogleDrive(OffsiteUpload):
         
         
         # Parent folder ID, extracted from URL of the google drive folder
-        self.parent_folder = "1S2Mgdg2mYHTfx46-rcClnhwOMm6fXnUO"
+        self.parent_folder = folder_id
     
             
     def validate_path(self, credentials_path):
