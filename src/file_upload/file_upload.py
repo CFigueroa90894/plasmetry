@@ -59,7 +59,7 @@ class FileUpload:
                     
     def new_data(self, parameters):
         
-        """Receives new unformatted data to create new csv content objects."""
+        """new_data receives new unformatted data to create new csv content objects."""
         
         #Setting the csv content objects containing sweep and parameters data
         # If no sweep data, the object will remain empty.
@@ -71,7 +71,7 @@ class FileUpload:
             
     def upload_data(self):
         
-        """Uploads data locally and offsite when invoked."""
+        """upload_data uploads data locally and offsite when invoked."""
         
         # Store locally
         self.local_upload()
@@ -81,7 +81,7 @@ class FileUpload:
         
     def local_upload(self):
         
-        """Local storage data uploading."""
+        """local_upload performs local storage data uploading."""
         # Valdating the path for storage
         if self.local_uploader.validate_path(self.local_uploader.parent_folder):
             # Switching to folder with current date for uploading
@@ -103,7 +103,7 @@ class FileUpload:
             
     def offsite_upload(self):
         
-        """Offsite storage data uploading."""
+        """offsite_upload performs offsite storage data uploading."""
         # Verifying if the credentials path is set
         
         if self.offsite_wrapper.validate_path(self.offsite_wrapper.credentials_path):
@@ -135,7 +135,7 @@ class FileUpload:
     
     def folder_change(self, wrapper, folder_name):
         
-        """Changes to folder for upload."""
+        """folder_change changes to folder for upload."""
         
         if not wrapper.folder_exists(folder_name) and folder_name:
             

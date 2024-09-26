@@ -26,10 +26,10 @@ class ExperimentRun(QMainWindow):
         # Instantiating the list used for display, shall be rewritten when new data is available
         self.display_container = []
         
-        # Storing ui view reference
+        # Storing ui view
         self.ui = Ui_experiment_run_view() 
         
-        # Invoking the setupUi function
+        # Invoking the setupUi function, setting up the visual components
         self.ui.setupUi(self) 
 
         # Disable stop_btn and enable run_btn initially

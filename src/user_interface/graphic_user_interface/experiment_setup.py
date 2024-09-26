@@ -22,6 +22,9 @@ from control_layer import ControlLayer
 from probe_enum import PRB
 from experiment_setup_ui import Ui_experiment_setup_view
 class ExperimentSetup(QMainWindow):
+    
+    """ExperimentSetup is defined to interface with the ui components shown at start-up"""
+    
     close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
@@ -29,13 +32,20 @@ class ExperimentSetup(QMainWindow):
     def __init__(self, control, run_window, settings_window):
         super().__init__()
         
+        # Storing control object reference
         self.control= control
+        
+        # Storing reference to the other windows
         self.run_window_ref = run_window
         self.settings_window_ref = settings_window
+        
+        # Storing ui view
+        self.ui = Ui_experiment_setup_view() 
+        
+        # Invoking the setupUi function, setting up the visual components
+        self.ui.setupUi(self) 
 
         ############################## GENERAL SIGNALS ##############################
-        self.ui = Ui_experiment_setup_view() 
-        self.ui.setupUi(self) 
 
 
         # Initialize the view based on the QComboBox selection
@@ -334,9 +344,11 @@ class ExperimentSetup(QMainWindow):
         self.setEnabled(True)
 
     def increment(self, value):
+        """increment function to adjust according to the button_adjust value in config"""
         return value + self.control.get_config(probe_id='',key='button_adjust')
 
     def decrement(self, value):
+        """decrement function to adjust according to the button_adjust value in config"""
         return value - self.control.get_config(probe_id='',key='button_adjust')
 
 if __name__ == "__main__":
