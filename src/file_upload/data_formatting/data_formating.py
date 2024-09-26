@@ -88,7 +88,7 @@ def process_data(unformatted_data):
         del experiment_run['config_ref']
         del experiment_run['sys_ref']
         
-        for key in experiment_run.keys():
+        for key in list(experiment_run.keys()):
             if 'Shunt' in key:
                 del experiment_run[key]
 
