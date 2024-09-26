@@ -66,30 +66,41 @@ class ConfigManager:
         
         # Validation of json file set.
         if self.validate_json_path(self.file_name):
-            
-            # Validating all entries before writing on file.
-            self.validate_all()
-            
-            complete_file={}
-            # The  dictionary contents are re-written.
-            complete_file['sys_ref'] = self.sys_ref
-            complete_file['config_ref'] = self.config_ref
-            
-            # Writing to log.
-            self.say('\nsaving in memory...')
-            
-            # Writing on the file at path
-            with open(f'{self.file_name}', 'w') as config_file:
-                json.dump(complete_file, config_file, indent=4)
+            if self.config_references_loaded():
+                # Validating all entries before writing on file.
+                self.validate_all()
                 
-            # Writing to log.
-            self.say('Successfully saved!\n')
-            
+                complete_file={}
+                # The  dictionary contents are re-written.
+                complete_file['sys_ref'] = self.sys_ref
+                complete_file['config_ref'] = self.config_ref
+                
+                # Writing to log.
+                self.say('\nsaving in memory...')
+                
+                # Writing on the file at path
+                with open(f'{self.file_name}', 'w') as config_file:
+                    json.dump(complete_file, config_file, indent=4)
+                    
+                # Writing to log.
+                self.say('Successfully saved!\n')
+    def config_references_loaded(self):
+        
+        
+        """config_references_loaded verifies that sys_ref and config_ref have been defined."""
+        
+        try:
+            return self.sys_ref and self.config_ref
+        
+        except AttributeError:
+             self.say('Must load config file before using mutator functions!')
+
+             return False
     def validate_all(self):
         
         """validate_all validates entries on config file, 
         
-        except for paths (since paths are validated multiple times by other components)"""
+        except for paths (since paths are validated multiple times by other components)."""
         
         # Storing the probe ids (slp,dlp,tlv,tlv,hea,iea)
         probe_ids = list(self.sys_ref.keys())
@@ -103,7 +114,7 @@ class ConfigManager:
                 
             for key in self.config_ref[probe_id].keys():
                 self.validate_entry(self.config_ref, probe_id, key, self.config_ref[probe_id][key])
-             
+     
             
     def validate_json_path(self, file_name):
         
@@ -186,7 +197,7 @@ class ConfigManager:
         
         # If no probe id, validation for non probe specific key-value invoked
         if not probe_id:
-            self.validate_paths(ref, key, value)
+            self.validate_non_probe_keys(ref, key, value)
         
         # If the last word in key describes a bias, validation for bias related key-value pairs invoked
         elif tokens[-1] in self.list_of_biases:
@@ -346,42 +357,60 @@ class ConfigManager:
         and the respective applied bias"""
         
 
-        # If max applied bias
+        # If validating maximum of amplifier
         if tokens[-1] == 'max':
             
+            # If the max amplifier value is less than max applied bias, storing the amp value as the applied bias
             if value < ref[probe_id]['sweep_max']:
                 ref[probe_id]['sweep_max'] = value
                 
+            # If the max amplifier value is less than the min applied bias, changing the min applied to min amp value
             if value <= ref[probe_id]['sweep_min']:
                 ref[probe_id]['sweep_min'] = ref[probe_id]['sweep_amp_min']
             
-            
+        # If validating minimum of amplifier
         elif tokens[-1] == 'min':
-        
+            
+            # If the minimum amplifier value is greater than min applied bias,
+            # Storing the amp value as the applied bias
             if value > ref[probe_id]['sweep_min']:
                 ref[probe_id]['sweep_min'] = value
-                
+            
+            # If the minimum amplifier value is greater than the max applied bias, 
+            # Changing the max applied to max amp value.
             if value >= ref[probe_id]['sweep_max']:
                 ref[probe_id]['sweep_max'] = ref[probe_id]['sweep_amp_max']
               
                 
-            
-    def validate_paths(self, ref, key, value):
+    def validate_non_probe_keys(self, ref, key, value):
+        """validate_non_probe_keys validates keys that are not probe specific"""
         
+        # If key is credentials_path, invoking json validation method
         if key=='credentials_path':
+            
+            # If the file is valid, storing the path for offsite upload
             if self.validate_json_path(value):
-               self.set_value(ref, key, value)
+                ref[key] = value
+        # If key is local_path, verifying that the path points to a directory
         elif key=='local_path':
+            
+            # If directory exists, storing the path for local storage
             if os.path.isdir(value):
-                self.set_value(ref, key, value)
+                ref[key] = value
+                
+        # If key is selected_gas, storing the value of the gas into the probe_id dictionaries
         elif key == 'selected_gas':
             for probe_id in self.sys_ref:
                 ref[probe_id][key] = value
         else:
-            self.set_value(ref, key, value)
+            # Other values do not require validation.
+            ref[key] = value
             
     def validate_area(self, probe_id, key, value):
+        """validate_area validates units and area for probe areas in each probe_id dictionary,
+        as well as converts the area to meters for calculations."""
         
+        # Storing dictionary with key-value pairs for units of meter
         units = {'km': 1e+3,
                  'hm': 1e+2,
                  'dam': 1e+1,
@@ -394,32 +423,23 @@ class ConfigManager:
                  'µm':1e-6,
                  'nm':1e-9
             }
+        
+        # Extracting key info from dictionary stored in the key variable
         config_key = list(key.keys())[0]
         dictionary_key = list(key.values())[0]
+        
+        # Validating value for display, ensuring it is above 0.01
         if not isinstance(self.config_ref[probe_id][config_key][dictionary_key], str):
             if value<0.01:
                 value = self.config_ref[probe_id][config_key]['display_value']
-                
+        
+        # Storing the value in config
         self.config_ref[probe_id][config_key][dictionary_key] = value
         
+        # Converting the display value and units into meters and storing it for calculations
         self.config_ref[probe_id]['Probe area'] = units[self.config_ref[probe_id][config_key]['unit']]\
             * self.config_ref[probe_id][config_key]['display_value']
 
-        
-
-    
-    def set_value(self, ref, key, value):
-        ref[key] = value
-        
-    def config_references_loaded(self):
-        
-        try:
-            return self.sys_ref and self.config_ref
-        
-        except AttributeError:
-             self.say('Must load config file before using mutator functions!')
-
-             return False
 
 if __name__ == "__main__":
     
