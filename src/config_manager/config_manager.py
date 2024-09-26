@@ -223,10 +223,8 @@ class ConfigManager:
         
         #Other wise, validating 
         if isinstance(value,list):
-            for i in value:
-                if  isinstance(i, (int, float)):
-                    if i % 1 == 0:
-                        ref[probe_id][key]= int(value)
+                if value % 1 == 0:
+                    ref[probe_id][key]= int(value)
         
             
     def validate_positive_floats(self, ref, probe_id, key, value):
