@@ -57,30 +57,30 @@
     },
     "config_ref": {
         "local_path": "C:\\Users\\ajco2\\OneDrive\\Desktop\\experiment #123123123",
-        "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\config_manager\\configuration_file.json",
-        "experiment_name": "experiment #123123123",
+        "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
+        "experiment_name": "",
         "selected_gas": "nitrogen",
-        "button_adjust": 1.0,
+        "button_adjust": 10.0,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 74.0,
             "dac_min": 0.0,
-            "dac_max": 4.0,
+            "dac_max": 1.0,
             "num_samples": 10,
-            "sweep_min": 20.2,
-            "sweep_max": 213.0,
-            "sweep_amp_min": -86.8,
+            "sweep_min": -360.0,
+            "sweep_max": 299.0,
+            "sweep_amp_min": -360.0,
             "sweep_amp_max": 299.0,
             "sweeper_shunt": 202.0,
             "collector_gain": 3.0,
-            "Probe area": 7000.0,
+            "Probe area": 60.0,
             "area_units": {
-                "unit": "km",
-                "display_value": 7.0
+                "unit": "dam",
+                "display_value": 6.0
             },
             "Shunt 1": 200,
             "Particle mass": 9.10938e-31,
-            "selected_gas": "helium"
+            "selected_gas": "nitrogen"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -100,11 +100,11 @@
                 "display_value": 5.0
             },
             "Shunt 1": 200,
-            "selected_gas": "helium"
+            "selected_gas": "nitrogen"
         },
         "hea": {
             "probe_id": "hea",
-            "sampling_rate": 50,
+            "sampling_rate": 50.0,
             "dac_min": 0.0,
             "dac_max": 4.0,
             "num_samples": 70,
@@ -126,7 +126,8 @@
                 "display_value": 4.0
             },
             "Shunt 1": 200,
-            "selected_gas": "helium"
+            "selected_gas": "nitrogen",
+            "Particle mass": 9.10938e-31
         },
         "iea": {
             "probe_id": "iea",
@@ -134,7 +135,7 @@
             "dac_min": 0.0,
             "dac_max": 4.0,
             "num_samples": 50,
-            "sweep_min": -300.0,
+            "sweep_min": -299.99,
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
@@ -152,7 +153,7 @@
                 "display_value": 4.0
             },
             "Shunt 1": 200,
-            "selected_gas": "helium"
+            "selected_gas": "nitrogen"
         },
         "tlc": {
             "probe_id": "tlc",
@@ -177,7 +178,7 @@
             },
             "Shunt 1": 200,
             "Shunt 2": 200,
-            "selected_gas": "helium"
+            "selected_gas": "nitrogen"
         },
         "tlv": {
             "probe_id": "tlv",
@@ -190,7 +191,7 @@
             "up_collector_gain": 1.0,
             "up_shunt": 200.0,
             "float_collector_gain": 1.0,
-            "num_samples": 0,
+            "num_samples": 2,
             "Probe area": 1000.0,
             "area_units": {
                 "unit": "km",
@@ -198,7 +199,7 @@
             },
             "Shunt 1": 200,
             "Shunt 2": 200,
-            "selected_gas": "helium"
+            "selected_gas": "nitrogen"
         }
     }
 }

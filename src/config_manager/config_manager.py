@@ -221,18 +221,21 @@ class ConfigManager:
             ref[probe_id][key] = value
             return
         
-        #Other wise, validating 
+        #Other wise, validating sys_ref values
         if isinstance(value,(int,float)):
                 if value % 1 == 0:
                     ref[probe_id][key]= int(value)
         
             
     def validate_positive_floats(self, ref, probe_id, key, value):
+        
+        """validate_positive_floats validates float related key-value pairs for the probe specified."""
         if isinstance(value,(int, float)):
+            
+            
             if value > 0:
                 ref[probe_id][key]= value  
-            else:
-                ref[probe_id][key]=0.01
+            
                 
 
                 
