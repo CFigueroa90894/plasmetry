@@ -812,6 +812,8 @@ class UserSettings(QMainWindow):
         self.back_btn_clicked.emit()
         self.setup_window.set_widget_values()
 
+        
+
     def reset_settings(self):
         self.display_alert_message("Resetting Values")
         # Receiving original config values

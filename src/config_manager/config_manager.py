@@ -230,102 +230,140 @@ class ConfigManager:
     def validate_positive_floats(self, ref, probe_id, key, value):
         
         """validate_positive_floats validates float related key-value pairs for the probe specified."""
+        
+        # Verifying that the value is a number
         if isinstance(value,(int, float)):
             
-            
+            # Verifing that the value is not 0
             if value > 0:
+                # If validations are true, setting the value to in-memory config ref
                 ref[probe_id][key]= value  
-            
                 
-
                 
-    def validate_sweep(self, ref, probe_id, key, value, tokens):
-        sweep_amp_max = tokens.copy()
-        sweep_amp_min = tokens.copy()
-        
-        sweep_amp_max.insert(1, 'amp')
-        sweep_amp_max[-1] = 'max'
-        sweep_amp_min.insert(1, 'amp')
-        sweep_amp_min[-1] = 'min'
-        
-        amp_max_key = '_'.join(sweep_amp_max)
-        amp_min_key = '_'.join(sweep_amp_min)
-        
-       
-        if ref[probe_id][amp_min_key] <= value <= ref[probe_id][amp_max_key]:
-             
-             return False
-        else:
-            if tokens[1] == 'min':
-                if ref[probe_id][amp_min_key] >= value:
-                   ref[probe_id][key]= ref[probe_id][amp_min_key]
-                   return True
-                
-            elif tokens[1] == 'max': 
-               if ref[probe_id][amp_max_key] <= value:
-                   ref[probe_id][key] = ref[probe_id][amp_max_key]
-                   return True
-        return False
-    
-    def validate_amp(self, ref, probe_id, key, value, tokens):
-        sweep_tokens = tokens.copy()
-        sweep_tokens.pop(1)
-        applied_value ='_'.join(sweep_tokens)
-        if tokens[-1] == 'max':
-            
-            if value < ref[probe_id][applied_value]:
-                ref[probe_id][applied_value] = value
-                return True
-             
-        elif tokens[-1] == 'min':
-        
-            if value > ref[probe_id][applied_value]:
-                ref[probe_id][applied_value] = value
-                
-            
-        
     def validate_voltage(self, ref, probe_id, key, value, tokens):
         
+        """validate_voltage validates biases and their respective maximum and minimums,
+        
+        ensuring all voltage values are within expected ranges."""
+        
+        # If the value is not a number, invalid, thus not set.
         if not isinstance(value,(int, float)):
            return
        
+        # If the value is related to sweeps, invoking sweep related validations
         if tokens[0] == 'sweep':
+            
+            # If applied min or max of sweep, invoking method for preliminary validation of applied biases on sweep
             if 'amp' != tokens[1]:
                 if self.validate_sweep(ref, probe_id, key, value, tokens):
                     return
+            # Otherwise, invoking method for preliminary validation of amplifier values
             else: 
                 self.validate_amp(ref, probe_id, key, value, tokens)
         
-        if tokens[-1] == 'min':
-           tokens[-1] = 'max'
-           max_key = '_'.join(tokens)
-          
-           if ref[probe_id][max_key] > value:
-               ref[probe_id][key]= value
         
-        elif tokens[-1] == 'max':
-             tokens[-1] = "min"
-             min_key = '_'.join(tokens)
-             
-             if ref[probe_id][min_key] < value:
-                 ref[probe_id][key] = value
-        else:
-
-             if not 'collector' in tokens:
-                 tokens.pop()
-                 
-             max_token = tokens.copy()
-             min_token = tokens.copy()
-             
-             
-             max_token.append("max")
-             min_token.append("min")
-             
-             max_key = '_'.join(max_token)
-             min_key = '_'.join(min_token)
+        # If the key is a minimum, verifying that it is less than maximum
+        if tokens[-1] == 'min':
+            
+            # Identifying key of maximum
+            tokens[-1] = 'max'
+            max_key = '_'.join(tokens)
            
-             if ref[probe_id][min_key] <= value <= ref[probe_id][max_key]:
-                ref[probe_id][key]= value    
+            # If less than maximum, setting the value
+            if ref[probe_id][max_key] > value:
+                ref[probe_id][key]= value
+        
+        # If the key is a maximum, verifying that it is greater than minimum
+        elif tokens[-1] == 'max':
+            
+            # Identifying key of minimum
+            tokens[-1] = "min"
+            min_key = '_'.join(tokens)
+             
+            # If greater than minimum, setting the value
+            if ref[probe_id][min_key] < value:
+                ref[probe_id][key] = value
+        
+                
+        # If the key-value pair relates to an applied bias 
+        else:
+            
+            # If not collector, poping the token 'bias'
+            if not 'collector' in tokens:
+                tokens.pop()
+            
+            # Creating copies of the tokens in key and generating max and min keys
+            max_token = tokens.copy()
+            min_token = tokens.copy()
+            max_token.append("max")
+            min_token.append("min")
+            max_key = '_'.join(max_token)
+            min_key = '_'.join(min_token)
+            
+            # If the value is within the expected range, storing it in memory.
+            if ref[probe_id][min_key] <= value <= ref[probe_id][max_key]:
+               ref[probe_id][key]= value
+                
+    def validate_sweep(self, ref, probe_id, key, value, tokens):
+        
+        """validate_sweep performs a preliminary validation of minimim and maximum applied on sweep"""
+        
+        # index for sweep min and max 
+        amp_max_key = "sweep_amp_max"
+        amp_min_key = "sweep_amp_min"
+        
+        # If the value is within accepted range, continuing validations in validate_voltage method
+        if ref[probe_id][amp_min_key] <= value <= ref[probe_id][amp_max_key]:
+             return False
+        else:
+            #If applied bia is minimum of sweep
+            if tokens[1] == 'min':
+                # If the amp minimum voltage is greater than the applied voltage, invalid assignment
+                if ref[probe_id][amp_min_key] >= value:
+                    
+                # Assigning the minimum of amp to the minimum of sweep
+                   ref[probe_id][key]= ref[probe_id][amp_min_key]
+                   
+                   # validate_voltage shall end validations
+                   return True
+               
+            #If applied bias is maximum of sweep 
+            elif tokens[1] == 'max': 
+                
+                # If the amp maximum voltage is less than the applied voltage, invalid assignment.
+               if ref[probe_id][amp_max_key] <= value:
+                   
+                   # Assigning the minimum of amp to the minimum of sweep
+                   ref[probe_id][key] = ref[probe_id][amp_max_key]
+                   
+                   # validate_voltage shall end validations
+                   return True
+        # Returning false to continue validations
+        return False
+    
+    def validate_amp(self, ref, probe_id, key, value, tokens):
+        """validate_amp  performs a preliminary validation of the amplifiers for sweeps 
+        and the respective applied bias"""
+        
+
+        # If max applied bias
+        if tokens[-1] == 'max':
+            
+            if value < ref[probe_id]['sweep_max']:
+                ref[probe_id]['sweep_max'] = value
+                
+            if value <= ref[probe_id]['sweep_min']:
+                ref[probe_id]['sweep_min'] = ref[probe_id]['sweep_amp_min']
+            
+            
+        elif tokens[-1] == 'min':
+        
+            if value > ref[probe_id]['sweep_min']:
+                ref[probe_id]['sweep_min'] = value
+                
+            if value >= ref[probe_id]['sweep_max']:
+                ref[probe_id]['sweep_max'] = ref[probe_id]['sweep_amp_max']
+              
                 
             
     def validate_paths(self, ref, key, value):
@@ -361,8 +399,11 @@ class ConfigManager:
         if not isinstance(self.config_ref[probe_id][config_key][dictionary_key], str):
             if value<0.01:
                 value = self.config_ref[probe_id][config_key]['display_value']
+                
         self.config_ref[probe_id][config_key][dictionary_key] = value
-        self.config_ref[probe_id]['Probe area'] = units[self.config_ref[probe_id][config_key]['unit']] * self.config_ref[probe_id][config_key]['display_value']
+        
+        self.config_ref[probe_id]['Probe area'] = units[self.config_ref[probe_id][config_key]['unit']]\
+            * self.config_ref[probe_id][config_key]['display_value']
 
         
 
