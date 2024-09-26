@@ -407,7 +407,7 @@ class ConfigManager:
             ref[key] = value
             
     def validate_area(self, probe_id, key, value):
-        """validate_area validates units and area for probe areas in each probe_id dictionary,
+        """validate_area validates units and area for probe areas in each probe_id dictionary,\
         as well as converts the area to meters for calculations."""
         
         # Storing dictionary with key-value pairs for units of meter

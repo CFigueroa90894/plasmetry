@@ -27,7 +27,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
     path_hammer(2, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
-from PyQt5.QtWidgets import QApplication, QMessageBox
+from PyQt5.QtWidgets import QApplication
 from experiment_run import ExperimentRun
 from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
@@ -35,7 +35,7 @@ from control_layer import ControlLayer
 
 class GuiManager():
     
-    def __init__(self):
+    def __init__(self):                                                                                                        
         # Initialize control layer
         self.control = ControlLayer()
         self.control.load_config_file()    
