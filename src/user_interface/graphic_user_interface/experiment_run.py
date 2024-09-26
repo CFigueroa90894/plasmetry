@@ -1,25 +1,36 @@
+from pathlib import Path
 from PyQt5.QtWidgets import QMainWindow, QLabel, QLineEdit, QFrame, QVBoxLayout, QFileDialog
 from PyQt5.QtCore import pyqtSignal, QTimer
 from run_parameters import RunParameters
-from pathlib import Path
 from experiment_run_ui import Ui_experiment_run_view
 
 class ExperimentRun(QMainWindow):
+    
+    """ExperimentRun is defined to interface with the ui components shown after the user clicks the 'continue' button."""
+    
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
     run_btn_clicked = pyqtSignal()
     stop_btn_clicked = pyqtSignal()
 
     def __init__(self, control):
+        """ExperimentRun constructor"""
         super().__init__()
+        
+        # Storing control object reference
         self.control = control
+        
+        # Storing boolean value for logic
         self.running = False
-
+        
+        # Instantiating the list used for display, shall be rewritten when new data is available
         self.display_container = []
         
+        # Storing ui view reference
         self.ui = Ui_experiment_run_view() 
+        
+        # Invoking the setupUi function
         self.ui.setupUi(self) 
-
 
         # Disable stop_btn and enable run_btn initially
         self.ui.stop_btn.setEnabled(False)
@@ -51,15 +62,12 @@ class ExperimentRun(QMainWindow):
 
         # Connect the query buttons in experiment_name page
         self.ui.query_no_btn.clicked.connect(self.show_exp_path_name_frame)
-        self.ui.query_yes_btn.clicked.connect(self.no_path_change)
+        self.ui.query_yes_btn.clicked.connect(self.switch_to_run_page)
 
         # Connect confirm button in exp_path_name_frame
         self.ui.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
         self.ui.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.ui.exp_path_name_input))
-        
         self.ui.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
-        
-    
 
     def initialize_experiment_name_view(self):
         """Shows the query frame by default when switching to experiment_name page."""
@@ -100,9 +108,11 @@ class ExperimentRun(QMainWindow):
             self.ui.stop_btn.setVisible(True)
 
     def set_selected_probe(self, probe):
+        
+        """set_selected_probe loads the information of the parameters used for display"""
         self.selected_probe = probe
-        params_dictionaries = RunParameters()
-        params = params_dictionaries.get_parameters_for_probe(probe)
+        params_lists = RunParameters()
+        params = params_lists.get_parameters_for_probe(probe)
 
 
         if params:
@@ -175,11 +185,17 @@ class ExperimentRun(QMainWindow):
         
     def update_parameters(self):
         
+        """update_parameters updates the currently shown parameters with new ones."""
+        
+        # Verifying if new parameters, if so, rewriting the display_container object
         if self.params_flag.is_set():
             self.display_container = self.params_container.copy()
             self.params_flag.clear()
- 
+        
+        # Storing a copy of the display_container, since the copy list shall be emptied
         parameter_values = self.display_container.copy()
+        
+        # Going through each widget in the frame_left and identifying the Qline edits for rewrite
         for i in range(self.ui.frame_left.layout().count()):
             item = self.ui.frame_left.layout().itemAt(i)
             if item:
@@ -190,9 +206,12 @@ class ExperimentRun(QMainWindow):
                         inner_widget = inner_item.widget()
                         if isinstance(inner_widget, QLineEdit):
                             if parameter_values:
+                                # Pop operation performed on the list, poping the first value
                                 new_value = str(parameter_values.pop(0))
+                                # Writing the new value
                                 inner_widget.setText(new_value)
-            
+                                
+        # Going through each widget in the frame_right and identifying the Qline edits for rewrite
         for i in range(self.ui.frame_right.layout().count()):
             item = self.ui.frame_right.layout().itemAt(i)
             if item:
@@ -203,7 +222,9 @@ class ExperimentRun(QMainWindow):
                         inner_widget = inner_item.widget()
                         if isinstance(inner_widget, QLineEdit):
                             if parameter_values:
+                                # Pop operation performed on the list, poping the first value
                                 new_value = str(parameter_values.pop(0))
+                                # Writing the new value
                                 inner_widget.setText(new_value)
             
 
@@ -290,27 +311,33 @@ class ExperimentRun(QMainWindow):
         self.update_run_status(2)
         self.display_alert_message("Experiment started")
         
-    def no_path_change(self):
-        self.control.set_config(probe_id='', key='experiment_name', value="")
-        self.switch_to_run_page()
-        
     def open_file_dialog(self, line_edit):
-            dialog = QFileDialog(self)
-            dialog.setDirectory(r'C:/')
-          
-            dialog.setFileMode(QFileDialog.FileMode.Directory) 
-
-            dialog.setViewMode(QFileDialog.ViewMode.List)
-            if dialog.exec():
-                filenames = dialog.selectedFiles()
+        """open_file_dialog opens a file dialog for folder path identification."""
+        # Storing the file dialog object
+        dialog = QFileDialog(self)
+        
+        # Setting the initial directory as the root
+        dialog.setDirectory(r'C:/')
+        
+        # Setting the mode fo the dialog to directory, only accepting directories.
+        dialog.setFileMode(QFileDialog.FileMode.Directory)
+        
+        # Listing the directories
+        dialog.setViewMode(QFileDialog.ViewMode.List)
+        
+        # Selection completed logic
+        if dialog.exec():
+            # Storing the selected directories
+            filenames = dialog.selectedFiles()
+            
+            # If a folder was selected, setting new path and experiment name 
+            if filenames:
+                self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))                
+                self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
                 
-                if filenames:
-                    
-                    self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))
-                    
-                    line_edit.setText(Path(self.control.get_config(probe_id='', key='local_path')).name)
-                    
-                    self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
+                # Writing the new folder name
+                line_edit.setText(Path(self.control.get_config(probe_id='', key='local_path')).name)
+
 
     def emit_stop_signal(self):
          """Emit signal when stop button is clicked."""
