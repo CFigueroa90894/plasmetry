@@ -23,8 +23,8 @@ def filter_current(parameters):
     
     parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
     parameters['Raw voltage 2'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    parameters['Probe 2 filtered current (Amperes)'] =  parameters['Raw voltage 1'] / parameters['Shunt 1']
-    parameters['Probe 3 filtered current (Amperes)'] = parameters['Raw voltage 2'] / parameters['Shunt 2']
+    parameters['Probe 2 filtered current (Amperes)'] =  parameters['Raw voltage 1'] / parameters['up_shunt']
+    parameters['Probe 3 filtered current (Amperes)'] = parameters['Raw voltage 2'] / parameters['down_shunt']
     
 
 def iteration(parameters, estimated_guess):

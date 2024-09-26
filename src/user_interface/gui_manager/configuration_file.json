@@ -71,14 +71,13 @@
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
-            "sweeper_shunt": 202.0,
+            "sweeper_shunt": 200.0,
             "collector_gain": 3.0,
             "Probe area": 6000.0,
             "area_units": {
                 "unit": "km",
                 "display_value": 6.0
             },
-            "Shunt 1": 200,
             "Particle mass": 9.10938e-31,
             "selected_gas": "nitrogen"
         },
@@ -99,7 +98,6 @@
                 "unit": "km",
                 "display_value": 5.0
             },
-            "Shunt 1": 200,
             "selected_gas": "nitrogen"
         },
         "hea": {
@@ -112,7 +110,7 @@
             "sweep_max": 220.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
-            "sweeper_shunt": 200.0,
+            "sweeper_shunt": 199.0,
             "collector_gain": 1.0,
             "rejector_min": -300.0,
             "rejector_max": 300.0,
@@ -125,7 +123,6 @@
                 "unit": "hm",
                 "display_value": 4.0
             },
-            "Shunt 1": 200,
             "selected_gas": "nitrogen",
             "Particle mass": 9.10938e-31
         },
@@ -152,7 +149,6 @@
                 "unit": "dm",
                 "display_value": 4.0
             },
-            "Shunt 1": 200,
             "selected_gas": "nitrogen"
         },
         "tlc": {
@@ -176,8 +172,6 @@
                 "unit": "km",
                 "display_value": 24.0
             },
-            "Shunt 1": 200,
-            "Shunt 2": 200,
             "selected_gas": "nitrogen"
         },
         "tlv": {
@@ -197,8 +191,6 @@
                 "unit": "km",
                 "display_value": 1.0
             },
-            "Shunt 1": 200,
-            "Shunt 2": 200,
             "selected_gas": "nitrogen"
         }
     }

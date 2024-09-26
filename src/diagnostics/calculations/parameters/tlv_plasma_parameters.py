@@ -16,7 +16,7 @@ def filter_current(parameters):
     parameters['Potential difference'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
     del parameters['Raw voltage 2']
     parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
-    parameters['Filtered current (Amperes)'] = parameters['Raw voltage 1'] / parameters['config_ref']['Shunt 1']
+    parameters['Filtered current (Amperes)'] = parameters['Raw voltage 1'] / parameters['config_ref']['up_shunt']
     
 def iteration(potential_difference, bias, estimated_guess):
     

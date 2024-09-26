@@ -42,8 +42,8 @@ def filter_current(parameters):
     sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
     
     filteredSignal = np.array(signal.sosfiltfilt(sos, parameters['Raw voltage 1']))
-    print(parameters['config_ref'])
-    parameters['Filtered current (Amperes)'] = filteredSignal / parameters['config_ref']['Shunt 1']
+   
+    parameters['Filtered current (Amperes)'] = filteredSignal / parameters['config_ref']['sweeper_shunt']
     
 def get_display_parameters(parameters):
     

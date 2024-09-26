@@ -66,7 +66,8 @@ def create_csv_object(data):
 def process_data(unformatted_data):
         
     """Returns the csv objects used for uploading"""
-    
+    if not unformatted_data:
+        return
     # Initializing the lists used for storing the parameters and sweep data
     sweep_data = []
     calculated_parameters = []
