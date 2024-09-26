@@ -222,7 +222,7 @@ class ConfigManager:
             return
         
         #Other wise, validating 
-        if isinstance(value,list):
+        if isinstance(value,(int,float)):
                 if value % 1 == 0:
                     ref[probe_id][key]= int(value)
         
