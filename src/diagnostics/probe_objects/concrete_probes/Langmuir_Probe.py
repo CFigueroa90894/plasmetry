@@ -51,9 +51,9 @@ class LangmuirProbe(SweeperProbe):
     """This class defines a concrete implementation for SLPs and DLPs, inheriting its sweep
     functionality directly from the SweeperProbe, and indirectly inheriting general attributes
     from BaseProbe. Though an SLP and DLP differ in physical makeup, their operation and components
-    remain the same, their difference being the equations they use to calculate plasma paramaters.
+    remain the same, their difference being the equations they use to calculate plasma parameters.
 
-    Note that all their attributes are inherited, as they are in simple sweeper probes, therefore,
+    Note that all their attributes are inherited, as they are simple sweeper probes, therefore,
     even its constructor is entirely inherited. However, this class does in fact redefine the thread
     life-cycle methods that make up their data acquisition functionality, as they are specific to
     SLPs and DLPs.
@@ -86,7 +86,6 @@ class LangmuirProbe(SweeperProbe):
         # _thread_cleanup_() - zeros and disables the probe circuit, then resets the DAC output
         ^+ sweep() - performs one voltage sweep, applying one voltage when sample trigger is set
         ^+ preprocess_samples() - formats data samples and adds config data required by calculations
-        ^+ preprocess_samples() - provides external threads formatting required by calculations
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time
         ^+ say() - text output method, using the SayWriter

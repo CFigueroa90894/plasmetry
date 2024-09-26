@@ -57,12 +57,12 @@ class EnergyAnalyzer(SweeperProbe):
     """This class defines a concrete implementation for HEA and IEA probes, inheriting its sweep
     functionality from SweeperProbe, and extending it to operate the fixed biases on the particle
     rejector and collector. The difference between HEAs and IEAs in physical construction is almost
-    negligible, and most their equations are shared. Thus, the software can operate both types of
+    negligible, and most of their equations are shared. Thus, the software can operate both types of
     probes in the same manner. However, the minor details in the construction of their rejector and
     collector subcomponents may cause the equations to yield different values for a body of plasma
     under the same conditions.
     
-    In addition to the attributes that distuinguish this implementation from simple sweeper probes,
+    In addition to the attributes that distinguish this implementation from simple sweeper probes,
     this class also redefines the threaded life-cycle methods that make up its data acquisition
     functionality, as it is specific to HEAs and IEAs.
 
@@ -152,7 +152,7 @@ class EnergyAnalyzer(SweeperProbe):
         """Called before _THREAD_MAIN_ by the run() method. It first sets the operating status flag
         to indicate the high voltage amplifiers are energized. Next, it sets the sweeper amplifier's
         output to 0 volts, and the collector and rejector amplifiers to their fixed biases. It then
-        all enables all relays for its amplifiers. After pausing to allow the relays to close, the
+        enables all relays for its amplifiers. After pausing to allow the relays to close, the
         thread blocks in parent method until it synchronizes with the clock thread. When it does,
         the thread proceeds to its main loop.
 
