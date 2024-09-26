@@ -26,9 +26,11 @@ from data_formating import process_data
 # Offsite wrapper import
 from google_drive import GoogleDrive
 
+# Local storage interface
 from local_upload import LocalUpload
 
 class FileUpload:
+    """FileUpload is defined to act as an interface for data storage."""
     
     def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path='', experiment_name=''):
         """FileUpload construtor"""
@@ -135,7 +137,7 @@ class FileUpload:
         
         """Changes to folder for upload."""
         
-        if not wrapper.folder_exists(folder_name):
+        if not wrapper.folder_exists(folder_name) and folder_name:
             
             wrapper.create_folder(folder_name)
             

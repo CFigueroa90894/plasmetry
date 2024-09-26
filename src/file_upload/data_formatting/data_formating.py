@@ -1,6 +1,8 @@
 import io
 import csv
 
+"""This module contains functiobs used for the processing of raw acquired data into io objects."""
+
 def is_a_sweep(unformatted_data):
     
     """Returns a boolean value. True if the data acquired contains sweeps, False if other wise."""
@@ -16,7 +18,8 @@ def is_a_sweep(unformatted_data):
     
 def process_sweep(sweep_data, experiment_run):
     
-    """Prepares the sweep data for csv upload."""
+    """process_sweep -repares the sweep data for csv upload."""
+    
     if isinstance(experiment_run['Bias 1'],list):
         for i in range(len(experiment_run['Bias 1'])):
             
@@ -25,14 +28,18 @@ def process_sweep(sweep_data, experiment_run):
                                'Raw Signal (Volts)' : experiment_run['Raw voltage 1'][i],  \
                                'Filtered current (Amperes)': experiment_run['Filtered current (Amperes)'][i]})
         
+        
+       
         # Deleting the appended sweep data
         del experiment_run['Bias 1']
         del experiment_run['Raw voltage 1']
         del experiment_run['Filtered current (Amperes)']  
+        
+        
     
 def create_csv_object(data):
     
-    """Returns a string containing the data used to create a csv file."""
+    """create_csv_object returns a string containing the data used to create a csv file."""
     # Storing the io string writer function, used as the writer function for csv.writer
     output = io.StringIO()
     
@@ -80,6 +87,10 @@ def process_data(unformatted_data):
         
         del experiment_run['config_ref']
         del experiment_run['sys_ref']
+        
+        for key in experiment_run.keys():
+            if 'Shunt' in key:
+                del experiment_run[key]
 
         # Storing the parameters data.
         calculated_parameters.append(experiment_run)

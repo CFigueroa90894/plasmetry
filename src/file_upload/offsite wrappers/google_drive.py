@@ -23,6 +23,8 @@ from offsite_upload import OffsiteUpload
 
 class GoogleDrive(OffsiteUpload):
     
+    """GoogleDrive is defined to act as the interface for communication with the Google Drive Client. """
+    
     def __init__(self, text_out, credentials_path=''):
         
         """Offsite wrapper constructor."""
@@ -38,7 +40,7 @@ class GoogleDrive(OffsiteUpload):
             
     def validate_path(self, credentials_path):
         
-        """Returns boolean value validating the received path."""
+        """Returns boolean value validating the received path. Also sets the path if valid."""
 
         # Check if the directory exists 
         if  os.path.exists(credentials_path):
@@ -54,7 +56,7 @@ class GoogleDrive(OffsiteUpload):
         
     def validate_connection(self):
         
-        """Internet connection validation."""
+        """Internet connection validation, returns True if connection valid, False if otherwise."""
         # Storing port for communication, in this case for https traffic
         PORT = 443
         # Verifying that the connection to googleapis.com may be established
@@ -72,7 +74,9 @@ class GoogleDrive(OffsiteUpload):
             
     def authenticate_connection(self):
         
-        """Returns credentials object used for Google Drive API authentication."""
+        """Returns either a credentials object used for Google Drive API authentication
+        
+        or an empty string."""
         
         # Scope of the account (TEMPORARY PLACE, WILL REMOVE)
         SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -114,11 +118,17 @@ class GoogleDrive(OffsiteUpload):
             ).execute()
             
     def folder_exists(self, folder_name):
-        """Check if the folder exists in the Google Drive."""
+        """Check if the folder exists in the Google Drive. 
+        
+        If so, changes upload location to that folder and returns True."""
+        
+        # instantiating object used to interact with the Google Drive API
         service = build('drive', 'v3', credentials=self.creds)
         
+        # Query that verifies in the parent folde if the folder already exists
         query = f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}' and '{self.parent_folder}' in parents and trashed=false"
         
+        # Invoking query and storing in results variable
         results = service.files().list(
             q=query,
             fields="files(id, name)",
@@ -126,34 +136,44 @@ class GoogleDrive(OffsiteUpload):
             includeItemsFromAllDrives=True
         ).execute()
         
+        # Storing query filenames in a list called items
         items = results.get('files', [])
         
+        # Verifying if items is not empty. If not, setting the folder name as the new upload location
         if items:
-            
+            # Setting the identified folder's id as the new upload location
             self.set_folder_id(items[0]['id'])
+            # Return True to continue operations and notify that the folder must not be created
             return True
         else:
+            # Return False, since the folder must be created
             return False
 
     def create_folder(self, folder_name):
         """Create a new folder in Google Drive."""
+        # instantiating object used to interact with the Google Drive API
+
         service = build('drive', 'v3', credentials=self.creds)
         
+        # New folder metadata, used for API query
         file_metadata = {
             'name': folder_name,
             'mimeType': 'application/vnd.google-apps.folder',
             'parents': [self.parent_folder]  
         }
         
+        # Invoking create request through Google Drive API and storing the info of the new folder 
         folder = service.files().create(
             body=file_metadata,
             fields='id',
             supportsAllDrives=True
         ).execute()
-                    
+        
+        # Storing the new id for storage
         self.set_folder_id(folder.get('id'))
          
     def set_folder_id(self, folder_id):
+        
             """Sets the id of folder for storage."""
             
             self.parent_folder = folder_id

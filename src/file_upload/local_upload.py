@@ -1,7 +1,7 @@
 import os 
 
 class LocalUpload:
-        
+    """LocalUpload is defined to act as an interface for local storage."""
     def __init__(self, text_out, local_path=''):
         
         """LocalUpload construtor"""
