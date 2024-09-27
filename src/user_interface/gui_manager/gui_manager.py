@@ -34,39 +34,44 @@ from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
 
 class GuiManager():
+    """GuiManager acts as the main entry point of the application."""
     
-    def __init__(self):                                                                                                        
+    def __init__(self):
+        """Gui manager constructor. Initializes the control layer."""                                                                                         
         # Initialize control layer
         self.control = ControlLayer()
+        
+        # Loading the config file data
         self.control.load_config_file()    
         
     def start_signals(self):
+        """start_signals cnnects the signals of the"""
+        
+        # Initializing the GUI
         app = QApplication(sys.argv)
         app.setStyle('Windows')
         
+        # Initializing each window of the GUI
         settings_window= UserSettings
-       # sys.excepthook = self.global_exception_handler
         run_window = ExperimentRun(self.control)
         setup_window = ExperimentSetup(self.control, run_window, settings_window)
-        
         settings_window = UserSettings(self.control, setup_window)
-
-        setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
         
-        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close(), settings_window.set_widget_values()))
-        run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close(), setup_window.set_widget_values()))
+        # Setting up logic for signal emission
+        setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
+        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close()))
+        run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close()))
         settings_window.back_btn_clicked.connect(lambda: (setup_window.show(), settings_window.close()))
-
+        
+        # Showing the first page (Experiment setup page)
         setup_window.show()
         
+        # Logic for when app is about to close, done so to properly clear all components
         app.aboutToQuit.connect(lambda: self.control.layer_shutdown())
         
+        # App exit from execution
         sys.exit(app.exec_())
-        
-    def global_exception_handler(self, exctype, value, traceback):
-        
-        self.control.layer_shutdown()
-       
+    
 if __name__ == "__main__":
     gui_manager = GuiManager()
     gui_manager.start_signals()

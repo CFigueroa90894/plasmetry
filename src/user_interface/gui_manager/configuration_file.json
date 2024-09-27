@@ -61,26 +61,26 @@
         "folder_id": "1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ",
         "experiment_name": "experiment #123123123",
         "selected_gas": "nitrogen",
-        "button_adjust": 100.0,
+        "button_adjust": 10.0,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 103.0,
             "dac_min": 0.0,
             "dac_max": 1.0,
             "num_samples": 14,
-            "sweep_min": 726.0,
-            "sweep_max": 797.0,
-            "sweep_amp_min": 726.0,
-            "sweep_amp_max": 797.0,
+            "sweep_min": -300.0,
+            "sweep_max": 300.0,
+            "sweep_amp_min": -300.0,
+            "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 3.0,
-            "Probe area": 6000.0,
+            "Probe area": 6.0,
             "area_units": {
-                "unit": "km",
+                "unit": "m",
                 "display_value": 6.0
             },
             "Particle mass": 9.10938e-31,
-            "selected_gas": "nitrogen"
+            "selected_gas": "oxygen"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -99,7 +99,7 @@
                 "unit": "km",
                 "display_value": 5.0
             },
-            "selected_gas": "nitrogen"
+            "selected_gas": "oxygen"
         },
         "hea": {
             "probe_id": "hea",
@@ -124,7 +124,7 @@
                 "unit": "hm",
                 "display_value": 4.0
             },
-            "selected_gas": "nitrogen",
+            "selected_gas": "oxygen",
             "Particle mass": 9.10938e-31
         },
         "iea": {
@@ -150,7 +150,7 @@
                 "unit": "dm",
                 "display_value": 4.0
             },
-            "selected_gas": "nitrogen"
+            "selected_gas": "oxygen"
         },
         "tlc": {
             "probe_id": "tlc",
@@ -173,7 +173,7 @@
                 "unit": "km",
                 "display_value": 24.0
             },
-            "selected_gas": "nitrogen"
+            "selected_gas": "oxygen"
         },
         "tlv": {
             "probe_id": "tlv",
@@ -192,7 +192,7 @@
                 "unit": "km",
                 "display_value": 1.0
             },
-            "selected_gas": "nitrogen"
+            "selected_gas": "oxygen"
         }
     }
 }

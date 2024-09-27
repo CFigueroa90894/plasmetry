@@ -30,7 +30,7 @@ from google_drive import GoogleDrive
 from local_upload import LocalUpload
 
 class FileUpload:
-    """FileUpload is defined to act as an interface for data storage."""
+    """FileUpload is defined to act as an interface for data storage operations."""
     
     def __init__(self, text_out, status_flags, command_flags, probe_type="", local_path = '', unformatted_data=[], credentials_path='', experiment_name='', folder_id=''):
         """FileUpload construtor"""
@@ -59,7 +59,7 @@ class FileUpload:
                     
     def new_data(self, parameters):
         
-        """new_data receives new unformatted data to create new csv content objects."""
+        """new_data receives unformatted data to create new csv content objects and commence upload."""
         
         #Setting the csv content objects containing sweep and parameters data
         # If no sweep data, the object will remain empty.
