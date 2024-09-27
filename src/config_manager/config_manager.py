@@ -229,7 +229,7 @@ class ConfigManager:
                     value = 2
             
             # Setting in-memory value for num samples
-            ref[probe_id][key] = value
+            ref[probe_id][key] = int(value)
             return
         
         #Other wise, validating sys_ref values
