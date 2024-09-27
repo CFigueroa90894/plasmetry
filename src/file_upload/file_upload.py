@@ -89,11 +89,12 @@ class FileUpload:
             
             self.folder_change(self.local_uploader, f'{self.local_uploader.parent_folder}/{self.probe_folder}')
             
-            self.local_uploader.write_file(self.experiment_metadata, f"{self.local_uploader.parent_folder}/ experiment metadata.csv" )
-            
             current_hour = int(self.current_datetime.hour) % 12
             if current_hour == 0:
                 current_hour = 12
+                
+            self.local_uploader.write_file(self.experiment_metadata, f"{self.local_uploader.parent_folder}/{current_hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} experiment metadata.csv")
+            
             # Creating the csv containing parameters date
             self.local_uploader.write_file(self.parameters_csv, f"{self.local_uploader.parent_folder}/{current_hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} parameters.csv" )
             
@@ -122,12 +123,13 @@ class FileUpload:
             
                 self.folder_change(self.offsite_wrapper, f'{self.probe_folder}')
                 
-                # Storing the parameters csv object
-                self.offsite_wrapper.put_request(self.experiment_metadata,"experiment metadata.csv")
-                
                 current_hour = int(self.current_datetime.hour) % 12
                 if current_hour == 0:
                     current_hour = 12
+                
+                
+                # Storing the parameters csv object
+                self.offsite_wrapper.put_request(self.experiment_metadata,f"{current_hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} experiment metadata.csv")
                 
                 # Storing the parameters csv object
                 self.offsite_wrapper.put_request(self.parameters_csv, f"{current_hour}_{self.current_datetime.minute}_{self.current_datetime.strftime('%p')} parameters.csv")

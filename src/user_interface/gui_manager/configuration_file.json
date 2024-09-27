@@ -67,7 +67,7 @@
             "sampling_rate": 103.0,
             "dac_min": 0.0,
             "dac_max": 1.0,
-            "num_samples": 14.0,
+            "num_samples": 14,
             "sweep_min": -300.0,
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
