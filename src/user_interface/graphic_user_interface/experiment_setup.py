@@ -23,7 +23,7 @@ from probe_enum import PRB
 from experiment_setup_ui import Ui_experiment_setup_view
 class ExperimentSetup(QMainWindow):
     
-    """ExperimentSetup is defined to interface with the ui components shown at start-up"""
+    """ExperimentSetup is defined to interface with the ui components shown at start-up and defines their logic."""
     
     close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
@@ -175,6 +175,8 @@ class ExperimentSetup(QMainWindow):
     ############################## GENERAL SLOTS ##############################
     
     def set_widget_values(self):
+        
+        """set_widget_values initializes the values demonstrated by the UI."""
 
         ################## SLP ##################
 
@@ -223,9 +225,14 @@ class ExperimentSetup(QMainWindow):
 
 
     def initialize_view(self):
+        
+        """initialize_view selects the probe first in display (currently SLP)"""
+
         # Initialize the view to display the correct page based on QComboBox selection.
         # Get the current index of the probe_selection_cb combobox
         current_index = self.ui.probe_selection_cb.currentIndex()
+        
+        # Extracting the probe identifier for config file
         self.selected_probe = self.ui.probe_selection_cb.currentText()[-4:-1].lower()
         
         
@@ -262,6 +269,9 @@ class ExperimentSetup(QMainWindow):
             
 
     def emit_switch_to_run_signal(self, run_window):
+        
+        """emit_switch_to_run_signal defines the logic executed when the continue button is clicked."""
+        
         # Disables all interactables to prevent erros while system prepares for experiment run
         self.disable_all()
 
@@ -281,11 +291,17 @@ class ExperimentSetup(QMainWindow):
         
        
     def emit_switch_to_settings_signal(self):
+        
+        """emit_switch_to_settings_signal defines the logic executed when the settings button is clicked."""
+        
         # Emit the signal to switch to the user settings window
         self.switch_to_settings.emit() 
 
 
     def reset_setup(self):
+        
+        """reset_setup defines the logic executed when the reset button is clicked."""
+
         self.display_alert_message("Resetting Values")
         # Receiving original config values
         self.control.load_config_file()
@@ -330,25 +346,23 @@ class ExperimentSetup(QMainWindow):
         QTimer.singleShot(5000, lambda: self.clear_alert_message())
 
     def clear_alert_message(self):
-        """
-        Clear the message displayed on alert_msg_label.
-        """
+        """clear_alert_message clears the message displayed on alert_msg_label when executed."""
         self.ui.alert_msg_label.setText("")
 
     def disable_all(self):
-        """Disables all interaction in the main window."""
+        """disable_all disables all interaction in the main window."""
         self.setEnabled(False)
 
     def enable_all(self):
-        """Enables all interaction in the main window."""
+        """enable_all enables all interaction in the main window."""
         self.setEnabled(True)
 
     def increment(self, value):
-        """increment function to adjust according to the button_adjust value in config"""
+        """increment function executed to adjust according to the button_adjust value in config"""
         return value + self.control.get_config(probe_id='',key='button_adjust')
 
     def decrement(self, value):
-        """decrement function to adjust according to the button_adjust value in config"""
+        """decrement function executed to adjust according to the button_adjust value in config"""
         return value - self.control.get_config(probe_id='',key='button_adjust')
 
 if __name__ == "__main__":
