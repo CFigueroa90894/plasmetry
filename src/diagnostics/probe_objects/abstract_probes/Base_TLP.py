@@ -69,7 +69,6 @@ class BaseTLP(BaseProbe):
 
     Methods:
         + __init__() - initialize the object, called by subclasses
-        ^+ run() - perform data acquistion, override in subclasses
         ^+ preprocess_samples() - provides external threads formatting required by calculations
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time

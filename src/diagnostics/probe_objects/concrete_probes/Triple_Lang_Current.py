@@ -58,14 +58,14 @@ from Base_TLP import BaseTLP
 RELAY_PAUSE = 3
 
 class TripleLangCurrent(BaseTLP):
-    """This class defines a concrete implementation of TLP-C (TLC), inheriting many all of its
-    attributes from the BaseTLP class. The TLP-Cs main characteristic is its two biasing amplifiers
-    apply voltage differences between to the upper probe and center probe, and the lower probe, 
-    and the center probe. This allows the center probe to be used as a reference point when
-    calculating currents through the upper and lower probes. The currents obtained by the dividing
-    the upper and lower probe's measured voltages by their respective shunt's resistance can be used
-    to calculate the current through the center probe. The proportion of the differences currents is
-    then used to calculate plasma parameters.
+    """This class defines a concrete implementation of TLP-C (TLC), inheriting many of its
+    attributes from the BaseTLP class. The TLP-Cs main characteristic is its two physical biasing
+    amplifiers apply voltage differences from the upper and lower probes to the center probe. This
+    allows the center probe to be used as a reference point when calculating currents through the
+    upper and lower probes. The currents obtained by dividing the upper and lower probe's measured
+    voltages by their respective shunt's resistance can be used to calculate the current through the
+    center probe. The proportion of the difference in currents is then used to calculate plasma
+    parameters.
 
     Attributes (Config and Control):
         ^+ probe_id - identifier for the probe's type
@@ -80,10 +80,12 @@ class TripleLangCurrent(BaseTLP):
         ^# _say_obj: SayWriter - text output object used to write messages
     
     Attributes (Data Acquisition)
-        + float_collector: VoltageSensor - voltage difference between the center and floating probe
+        + down_amp_bias: float - desired HV amplifier output (Volts)
+        + down_amp: HighVoltAmp - takes a desired bias and outputs it from the amplifier 
+        + down_collector: VoltageSensor - voltage difference between the center and floating probe
+        + down_shunt: float - resistance of the associated shunt
         + up_probe_window: list - retains recent samples for an averaging window
         + down_probe_window: list - retains recent samples for an averaging window
-        + down_amp: HighVoltAmp
         ^+ up_amp: HighVoltAmp - hardware object to control the associated amplifier
         ^+ up_amp_bias: float - desired high voltage output for the upper probe amplifier (Volts)
         ^+ up_collector: VoltageSensor - obtains voltage measurements across its shunt
@@ -98,7 +100,6 @@ class TripleLangCurrent(BaseTLP):
         # _THREAD_MAIN_() - the main loop of the thread
         # _thread_setup_() - performs preparations before the _THREAD_MAIN_() method is called
         # _thread_cleanup_() - performs exit actions before finally terminating the thread
-        ^+ run() - perform data acquistion, override in subclasses
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time
         ^+ say() - text output method, using the SayWriter

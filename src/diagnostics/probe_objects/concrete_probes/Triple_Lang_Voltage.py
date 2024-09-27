@@ -62,8 +62,8 @@ class TripleLangVoltage(BaseTLP):
     attributes from the BaseTLP class, with the exception of a collector. Unlike all the other
     collectors in our implementations, this float collector does not have an associated shunt
     resistor, because its voltage samples are not used to obtain current through the floating probe.
-    Instead, this collector is used obtain the voltage difference from the center probe down to the
-    floating probe. Since the biasing voltage between the upper probe and center probe is know, the
+    Instead, this collector is used obtain to the voltage difference from the center probe down to the
+    floating probe. Since the biasing voltage between the upper probe and center probe is known, the
     measured voltage difference from the center probe down to the floating probe can be used to
     obtain the plasma's floating potential.
 
@@ -97,7 +97,6 @@ class TripleLangVoltage(BaseTLP):
         # _THREAD_MAIN_() - the main loop of the thread
         # _thread_setup_() - performs preparations before the _THREAD_MAIN_() method is called
         # _thread_cleanup_() - performs exit actions before finally terminating the thread
-        ^+ run() - perform data acquistion, override in subclasses
         ^+ run() - executes the threads three life-cycle methods
         ^+ pause() - blocks the thread's execution for a specified time
         ^+ say() - text output method, using the SayWriter
