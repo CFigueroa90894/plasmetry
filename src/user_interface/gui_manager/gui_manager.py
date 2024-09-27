@@ -59,7 +59,7 @@ class GuiManager():
         
         # Setting up logic for signal emission
         setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
-        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close()))
+        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close(), settings_window.set_widget_values()))
         run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close()))
         settings_window.back_btn_clicked.connect(lambda: (setup_window.show(), settings_window.close()))
         
