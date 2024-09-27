@@ -774,10 +774,10 @@ class UserSettings(QMainWindow):
         
     def new_adjust_scale(self, current_value, direction):
         current_value = current_value * pow(10, direction)
-        if current_value>= 0.01:
+        if abs(current_value)> 0.01:
             return current_value
         else:
-            return 0.01
+            return 0.01 * current_value/ abs(current_value) * -1
     
     def increment(self, value):
         

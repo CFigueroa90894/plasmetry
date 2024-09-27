@@ -1715,6 +1715,9 @@ QComboBox QAbstractItemView {
                              <property name="showGroupSeparator" stdset="0">
                               <bool>false</bool>
                              </property>
+                             <property name="minimum">
+                              <double>-10000.000000000000000</double>
+                             </property>
                              <property name="maximum">
                               <double>10000.000000000000000</double>
                              </property>
@@ -2038,6 +2041,9 @@ QComboBox QAbstractItemView {
                     </property>
                     <property name="decimals">
                      <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-10000.000000000000000</double>
                     </property>
                     <property name="maximum">
                      <double>10000.000000000000000</double>
@@ -3267,6 +3273,9 @@ QComboBox QAbstractItemView {
                              <property name="showGroupSeparator" stdset="0">
                               <bool>false</bool>
                              </property>
+                             <property name="minimum">
+                              <double>-10000.000000000000000</double>
+                             </property>
                              <property name="maximum">
                               <double>10000.000000000000000</double>
                              </property>
@@ -3590,6 +3599,9 @@ QComboBox QAbstractItemView {
                     </property>
                     <property name="decimals">
                      <number>2</number>
+                    </property>
+                    <property name="minimum">
+                     <double>-10000.000000000000000</double>
                     </property>
                     <property name="maximum">
                      <double>10000.000000000000000</double>
@@ -4795,6 +4807,9 @@ QComboBox QAbstractItemView {
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
                        </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
+                       </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
                        </property>
@@ -5233,6 +5248,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -5691,6 +5709,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -7243,6 +7264,9 @@ QComboBox QAbstractItemView {
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
                        </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
+                       </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
                        </property>
@@ -7681,6 +7705,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -9131,6 +9158,9 @@ QComboBox QAbstractItemView {
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
                        </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
+                       </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
                        </property>
@@ -9573,6 +9603,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -10035,6 +10068,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -11202,103 +11238,6 @@ QComboBox QAbstractItemView {
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="iea_4">
-           <layout class="QVBoxLayout" name="verticalLayout_45">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QFrame" name="frame_40">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>125</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>125</height>
-               </size>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_14">
-               <property name="spacing">
-                <number>10</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="frame_41">
-              <property name="minimumSize">
-               <size>
-                <width>395</width>
-                <height>125</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>125</height>
-               </size>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_20">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
           <widget class="QWidget" name="hea_1">
            <layout class="QVBoxLayout" name="verticalLayout_42">
             <property name="spacing">
@@ -11711,6 +11650,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -12154,6 +12096,9 @@ QComboBox QAbstractItemView {
                        </property>
                        <property name="showGroupSeparator" stdset="0">
                         <bool>false</bool>
+                       </property>
+                       <property name="minimum">
+                        <double>-10000.000000000000000</double>
                        </property>
                        <property name="maximum">
                         <double>10000.000000000000000</double>
@@ -13728,6 +13673,9 @@ QComboBox QAbstractItemView {
                         </property>
                         <property name="showGroupSeparator" stdset="0">
                          <bool>false</bool>
+                        </property>
+                        <property name="minimum">
+                         <double>-10000.000000000000000</double>
                         </property>
                         <property name="maximum">
                          <double>10000.000000000000000</double>
