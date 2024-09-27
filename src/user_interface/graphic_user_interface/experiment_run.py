@@ -14,7 +14,9 @@ class ExperimentRun(QMainWindow):
     stop_btn_clicked = pyqtSignal()
 
     def __init__(self, control):
-        """ExperimentRun constructor"""
+        
+        """ExperimentRun constructor, initializes subcomponents."""
+        
         super().__init__()
         
         # Storing control object reference

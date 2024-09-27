@@ -45,7 +45,7 @@ class GuiManager():
         self.control.load_config_file()    
         
     def start_signals(self):
-        """start_signals cnnects the signals of the"""
+        """start_signals instantiates the GUI components, connects signal emissions for page switching, and defines the exit logic."""
         
         # Initializing the GUI
         app = QApplication(sys.argv)
