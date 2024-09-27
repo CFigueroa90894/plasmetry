@@ -41,18 +41,20 @@ class ConfigManager:
             
             # Writing to log.
             self.say("loading config...")
-            
+            complete_file = {}
             # Opening the file path in order to extract contents.
             with open(f'{self.file_name}', 'r') as config:
                 
                 # Storing json key-value pairs.
-                complete_file = (json.load(config))
+                complete_file = json.load(config)
+       
                 
-                # Storing sys_ref key value pair as a class attribute.
-                self.sys_ref = complete_file['sys_ref']
-                
-                # Storing config_ref key value pair as a class attribute.
-                self.config_ref= complete_file['config_ref']
+           
+            # Storing sys_ref key value pair as a class attribute.
+            self.sys_ref=ProtectedDictionary(complete_file['sys_ref'])
+
+            # Storing config_ref key value pair as a class attribute.
+            self.config_ref=ProtectedDictionary(complete_file['config_ref'])
                 
             
             # Validate_all function call to verify config file entries.
@@ -70,10 +72,13 @@ class ConfigManager:
                 # Validating all entries before writing on file.
                 self.validate_all()
                 
-                complete_file={}
+                complete_file={'sys_ref':{}, 'config_ref':{}}
                 # The  dictionary contents are re-written.
-                complete_file['sys_ref'] = self.sys_ref
-                complete_file['config_ref'] = self.config_ref
+                for key in self.sys_ref.keys():
+                    complete_file['sys_ref'][key] = self.sys_ref[key]
+                    
+                for key in self.config_ref.keys():
+                    complete_file['config_ref'][key] = self.config_ref[key]
                 
                 # Writing to log.
                 self.say('\nsaving in memory...')
