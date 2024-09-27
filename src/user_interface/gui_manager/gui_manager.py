@@ -34,7 +34,7 @@ from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
 
 class GuiManager():
-    """GuiManager acts as the main entry point of the application."""
+    """GuiManager acts as the main entry point of the application hen initialized and properly set-up."""
     
     def __init__(self):
         """Gui manager constructor. Initializes the control layer."""                                                                                         
