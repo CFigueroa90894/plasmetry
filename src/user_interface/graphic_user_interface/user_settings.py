@@ -6,10 +6,16 @@ from user_settings_ui import Ui_user_settings_view
 
 
 class UserSettings(QMainWindow):
+    
+    """UserSettings is defined to interface with the ui components shown after the user clicks the 'settings' button."""
+
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
 
     def __init__(self, control, setup_window):
+        
+        """UserSettings constructor, initializes subcomponents."""
+
         super().__init__()
    
         self.setup_window = setup_window
@@ -432,6 +438,7 @@ class UserSettings(QMainWindow):
             lambda: self.adjust_value(self.ui.hea_collector_shunt_rest_input, +1, 'sweeper_shunt'))
 
     def showEvent(self, event):
+        
         """Called every time the window is shown. Reset the view to experiment_name page."""
         super().showEvent(event)
 
@@ -447,6 +454,7 @@ class UserSettings(QMainWindow):
         self.ui.save_btn.setVisible(True)
 
     def set_widget_values(self):
+        """set_widget_values initializes the values demonstrated by the UI with config accessor functions."""
 
         self.ui.credentials_path_input.setText(
             Path(self.control.get_config(probe_id='', key='credentials_path')).name)
@@ -605,11 +613,17 @@ class UserSettings(QMainWindow):
 
 
     def show_data_upload_settings(self):
+        
+        """show_data_upload_settings defines the logic executed when the 'Data Upload' widget is clicked."""
+        
         self.ui.main_view.setCurrentWidget(self.ui.data_upload_settings_page)
         # Hide the combobox when switching away
         self.ui.cb_handler.setVisible(False)
 
     def probe_config_settings(self):
+        
+        """probe_config_settings defines the logic executed when the 'Probe Configurations' widget is clicked."""
+
         # Switch to the probe config page
         self.ui.main_view.setCurrentWidget(self.ui.probe_config_settings_page)
         self.ui.cb_handler.setVisible(True)  # Show the probe selection combo box
@@ -618,10 +632,16 @@ class UserSettings(QMainWindow):
         
     def set_selected_gas(self, current_gas):
         
+        """set_selected_gas defines the logic executed when the user selects a gas."""
+        
+        # Invoking control mutator function that interfaces with the ConfigManager
         self.control.set_config(probe_id = '', key='selected_gas', value=current_gas.lower())
         
     def set_area_units(self, probe_id, combo_box):
          
+        """set_area_units defines the logic executed when probe area units are changed."""
+        
+        # Invoking control mutator function that interfaces with the ConfigManager
         self.control.set_config(probe_id = probe_id, key={'area_units':'unit'}, value=combo_box.currentText())
         
     def switch_probe_page(self, index):
@@ -660,9 +680,7 @@ class UserSettings(QMainWindow):
         return count
 
     def update_page_view(self):
-        """
-        Update the probe_config_view to display the current page and update the page identifier label.
-        """
+        """Update the probe_config_view to display the current page and update the page identifier label. """
         # Iterate through the pages in the probe_config_view
         for i in range(self.ui.probe_config_view.count()):
             widget = self.ui.probe_config_view.widget(i)
@@ -686,9 +704,9 @@ class UserSettings(QMainWindow):
             self.current_page_index < self.total_pages - 1)
 
     def go_to_next_page(self):
-        """
-        Navigate to the next page of the selected probe.
-        """
+        
+        """Navigate to the next page of the selected probe."""
+        
         if self.current_page_index < self.total_pages - 1:
             self.current_page_index += 1
             self.update_page_view()  # Update the view
@@ -696,9 +714,7 @@ class UserSettings(QMainWindow):
             print("Already on the last page")
 
     def go_to_previous_page(self):
-        """
-        Navigate to the previous page of the selected probe.
-        """
+        """Navigate to the previous page of the selected probe."""
         if self.current_page_index > 0:
             self.current_page_index -= 1
             self.update_page_view()  # Update the view
@@ -707,6 +723,8 @@ class UserSettings(QMainWindow):
             
             
     def open_keyboard(self, line_edit, key):
+        
+        """open_keyboard initializes a VirtualKeyboard object used for text input."""
         keyboard = VirtualKeyboard(self)
         input_text = ''
         keyboard.setAccessibleName(line_edit.text())
@@ -720,6 +738,9 @@ class UserSettings(QMainWindow):
 
         
     def open_file_dialog(self, line_edit, key):
+        
+        """open_file_dialog allows the user to use PyQt5's QFileDialog, used for search in the directory."""
+        
         dialog = QFileDialog(self)
         dialog.setDirectory(r'C:/')
         if key == 'credentials_path':
@@ -773,20 +794,31 @@ class UserSettings(QMainWindow):
         spinbox.setValue(self.control.get_config(probe, config_key)*scale)
         
     def new_adjust_scale(self, current_value, direction):
+        
+        """new_adjust_scale is used to adjust the increment of the 'Button Increment' widget."""
+        
+        # Multiplying the current value times 10 to the 1 if direction is positive, otherwise
+        
+        # if multiplied by 10 to the power of -1 (thus dividing)
         current_value = current_value * pow(10, direction)
-        if abs(current_value)> 0.01:
+        
+        # Ensuring that the new value is not less than 0.01 (or else it shall not be seen in the GUI)
+        if abs(current_value)>= 0.01:
             return current_value
         else:
-            return 0.01 * current_value/ abs(current_value) * -1
+            return 0.01
     
     def increment(self, value):
-        
+        """increment function adjusts the argument based on the 'Button increment' scale value"""
         return value + self.control.get_config(probe_id='',key='button_adjust')
 
     def decrement(self, value):
+        """decrement function adjusts the argument based on the 'Button increment' scale value"""
+
         return value - self.control.get_config(probe_id='',key='button_adjust')
     
     def change_title(self):
+        """change_title function used for changing of the probe area title """
         
         self.ui.slp_area_gb.setTitle(self.ui.slp_area_gb.title())
         self.ui.dlp_area_gb.setTitle(self.ui.dlp_area_gb.title())
@@ -796,6 +828,8 @@ class UserSettings(QMainWindow):
         self.ui.iea_area_gb.setTitle(self.ui.iea_area_gb.title())
 
     def handle_back_button(self):
+        
+        """handle_back_button defines the logic executed when the back button is clicked."""
         # Check if the current page is not the settings_select_page
         if self.ui.main_view.currentWidget() != self.ui.settings_select_page:
             # Jump to the settings_select_page
@@ -826,18 +860,29 @@ class UserSettings(QMainWindow):
         self.ui.alert_msg_label.setText("")
 
     def emit_back_signal(self):
+        
+        """emit_back_signal defines the logic for when the back signal is emited."""
+        
+        # Back button signal emitted (change to experiment setup)
         self.back_btn_clicked.emit()
+        
+        # Setting the widget values in the experiment setup page
         self.setup_window.set_widget_values()
 
         
 
     def reset_settings(self):
+        """reset_settings defines the logic executed when the reset button is clicked."""
+
         self.display_alert_message("Resetting Values")
+        
         # Receiving original config values
         self.control.load_config_file()
         # Reset values from config file
         self.set_widget_values()
 
     def save_settings(self):
+        """save_settings defines the logic executed when the reset button is clicked."""
+
         self.control.save_config_file()
         self.setup_window.set_widget_values()
