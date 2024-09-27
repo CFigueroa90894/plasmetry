@@ -68,9 +68,10 @@ class ExperimentRun(QMainWindow):
         self.ui.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
         self.ui.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.ui.exp_path_name_input))
         self.ui.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
-
+        
     def initialize_experiment_name_view(self):
         """Shows the query frame by default when switching to experiment_name page."""
+        self.ui.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
         self.ui.exp_path_name_query_frame.setVisible(True)
         self.ui.exp_path_name_frame.setVisible(False)
 
@@ -86,11 +87,13 @@ class ExperimentRun(QMainWindow):
 
     def show_exp_path_name_frame(self):
         """Shows exp_path_name_frame and hides exp_path_name_query_frame."""
+        self.ui.exp_path_name_input.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
         self.ui.exp_path_name_query_frame.setVisible(False)
         self.ui.exp_path_name_frame.setVisible(True)
 
     def switch_to_run_page(self):
         """Switches to the run_page when the user confirms or clicks yes."""
+        self.control.save_config_file()
         self.ui.main_view.setCurrentIndex(1)  # Assuming run_page is at index 1
 
     def handle_page_switch(self):
@@ -334,7 +337,6 @@ class ExperimentRun(QMainWindow):
             if filenames:
                 self.control.set_config(probe_id='', key='local_path', value=str(Path(filenames[0])))                
                 self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
-                
                 # Writing the new folder name
                 line_edit.setText(Path(self.control.get_config(probe_id='', key='local_path')).name)
 

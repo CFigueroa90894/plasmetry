@@ -281,9 +281,9 @@ class ExperimentSetup(QMainWindow):
         
        
     def emit_switch_to_settings_signal(self):
-        
         # Emit the signal to switch to the user settings window
         self.switch_to_settings.emit() 
+
 
     def reset_setup(self):
         self.display_alert_message("Resetting Values")

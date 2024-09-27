@@ -43,17 +43,18 @@ class GuiManager():
     def start_signals(self):
         app = QApplication(sys.argv)
         app.setStyle('Windows')
-
+        
+        settings_window= UserSettings
        # sys.excepthook = self.global_exception_handler
         run_window = ExperimentRun(self.control)
-        setup_window = ExperimentSetup(self.control, run_window, UserSettings)
+        setup_window = ExperimentSetup(self.control, run_window, settings_window)
         
         settings_window = UserSettings(self.control, setup_window)
 
         setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
         
-        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close()))
-        run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close()))
+        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close(), settings_window.set_widget_values()))
+        run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close(), setup_window.set_widget_values()))
         settings_window.back_btn_clicked.connect(lambda: (setup_window.show(), settings_window.close()))
 
         setup_window.show()
