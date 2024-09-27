@@ -30,6 +30,8 @@ class ExperimentSetup(QMainWindow):
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window
 
     def __init__(self, control, run_window, settings_window):
+        """ExperimentSetup constructor, initializes subcomponents."""
+
         super().__init__()
         
         # Storing control object reference
