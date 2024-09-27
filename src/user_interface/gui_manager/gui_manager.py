@@ -73,6 +73,12 @@ class GuiManager():
         sys.exit(app.exec_())
     
 if __name__ == "__main__":
+    
+    """Gui manager instantiation and setup is performed here."""
+
+    # Instantiating GuiManager object and the control components
     gui_manager = GuiManager()
+    
+    # Instantiation of GUI components
     gui_manager.start_signals()
    
