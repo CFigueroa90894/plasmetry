@@ -262,14 +262,9 @@ class ControlLayer(AbstractControl):
                 results = self._results.get(timeout=RESULT_TIMEOUT)  # read results from buffer
                 self.say("results obtained")
 
-                # TEMPORARY - DELETE WHEN CALL TO FILE UPLOAD IS IMPLEMENTED
-                self.say(results)
-
-                # TO DO - CALL FILE UPLOAD
                 # Make a single-use FileUpload object
-                
                 uploader = self._file_upload_cls(**self.__file_upload_args())
-                Thread(target=uploader.new_data(results), daemon=False).start()
+                Thread(target=uploader.new_data, args=[results], daemon=False,).start()
 
                 self.__selected_probe = None    # clear probe selection
 
