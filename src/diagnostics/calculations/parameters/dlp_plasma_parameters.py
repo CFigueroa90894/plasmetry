@@ -3,7 +3,7 @@ import sys
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 4            # how many parent folders to reach /plasmetry/src
+    num_dir = 3        # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -31,7 +31,7 @@ def get_ion_saturation_current(parameters):
     
     NOTE: This is a simple and crude way to obtain the value.
     """
-    if parameters['Filtered current (Amperes)']:
+    if len(parameters['Filtered current (Amperes)']) != 0:
     # Storing the ion saturation current.
         parameters['Ion saturation current (Amperes)'] = np.min(parameters['Filtered current (Amperes)'] )
         return
@@ -60,7 +60,7 @@ def get_electron_temperature( parameters):
     filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1'] 
     ion_saturation_current = parameters['Ion saturation current (Amperes)'] 
-    if voltage_list:
+    if len(voltage_list) >0 :
     # Storing the index where the voltage is closest to 0.
         voltage_at_zero_index = np.argmin([abs(i) for i in voltage_list])
     else:
@@ -167,7 +167,7 @@ if __name__ == "__main__":
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
     
     
     # Running each equation
@@ -179,8 +179,8 @@ if __name__ == "__main__":
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
-    keys = parameters_to_display.keys()
+   
     
-    for i in keys: 
-        print(i, ':', parameters_to_display[i])
+    for i in parameters_to_display: 
+        print(i)
         
