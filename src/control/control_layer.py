@@ -116,22 +116,18 @@ class ControlLayer(AbstractControl):
 
         
     # ----- Config Manipulations ----- #
-    # TO DO - Alberto
     def set_config(self, probe_id, key, value) -> Tuple[bool, str]:
         """Mutator function, edits the in memory configuration values."""
         self._config_manager.set_config(probe_id, key, value)
 
-    # TO DO - Alberto
     def get_config(self, probe_id, key) -> any:
         """Accessor function, receives data from the in memory configuration values."""
         return self._config_manager.get_config(probe_id, key)
 
-    # TO DO - Alberto
     def save_config_file(self) -> bool:
         """Config file writer."""
         self._config_manager.save_config_file()
 
-    # TO DO - Alberto
     def load_config_file(self) -> None:
         """Config file loader."""
         self._config_manager.load_config_file()
@@ -139,15 +135,18 @@ class ControlLayer(AbstractControl):
 
     # ----- Control Object Getters ----- #
     def get_status_flags(self) -> StatusFlags:
-        """<...>"""
+        """Returns the status flag control object."""
         return self._status
 
     def get_command_flags(self) -> CommandFlags:
-        """<...>"""
+        """Returns the command flags control object."""
         return self._commands
     
-    def get_real_time_container(self) -> Tuple[dict, Event]:
-        """<...>"""
+    def get_real_time_container(self) -> Tuple[list, Event]:
+        """Returns the real time parameter container and a flag that is set by lower layers when the
+        container has been refreshed with new parameters for display.
+
+        """
         return self._real_time_param, self._commands.refresh
 
 
