@@ -91,7 +91,6 @@ class FileUpload:
         self.say("processing complete.")
         self.status_flags.formatting.clear()
 
-        
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
         self.upload_data()
@@ -105,6 +104,8 @@ class FileUpload:
         
         # Store offsite
         self.offsite_upload()
+
+        self.say("finished")
         
     def local_upload(self):
         """local_upload performs local storage data uploading."""
