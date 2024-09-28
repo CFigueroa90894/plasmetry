@@ -62,7 +62,7 @@ class ControlLayer(AbstractControl):
     def __init__(self,
                  name:str="CTRL",
                  debug:bool=False,
-                 config_fpath="configuration_file.json",
+                 config_pathname="configuration_file.json",
                  buffer_text:bool=False, *args, **kwargs):
         """<...>"""
         # validate if a PrinterThread is needed
@@ -78,7 +78,7 @@ class ControlLayer(AbstractControl):
 
         # save arguments
         self.debug = debug                  # defines printing behavior, default False
-        self.config_pathname = config_fpath
+        self.config_pathname = config_pathname
 
         # create control objects
         self._status = StatusFlags()        # state indicators
