@@ -293,9 +293,11 @@ class ExperimentRun(QMainWindow):
         """Emit signal when back button is clicked."""
         
         if self.running:
+            self.running = False
             self.control.stop_experiment()
             self.stop_timer()
 
+        self.ran = False
         self.back_btn_clicked.emit()  # Emit back signal
         
 
