@@ -60,10 +60,10 @@ BARR_PARTIES = 2    # number of threads that trigger clock barrier, including cl
 class ProbeOperation(BaseThread):
     """The main thread of the Diagnsotics Layer.
     
-    ProbeOperation implements the `AbstractDiagnostics` interface, and inherits utils from
-    `BaseThread`. During diagnostics, the ProbeOperation thread collects data samples from
-    Probe Objects, calculates plasma parameters, updates parameters to display, and aggregates
-    samples as results. When diagnostics halt, results are returned pushed to the results buffer.
+    ProbeOperation inherits its utils from BaseThread. During diagnostics, the ProbeOperation thread
+    collects data samples from Probe Objects, calculates plasma parameters, updates parameters to
+    display, and aggregates samples as results. When diagnostics halt, results are returned and
+    pushed to the results buffer for the upper layers to process.
     
     Attributes:
         + status_flags: `StatusFlags` - system state indicators
@@ -148,7 +148,6 @@ class ProbeOperation(BaseThread):
         self._fail.clear()
 
     # ----- PROBE CONTROL METHODS ----- #
-    # TO DO
     def arm(self, sys_ref, config_ref):
         """Prepares probe operation for impending plasma diagnostic operations. Instantiates probe,
         clock thread, and other control artifacts.
@@ -241,14 +240,11 @@ class ProbeOperation(BaseThread):
                 self.say(traceback.format_exc())
             self._thread_cleanup_()
 
-
-    # TO DO - validate
     def _THREAD_MAIN_(self):
         """Main thread script for ProbeOperation.
         Aggregates results, calculates plasma parameters, updates display values, and sends
         result to the Control Layer.
         """
-        attribute_errors = 0  # count raised attribute errors
         while self.status_flags.operating.is_set() or not self._data_buff.empty():
             try:
                 # get data samples sent by Probe Object through data buffer
@@ -280,19 +276,6 @@ class ProbeOperation(BaseThread):
             except Empty:
                 self.say("data buff empty...")  # log message to file
 
-            # TO DO - DELETE - temporary for basic tests
-            except AttributeError as err:
-                self.say(f"{err} in _THREAD_MAIN_")
-                attribute_errors += 1
-                if attribute_errors >= MAX_ATTR_ERR:
-                    self.say("attribute errors exceeded threshold!")
-                    self._fail.set()    # set flag to True
-                    break
-                else:
-                    self.pause(BUFF_TIMEOUT)
-                    continue
-
-    # TO DO - validate
     # threading setup
     def _thread_setup_(self):
         """Initialize values and perform entry actions for threaded operations."""
@@ -318,7 +301,6 @@ class ProbeOperation(BaseThread):
         else:
             super()._thread_setup_() # basic print from parent
 
-    # TO DO - validate
     # threading cleanup
     def _thread_cleanup_(self):
         """Clear values and perform exit actions after threaded operations."""

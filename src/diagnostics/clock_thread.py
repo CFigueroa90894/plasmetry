@@ -45,11 +45,12 @@ class ClockThread(BaseThread):
         + kill: Event - signal to stop the clock thread
 
     Methods
+        + __init__() - constructor for this class
         + tick() - notify an interval passed, overriden at constructor
         # _debug_tick_() - print at every tick
         # _default_tick() - no prints during ticking
         ^+ run() - called when start() is invoked
-        + pause() - starts a timer but does explicitly wait, redefines parent method
+        + pause() - starts a timer but does not explicitly wait, redefines parent method
         # _THREAD_MAIN_() - main loop
         # _thread_setup_() - prepares clock thread
         # _thread_cleanup() - exit function
