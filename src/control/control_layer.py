@@ -144,7 +144,8 @@ class ControlLayer(AbstractControl):
     
     def get_real_time_container(self) -> Tuple[list, Event]:
         """Returns the real time parameter container and a flag that is set by lower layers when the
-        container has been refreshed with new parameters for display.
+        container has been refreshed with new parameters for display. This only needs to be called
+        once, if the caller stores the reference to the list, because it is updated in place.
 
         """
         return self._real_time_param, self._commands.refresh
