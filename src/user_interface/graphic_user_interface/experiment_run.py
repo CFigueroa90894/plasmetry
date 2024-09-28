@@ -28,6 +28,10 @@ class ExperimentRun(QMainWindow):
         # Instantiating the list used for display, shall be rewritten when new data is available
         self.display_container = []
         
+        
+        # Used to verify if an experiment has ran previously
+        self.ran = False
+        
         # Storing ui view
         self.ui = Ui_experiment_run_view() 
         
@@ -70,6 +74,8 @@ class ExperimentRun(QMainWindow):
         self.ui.confirm_to_run_btn.clicked.connect(self.switch_to_run_page)
         self.ui.exp_path_name_btn.clicked.connect(lambda: self.open_file_dialog(self.ui.exp_path_name_input))
         self.ui.default_exp_path_name_label.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
+        
+        
         
     def initialize_experiment_name_view(self):
         """Shows the query frame by default when switching to experiment_name page."""
@@ -295,8 +301,12 @@ class ExperimentRun(QMainWindow):
 
     def emit_run_signal(self):
         """Emit signal when run button is clicked."""
-
+        
         if not self.running:  # Ensure it only triggers if not already running
+        
+            if self.ran:
+                self.control.setup_experiment(self.selected_probe)
+                
             self.running = True
             
             # Disable run_btn to prevent double clicking
@@ -311,6 +321,7 @@ class ExperimentRun(QMainWindow):
             # Start the experiment and timer
             self.control.start_experiment()
             self.start_timer()
+            self.ran = True
 
         # Setting the run_status_label to running
         self.update_run_status(2)
@@ -347,7 +358,6 @@ class ExperimentRun(QMainWindow):
          """Emit signal when stop button is clicked."""
          self.display_alert_message("Stopping experiment...")
          if self.running:
-            self.running = False
             
             # Disable stop_btn 
             self.ui.stop_btn.setEnabled(False)
@@ -363,3 +373,4 @@ class ExperimentRun(QMainWindow):
             self.update_run_status(0)
 
             self.display_alert_message("Experiment stopped")
+            self.running = False

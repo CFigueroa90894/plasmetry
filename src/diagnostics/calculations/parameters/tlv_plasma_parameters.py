@@ -83,7 +83,13 @@ def get_electron_temperature(parameters):
                                                                bias,
                                                                estimated_guess)
             except TypeError:
-                return 'No Solution Found.'
+                # Storing the electron temperature in eV  as np.nan
+                parameters['Electron temperature (eV)'] = np.nan
+                
+                # Storing the electron temperature in Joules  as np.nan
+                parameters['Electron temperature (Joules)'] = np.nan
+                print( 'No Solution Found.')
+                return
             
             # Storing the next estimated value
             estimated_guess = (estimated_guess - function_output / derivative_output)
@@ -91,6 +97,12 @@ def get_electron_temperature(parameters):
             counter +=1
             
         if counter ==NUMBER_OF_ITERATIONS:
+            
+            # Storing the electron temperature as np.nan
+            parameters['Electron temperature (eV)'] = np.nan
+            
+            # Storing the electron temperature in Joules as np.nan
+            parameters['Electron temperature (Joules)'] = np.nan
             
             return f'After {counter} iterations, no accurate value has been yielded.'
         
@@ -104,7 +116,9 @@ def get_electron_temperature(parameters):
 def get_electron_density(parameters):
     
     """This equation yields electron density in particles per cubic meter."""
-    
+    if np.isnan(parameters['Electron temperature (Joules)']):
+        parameters['Electron density (m-3)'] = np.nan
+        return
     # Configuration object stored, in order to get 'Probe Area'
     config_object = parameters['config_ref']
     probe_area = config_object['Probe area']
@@ -161,11 +175,13 @@ if __name__ == "__main__":
     
     # Storing bias, measured current, and measured voltage to test the implementation.
     parameters['Bias 1'], parameters['Potential difference'] =  40, 32
+    get_electron_temperature(parameters)
+    print(parameters)
     parameters['Raw voltage 1']= [34.4 for i in range(1,10)]
     parameters['Raw voltage 2'] =  [0.005176711239483604 for i in range(1,10)]
     # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26, 'Shunt 1': 1}
-
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26, 'up_shunt': 1}
+    
     
     # Running each equation
     list_of_equations = get_equations()
@@ -176,7 +192,6 @@ if __name__ == "__main__":
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
-    keys = parameters_to_display.keys()
     
-    for i in keys: 
-        print(i, ':', parameters_to_display[i])
+    for i in parameters_to_display: 
+        print(i)
