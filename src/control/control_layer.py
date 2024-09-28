@@ -12,12 +12,11 @@ status: WIP
 import sys
 import os
 
-import datetime
+from threading import Event, Thread     # threading framework
+from queue import Queue, Empty          # data buffering 
 
-from threading import Event, Thread
-from queue import Queue, Empty
-
-from typing import Tuple
+from typing import Tuple                # used for type hints
+import datetime                         # datetime stamp the log file
 
 # ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
