@@ -70,8 +70,15 @@ class ControlLayer(AbstractControl):
                  name:str="CTRL",
                  debug:bool=False,
                  config_pathname="configuration_file.json",
-                 buffer_text:bool=False, *args, **kwargs):
+                 buffer_text:bool=True,
+                 log_text: bool=True,
+                   *args, **kwargs):
         """<...>"""
+        # save arguments
+        self.debug = debug                  # defines printing behavior, default False
+        self.log_text = log_text
+        self.config_pathname = config_pathname
+        
         # validate if a PrinterThread is needed
         if buffer_text:
             self._printer = self.__make_printer()  # create and launch printer thread
@@ -83,9 +90,6 @@ class ControlLayer(AbstractControl):
         # call parent constructor
         super().__init__(*args, name=name, text_out=writer, **kwargs)
 
-        # save arguments
-        self.debug = debug                  # defines printing behavior, default False
-        self.config_pathname = config_pathname
 
         # create control objects
         self._status = StatusFlags()        # state indicators
@@ -194,9 +198,7 @@ class ControlLayer(AbstractControl):
                 self._ready.set()
                 self.say("READY")
                 for eq in self._diagnostics._probe_op._probe.equations:
-                    print(eq)
-                    
-                    
+                    self.say(str(eq))     
             else:
                 raise RuntimeError("Could not set up diagnostics layer!")
 
@@ -209,6 +211,7 @@ class ControlLayer(AbstractControl):
                 - without first calling `setup_experiment()`, or
                 - diagnostics layer is not ready to perform diagnostics, or
                 - diagnostics are already underway
+
         """
         # validate system is not undergoing shutdown
         if self._commands.shutdown.is_set():
@@ -243,6 +246,7 @@ class ControlLayer(AbstractControl):
         Exceptions:
             RuntimeError: `stop_experiment()` was called while:
                 - system was not performing plasma diagnostics, or
+
         """
         # validate diagnostics are being performed
         if not self._commands.diagnose.is_set() and not self._status.operating.is_set():
@@ -270,7 +274,6 @@ class ControlLayer(AbstractControl):
             except Empty:
                 self.say("could not obtain results!")
 
-    # TO DO
     def layer_shutdown(self) -> None:
         """Called by upper layers to initiate a system-wide shutdown.
         
@@ -278,6 +281,7 @@ class ControlLayer(AbstractControl):
         * NOTE: this call blocks until lower layers have terminated to prevent corruption.
         This layer should await until all buffered results are saved to files before terminating
         its subcomponents.
+
         """
         self.say("initiating system-wide shutdown...")
         self._commands.shutdown.set()   # notify all software components must begin shutdown
@@ -350,12 +354,25 @@ class ControlLayer(AbstractControl):
         kill = Event()
         kill.clear()
 
+        printer_output = [None]  # output to default stdout
+
         # create output log file
-        log_name = str(datetime.datetime.now()).replace(':', '_')
-        log = open(f"run_logs/LOG_{log_name}.txt", 'a')
+        if self.log_text:
+            log_time = str(datetime.datetime.now()).replace(':', '_')
+            src_path = os.path.dirname(__file__)
+
+            log_fold = "../../run_logs"
+            log_fold = os.path.abspath(f"{src_path}/{log_fold}")
+            if not os.path.exists(log_fold):
+                os.mkdir(log_fold)
+
+            log_name = f"LOG_{log_time}.txt"
+            log_path = os.path.abspath(f"{log_fold}/{log_name}")
+            log = open(log_path, 'a')
+
+            printer_output.append(log)
 
         # create and launch printer thread
-        printer_output = [None, log]  # output to default stdout and log file
         printer = PrinterThread(kill=kill, text_out=printer_output)  # create thread
         printer.start()  # launch thread
 
