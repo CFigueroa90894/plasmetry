@@ -6,16 +6,7 @@ Layer 2 - Control - Concrete Implementation
 author: figueroa_90894@students.pupr.edu
 status: WIP
     - add docstrings
-    - add call to file upload in 'stop_experiment()'
     - update configuration file name in __init__()
-    - decide if we should wait for file upload to complete before shutting down or it should be left
-        running in the background (and add or remove its call in layer_shutdown())
-    - integrate with config manager and file upload from separate branch 
-    - verify names of subcomponent files and their classes
-    - add specific args to components instantiation
-    - validate with team
-
-    - time permitting, implement rerouting of stderr to printer thread
 """
 
 # built-in imports
@@ -71,6 +62,7 @@ class ControlLayer(AbstractControl):
     def __init__(self,
                  name:str="CTRL",
                  debug:bool=False,
+                 config_fpath="configuration_file.json",
                  buffer_text:bool=False, *args, **kwargs):
         """<...>"""
         # validate if a PrinterThread is needed
@@ -86,6 +78,7 @@ class ControlLayer(AbstractControl):
 
         # save arguments
         self.debug = debug                  # defines printing behavior, default False
+        self.config_pathname = config_fpath
 
         # create control objects
         self._status = StatusFlags()        # state indicators
@@ -112,9 +105,7 @@ class ControlLayer(AbstractControl):
         self._ready.clear()
         self._terminated.clear()
 
-        # TO DO - UPDATE NAMES WHEN IMPLEMENTED
         self.__selected_probe = None
-        self.__previous_config_pathname = "configuration_file.json"
 
         
     # ----- Config Manipulations ----- #
@@ -290,12 +281,6 @@ class ControlLayer(AbstractControl):
         else:
             self.say("experiment is already halted.")
 
-        # TO DO - ADD WAITS UNTIL TRANSMISSION IS COMPLETE - or should it leave the upload running
-        # in the background?
-        # destroying file output and data formatting doesn't seem like a good idea
-        # wait for file output to finish
-        # <...wait for stuff...>
-
         self._diagnostics.layer_shutdown()  # terminate lower layers
 
         # validate diagnostics layer terminated
@@ -310,9 +295,7 @@ class ControlLayer(AbstractControl):
             self._printer.kill.set()    # stop printer thread
             self._printer.join()        # wait for printer thread to exit
 
-            # TO DO - RESTORE STDERR - if it was overriden
-
-        self._terminated.set()
+        self._terminated.set()          # indicate layer has finished shutting down
     
 
     # ----- Layer Specific Utils ----- #
@@ -404,6 +387,6 @@ class ControlLayer(AbstractControl):
             "text_out": self._say_obj,
             "status_flags": self._status,
             "command_flags": self._commands,
-            "path_name": 'configuration_file.json'
+            "path_name": self.config_pathname
         }
         return args
