@@ -1,0 +1,2 @@
+probe_id,selected_gas,sampling_rate,dac_min,dac_max,num_samples,sweep_min,sweep_max,sweep_amp_min,sweep_amp_max,sweeper_shunt,collector_gain,Probe area,Shunt 1,Particle mass
+dlp,argon,50,0.56,4.0,50,-300.0,300.0,-300.0,300.0,200.0,1.0,1.0,200,6.63588e-26

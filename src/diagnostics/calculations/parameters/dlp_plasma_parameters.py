@@ -3,7 +3,7 @@ import sys
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 4            # how many parent folders to reach /plasmetry/src
+    num_dir = 3        # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -19,8 +19,7 @@ import numpy as np
 from global_parameters import (
     filter_current,
     get_debye_length,
-    get_number_of_electrons,
-    get_display_parameters
+    get_number_of_electrons
 )
 
 
@@ -32,31 +31,42 @@ def get_ion_saturation_current(parameters):
     
     NOTE: This is a simple and crude way to obtain the value.
     """
-    
+    if len(parameters['Filtered current (Amperes)']) != 0:
     # Storing the ion saturation current.
-    parameters['Ion saturation current'] = np.min(parameters['Filtered current'] )
+        parameters['Ion saturation current (Amperes)'] = np.min(parameters['Filtered current (Amperes)'] )
+        return
+    parameters['Ion saturation current (Amperes)'] = np.nan
    
     
 def get_electron_temperature( parameters):
     
     """This function calculates the electron temperature in both Joules and electron volts.
     
-    The value of  the derivative of the I-V values where the voltage applied is 0 is used 
+    The value of  the derivative in the I-V curve where the voltage applied is 0 is used 
     
     to calculate electron temperature, yet it is possible that the voltage applied is never 0, 
     
     thus the value closet to 0 shall be used. 
     """
+    if np.isnan(parameters['Ion saturation current (Amperes)']):
+        parameters['Electron temperature (eV)'] = np.nan
+        parameters['Electron temperature (Joules)'] = np.nan
+        return
+        
     # Storing the charge of the electron particle, since it shall be used for calculation
     ELECTRON_CHARGE = 1.60217657e-19
     
     # Storing parameters used for calculations
-    filtered_current_list = parameters['Filtered current'] 
+    filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1'] 
-    ion_saturation_current = parameters['Ion saturation current'] 
-    
+    ion_saturation_current = parameters['Ion saturation current (Amperes)'] 
+    if len(voltage_list) >0 :
     # Storing the index where the voltage is closest to 0.
-    voltage_at_zero_index = np.argmin(abs(voltage_list))
+        voltage_at_zero_index = np.argmin([abs(i) for i in voltage_list])
+    else:
+        parameters['Electron temperature (eV)'] = np.nan
+        parameters['Electron temperature (Joules)'] = np.nan
+        return
     
     # Storing the derivative of the I-V values.
     I_V_derivative = np.gradient(filtered_current_list, voltage_list )
@@ -72,7 +82,10 @@ def get_electron_temperature( parameters):
 def get_electron_density(parameters):
     
     """This function yields the electron density in Kilograms per cubic meter. """ 
-    
+    if np.isnan(parameters['Electron temperature (Joules)']):
+        parameters['Electron density (m-3)'] = np.nan
+        return
+        
     # Storing the charge of the electron particle, since it shall be used for calculation
     ELECTRON_CHARGE = 1.60217657e-19
     
@@ -83,10 +96,25 @@ def get_electron_density(parameters):
     
     # Acquiring electron density 
     square_root_term =  np.sqrt(ion_mass / parameters['Electron temperature (Joules)'])
-    parameters['Electron density'] = abs(parameters['Ion saturation current'] / \
+    parameters['Electron density (m-3)'] = abs(parameters['Ion saturation current (Amperes)'] / \
                                         (ELECTRON_CHARGE *  probe_area) * \
                                         (square_root_term * np.exp(0.5)))
 
+
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters['Ion saturation current (Amperes)'])
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Electron density (m-3)'])
+    display_parameters.append(parameters['Debye length (Meters)'])
+    display_parameters.append(parameters['Number of electrons'])
+
+    return display_parameters
 
 def get_equations():
     
@@ -140,7 +168,7 @@ if __name__ == "__main__":
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
     
     
     # Running each equation
@@ -152,8 +180,8 @@ if __name__ == "__main__":
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
-    keys = parameters_to_display.keys()
+   
     
-    for i in keys: 
-        print(i, ':', parameters_to_display[i])
+    for i in parameters_to_display: 
+        print(i)
         

@@ -37,13 +37,13 @@ def filter_current(parameters):
     Outputs:
         filteredSignal = signal after being processed by a butterworth digital filter.
     """
+
     
     sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
     
     filteredSignal = np.array(signal.sosfiltfilt(sos, parameters['Raw voltage 1']))
-    
-    parameters['Filtered current'] = filteredSignal / parameters['config_ref']['Shunt 1']
- 
+   
+    parameters['Filtered current (Amperes)'] = filteredSignal / parameters['config_ref']['sweeper_shunt']
     
 def get_display_parameters(parameters):
     
@@ -51,24 +51,20 @@ def get_display_parameters(parameters):
     
     Intended for all probe parameters."""
     
-    display_parameters = ProtectedDictionary(parameters)
-    
-    if 'Bias 1' in parameters:
-        if  not isinstance(parameters['Bias 1'], int):
-            del display_parameters['Bias 1']
-            del display_parameters['Filtered current']
-        else:
-            del display_parameters['Raw voltage 2']
-            
-    del display_parameters['Raw voltage 1']
-    del display_parameters['config_ref']
-    return display_parameters
+    display_parameters = []
 
+    display_parameters.append(parameters['Particle saturation current (Amperes)'])
+    display_parameters.append(parameters['Particle temperature (eV)'])
+    display_parameters.append(parameters['Particle temperature (Joules)'])
+    display_parameters.append(parameters['Particle density (m-3)'])
+    
+    return display_parameters
 
 def get_debye_length(parameters):
     
     """DLP and SLP Debye length is calculated from this function in meters."""
-    
+    if np.isnan(parameters['Electron temperature (Joules)']):
+        parameters['Debye length (Meters)'] = np.nan
     # Storing the charge of the electron particle in Coulumb
     ELECTRON_CHARGE = 1.60217657e-19
     
@@ -76,23 +72,26 @@ def get_debye_length(parameters):
     EPSILON_NAUGHT= 8.854e-12
     
     # Acquiring Debye length
-    parameters['Debye length'] = np.sqrt(2 * EPSILON_NAUGHT *  \
+    parameters['Debye length (Meters)'] = np.sqrt(2 * EPSILON_NAUGHT *  \
                                          parameters['Electron temperature (Joules)'] /  \
-                                        (parameters['Electron density'] * ELECTRON_CHARGE ** 2))
+                                        (parameters['Electron density (m-3)'] * ELECTRON_CHARGE ** 2))
 
-
+ 
 def get_number_of_electrons(parameters):
     
     """DLP and SLP number of particles in the debye sphere is yielded from this function."""
     
+    if np.isnan(parameters['Debye length (Meters)']) or np.isnan(parameters['Electron density (m-3)']): 
+        parameters['Number of electrons'] =  np.nan
+        return None
     # Obtaining the number of electrons in the debye sphere 
-    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length'] * \
-                                            parameters['Electron density'])
-
-
+    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length (Meters)'] * \
+                                            parameters['Electron density (m-3)'])
+        
+        
 def get_particle_density(parameters):
     
-    """This function yields the density for SLP, HEA, and IEA, in Kilograms per cubic meter.
+    """This function yields the density for SLP, HEA, and IEA, in particles per cubic meter.
     
     If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
     
@@ -108,24 +107,24 @@ def get_particle_density(parameters):
     particle_mass =  config_object['Particle mass']
     
     # Verifying the argument keys in order to store variables
-    if  'Electron saturation current' in parameters:
-        particle_saturation_current = parameters['Electron saturation current']
+    if  'Electron saturation current (Amperes)' in parameters:
+        particle_saturation_current = parameters['Electron saturation current (Amperes)']
         particle_temperature = parameters['Electron temperature (Joules)'] 
-     
+    
     else:
         particle_temperature = parameters['Particle temperature (Joules)']
-        particle_saturation_current = parameters['Particle saturation current']
+        particle_saturation_current = parameters['Particle saturation current (Amperes)']
         
     # Acquiring electron density
-    parameters['Particle density'] =  abs(particle_saturation_current / \
+    parameters['Particle density (m-3)'] =  abs(particle_saturation_current / \
                                          (ELECTRON_CHARGE * probe_area * \
                                           np.sqrt(abs(particle_temperature / \
                                          (np.pi * particle_mass * 2)))))
    
     # Deleting the temporary key created for SLP
-    if  'Electron saturation current' in parameters:
-       parameters['Electron density'] = parameters['Particle density']
-       del parameters['Particle density']
+    if  'Electron saturation current (Amperes)' in parameters:
+       parameters['Electron density (m-3)'] = parameters['Particle density (m-3)']
+       del parameters['Particle density (m-3)']
        
        
        
@@ -134,12 +133,12 @@ def get_particle_saturation_current(parameters):
     """This function yields the saturation current for HEA and IEA."""
     
     # Storing parameters used for calculations
-    filtered_current = parameters['Filtered current']
+    filtered_current = parameters['Filtered current (Amperes)']
     bias = parameters['Bias 1']
     
     # Storing the charged particle saturation current
     saturation_index = np.argmin(abs(np.gradient(filtered_current, bias)))
-    parameters['Particle saturation current'] = filtered_current[saturation_index]
+    parameters['Particle saturation current (Amperes)'] = filtered_current[saturation_index]
        
     
 def get_plasma_potential(parameters):
@@ -147,7 +146,7 @@ def get_plasma_potential(parameters):
     """HEA and IEA plasma potential is yielded by the applied bias where dI/dV = 0"""
     
     # Storing I-V values
-    filtered_current_list = parameters['Filtered current'] 
+    filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1']
     
     # Storing dI/dV
@@ -157,7 +156,7 @@ def get_plasma_potential(parameters):
     parameters['Plasma potential index'] = np.argmin(abs(derivative))
     
     # Storing the plasma potential
-    parameters['Plasma potential'] = voltage_list[parameters['Plasma potential index']]
+    parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
 
     
 def get_particle_temperature(parameters):
@@ -174,7 +173,7 @@ def get_particle_temperature(parameters):
     
     # Storing parameters used to calculate temperature
     plasma_potential_index = parameters['Plasma potential index']
-    filtered_current_list = parameters['Filtered current'] 
+    filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1']
     
     # Storing the derivative of the ln(I)-V values

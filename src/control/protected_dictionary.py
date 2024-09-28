@@ -43,6 +43,14 @@ class ProtectedDictionary:
         with self.__thread_lock:
             self.__validate_readable()
             return self.__dict.keys()
+        
+    def values(self):
+        """<...>
+        <guarantees mutual exclusion>
+        <usage: obj.values()>"""
+        with self.__thread_lock:
+            self.__validate_readable()
+            return self.__dict.values()
     
     def copy(self):
         """<...>"""
@@ -109,6 +117,15 @@ class ProtectedDictionary:
                 value = ProtectedDictionary(value)
             elif isinstance(value, dict):
                 value = self.__deep_copy_dict(value)
+            new[key] = value
+        return new
+    
+    def __dict__(self) -> dict:
+        new = {}
+        for key in self.__dict.keys():  # manually add each key-value pair to new dictionary, overriding existing values
+            value = self.__dict[key]
+            if isinstance(value, [ProtectedDictionary, dict]):  # if the argument is a dictionary, recursively copy its contents
+                value = dict(value)
             new[key] = value
         return new
 

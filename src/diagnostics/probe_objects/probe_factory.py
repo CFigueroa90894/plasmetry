@@ -160,7 +160,7 @@ class ProbeFactory:
         probe_args["probe_id"] = probe_type
         probe_args["equations"] = self.calculations_factory(probe_type, self.config)
         probe_args["name"] = probe_name
-        probe_args["text_out"] = config_ref["text_out"]
+        #probe_args["text_out"] = config_ref["text_out"]
         
         # Initialize and return Probe Object using packed arguments.
         return Probe_Class(**probe_args)

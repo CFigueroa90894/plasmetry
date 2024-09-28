@@ -49,6 +49,7 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 from base_thread import BaseThread
 from protected_dictionary import ProtectedDictionary
 from clock_thread import ClockThread
+from probe_enum import PRB
 
 
 # Constants - local config
@@ -157,7 +158,7 @@ class ProbeOperation(BaseThread):
         self._config_ref = config_ref
 
         # extract config
-        probe_id = config_ref["probe_id"]
+        probe_id = PRB(config_ref["probe_id"])
         sampling_rate = config_ref["sampling_rate"]
 
         # initialize synchronization objects
@@ -220,7 +221,7 @@ class ProbeOperation(BaseThread):
             self._probe.equations[eq_index](params)    # in-place operations
 
         # last calculation returns parameters specifically for display
-        display_params = self._probe.equation[-1](params)
+        display_params = self._probe.equations[-1](params)
         
         # cleanup
         self.status_flags.calculating.clear()   # indicate calculations are completed
@@ -262,8 +263,16 @@ class ProbeOperation(BaseThread):
                 if self.calculate:
                     params, display_params = self._calculate_params(samples)  # perform all calculations
 
+
                     # update real-time parameter container for display
+                    """ DISABLED FOR DEBUG
                     self.real_time_param.update(display_params) # read by UI layer
+                    """
+                    ###### DEBUG ######
+                    if not self.command_flags.refresh.is_set():
+                        self.real_time_param.clear()
+                        self.real_time_param.extend(display_params)
+                    ###################
                     self.command_flags.refresh.set()            # indicate new data for display
                     self._aggregate_samples.append(params)      # append new samples
                 

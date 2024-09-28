@@ -14,8 +14,9 @@ TOLERANCE = 1e-5
 def filter_current(parameters):
     
     parameters['Potential difference'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    raw_current = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
-    parameters['Filtered current'] = raw_current / parameters['config_ref']['Shunt 1']
+    del parameters['Raw voltage 2']
+    parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
+    parameters['Filtered current (Amperes)'] = parameters['Raw voltage 1'] / parameters['config_ref']['up_shunt']
     
 def iteration(potential_difference, bias, estimated_guess):
     
@@ -57,46 +58,47 @@ def get_electron_temperature(parameters):
     potential_difference = parameters['Potential difference']
     
     bias =  parameters['Bias 1']
-    
-    # Storing the counter, shall be used to know the number of iterations
-    counter = 0
-    
-    # Variable storing the previous guess at the beginning of each iteration
-    previous_guess = 0
-   
-    # Storing initial guess for Newton-Raphson approximation iterations
-    estimated_guess = np.log(2) / (bias - potential_difference)
-    
-    # The Newton-Raphson approximation iterations occur in this while loop
-    while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
+    if bias and potential_difference:
         
-        # Storing previous guess, to compare with the final value of each iteration
-        previous_guess = estimated_guess
+        # Storing the counter, shall be used to know the number of iterations
+        counter = 0
         
-        # Try/except clause to verify if the derivative is not 0.
-        # If derivative == 0, exiting function
-        try:
+        # Variable storing the previous guess at the beginning of each iteration
+        previous_guess = 0
+       
+        # Storing initial guess for Newton-Raphson approximation iterations
+        estimated_guess = np.log(2) / (bias - potential_difference)
+        
+        # The Newton-Raphson approximation iterations occur in this while loop
+        while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
             
-            function_output, derivative_output = iteration(potential_difference, 
-                                                           bias,
-                                                           estimated_guess)
-        except TypeError:
-            return 'No Solution Found.'
+            # Storing previous guess, to compare with the final value of each iteration
+            previous_guess = estimated_guess
+            
+            # Try/except clause to verify if the derivative is not 0.
+            # If derivative == 0, exiting function
+            try:
+                
+                function_output, derivative_output = iteration(potential_difference, 
+                                                               bias,
+                                                               estimated_guess)
+            except TypeError:
+                return 'No Solution Found.'
+            
+            # Storing the next estimated value
+            estimated_guess = (estimated_guess - function_output / derivative_output)
+            
+            counter +=1
+            
+        if counter ==NUMBER_OF_ITERATIONS:
+            
+            return f'After {counter} iterations, no accurate value has been yielded.'
         
-        # Storing the next estimated value
-        estimated_guess = (estimated_guess - function_output / derivative_output)
+        # Storing the electron temperature in eV
+        parameters['Electron temperature (eV)'] = 1/estimated_guess
         
-        counter +=1
-        
-    if counter ==NUMBER_OF_ITERATIONS:
-        
-        return f'After {counter} iterations, no accurate value has been yielded.'
-    
-    # Storing the electron temperature in eV
-    parameters['Electron temperature (eV)'] = 1/estimated_guess
-    
-    # Storing the electron temperature in Joules
-    parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE *  parameters['Electron temperature (eV)']
+        # Storing the electron temperature in Joules
+        parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE *  parameters['Electron temperature (eV)']
 
 
 def get_electron_density(parameters):
@@ -116,15 +118,26 @@ def get_electron_density(parameters):
                                   electron_temperature))
                                  
     # Since the density formula is composed of a division, yielding the numerator and denominator
-    numerator_of_equation= abs( parameters['Filtered current']  * exponential_term)
+    numerator_of_equation= abs( parameters['Filtered current (Amperes)']  * exponential_term)
     
     denominator_of_equation = abs(0.61 * probe_area * ELECTRON_CHARGE * \
                                   np.sqrt(electron_temperature / ion_mass) * \
                                  (1 - exponential_term))
     
     # Storing electron density
-    parameters['Electron density'] = numerator_of_equation / denominator_of_equation
+    parameters['Electron density (m-3)'] = numerator_of_equation / denominator_of_equation
     
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Electron density (m-3)'])
+
+    return display_parameters
 
 def get_equations():
     
@@ -148,8 +161,8 @@ if __name__ == "__main__":
     
     # Storing bias, measured current, and measured voltage to test the implementation.
     parameters['Bias 1'], parameters['Potential difference'] =  40, 32
-    parameters['Raw voltage 2']= [34.4 for i in range(1,10)]
-    parameters['Raw voltage 1'] =  [0.005176711239483604 for i in range(1,10)]
+    parameters['Raw voltage 1']= [34.4 for i in range(1,10)]
+    parameters['Raw voltage 2'] =  [0.005176711239483604 for i in range(1,10)]
     # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26, 'Shunt 1': 1}
 

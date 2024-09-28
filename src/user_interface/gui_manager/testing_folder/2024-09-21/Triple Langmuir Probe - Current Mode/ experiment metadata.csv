@@ -1,0 +1,2 @@
+probe_id,selected_gas,sampling_rate,dac_min,dac_max,up_amp_min,up_amp_max,up_amp_bias,up_collector_gain,up_shunt,down_amp_min,down_amp_max,down_amp_bias,down_collector_gain,down_shunt,num_samples,Probe area,Shunt 1,Shunt 2,Particle mass
+tlc,argon,0.5,0.0,4.0,-300.0,300.0,10.0,1.0,200,-300.0,300.0,10.0,1.0,200.0,50,1.0,200,200,6.63588e-26

@@ -3,7 +3,7 @@ import sys
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 4            # how many parent folders to reach /plasmetry/src
+    num_dir = 3            # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -20,8 +20,7 @@ from global_parameters import (
     filter_current,
     get_debye_length,
     get_number_of_electrons,
-    get_particle_density,
-    get_display_parameters
+    get_particle_density
 )
     
 
@@ -37,12 +36,12 @@ def get_floating_and_plasma_potential(parameters):
     """
     
     # Storing filtered current and applied bias 
-    filtered_current_list = parameters['Filtered current'] 
+    filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list = parameters['Bias 1']
 
     # Storing the index of the floating potential and its value
     parameters['Floating potential index'] = np.argmin(abs(filtered_current_list)) 
-    parameters['Floating potential'] = voltage_list[parameters['Floating potential index']]
+    parameters['Floating potential (Volts)'] = voltage_list[parameters['Floating potential index']]
     
 
     """The plasma potential may be yielded from the value of the voltage where the 
@@ -56,11 +55,11 @@ def get_floating_and_plasma_potential(parameters):
     
     # Storing the index of the plasma potential and its value
     parameters['Plasma potential index'] = np.argmin(second_derivative)
-    parameters['Plasma potential'] = voltage_list[parameters['Plasma potential index']]
+    parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
     
     # If the calculated plasma potential is negative,
     # biases entered or data captured does not produce expected sigmoid.
-    if parameters['Plasma potential'] <= 0: 
+    if parameters['Plasma potential (Volts)'] <= 0: 
         return 'This sweep is not valid'
     
     
@@ -77,7 +76,7 @@ def get_electron_saturation_current(parameters):
     saturation_index = parameters['Plasma potential index']
     
     # Storing the current acquired at the plasma potential, A.K.A the electron saturation current
-    parameters['Electron saturation current'] = parameters['Filtered current'][saturation_index]
+    parameters['Electron saturation current (Amperes)'] = parameters['Filtered current (Amperes)'][saturation_index]
 
 
 def get_electron_temperature(parameters):
@@ -87,19 +86,15 @@ def get_electron_temperature(parameters):
     and  Joules is calculated by the slp_electron_temperature function.
     """
     
-    """Electron temperature is be yielded from the inverse value of the slope of the ln(I)-V values
+    """Electron temperature is to be yielded from the inverse value of the slope of the ln(I)-V values 
     
-    between the floating and plasma potential.
+    between the floating and plasma potential. Since the plasma potential and floating potential are yielded 
     
-    Since the plasma potential and floating potential are yielded as approximations,
+    as approximations, the starting and final point used to calculate the slope of the ln(I)-V graph were chosen
     
-    the starting and final point used to calculate the slope of the ln(I)-V graph were chosen 
+    between the plasma and floating potential since these points shall be in the line that is formed in the ln(I)-V graph.
     
-    between the acquired plasma and floating potential since these points shall be within the line
-    
-    that is formed between the floating potential and plasma potential of the ln(I)-V graph,
-    
-    thus ensuring the calculations are based on the expected slope.
+    This decision was made to ensure the calculations are based on the expected slope.
     """
        
     # Storing the charge of the electron particle, since it shall be used for calculation
@@ -117,8 +112,8 @@ def get_electron_temperature(parameters):
     final_index= int(np.ceil(points_number * 0.75 )) + parameters['Floating potential index']
    
     # To calculate the slope, the numerator and denominator shall be acquired.
-    numerator_of_slope = np.log(parameters['Filtered current'][final_index]) - \
-    np.log(abs(parameters['Filtered current'] [starting_index]))
+    numerator_of_slope = np.log(parameters['Filtered current (Amperes)'][final_index]) - \
+    np.log(abs(parameters['Filtered current (Amperes)'] [starting_index]))
     denominator_of_slope = parameters['Bias 1'][final_index] - parameters['Bias 1'][starting_index]
     
     # Denominator / numerator is being performed 
@@ -128,6 +123,23 @@ def get_electron_temperature(parameters):
     # yields the electron temperature in Joules
     parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * ELECTRON_CHARGE
 
+
+def get_display_parameters(parameters):
+    
+    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    
+    Intended for all probe parameters."""
+    display_parameters = []
+    display_parameters.append(parameters['Floating potential (Volts)'])
+    display_parameters.append(parameters['Plasma potential (Volts)'])
+    display_parameters.append(parameters['Electron saturation current (Amperes)'])
+    display_parameters.append(parameters['Electron temperature (eV)'])
+    display_parameters.append(parameters['Electron temperature (Joules)'])
+    display_parameters.append(parameters['Electron density (m-3)'])
+    display_parameters.append(parameters['Debye length (Meters)'])
+    display_parameters.append(parameters['Number of electrons'])
+
+    return display_parameters
 
 def get_equations():
 
@@ -147,6 +159,7 @@ def get_equations():
     list_of_references.append(get_debye_length)
     list_of_references.append(get_number_of_electrons)
     list_of_references.append(get_display_parameters)
+    
     return list_of_references
 
 
@@ -183,20 +196,20 @@ if __name__ == "__main__":
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
     
     # Running each equation
     list_of_equations = get_equations()
     
-    for i in list_of_equations[:len(list_of_equations)-1]:
+    for i in list_of_equations:
         i(parameters)
     
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
-    keys = parameters_to_display.keys()
     
-    for i in keys: 
-        print(i, ':', parameters_to_display[i])
+    for i in parameters_to_display: 
+        
+        print(parameters_to_display)
         
    
