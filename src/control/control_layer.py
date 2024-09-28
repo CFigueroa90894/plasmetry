@@ -307,7 +307,10 @@ class ControlLayer(AbstractControl):
 
     # ----- Layer Specific Utils ----- #
     def _info(self) -> list:
-        """<...>"""
+        """Return info about the instantiated layer's subcomponents, including lower layers.
+        Used for debugging system integration.
+
+        """
         sub = [
             ("Control", "File Upload", str(self._file_upload)),
             ("Control", "Config Manager", str(self._config_manager)),
@@ -317,7 +320,7 @@ class ControlLayer(AbstractControl):
         return sub
         
     def _load_all_subcomponents(self) -> dict:
-        """<...>"""
+        """Returns a dictionary with all the subcomponent classes corresponding to this layer."""
         # load subcomponent modules
         file_upload_mod = self._load_mod(self.file_upload_mod)
         config_manager_mod = self._load_mod(self.config_manager_mod)
@@ -339,7 +342,10 @@ class ControlLayer(AbstractControl):
         return classes
     
     def __make_printer(self):
-        """<...>"""
+        """Returns a running PrinterThread object. Creates a log file to and configures the 
+        PrinterThread to output to stdout and the file. Instantiates and starts the PrinterThread.
+
+        """
         # create kill switch for PrinterThread
         kill = Event()
         kill.clear()
@@ -360,7 +366,7 @@ class ControlLayer(AbstractControl):
         return printer
 
     def __diagnostics_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the DiagnosticsLayer object."""
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
@@ -371,9 +377,8 @@ class ControlLayer(AbstractControl):
         }
         return args
     
-    # TO DO - add specific args
     def __file_upload_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the FileUpload object."""
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
@@ -387,9 +392,8 @@ class ControlLayer(AbstractControl):
         }
         return args
     
-    # TO DO - add specific args
     def __config_manager_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the ConfigManager object."""
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
