@@ -42,7 +42,7 @@ def get_electron_temperature( parameters):
     
     """This function calculates the electron temperature in both Joules and electron volts.
     
-    The value of  the derivative of the I-V values where the voltage applied is 0 is used 
+    The value of  the derivative in the I-V curve where the voltage applied is 0 is used 
     
     to calculate electron temperature, yet it is possible that the voltage applied is never 0, 
     
@@ -66,6 +66,7 @@ def get_electron_temperature( parameters):
     else:
         parameters['Electron temperature (eV)'] = np.nan
         parameters['Electron temperature (Joules)'] = np.nan
+        return
     
     # Storing the derivative of the I-V values.
     I_V_derivative = np.gradient(filtered_current_list, voltage_list )
