@@ -67,7 +67,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         # _probe_op_cls: uninstantiated probe operation class
         # _probe_op: instantiated probe operation object, created on diagnostics setup
         # _ready: flag, indicating the layer is ready to perform diagnostics
-        # _terminated: flag, indicatting the layer has shutdown
+        # _terminated: flag, indicating the layer has shutdown
         # _performing_diagnostics: local flag, set when diagnostics begin
 
     Layer Setup:
@@ -169,7 +169,6 @@ class DiagnosticsLayer(AbstractDiagnostics):
 
     # ----- LAYER PUBLIC METHODS ----- #
 
-    # TO DO
     # User confirms config and prepares to begin experiment
     def setup_diagnostics(self, sys_ref:dict, config_ref:dict):
         """Called by upper layers to prepare the diagnostic layer for plasma diagnostic operations.
@@ -219,7 +218,6 @@ class DiagnosticsLayer(AbstractDiagnostics):
             else:
                 raise RuntimeError("Could not arm Probe Operation!")
     
-    # TO DO
     def start_diagnostics(self):
         """Called by upper layers to trigger plasma diagnostics operations in this layer.
 
@@ -256,12 +254,11 @@ class DiagnosticsLayer(AbstractDiagnostics):
             self._ready.clear()             # cannot be ready for diagnostics while already underway
             self._performing_diagnostics.set()  # set local state
     
-    # TO DO
     def stop_diagnostics(self):
         """Called by upper layers to halt plasma diagnostics operations in this layer.
         
         This layer will attempt to complete all pending operations, including data sampling, 
-        parameter calculations, and aggregating results, and passing them to the upper layer before
+        parameter calculations, aggregating results, then passes them to the upper layer before
         it returns to its idle state.
         
         Exceptions:
@@ -283,11 +280,10 @@ class DiagnosticsLayer(AbstractDiagnostics):
             self.say("ProbeOperation exited")
             self._performing_diagnostics.clear()  # reset local state indicator
 
-    # TO DO
     def layer_shutdown(self):
-        """Called by upper layers to initiates this layer's shutdown process.
+        """Called by upper layers to initiate this layer's shutdown process.
         
-        This Diagnostic Layer will attempt to complete all pending operations before finally
+        The Diagnostic Layer will attempt to complete all pending operations before finally
         terminating all its subcomponents.
 
         * NOTE: this call blocks until the diagnostic layer has terminated to prevent corruption.
@@ -349,7 +345,6 @@ class DiagnosticsLayer(AbstractDiagnostics):
         }
         return classes
     
-    # TO DO
     def _info(self):
         """Return info about the instantiated layer's subcomponents.
         
