@@ -31,9 +31,11 @@ def get_ion_saturation_current(parameters):
     
     NOTE: This is a simple and crude way to obtain the value.
     """
-    
+    if parameters['Filtered current (Amperes)']:
     # Storing the ion saturation current.
-    parameters['Ion saturation current (Amperes)'] = np.min(parameters['Filtered current (Amperes)'] )
+        parameters['Ion saturation current (Amperes)'] = np.min(parameters['Filtered current (Amperes)'] )
+        return
+    parameters['Ion saturation current (Amperes)'] = np.nan
    
     
 def get_electron_temperature( parameters):
@@ -46,6 +48,11 @@ def get_electron_temperature( parameters):
     
     thus the value closet to 0 shall be used. 
     """
+    if np.isnan(parameters['Ion saturation current (Amperes)']):
+        parameters['Electron temperature (eV)'] = np.nan
+        parameters['Electron temperature (Joules)'] = np.nan
+        return
+        
     # Storing the charge of the electron particle, since it shall be used for calculation
     ELECTRON_CHARGE = 1.60217657e-19
     
@@ -54,11 +61,11 @@ def get_electron_temperature( parameters):
     voltage_list =  parameters['Bias 1'] 
     ion_saturation_current = parameters['Ion saturation current (Amperes)'] 
     if voltage_list:
-        
     # Storing the index where the voltage is closest to 0.
         voltage_at_zero_index = np.argmin([abs(i) for i in voltage_list])
     else:
-        voltage_at_zero_index = 1
+        parameters['Electron temperature (eV)'] = np.nan
+        parameters['Electron temperature (Joules)'] = np.nan
     
     # Storing the derivative of the I-V values.
     I_V_derivative = np.gradient(filtered_current_list, voltage_list )
@@ -74,7 +81,10 @@ def get_electron_temperature( parameters):
 def get_electron_density(parameters):
     
     """This function yields the electron density in Kilograms per cubic meter. """ 
-    
+    if np.isnan(parameters['Electron temperature (Joules)']):
+        parameters['Electron density (m-3)'] = np.nan
+        return
+        
     # Storing the charge of the electron particle, since it shall be used for calculation
     ELECTRON_CHARGE = 1.60217657e-19
     

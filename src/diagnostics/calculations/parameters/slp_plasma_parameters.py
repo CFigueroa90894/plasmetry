@@ -3,7 +3,7 @@ import sys
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 4            # how many parent folders to reach /plasmetry/src
+    num_dir = 3            # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -86,19 +86,15 @@ def get_electron_temperature(parameters):
     and  Joules is calculated by the slp_electron_temperature function.
     """
     
-    """Electron temperature is be yielded from the inverse value of the slope of the ln(I)-V values
+    """Electron temperature is to be yielded from the inverse value of the slope of the ln(I)-V values 
     
-    between the floating and plasma potential.
+    between the floating and plasma potential. Since the plasma potential and floating potential are yielded 
     
-    Since the plasma potential and floating potential are yielded as approximations,
+    as approximations, the starting and final point used to calculate the slope of the ln(I)-V graph were chosen
     
-    the starting and final point used to calculate the slope of the ln(I)-V graph were chosen 
+    between the plasma and floating potential since these points shall be in the line that is formed in the ln(I)-V graph.
     
-    between the acquired plasma and floating potential since these points shall be within the line
-    
-    that is formed between the floating potential and plasma potential of the ln(I)-V graph,
-    
-    thus ensuring the calculations are based on the expected slope.
+    This decision was made to ensure the calculations are based on the expected slope.
     """
        
     # Storing the charge of the electron particle, since it shall be used for calculation
@@ -200,20 +196,20 @@ if __name__ == "__main__":
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
     
     # Running each equation
     list_of_equations = get_equations()
     
-    for i in list_of_equations[:len(list_of_equations)-1]:
+    for i in list_of_equations:
         i(parameters)
     
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
-    keys = parameters_to_display.keys()
     
-    for i in keys: 
-        print(i, ':', parameters_to_display[i])
+    for i in parameters_to_display: 
+        
+        print(parameters_to_display)
         
    

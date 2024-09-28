@@ -63,7 +63,8 @@ def get_display_parameters(parameters):
 def get_debye_length(parameters):
     
     """DLP and SLP Debye length is calculated from this function in meters."""
-    
+    if np.isnan(parameters['Electron temperature (Joules)']):
+        parameters['Debye length (Meters)'] = np.nan
     # Storing the charge of the electron particle in Coulumb
     ELECTRON_CHARGE = 1.60217657e-19
     
@@ -81,7 +82,7 @@ def get_number_of_electrons(parameters):
     """DLP and SLP number of particles in the debye sphere is yielded from this function."""
     
     if np.isnan(parameters['Debye length (Meters)']) or np.isnan(parameters['Electron density (m-3)']): 
-        parameters['Number of electrons'] = 'nan'
+        parameters['Number of electrons'] =  np.nan
         return None
     # Obtaining the number of electrons in the debye sphere 
     parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length (Meters)'] * \
@@ -90,7 +91,7 @@ def get_number_of_electrons(parameters):
         
 def get_particle_density(parameters):
     
-    """This function yields the density for SLP, HEA, and IEA, in Kilograms per cubic meter.
+    """This function yields the density for SLP, HEA, and IEA, in particles per cubic meter.
     
     If SLP or HEA for electron parameters is used, must receive electron mass as particle mass.
     
