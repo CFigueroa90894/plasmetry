@@ -39,7 +39,6 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 # local imports
 from abstract_control import AbstractControl
 from system_flags import StatusFlags, CommandFlags
-from protected_dictionary import ProtectedDictionary
 
 from printer_thread import PrinterThread
 
