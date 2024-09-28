@@ -1,11 +1,15 @@
 """ G3 - Plasma Devs
 Layer 2 - Control - Concrete Implementation
-    Provides the main implementation for the Control Layer, assembling its subcomponents and
-    exposing the layer's public functionality.
+    Implements the interface specified by the AbstractControl class. Provides the main functionality
+    of the Control Layer, assembling its subcomponents and, controlling the experiment, and managing
+    data.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - add docstrings
+status: DONE
+
+Classes:
+    ControlLayer
+
 """
 
 # built-in imports
@@ -53,10 +57,76 @@ from printer_thread import PrinterThread
 # local config
 RESULT_TIMEOUT = 10
 
-# TO DO
-class ControlLayer(AbstractControl):
-    """<...>"""
 
+class ControlLayer(AbstractControl):
+    """This class implements the Control Layer's specified interface, providing the upper layers
+    public access to its required functionality. It coordinates Plasmetry's operation at the top
+    level. This includes controlling the experiment and lower layers, managing data and overall
+    creating and control objects used by other layers. Data management encompases maintaining the
+    the system's configuration, provided by the ConfigManager subcomponent, and handling experiment
+    results, which is done by the FileUpload subcomponent.
+    
+    Public methods include setters/getters for config values, config file operations, 
+    start/stop/setup functions for experiments, getters for control objects, and a 
+    system-wide shutdown method.
+
+    The Control Layer is instantiable without arguments. It includes optional arguments that may
+    be used to define specialized behavior, otherwise it uses default values.
+
+    Class Attributes:
+        + file_upload_mod: str - module name of the file upload subcomponent
+        + config_manager_mod: str - module name of the config manager subcomponent
+        + diagnostics_layer_mod: str - module name of the lowe layer component
+
+    Instance Attributes:
+        + name: str - name identifying the layer for printing purposes
+        + debug: bool - Defines printing behavior for the lower layers.
+        + log_text: bool - Defines whether or not to output text to a log file.
+        + config_pathname: str - Path and name for the config file.
+        # _say_obj: SayWriter - text output object
+        # _printer: PrinterThread - used to output buffered text, specified at the constructor.
+        # _status: StatusFlags - control object consisting of system-wide state indicators.
+        # _commands: CommandFlags - control object consisting of system-wide action triggers.
+        # _results: Queue - thread-safe queue to receive experiment results from lower layers.
+        # _real_time_param: list - reference to shared memory updated with display values for UI. 
+        # _diagnostics: DiagnosticsLayer - instantiated lower layer object.
+        # _file_upload_cls: uninstantiated FileUpload class, instantiated for every experiment.
+        # _config_manager: ConfigManager - instantiated config manager subcomponent.
+        # _ready: Event - local state indicator; set when the layer is ready for diagnostics.
+        # _terminated: - indicates whether the layer has shutdown
+        - __selected_probe: - Stores an ID for the probe selected to be used in the experiment.
+
+    Methods:
+        + __init__(): instantiates an object of the class
+
+    Config Methods:
+        + set_config(): save a config value to memory
+        + get_config(): read a config value from memory
+        + save_config_file(): write config values in memory to a config file
+        + load_config_file(): load config values into memory from a config file
+    
+    System Actions:
+        + setup_experiment(): begin initializations for plasma diagnostics
+        + start_experiment(): perform plasma diagnostics
+        + stop_experiment(): halt plasma diagnostics
+        + layer_shutdown(): initiate system-wide shutdown
+
+    Control Object Getters:
+        + get_status_flags(): returns state indicators
+        + get_command_flags(): returns action triggers
+        + get_real_time_container(): returns object concurrently updated with new data
+
+    Layer Utils:
+        # _info(): returns information about a layer's subcomponents
+        # _load_all_subcomponents(): returns uninstantiated classes of subcomponents
+        - __make_printer(): instantiates, starts, and returns a PrinterThread
+        - __diagnostics_args(): returns arguments needed to instantiate the DiagnosticsLayer class
+        - __file_upload_args(): returns arguments needed to instantiate the FileUpload class
+        - __config_manager_args(): returns arguments needed to instantiate the ConfigManager class
+        ^+ say(): print messages to configured output
+        ^# _load_mod(): returns a module for a subcomponent
+
+    """
     # Default subcomponent module names
     file_upload_mod = 'file_upload'
     config_manager_mod = 'config_manager'
@@ -65,7 +135,6 @@ class ControlLayer(AbstractControl):
     diagnostics_layer_mod = 'diagnostics_layer'
 
 
-    # TO DO - Carlos
     def __init__(self,
                  name:str="CTRL",
                  debug:bool=False,
@@ -73,9 +142,23 @@ class ControlLayer(AbstractControl):
                  buffer_text:bool=True,
                  log_text: bool=True,
                    *args, **kwargs):
-        """<...>"""
+        """The constructor for the ControlLayer class, all of its arguments are optional.
+        
+        Arguments:
+            name: str - Label used for text output
+                    default: 'CTRL'
+            debug: bool - Defines printing behavior for diagnostic layer
+                    default: False
+            config_pathname: str - Path and name to the config file
+                    default: 'configuration_file.json'
+            buffer_text: bool - Defines all text output will be buffered for PrinterThread
+                    default: True
+            log_text: bool - Defines whether text output should be saved to a log file
+                    default: True
+        
+        """
         # save arguments
-        self.debug = debug                  # defines printing behavior, default False
+        self.debug = debug
         self.log_text = log_text
         self.config_pathname = config_pathname
         
