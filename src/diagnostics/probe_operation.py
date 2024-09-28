@@ -232,19 +232,22 @@ class ProbeOperation(BaseThread):
     # thread launch script
     def run(self):
         """Invoked when the start() method is called."""
+
+        # Loop and reattempt to diagnose until upper layers indicate otherwise
         while self.command_flags.diagnose.is_set() and not self.command_flags.shutdown.is_set():
-            self._thread_setup_()
-            try:
-                self._THREAD_MAIN_()
-            except Exception as err:
-                self.say(err)
-                self.say(traceback.format_exc())
-            self._thread_cleanup_()
+            self._thread_setup_()                   # launch clock and probe threads
+            try:                                    # try to catch any error in main loop
+                self._THREAD_MAIN_()                # enter main thread loop
+            except Exception as err:                # print caught exceptions in main loop
+                self.say(err)                       # print error message
+                self.say(traceback.format_exc())    # print error traceback
+            self._thread_cleanup_()                 # stop clock probe thread if done
 
     def _THREAD_MAIN_(self):
         """Main thread script for ProbeOperation.
         Aggregates results, calculates plasma parameters, updates display values, and sends
         result to the Control Layer.
+
         """
         while self.status_flags.operating.is_set() or not self._data_buff.empty():
             try:
@@ -253,26 +256,30 @@ class ProbeOperation(BaseThread):
                 samples = self._probe.preprocess_samples(raw_samples)
 
                 # cast acquired sample dictionary to ProtectedDictionary
-                samples = ProtectedDictionary(samples)  # enforces mutex
+                samples = ProtectedDictionary(samples)  # enforces mutex with thread-safe object
 
                 # add config dictionaries required by parameter calculations
                 samples["sys_ref"] = self._sys_ref
                 samples["config_ref"] = self._config_ref
 
-                # sequentially apply calculations to obtain plasma paramaters
+                # Calculate plasma parameters, update the display, and store the samples
                 if self.calculate:
-                    params, display_params = self._calculate_params(samples)  # perform all calculations
+                    params, display_params = self._calculate_params(samples)  # perform calculations
 
-
-                    # update real-time parameter container for display
+                    # Update display parameter container if upper layer read previous data
                     if not self.command_flags.refresh.is_set():
-                        self.real_time_param.clear()
-                        self.real_time_param.extend(display_params)
+                        """Update with in-place operations only! Dont reassign the list or you'll
+                        lose the ref to the shared memory address that the UI checks for values!
+                        
+                        """
+                        self.real_time_param.clear()                # clear list but keep reference
+                        self.real_time_param.extend(display_params) # add new values to existing ref
+                        self.command_flags.refresh.set()            # indicate new data for display
 
-                    self.command_flags.refresh.set()            # indicate new data for display
-                    self._aggregate_samples.append(params)      # append new samples
+                    # append new samples to final result list
+                    self._aggregate_samples.append(params)
                 
-                # do not calculate, but log the fact
+                # Do not calculate, but log the fact
                 else: 
                     self.say("calculations skipped...")
                     self._aggregate_samples = ['CALC SKIPPED']
@@ -287,7 +294,7 @@ class ProbeOperation(BaseThread):
         self._aggregate_samples = []  # clear list
         self._fail.clear()            # reset indicator to False
         
-        self._ready.clear()     # probe op is not 'ready' to diagnose if already diagnosing
+        self._ready.clear()     # probe op is not 'ready to diagnose' now that it is diagnosing
 
         # launch probe and clock threads
         self.say("launching threads...")
