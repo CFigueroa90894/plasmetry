@@ -1,7 +1,32 @@
+""" G3 - Plasma Devs
+Layer 2 - Control - Local Upload
+    This module provides a class to store experiment results in the local file system.
+
+author: <----------------------
+status: <?>
+
+Classes:
+    LocalUpload
+
+"""
+# built-in imports
 import os 
 
 class LocalUpload:
-    """LocalUpload is defined to act as an interface for local storage."""
+    """LocalUpload is defined to act as an interface for local storage.
+    
+    Attributes:
+        + say
+        + parent_folder
+
+    Methods:
+        + __init__()
+        + validate_path()
+        + write_file()
+        + create_folder()
+        + folder_exists()
+    
+    """
     def __init__(self, text_out, local_path=''):
         
         """LocalUpload construtor"""
