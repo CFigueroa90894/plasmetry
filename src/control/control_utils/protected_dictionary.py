@@ -34,7 +34,7 @@ class ProtectedDictionary:
         - __thread_lock: RLock - stores a reentrant lock to enforce mutual exclusion to all methods.
         - __token: Byte - randomized value, its owner may use it to bypass set permissions.
         - __token_claimed: bool - Set if the _token has been claimed.
-        - __readable: bool - Defines whether this dictionary's entries may read.
+        - __readable: bool - Defines whether this dictionary's entries may be read.
         - __writeable: bool - Defines whether this dictionary's entries may be modified.
         - __dict: dict - A built-in dictionary object, stores this class's entries.
 
@@ -42,12 +42,12 @@ class ProtectedDictionary:
         + __init__(): Constructor for this class.
         + keys(): Returns a view of all keys in the dictionary.
         + values(): Returns a view all key-value pairs in the dictionary.
-        + copy(): Returns a new a ProtectedDictionary with the same values.
+        + copy(): Returns a new ProtectedDictionary with the same values.
         + update(): Accepts a dictionary and adds all its entries to this one.
         + lock(): Sets the 'write' permission to False.
         + hide(): Sets the 'read' permission to False.
         + reveal(): Sets the 'read' permission to True.
-        + unlock(): Sets the 'write' permissiont to True.
+        + unlock(): Sets the 'write' permission to True.
         + token(): Claims the generated access token.
         # _get_readable(): Returns the __readable attribute.
         # _get_writable(): Returns the __writeable attribute. VALIDATE SPELLCHECK WONT BREAK SYSTEM
