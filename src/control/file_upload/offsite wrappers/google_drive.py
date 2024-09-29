@@ -1,5 +1,18 @@
+""" G3 - Plasma Devs
+Layer 2 - Control - Google Drive
+    This module provides a class to interface with the Google Drive API for remote storage.
+
+author: <----------------------
+status: <?>
+
+Classes:
+    GoogleDrive
+
+"""
+
 import os
 import sys
+
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
     num_dir = 1           # how many parent folders to reach /plasmetry/src
@@ -22,8 +35,25 @@ from google.oauth2 import service_account
 from offsite_upload import OffsiteUpload
 
 class GoogleDrive(OffsiteUpload):
+    """GoogleDrive is defined to act as the interface for communication with the Google Drive Client.
     
-    """GoogleDrive is defined to act as the interface for communication with the Google Drive Client. """
+    Attributes:
+        + say
+        + credentials_path
+        + parent_folder
+        + creds
+
+    Methods:
+        + __init__()
+        + validate_path()
+        + validate_connection()
+        + authenticate_connection()
+        + put_request()
+        + folder_exists()
+        + create_folder()
+        + set_folder_id()
+        
+    """
     
     def __init__(self, text_out, credentials_path='', folder_id=''):
         
