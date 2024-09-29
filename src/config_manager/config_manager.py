@@ -22,7 +22,7 @@ class ConfigManager:
     
     """The ConfigManager class has been defined for configuration file interfacing."""
     
-    def __init__(self, text_out, status_flags, command_flags, path_name = ''):
+    def __init__(self, text_out, status_flags, command_flags, path_name):
         
         "ConfigManager Constructor."
         
@@ -192,7 +192,7 @@ class ConfigManager:
                 
             # else no key foucnd in the dictionary, avoids key error
             else:
-                self.say(f'Wrong key {key} passed as argument!')
+                self.say(f'Key {key} passed as argument does not exist!')
     def validate_entry(self, ref, probe_id, key, value):
         
         "validate_entry validates new values requested for in-memory config file set."
@@ -219,7 +219,11 @@ class ConfigManager:
    
     def validate_integers(self, ref, probe_id, key, value):
         """validate_integers validates integer related key-value pairs for the probe specified."""
-        
+        #Other wise, validating sys_ref values
+        if not isinstance(value,(int,float)):
+            return
+        if value % 1 != 0:
+            return
         # Number of samples cannot be less than 10 in order to use scipy's butterworth signal filtering 
         # Otherwise (For Triple Langmuir), number of samples cannot be less than 2.
         if 'samples' in key:
@@ -231,16 +235,9 @@ class ConfigManager:
                     
                 # If Triple Langmuir, setting value as 2
                 elif value<2:
-                    value = 2
-            
-            # Setting in-memory value for num samples
-            ref[probe_id][key] = int(value)
-            return
+                    value =2
         
-        #Other wise, validating sys_ref values
-        if isinstance(value,(int,float)):
-                if value % 1 == 0:
-                    ref[probe_id][key]= int(value)
+        ref[probe_id][key]= int(value)
         
             
     def validate_positive_floats(self, ref, probe_id, key, value):
@@ -269,7 +266,8 @@ class ConfigManager:
         # If the value is related to sweeps, invoking sweep related validations
         if tokens[0] == 'sweep':
             
-            # If applied min or max of sweep, invoking method for preliminary validation of applied biases on sweep
+            # If applied min or max of sweep, 
+            #invoking method for preliminary validation of applied biases on sweep
             if 'amp' != tokens[1]:
                 if self.validate_sweep(ref, probe_id, key, value, tokens):
                     return
