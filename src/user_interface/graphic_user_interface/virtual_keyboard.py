@@ -1,7 +1,51 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - Virtual Keyboard
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    VirtualKeyboard
+
+"""
+
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit
 from PyQt5.QtCore import Qt
 
+
 class VirtualKeyboard(QDialog):
+    """<...>
+    
+    Attributes:
+        + layout
+        + input_text
+        + display_text
+        + keyboard_layout
+        + current_mode
+        + shift_mode
+        + lowercase_letters
+        + uppercase_letters
+        + special_chars
+        + action_button_layout
+        + shift_button
+        + switch_button
+        + confirm_button
+
+    Methods:
+        + __init__()
+        + load_buttons()
+        + clear_keyboard_layout()
+        + toggle_shift()
+        + switch_characters()
+        + add_character()
+        + get_input_text()
+        + key_pressed()
+        + confirm_input()
+    
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         

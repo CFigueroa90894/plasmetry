@@ -1,3 +1,17 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - GUI Manager
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    GuiManager
+
+"""
+# built-in imports
 import sys
 import os
 
@@ -34,7 +48,15 @@ from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
 
 class GuiManager():
-    """GuiManager acts as the main entry point of the application when initialized and properly set-up."""
+    """GuiManager acts as the main entry point of the application when initialized and properly set-up.
+    
+    Attributes:
+        + control
+
+    Methods:
+        + __init__()
+        + start_signals()
+    """
     
     def __init__(self):
         """Gui manager constructor. Initializes the control layer."""                                                                                         

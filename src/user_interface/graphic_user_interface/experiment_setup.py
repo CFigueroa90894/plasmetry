@@ -1,30 +1,57 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - Experiment Setup
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    ExperimentSetup
+
+"""
+# built-in imports
 import sys
+
+# third-party imports
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import pyqtSignal, QTimer
-import os
 
-# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
-def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:  # execute snippet if current script was run directly 
-    """Resolve absolute imports by recusring into subdirectories and appending them to python path."""
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
-    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
-    
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude] # get subdirs, exclude unwanted
-    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: {src_abs}")
 
-# Apply path hammer to append `abstract_layers` to Python path
-# if __name__ == "__main__":  # execute path hammer if this script is run directly
-#     path_hammer(2, ['plasmetry', 'src'], ['__pycache__'], suffix='/src')  # hammer subdirs in plasmetry/src
-# ----- END PATH HAMMER ----- #
-
-from control_layer import ControlLayer
-from probe_enum import PRB
+# local imports
 from experiment_setup_ui import Ui_experiment_setup_view
+
 class ExperimentSetup(QMainWindow):
+    """ExperimentSetup is defined to interface with the ui components shown at start-up
+    and defines their logic.
     
-    """ExperimentSetup is defined to interface with the ui components shown at start-up and defines their logic."""
+    Attributes:
+        + close_signal: Class attribute
+        + switch_to_run: Class attribute
+        + switch_to_settings: Class attribute
+        + control
+        + run_window_ref
+        + ui
+        + selected_probe
+
+    Methods:
+        + __init__()
+        + set_widget_values()
+        + initialize_view()
+        + update_main_view()
+        + emit_switch_to_run_signal()
+        + emit_switch_to_settings_signal()
+        + reset_setup()
+        + adjust_value()
+        + display_alert_message()
+        + clear_alert_message()
+        + disable_all()
+        + enable_all()
+        + increment()
+        + decrement()
     
+    """
     close_signal = pyqtSignal() # Signal to notify GuiManager about the close request
     switch_to_run = pyqtSignal()  # Signal to switch to the experiment run window
     switch_to_settings = pyqtSignal()  # Signal to switch to the user settings window

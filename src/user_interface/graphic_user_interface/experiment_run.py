@@ -1,13 +1,72 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - Experiment Run
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    ExperimentRun
+
+"""
+# built-in imports
 from pathlib import Path
+
+# third-party imports
 from PyQt5.QtWidgets import QMainWindow, QLabel, QLineEdit, QFrame, QVBoxLayout, QFileDialog
 from PyQt5.QtCore import pyqtSignal, QTimer
+
+# local imports
 from run_parameters import RunParameters
 from experiment_run_ui import Ui_experiment_run_view
 
+
 class ExperimentRun(QMainWindow):
+    """ExperimentRun is defined to interface with the ui components shown after the user
+    clicks the'continue' button.
     
-    """ExperimentRun is defined to interface with the ui components shown after the user clicks the 'continue' button."""
-    
+    Attributes:
+        + close_signal: Class attribute
+        + back_btn_clicked: Class attribute
+        + run_btn_clicked: Class attribute
+        + stop_btn_clicked: Class attribute
+        + control
+        + running
+        + display_container
+        + ran
+        + ui
+        + counter
+        + container
+        + params_container
+        + params_flag
+        + selected_probe
+        + keys
+
+    Methods:
+        + __init__()
+        + initialize_experiment_name_view()
+        + showEvent()
+        + show_exp_path_name_frame()
+        + switch_to_run_page()
+        + handle_page_switch()
+        + set_selected_probe()
+        + start_timer()
+        + stop_timer()
+        + load_probe_calculations()
+        + add_calculation_to_frame()
+        + updated_parameters()
+        + clear_layout()
+        + update_run_status()
+        + display_alert_message()
+        + clear_alert_message()
+        + emit_back_signal()
+        + emit_run_signal()
+        + emit_stop_signal()
+        + open_file_dialog()
+
+    """
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
     run_btn_clicked = pyqtSignal()

@@ -1,8 +1,36 @@
-# numerical_keypad.py
+""" G3 - Plasma Devs
+Layer 4 - User Interface - Numerical Keypad
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    NumericalKeypad
+
+"""
+# third-party imports
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QPushButton, QHBoxLayout
 from PyQt5.QtCore import Qt
 
+
 class NumericalKeypad(QDialog):
+    """<.........>
+    
+    Attributes:
+        + current_value
+        + display_label
+
+    Methods:
+        + __init__()
+        + init_ui()
+        + button_clicked()
+        + confirm()
+        + get_value()
+
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle('Enter Value')

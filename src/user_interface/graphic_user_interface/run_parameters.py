@@ -1,4 +1,29 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - Run Parameters
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    RunParameters
+
+"""
+
 class RunParameters:
+    """<.......>
+    
+    Attributes:
+        + probe_parameters
+    
+    Methods:
+        + __init__()
+        + get_parameters_for_probe()
+        + print_probe_parameters()
+
+    """
     def __init__(self):
         self.probe_parameters = {
                 "slp": [
