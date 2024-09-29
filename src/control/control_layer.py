@@ -204,12 +204,12 @@ class ControlLayer(AbstractControl):
 
         
     # ----- Config Manipulations ----- #
-    def set_config(self, probe_id, key, value) -> Tuple[bool, str]:
-        """Mutator function, edits the in memory configuration values."""
+    def set_config(self, probe_id, key, value):
+        """Mutator function, edits the in-memory configuration values."""
         self._config_manager.set_config(probe_id, key, value)
 
     def get_config(self, probe_id, key) -> any:
-        """Accessor function, receives data from the in memory configuration values."""
+        """Accessor function, receives data from the in-memory configuration values."""
         return self._config_manager.get_config(probe_id, key)
 
     def save_config_file(self) -> bool:
