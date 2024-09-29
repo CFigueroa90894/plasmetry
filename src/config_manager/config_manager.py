@@ -224,6 +224,7 @@ class ConfigManager:
             return
         if value % 1 != 0:
             return
+    
         # Number of samples cannot be less than 10 in order to use scipy's butterworth signal filtering 
         # Otherwise (For Triple Langmuir), number of samples cannot be less than 2.
         if 'samples' in key:
@@ -236,7 +237,7 @@ class ConfigManager:
                 # If Triple Langmuir, setting value as 2
                 elif value<2:
                     value =2
-        
+        # Setting the value
         ref[probe_id][key]= int(value)
         
             
@@ -249,8 +250,11 @@ class ConfigManager:
             
             # Verifing that the value is not 0
             if value > 0:
+                if not 'area' in key:
+                    value = round(value, 2)
                 # If validations are true, setting the value to in-memory config ref
-                ref[probe_id][key]= value  
+                ref[probe_id][key]= value 
+                
                 
                 
     def validate_voltage(self, ref, probe_id, key, value, tokens):
@@ -285,7 +289,7 @@ class ConfigManager:
            
             # If less than maximum, setting the value
             if ref[probe_id][max_key] > value:
-                ref[probe_id][key]= value
+                ref[probe_id][key]= round(value, 2)  
         
         # If the key is a maximum, verifying that it is greater than minimum
         elif tokens[-1] == 'max':
@@ -296,7 +300,7 @@ class ConfigManager:
              
             # If greater than minimum, setting the value
             if ref[probe_id][min_key] < value:
-                ref[probe_id][key] = value
+                ref[probe_id][key] = round(value, 2)  
         
                 
         # If the key-value pair relates to an applied bias 
@@ -316,7 +320,7 @@ class ConfigManager:
             
             # If the value is within the expected range, storing it in memory.
             if ref[probe_id][min_key] <= value <= ref[probe_id][max_key]:
-               ref[probe_id][key]= value
+               ref[probe_id][key]= round(value, 2)  
                 
     def validate_sweep(self, ref, probe_id, key, value, tokens):
         
@@ -365,7 +369,7 @@ class ConfigManager:
             
             # If the max amplifier value is less than max applied bias, storing the amp value as the applied bias
             if value < ref[probe_id]['sweep_max']:
-                ref[probe_id]['sweep_max'] = value
+                ref[probe_id]['sweep_max'] = round(value, 2)  
                 
             # If the max amplifier value is less than the min applied bias, changing the min applied to min amp value
             if value <= ref[probe_id]['sweep_min']:
@@ -377,7 +381,7 @@ class ConfigManager:
             # If the minimum amplifier value is greater than min applied bias,
             # Storing the amp value as the applied bias
             if value > ref[probe_id]['sweep_min']:
-                ref[probe_id]['sweep_min'] = value
+                ref[probe_id]['sweep_min'] = round(value, 2)  
             
             # If the minimum amplifier value is greater than the max applied bias, 
             # Changing the max applied to max amp value.
