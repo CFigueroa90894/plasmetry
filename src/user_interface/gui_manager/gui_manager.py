@@ -41,7 +41,10 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
     path_hammer(2, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
+# third-party imports
 from PyQt5.QtWidgets import QApplication
+
+# local imports
 from experiment_run import ExperimentRun
 from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
