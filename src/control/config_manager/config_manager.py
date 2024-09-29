@@ -1,3 +1,15 @@
+""" G3 - Plasma Devs
+Layer 2 - Control - Config Manager
+    This module provides a class to interface with Plasmetry's configuration file.
+
+author: <----------------------
+status: <?>
+
+Classes:
+    ConfigManager
+
+"""
+
 import os
 import sys
 
