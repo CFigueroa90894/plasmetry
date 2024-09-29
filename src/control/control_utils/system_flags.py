@@ -12,7 +12,7 @@ Classes:
 
 """
 
-# built-in
+# built-in imports
 from threading import Event
 
 

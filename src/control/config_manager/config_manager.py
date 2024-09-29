@@ -9,7 +9,7 @@ Classes:
     ConfigManager
 
 """
-
+# built-in imports
 import os
 import sys
 
@@ -28,6 +28,8 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # ----- END PATH HAMMER ----- #
 
 import json
+
+# local imports
 from protected_dictionary import ProtectedDictionary 
 
 class ConfigManager:
