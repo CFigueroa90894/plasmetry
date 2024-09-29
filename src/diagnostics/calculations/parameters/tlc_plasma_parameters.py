@@ -23,8 +23,8 @@ def filter_current(parameters):
     
     parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
     parameters['Raw voltage 2'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    parameters['Probe 2 filtered current (Amperes)'] =  parameters['Raw voltage 1'] / parameters['up_shunt']
-    parameters['Probe 3 filtered current (Amperes)'] = parameters['Raw voltage 2'] / parameters['down_shunt']
+    parameters['Probe 2 filtered current (Amperes)'] =  parameters['Raw voltage 1'] / parameters['config_ref']['up_shunt']
+    parameters['Probe 3 filtered current (Amperes)'] = parameters['Raw voltage 2'] / parameters['config_ref']['down_shunt']
     
 
 def iteration(parameters, estimated_guess):
@@ -88,16 +88,32 @@ def get_electron_temperature(parameters):
             function_output, derivative_output = iteration(parameters, estimated_guess)
             
         except TypeError:
-            return 'No Solution Found.'
+            # Storing the electron temperature in eV  as np.nan
+            parameters['Electron temperature (eV)'] = np.nan
+            
+            # Storing the electron temperature in Joules  as np.nan
+            parameters['Electron temperature (Joules)'] = np.nan
+            print( 'No Solution Found.')
+            # Exiting function
+            return
         
         # Storing the next estimated value
         estimated_guess = (estimated_guess - function_output/derivative_output)
         
         counter +=1
         
-    if counter ==NUMBER_OF_ITERATIONS:
         
-        return f'After {counter} iterations, no accurate value has been yielded.'
+    if counter ==NUMBER_OF_ITERATIONS:
+        # Storing the electron temperature as np.nan
+        parameters['Electron temperature (eV)'] = np.nan
+        
+        # Storing the electron temperature in Joules as np.nan
+        parameters['Electron temperature (Joules)'] = np.nan
+        
+        print( f'After {counter} iterations, no accurate value has been yielded.')
+        
+        # Exiting function
+        return
     
     # Storing the electron temperature in eV
     parameters['Electron temperature (eV)'] = 1 / estimated_guess
@@ -107,6 +123,10 @@ def get_electron_temperature(parameters):
 
 
 def get_electron_density(parameters):
+    
+    if np.isnan(parameters['Electron temperature (Joules)']):
+        parameters['Electron density (m-3)'] = np.nan
+        return
     
     # Storing ion saturation current
     parameters['Electron saturation current (Amperes)'] = parameters['Probe 3 filtered current (Amperes)']

@@ -60,7 +60,7 @@ def get_electron_temperature( parameters):
     filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1'] 
     ion_saturation_current = parameters['Ion saturation current (Amperes)'] 
-    if len(voltage_list) >0 :
+    if len(voltage_list) > 0:
     # Storing the index where the voltage is closest to 0.
         voltage_at_zero_index = np.argmin([abs(i) for i in voltage_list])
     else:

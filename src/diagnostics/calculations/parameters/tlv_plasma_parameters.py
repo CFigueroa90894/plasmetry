@@ -22,7 +22,7 @@ def iteration(potential_difference, bias, estimated_guess):
     
     """This function performs the function and derivative calculation process in each iteration.
     
-       Returns the output of the expressions."""
+       Returns the value expressions."""
     
     # Declaring limit to avoid overflow
     LIMIT = 500  
@@ -70,7 +70,7 @@ def get_electron_temperature(parameters):
         estimated_guess = np.log(2) / (bias - potential_difference)
         
         # The Newton-Raphson approximation iterations occur in this while loop
-        while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
+        while abs(estimated_guess - previous_guess) > TOLERANCE:
             
             # Storing previous guess, to compare with the final value of each iteration
             previous_guess = estimated_guess
@@ -89,6 +89,7 @@ def get_electron_temperature(parameters):
                 # Storing the electron temperature in Joules  as np.nan
                 parameters['Electron temperature (Joules)'] = np.nan
                 print( 'No Solution Found.')
+                # Exiting function
                 return
             
             # Storing the next estimated value
@@ -104,7 +105,10 @@ def get_electron_temperature(parameters):
             # Storing the electron temperature in Joules as np.nan
             parameters['Electron temperature (Joules)'] = np.nan
             
-            return f'After {counter} iterations, no accurate value has been yielded.'
+            print( f'After {counter} iterations, no accurate value has been yielded.')
+            
+            # Exiting function
+            return
         
         # Storing the electron temperature in eV
         parameters['Electron temperature (eV)'] = 1/estimated_guess
@@ -115,7 +119,7 @@ def get_electron_temperature(parameters):
 
 def get_electron_density(parameters):
     
-    """This equation yields electron density in particles per cubic meter."""
+    """This method yields electron density in particles per cubic meter."""
     if np.isnan(parameters['Electron temperature (Joules)']):
         parameters['Electron density (m-3)'] = np.nan
         return
