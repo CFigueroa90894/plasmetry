@@ -1,7 +1,22 @@
+""" G3 - Plasma Devs
+Layer 2 - Control - Data Formatting
+    This module contains functions used for the processing of raw acquired data into io objects.
+
+author: <----------------------
+status: <?>
+
+Functions:
+    + is_a_sweep()
+    + process_sweep()
+    + create_csv_object()
+    + process_data()
+
+"""
+
+# built-in imports
 import io
 import csv
 
-"""This module contains functiobs used for the processing of raw acquired data into io objects."""
 
 def is_a_sweep(unformatted_data):
     
