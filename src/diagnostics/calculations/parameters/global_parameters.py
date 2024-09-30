@@ -110,7 +110,11 @@ def get_particle_density(parameters):
     if  'Electron saturation current (Amperes)' in parameters:
         particle_saturation_current = parameters['Electron saturation current (Amperes)']
         particle_temperature = parameters['Electron temperature (Joules)'] 
-    
+        
+    elif 'Ion saturation current (Amperes)' in parameters:
+        particle_saturation_current = parameters['Ion saturation current (Amperes)']
+        particle_temperature = parameters['Electron temperature (Joules)'] 
+
     else:
         particle_temperature = parameters['Particle temperature (Joules)']
         particle_saturation_current = parameters['Particle saturation current (Amperes)']
@@ -122,9 +126,9 @@ def get_particle_density(parameters):
                                          (np.pi * particle_mass * 2)))))
    
     # Deleting the temporary key created for SLP
-    if  'Electron saturation current (Amperes)' in parameters:
-       parameters['Electron density (m-3)'] = parameters['Particle density (m-3)']
-       del parameters['Particle density (m-3)']
+    if ('Electron saturation current (Amperes)' in parameters) or ('Ion saturation current (Amperes)' in parameters):       
+        parameters['Electron density (m-3)'] = parameters['Particle density (m-3)']
+        del parameters['Particle density (m-3)']
        
        
        

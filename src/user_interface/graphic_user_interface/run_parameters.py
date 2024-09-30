@@ -21,7 +21,7 @@ class RunParameters:
                 "Number of electrons"
             ],
             "tlc": [
-                'Electron saturation current (Amperes)',
+                'Ion saturation current (Amperes)',
                 "Electron Temperature (eV)",
                 "Electron Temperature (Joules)",
                 "Electron Density (m<sup>-3</sup>)",
