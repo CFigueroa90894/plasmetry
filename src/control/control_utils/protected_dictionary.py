@@ -24,8 +24,8 @@ class ProtectedDictionary:
     threading module in order to guarantee mutual exclusion.
 
     This class also provides safeguards by implementing configurable read/write permissions to its
-    dictionary. Additionally, it includes copy-constructor functionality, capable of casting the
-    its own instances and the built-in dictionary datatype to ProtectedDitionary instances. It also
+    dictionary. Additionally, it includes copy-constructor functionality, capable of casting its 
+    own instances and the built-in dictionary datatype to ProtectedDitionary instances. It also
     overloads the casting operator to convert ProtectedDictionary instances to regular dictionaries.
     Both the copy-constructor and cast-to-dict functionality works recursively, searching for other
     dictionaries internally to cast.

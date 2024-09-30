@@ -18,7 +18,7 @@ from threading import Event
 
 class StatusFlags:
     """This class consists of seven Event flags from Python's built-in threading module. This set
-    of flags is used to throughout the layers to indicate different states they may be in.
+    of flags is used throughout the layers to indicate different states they may be in.
     
     Attributes:
         + operating: Indicates the physical probe circuit is enabled.
@@ -54,7 +54,7 @@ class StatusFlags:
 
 class CommandFlags:
     """This class consists of three Event flags from Python's built-in threading module. This set
-    of flags is used to throughout the layers to trigger different behaviors in its subsystems.
+    of flags is used throughout the layers to trigger different behaviors in its subsystems.
     
     Attributes:
         + shutdown: Begins process of terminating the entire system.
