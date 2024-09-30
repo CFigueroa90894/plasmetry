@@ -129,7 +129,7 @@ def get_electron_density(parameters):
         return
     
     # Storing ion saturation current
-    parameters['Electron saturation current (Amperes)'] = abs(parameters['Probe 3 filtered current (Amperes)'])
+    parameters['Electron saturation current (Amperes)'] = parameters['Probe 3 filtered current (Amperes)']
     
     # Calling global electron density function, which is deployed by SLP, HEA, and IEA
     get_particle_density(parameters)
