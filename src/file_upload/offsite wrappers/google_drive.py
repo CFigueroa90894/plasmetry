@@ -23,7 +23,7 @@ from offsite_upload import OffsiteUpload
 
 class GoogleDrive(OffsiteUpload):
     
-    """GoogleDrive is defined to act as the interface for communication with the Google Drive Client. """
+    """GoogleDrive is defined to act as the interface for communication with the Google Drive API Client. """
     
     def __init__(self, text_out, credentials_path='', folder_id=''):
         
@@ -40,14 +40,14 @@ class GoogleDrive(OffsiteUpload):
             
     def validate_path(self, credentials_path):
         
-        """Returns boolean value validating the received path. Also sets the path if valid."""
-
+        """Returns boolean value validating the received path. Also sets the path if valid and creates a Credentials object."""
+    
         # Check if the directory exists 
         if  os.path.exists(credentials_path):
             # Set the path for local storage
             self.credentials_path = credentials_path
             
-            # Storing credentials object, used to authenticate API requests
+            # Storing Credentials object, used to authenticate API requests
             self.creds = self.authenticate_connection()
             if self.creds:
                 return True
@@ -78,7 +78,6 @@ class GoogleDrive(OffsiteUpload):
         
         or an empty string."""
         
-        # Scope of the account (TEMPORARY PLACE, WILL REMOVE)
         SCOPES = ['https://www.googleapis.com/auth/drive']
         
         try:
@@ -118,6 +117,7 @@ class GoogleDrive(OffsiteUpload):
             ).execute()
             
     def folder_exists(self, folder_name):
+        
         """Check if the folder exists in the Google Drive. 
         
         If so, changes upload location to that folder and returns True."""

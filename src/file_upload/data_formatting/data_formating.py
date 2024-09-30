@@ -1,7 +1,7 @@
 import io
 import csv
 
-"""This module contains functiobs used for the processing of raw acquired data into io objects."""
+"""This module contains functions used for the processing of raw acquired data into io objects."""
 
 def is_a_sweep(unformatted_data):
     
@@ -18,7 +18,7 @@ def is_a_sweep(unformatted_data):
     
 def process_sweep(sweep_data, experiment_run):
     
-    """process_sweep -repares the sweep data for csv upload."""
+    """process_sweep prepares the sweep data for csv upload."""
     
     if isinstance(experiment_run['Bias 1'],list):
         for i in range(len(experiment_run['Bias 1'])):
@@ -39,11 +39,11 @@ def process_sweep(sweep_data, experiment_run):
     
 def create_csv_object(data):
     
-    """create_csv_object returns a string containing the data used to create a csv file."""
-    # Storing the io string writer function, used as the writer function for csv.writer
+    """create_csv_object returns a string containing the data written in csv format, used to create a csv file."""
+    # Storing an io string object
     output = io.StringIO()
     
-    # Initializing the io object
+    # Storing CSV writer, used to write the data in csv format in memory
     writer = csv.writer(output)
     
     # Storing the keys of the dictionaries in the list
@@ -59,7 +59,7 @@ def create_csv_object(data):
     # Going to the start of the io object to read all the written contents when returning
     output.seek(0)
     
-    # Returning the contents of the csv
+    # Returning the contents of the IO object(a string in csv format)
     return output.getvalue()
 
     
