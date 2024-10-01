@@ -68,6 +68,34 @@ class GuiManager():
         
         # Loading the config file data
         self.control.load_config_file()    
+        
+    def start_signals(self):
+        """start_signals instantiates the GUI components, connects signal emissions for page switching, and defines the exit logic."""
+        
+        # Initializing the GUI
+        app = QApplication(sys.argv)
+        app.setStyle('Windows')
+        
+        # Initializing each window of the GUI
+        settings_window= UserSettings
+        run_window = ExperimentRun(self.control)
+        setup_window = ExperimentSetup(self.control, run_window, settings_window)
+        settings_window = UserSettings(self.control, setup_window)
+        
+        # Setting up logic for signal emission
+        setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
+        setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close(), settings_window.set_widget_values()))
+        run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close()))
+        settings_window.back_btn_clicked.connect(lambda: (setup_window.show(), settings_window.close()))
+        
+        # Showing the first page (Experiment setup page)
+        setup_window.show()
+        
+        # Logic for when app is about to close, done so to properly clear all components
+        app.aboutToQuit.connect(lambda: self.control.layer_shutdown())
+        
+        # App exit from execution
+        sys.exit(app.exec_())
     
 if __name__ == "__main__":
     
@@ -76,28 +104,6 @@ if __name__ == "__main__":
     # Instantiating GuiManager object and the control components
     gui_manager = GuiManager()
     
-    # Initializing the GUI
-    app = QApplication(sys.argv)
-    app.setStyle('Windows')
-    
-    # Initializing each window of the GUI
-    settings_window= UserSettings
-    run_window = ExperimentRun(gui_manager.control)
-    setup_window = ExperimentSetup(gui_manager.control, run_window, settings_window)
-    settings_window = UserSettings(gui_manager.control, setup_window)
-    
-    # Setting up logic for signal emission
-    setup_window.switch_to_run.connect(lambda: (run_window.show(), setup_window.close()))
-    setup_window.switch_to_settings.connect(lambda: (settings_window.show(), setup_window.close(), settings_window.set_widget_values()))
-    run_window.back_btn_clicked.connect(lambda: (setup_window.show(), run_window.close()))
-    settings_window.back_btn_clicked.connect(lambda: (setup_window.show(), settings_window.close()))
-    
-    # Showing the first page (Experiment setup page)
-    setup_window.show()
-    
-    # Logic for when app is about to close, done so to properly clear all components
-    app.aboutToQuit.connect(lambda: gui_manager.control.layer_shutdown())
-    
-    # App exit from execution
-    sys.exit(app.exec_())
+    # Instantiation of GUI components
+    gui_manager.start_signals()
    
