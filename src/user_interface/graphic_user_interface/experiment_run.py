@@ -37,7 +37,6 @@ class ExperimentRun(QMainWindow):
         + display_container
         + ran
         + ui
-        + counter
         + container
         + params_container
         + params_flag
@@ -111,7 +110,6 @@ class ExperimentRun(QMainWindow):
 
         # Initialize a timer for updating parameters
         self.ui.timer = QTimer()
-        self.counter = 1
         self.ui.timer.timeout.connect(self.update_parameters)
         
 
