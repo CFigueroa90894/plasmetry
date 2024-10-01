@@ -97,7 +97,7 @@ class TestDAQC2Wrapper(CounterWrapperTest):
         """Returns the voltage value measured at the given ADC channel."""
         # self.analog_in_count += 1
         val = self.dac.read_analog(address)
-        self.say(f"Ain :{address} val:{val} time(ns):{perf_counter_ns()}")
+        self.say(f"Ain:{address} val:{val} time(ns):{perf_counter_ns()}")
         return val
     
     # ----- DIGITAL I/O ----- #
@@ -124,7 +124,7 @@ class TestDAQC2Wrapper(CounterWrapperTest):
             False: Low
         """
         val = self.dac.read_digital(address)
-        self.say(f"Din :{address} val:{val} time(ns):{perf_counter_ns()}")
+        self.say(f"Din:{address} val:{val} time(ns):{perf_counter_ns()}")
         return val
 
     
