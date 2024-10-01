@@ -79,11 +79,3 @@ class RunParameters:
         :return: Dictionary of parameters if probe exists, otherwise None.
         """
         return self.probe_parameters[probe_name]
-
-
-# Example usage:
-if __name__ == "__main__":
-    sys_control = RunParameters()
-    
-    # Example: Print parameters for Single Langmuir Probe (SLP)
-    sys_control.print_probe_parameters("slp")
