@@ -1,64 +1,133 @@
 """ G3 - Plasma Devs
 Layer 2 - Control - Concrete Implementation
-    Provides the main implementation for the Control Layer, assembling its subcomponents and
-    exposing the layer's public functionality.
+    Implements the interface specified by the AbstractControl class. Provides the main functionality
+    of the Control Layer, assembling its subcomponents and, controlling the experiment, and managing
+    data.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-    - add docstrings
-    - add call to file upload in 'stop_experiment()'
-    - update configuration file name in __init__()
-    - decide if we should wait for file upload to complete before shutting down or it should be left
-        running in the background (and add or remove its call in layer_shutdown())
-    - integrate with config manager and file upload from separate branch 
-    - verify names of subcomponent files and their classes
-    - add specific args to components instantiation
-    - validate with team
+author: <---------------------------------------- Alberto
+status: DONE
 
-    - time permitting, implement rerouting of stderr to printer thread
+Classes:
+    ControlLayer
+
 """
 
 # built-in imports
 import sys
 import os
 
-import datetime
+from threading import Event, Thread     # threading framework
+from queue import Queue, Empty          # data buffering 
 
-from threading import Event, Thread
-from queue import Queue, Empty
+from typing import Tuple                # used for type hints
+import datetime                         # datetime stamp the log file
 
-from typing import Tuple
-
-# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
-    """Resolve absolute imports by recusring into subdirs and appending them to the python path."""
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
+
+    # locate project root
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
-    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
+    print(f"Path Hammer: {src_abs}")
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
     # get subdirs, exclude unwanted
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude]
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
     for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: {src_abs}")
 
 if __name__ == "__main__":  # execute path hammer if this script is run directly
     path_hammer(1, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
-# TO DO - Remove temporary relative imports (used to get type hints in IDE)
 # local imports
 from abstract_control import AbstractControl
 from system_flags import StatusFlags, CommandFlags
-from protected_dictionary import ProtectedDictionary
 
 from printer_thread import PrinterThread
 
 # local config
 RESULT_TIMEOUT = 10
 
-# TO DO
-class ControlLayer(AbstractControl):
-    """<...>"""
 
+class ControlLayer(AbstractControl):
+    """This class implements the Control Layer's specified interface, providing the upper layers
+    public access to its required functionality. It coordinates Plasmetry's operation at the top
+    level. This includes controlling the experiment and lower layers, managing data and overall
+    creating and control objects used by other layers. Data management encompases maintaining the
+    the system's configuration, provided by the ConfigManager subcomponent, and handling experiment
+    results, which is done by the FileUpload subcomponent.
+    
+    Public methods include setters/getters for config values, config file operations, 
+    start/stop/setup functions for experiments, getters for control objects, and a 
+    system-wide shutdown method.
+
+    The Control Layer is instantiable without arguments. It includes optional arguments that may
+    be used to define specialized behavior, otherwise it uses default values.
+
+    Class Attributes:
+        + file_upload_mod: str - module name of the file upload subcomponent
+        + config_manager_mod: str - module name of the config manager subcomponent
+        + diagnostics_layer_mod: str - module name of the lowe layer component
+
+    Instance Attributes:
+        + name: str - name identifying the layer for printing purposes
+        + debug: bool - Defines printing behavior for the lower layers.
+        + log_text: bool - Defines whether or not to output text to a log file.
+        + config_pathname: str - Path and name for the config file.
+        # _say_obj: SayWriter - text output object
+        # _printer: PrinterThread - used to output buffered text, specified at the constructor.
+        # _status: StatusFlags - control object consisting of system-wide state indicators.
+        # _commands: CommandFlags - control object consisting of system-wide action triggers.
+        # _results: Queue - thread-safe queue to receive experiment results from lower layers.
+        # _real_time_param: list - reference to shared memory updated with display values for UI. 
+        # _diagnostics: DiagnosticsLayer - instantiated lower layer object.
+        # _file_upload_cls: uninstantiated FileUpload class, instantiated for every experiment.
+        # _config_manager: ConfigManager - instantiated config manager subcomponent.
+        # _ready: Event - local state indicator; set when the layer is ready for diagnostics.
+        # _terminated: - indicates whether the layer has shutdown
+        - __selected_probe: - Stores an ID for the probe selected to be used in the experiment.
+
+    Methods:
+        + __init__(): instantiates an object of the class
+
+    Config Methods:
+        + set_config(): save a config value to memory
+        + get_config(): read a config value from memory
+        + save_config_file(): write config values in memory to a config file
+        + load_config_file(): load config values into memory from a config file
+    
+    System Actions:
+        + setup_experiment(): begin initializations for plasma diagnostics
+        + start_experiment(): perform plasma diagnostics
+        + stop_experiment(): halt plasma diagnostics
+        + layer_shutdown(): initiate system-wide shutdown
+
+    Control Object Getters:
+        + get_status_flags(): returns state indicators
+        + get_command_flags(): returns action triggers
+        + get_real_time_container(): returns object concurrently updated with new data
+
+    Layer Utils:
+        # _info(): returns information about a layer's subcomponents
+        # _load_all_subcomponents(): returns uninstantiated classes of subcomponents
+        - __make_printer(): instantiates, starts, and returns a PrinterThread
+        - __diagnostics_args(): returns arguments needed to instantiate the DiagnosticsLayer class
+        - __file_upload_args(): returns arguments needed to instantiate the FileUpload class
+        - __config_manager_args(): returns arguments needed to instantiate the ConfigManager class
+        ^+ say(): print messages to configured output
+        ^# _load_mod(): returns a module for a subcomponent
+
+    """
     # Default subcomponent module names
     file_upload_mod = 'file_upload'
     config_manager_mod = 'config_manager'
@@ -67,12 +136,33 @@ class ControlLayer(AbstractControl):
     diagnostics_layer_mod = 'diagnostics_layer'
 
 
-    # TO DO - Carlos
     def __init__(self,
                  name:str="CTRL",
                  debug:bool=False,
-                 buffer_text:bool=False, *args, **kwargs):
-        """<...>"""
+                 config_pathname="configuration_file.json",
+                 buffer_text:bool=True,
+                 log_text: bool=True,
+                   *args, **kwargs):
+        """The constructor for the ControlLayer class, all of its arguments are optional.
+        
+        Arguments:
+            name: str - Label used for text output
+                    default: 'CTRL'
+            debug: bool - Defines printing behavior for diagnostic layer
+                    default: False
+            config_pathname: str - Path and name to the config file
+                    default: 'configuration_file.json'
+            buffer_text: bool - Defines all text output will be buffered for PrinterThread
+                    default: True
+            log_text: bool - Defines whether text output should be saved to a log file
+                    default: True
+        
+        """
+        # save arguments
+        self.debug = debug
+        self.log_text = log_text
+        self.config_pathname = config_pathname
+        
         # validate if a PrinterThread is needed
         if buffer_text:
             self._printer = self.__make_printer()  # create and launch printer thread
@@ -84,8 +174,6 @@ class ControlLayer(AbstractControl):
         # call parent constructor
         super().__init__(*args, name=name, text_out=writer, **kwargs)
 
-        # save arguments
-        self.debug = debug                  # defines printing behavior, default False
 
         # create control objects
         self._status = StatusFlags()        # state indicators
@@ -112,28 +200,22 @@ class ControlLayer(AbstractControl):
         self._ready.clear()
         self._terminated.clear()
 
-        # TO DO - UPDATE NAMES WHEN IMPLEMENTED
         self.__selected_probe = None
-        self.__previous_config_pathname = "configuration_file.json"
 
         
     # ----- Config Manipulations ----- #
-    # TO DO - Alberto
-    def set_config(self, probe_id, key, value) -> Tuple[bool, str]:
-        """Mutator function, edits the in memory configuration values."""
+    def set_config(self, probe_id, key, value):
+        """Mutator function, edits the in-memory configuration values."""
         self._config_manager.set_config(probe_id, key, value)
 
-    # TO DO - Alberto
     def get_config(self, probe_id, key) -> any:
-        """Accessor function, receives data from the in memory configuration values."""
+        """Accessor function, receives data from the in-memory configuration values."""
         return self._config_manager.get_config(probe_id, key)
 
-    # TO DO - Alberto
     def save_config_file(self) -> bool:
         """Config file writer."""
         self._config_manager.save_config_file()
 
-    # TO DO - Alberto
     def load_config_file(self) -> None:
         """Config file loader."""
         self._config_manager.load_config_file()
@@ -141,15 +223,19 @@ class ControlLayer(AbstractControl):
 
     # ----- Control Object Getters ----- #
     def get_status_flags(self) -> StatusFlags:
-        """<...>"""
+        """Returns the status flag control object."""
         return self._status
 
     def get_command_flags(self) -> CommandFlags:
-        """<...>"""
+        """Returns the command flags control object."""
         return self._commands
     
-    def get_real_time_container(self) -> Tuple[dict, Event]:
-        """<...>"""
+    def get_real_time_container(self) -> Tuple[list, Event]:
+        """Returns the real time parameter container and a flag that is set by lower layers when the
+        container has been refreshed with new parameters for display. This only needs to be called
+        once, if the caller stores the reference to the list, because it is updated in place.
+
+        """
         return self._real_time_param, self._commands.refresh
 
 
@@ -196,9 +282,7 @@ class ControlLayer(AbstractControl):
                 self._ready.set()
                 self.say("READY")
                 for eq in self._diagnostics._probe_op._probe.equations:
-                    print(eq)
-                    
-                    
+                    self.say(str(eq))     
             else:
                 raise RuntimeError("Could not set up diagnostics layer!")
 
@@ -211,6 +295,7 @@ class ControlLayer(AbstractControl):
                 - without first calling `setup_experiment()`, or
                 - diagnostics layer is not ready to perform diagnostics, or
                 - diagnostics are already underway
+
         """
         # validate system is not undergoing shutdown
         if self._commands.shutdown.is_set():
@@ -245,6 +330,7 @@ class ControlLayer(AbstractControl):
         Exceptions:
             RuntimeError: `stop_experiment()` was called while:
                 - system was not performing plasma diagnostics, or
+
         """
         # validate diagnostics are being performed
         if not self._commands.diagnose.is_set() and not self._status.operating.is_set():
@@ -272,7 +358,6 @@ class ControlLayer(AbstractControl):
             except Empty:
                 self.say("could not obtain results!")
 
-    # TO DO
     def layer_shutdown(self) -> None:
         """Called by upper layers to initiate a system-wide shutdown.
         
@@ -280,6 +365,7 @@ class ControlLayer(AbstractControl):
         * NOTE: this call blocks until lower layers have terminated to prevent corruption.
         This layer should await until all buffered results are saved to files before terminating
         its subcomponents.
+
         """
         self.say("initiating system-wide shutdown...")
         self._commands.shutdown.set()   # notify all software components must begin shutdown
@@ -289,12 +375,6 @@ class ControlLayer(AbstractControl):
             self.stop_experiment()
         else:
             self.say("experiment is already halted.")
-
-        # TO DO - ADD WAITS UNTIL TRANSMISSION IS COMPLETE - or should it leave the upload running
-        # in the background?
-        # destroying file output and data formatting doesn't seem like a good idea
-        # wait for file output to finish
-        # <...wait for stuff...>
 
         self._diagnostics.layer_shutdown()  # terminate lower layers
 
@@ -310,14 +390,15 @@ class ControlLayer(AbstractControl):
             self._printer.kill.set()    # stop printer thread
             self._printer.join()        # wait for printer thread to exit
 
-            # TO DO - RESTORE STDERR - if it was overriden
-
-        self._terminated.set()
+        self._terminated.set()          # indicate layer has finished shutting down
     
 
     # ----- Layer Specific Utils ----- #
     def _info(self) -> list:
-        """<...>"""
+        """Return info about the instantiated layer's subcomponents, including lower layers.
+        Used for debugging system integration.
+
+        """
         sub = [
             ("Control", "File Upload", str(self._file_upload)),
             ("Control", "Config Manager", str(self._config_manager)),
@@ -327,7 +408,7 @@ class ControlLayer(AbstractControl):
         return sub
         
     def _load_all_subcomponents(self) -> dict:
-        """<...>"""
+        """Returns a dictionary with all the subcomponent classes corresponding to this layer."""
         # load subcomponent modules
         file_upload_mod = self._load_mod(self.file_upload_mod)
         config_manager_mod = self._load_mod(self.config_manager_mod)
@@ -349,17 +430,33 @@ class ControlLayer(AbstractControl):
         return classes
     
     def __make_printer(self):
-        """<...>"""
+        """Returns a running PrinterThread object. Creates a log file to and configures the 
+        PrinterThread to output to stdout and the file. Instantiates and starts the PrinterThread.
+
+        """
         # create kill switch for PrinterThread
         kill = Event()
         kill.clear()
 
+        printer_output = [None]  # output to default stdout
+
         # create output log file
-        log_name = str(datetime.datetime.now()).replace(':', '_')
-        log = open(f"run_logs/LOG_{log_name}.txt", 'a')
+        if self.log_text:
+            log_time = str(datetime.datetime.now()).replace(':', '_')
+            src_path = os.path.dirname(__file__)
+
+            log_fold = "../../run_logs"
+            log_fold = os.path.abspath(f"{src_path}/{log_fold}")
+            if not os.path.exists(log_fold):
+                os.mkdir(log_fold)
+
+            log_name = f"LOG_{log_time}.txt"
+            log_path = os.path.abspath(f"{log_fold}/{log_name}")
+            log = open(log_path, 'a')
+
+            printer_output.append(log)
 
         # create and launch printer thread
-        printer_output = [None, log]  # output to default stdout and log file
         printer = PrinterThread(kill=kill, text_out=printer_output)  # create thread
         printer.start()  # launch thread
 
@@ -370,7 +467,7 @@ class ControlLayer(AbstractControl):
         return printer
 
     def __diagnostics_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the DiagnosticsLayer object."""
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
@@ -381,9 +478,8 @@ class ControlLayer(AbstractControl):
         }
         return args
     
-    # TO DO - add specific args
     def __file_upload_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the FileUpload object."""
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
@@ -397,13 +493,12 @@ class ControlLayer(AbstractControl):
         }
         return args
     
-    # TO DO - add specific args
     def __config_manager_args(self):
-        """<...>"""
+        """Returns a dictionary packed with arguments to instantiate the ConfigManager object."""
         args = {
             "text_out": self._say_obj,
             "status_flags": self._status,
             "command_flags": self._commands,
-            "path_name": 'configuration_file.json'
+            "path_name": self.config_pathname
         }
         return args

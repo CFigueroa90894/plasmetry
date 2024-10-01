@@ -9,6 +9,7 @@ status: DONE
 
 Classes:
     DiagnosticsLayer
+
 """
 
 # built-in imports
@@ -87,8 +88,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
         ^# _load_mod() - returns a module for a subcomponent
         - __probe_factory_args() - returns packed arguments to instantiate the probe factory
         - __probe_op_args() - returns packed arguments to instantiate the probe operation thread
-    """
 
+    """
     # Default subcomponent module names
     calculations_factory_mod = 'calculations_factory'
     probe_factory_mod = 'probe_factory'
@@ -120,6 +121,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
             name: str - name of gthe layer for message labeling
             perform_calculations: bool - if given False, calculations will be skipped
             debug: bool - if given True, prints clock tick messages
+
         """
         super().__init__(*args, name=name, **kwargs)   # call parent constructor
 
@@ -185,6 +187,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
                 - plasma diagnostics are being performed, or
                 - system shutdown is underway, or
                 - probe operation did not arm correctly
+
         """
         # validate system is not operating before proceeding
         if self._are_we_diagnosing():
@@ -227,8 +230,8 @@ class DiagnosticsLayer(AbstractDiagnostics):
                 - while system shutdown was underway, or
                 - if probe operation is not ready to diagnose, or
                 - diagnostics are already underway
-        """
 
+        """
         # validate system is not undergoing shutdown
         if self._command.shutdown.is_set():
             raise RuntimeError("Cannot call 'start_diagnostics' while shutdown is underway!")
@@ -264,6 +267,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         Exceptions:
             RuntimeError: `stop_diagnostics()` was called while:
                 - system was not performing plasma diagnostics
+
         """
         # check if diagnostics are not being performed
         if not self._are_we_diagnosing():
@@ -287,6 +291,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         terminating all its subcomponents.
 
         * NOTE: this call blocks until the diagnostic layer has terminated to prevent corruption.
+        
         """
         self.say("initiating local layer shutdown...")
         
@@ -313,6 +318,7 @@ class DiagnosticsLayer(AbstractDiagnostics):
         """Returns True if diagnostics are being performed.
         
         Evaluates three different criteria to determine if diagnostics are underway.
+
         """
         # aggregate diagnostic indicators
         state = self._command.diagnose.is_set() 
@@ -346,9 +352,9 @@ class DiagnosticsLayer(AbstractDiagnostics):
         return classes
     
     def _info(self):
-        """Return info about the instantiated layer's subcomponents.
-        
+        """Return info about the instantiated layer's subcomponents, including lower layers.
         Used for debugging system integration.
+
         """
         sub = [
             ("Diagnostics", "Calculations Factory", str(self._calc_fac)),

@@ -1,3 +1,17 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - GUI Manager
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    GuiManager
+
+"""
+# built-in imports
 import sys
 import os
 
@@ -27,14 +41,25 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
     path_hammer(2, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
+# third-party imports
 from PyQt5.QtWidgets import QApplication
+
+# local imports
 from experiment_run import ExperimentRun
 from user_settings import UserSettings
 from experiment_setup import ExperimentSetup
 from control_layer import ControlLayer
 
 class GuiManager():
-    """GuiManager acts as the main entry point of the application when initialized and properly set-up."""
+    """GuiManager acts as the main entry point of the application when initialized and properly set-up.
+    
+    Attributes:
+        + control
+
+    Methods:
+        + __init__()
+        + start_signals()
+    """
     
     def __init__(self):
         """Gui manager constructor. Initializes the control layer."""                                                                                         

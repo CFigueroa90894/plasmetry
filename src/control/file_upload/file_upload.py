@@ -1,3 +1,15 @@
+""" G3 - Plasma Devs
+Layer 2 - Control - File Upload
+    This module specifies the interface for wrappers used to upload a remote storage service.
+
+author: <----------------------
+status: <?>
+
+Classes:
+    FileUpload
+
+"""
+
 import os
 import sys
 
@@ -32,7 +44,32 @@ from google_drive import GoogleDrive
 from local_upload import LocalUpload
 
 class FileUpload:
-    """FileUpload is defined to act as an interface for data storage operations."""
+    """FileUpload is defined to act as an interface for data storage operations.
+    
+    Attributes:
+        # _say_obj
+        + name
+        + status_flags
+        + command_flags
+        + current_datetime
+        + offsite_wrapper
+        + local_uploader
+        + experiment_name
+        + experiment_metadata
+        + parameters_csv
+        + sweep_csv
+        + probe_folder
+
+    Methods:
+        + __init__()
+        + say()
+        + new_data()
+        + upload_data()
+        + local_upload()
+        + offsite_upload()
+        + folder_change()
+        + get_probe_folder()
+    """
     
     def __init__(self, 
                  text_out, 
@@ -91,7 +128,6 @@ class FileUpload:
         self.say("processing complete.")
         self.status_flags.formatting.clear()
 
-        
         # Datetime object with date and time of execution
         self.current_datetime = datetime.now()
         self.upload_data()
@@ -105,6 +141,8 @@ class FileUpload:
         
         # Store offsite
         self.offsite_upload()
+
+        self.say("finished")
         
     def local_upload(self):
         """local_upload performs local storage data uploading."""

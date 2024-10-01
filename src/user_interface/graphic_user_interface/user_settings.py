@@ -1,14 +1,71 @@
+""" G3 - Plasma Devs
+Layer 4 - User Interface - User Settings
+    <...>
+
+author: <-------------------------
+author: <-------------------------
+
+status: DONE
+
+Classes:
+    UserSettings
+
+"""
+# built-in imports
+from pathlib import Path
+
+# third-party imports
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QDialog
 from PyQt5.QtCore import pyqtSignal, QTimer
+
+# local imports
 from virtual_keyboard import VirtualKeyboard
-from pathlib import Path
 from user_settings_ui import Ui_user_settings_view
 
 
 class UserSettings(QMainWindow):
+    """UserSettings is defined to interface with the ui components shown after the user
+    clicks the 'settings' button.
     
-    """UserSettings is defined to interface with the ui components shown after the user clicks the 'settings' button."""
+    Attributes:
+        + close_signal: Class attribute
+        + back_btn_clicked: Class attribute
+        + setup_window
+        + control
+        + ui
+        + selected_probe
+        + total_pages
+        + current_page_index
 
+    Methods:
+        + __init__()
+        + showEvent()
+        + handle_page_switch()
+        + set_widget_values()
+        + show_data_upload_settings()
+        + probe_config_settings()
+        + set_selected_gas()
+        + set_area_units()
+        + switch_probe_page()
+        + count_probe_pages()
+        + update_page_view()
+        + go_to_next_page()
+        + go_to_previous_page()
+        + open_keyboard()
+        + open_file_dialog()
+        + adjust_value()
+        + new_adjust_scale()
+        + increment()
+        + decrement()
+        + change_title()
+        + handle_back_button()
+        + display_alert_message()
+        + clear_alert_message()
+        + emit_back_signal()
+        + reset_settings()
+        + save_settings()
+
+    """
     close_signal = pyqtSignal()  # Signal to notify GuiManager about the close request
     back_btn_clicked = pyqtSignal()  # Signal for when the back button is clicked
 

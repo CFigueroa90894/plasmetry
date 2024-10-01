@@ -1,3 +1,15 @@
+""" G3 - Plasma Devs
+Layer 2 - Control - Config Manager
+    This module provides a class to interface with Plasmetry's configuration file.
+
+author: <----------------------
+status: <?>
+
+Classes:
+    ConfigManager
+
+"""
+# built-in imports
 import os
 import sys
 
@@ -16,11 +28,39 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # ----- END PATH HAMMER ----- #
 
 import json
+
+# local imports
 from protected_dictionary import ProtectedDictionary 
 
 class ConfigManager:
+    """The ConfigManager class has been defined for configuration file interfacing.
     
-    """The ConfigManager class has been defined for configuration file interfacing."""
+    Attributes:
+        + file_name
+        + say
+        + list_of_biases
+        + list_of_positive_floats
+        + sys_ref
+        + config_ref
+
+    Methods:
+        + __init__()
+        + load_config_file()
+        + save_config_file()
+        + config_references_loaded()
+        + validate_all()
+        + validate_json_path()
+        + get_config()
+        + set_config()
+        + validate_entry()
+        + validate_integers
+        + validate_positive_floats()
+        + validate_voltage()
+        + validate_sweep()
+        + validate_amp()
+        + validate_non_probe_keys()
+        + validate_area()
+    """
     
     def __init__(self, text_out, status_flags, command_flags, path_name):
         
