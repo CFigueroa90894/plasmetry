@@ -190,6 +190,11 @@ class ConfigManager:
              
              # If no probe_id has been set, retreiving non-probe specific values
              elif key in self.config_ref.keys() and probe_id == '':
+                 if 'selected_gas' == key:
+                     if self.config_ref[key] == 'co2':
+                         return self.config_ref[key].upper()
+                     else:
+                         return self.config_ref[key][0].upper() + self.config_ref[key][1:]
                  return self.config_ref[key]
              
              # If config_ref value, retreiving the value for probe specified
