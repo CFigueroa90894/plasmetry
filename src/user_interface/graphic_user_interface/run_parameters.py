@@ -80,20 +80,6 @@ class RunParameters:
         """
         return self.probe_parameters[probe_name]
 
-    def print_probe_parameters(self, probe_name):
-        """
-        Print all parameters and their values for the specified probe.
-
-        :param probe_name: Name of the probe as a string.
-        """
-        parameters = self.get_parameters_for_probe(probe_name)
-        if parameters:
-            print(f"Parameters for {probe_name}:")
-            for param, value in parameters.items():
-                print(f"{param}: {value}")
-        else:
-            print(f"No parameters found for probe: {probe_name}")
-
 
 # Example usage:
 if __name__ == "__main__":
