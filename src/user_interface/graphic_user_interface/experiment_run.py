@@ -83,9 +83,6 @@ class ExperimentRun(QMainWindow):
         # Storing boolean value for logic
         self.running = False
         
-        # Instantiating the list used for display, shall be rewritten when new data is available
-        self.display_container = []
-        
         
         # Used to verify if an experiment has ran previously
         self.ran = False
@@ -257,11 +254,9 @@ class ExperimentRun(QMainWindow):
         
         # Verifying if new parameters, if so, rewriting the display_container object
         if self.params_flag.is_set():
-            self.display_container = self.params_container.copy()
+            parameter_values = self.params_container.copy()
             self.params_flag.clear()
         
-            # Storing a copy of the display_container, since the copy list shall be emptied
-            parameter_values = self.display_container.copy()
             
             # Going through each widget in the frame_left and identifying the Qline edits for rewrite
             for i in range(self.ui.frame_left.layout().count()):
