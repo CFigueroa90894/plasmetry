@@ -1,7 +1,13 @@
-# author: figueroa_90894@studnets.pupr.edu
-# status: WIP
-#   - add docstrings
-#   - add hardware interface objects
+""" G3 - Plasma Devs
+Layer 2 - Diagnostics - Base TLP
+    Provides a base class for concrete TLP probe classes, implementing the attributes they share.
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
+
+Classes:
+    BaseTLP
+"""
 
 # built-in imports
 import sys
@@ -37,14 +43,59 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 from Base_Probe import BaseProbe
 
 class BaseTLP(BaseProbe):
-    "<...>"
+    """This class defines a base parent for Triple Langmuir Probe objects (TLP), inheriting
+    general attributes from the BaseProbe class.
+
+    Attributes (Config and Control):
+        ^+ probe_id - identifier for the probe's type
+        ^+ sys_ref: dict - reference to system settings
+        ^+ config_ref: dict - reference to user settings
+        ^+ status_flags - state indicators
+        ^+ command_flags - action triggers
+        ^+ data_buff: Queue - buffer to return data samples
+        ^+ delay: float - seconds that the thread should wait before entering its main loop
+        ^+ barrier: Barrier - synchronization primitive, blocks until other threads are ready
+        ^+ pause_sig: Event - flag used locally to pause a threads execution
+        ^# _say_obj: SayWriter - text output object used to write messages
+    
+    Attributes (Data Acquisition)
+        + up_amp: HighVoltAmp - hardware object to control the associated amplifier
+        + up_amp_bias: float - desired high voltage output for the upper probe amplifier (Volts)
+        + up_collector: VoltageSensor - obtains voltage measurements
+        + up_shunt: float - shunt resistance to calculate current through the upper probe
+        ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ num_samples: int - number of measurements per averaging window
+        ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
+
+    Methods:
+        + __init__() - initialize the object, called by subclasses
+        ^+ preprocess_samples() - provides external threads formatting required by calculations
+        ^+ run() - executes the threads three life-cycle methods
+        ^+ pause() - blocks the thread's execution for a specified time
+        ^+ say() - text output method, using the SayWriter
+        ^# _THREAD_MAIN_() - the main loop of the thread
+        ^# _thread_setup_() - performs preparations before the _THREAD_MAIN_() method is called
+        ^# _thread_cleanup_() - performs exit actions before finally terminating the thread
+        ^# _delay_start() - blocks the thread's startup until a specified time passes
+        ^# _barrier_wait() - blocks the thread's startup until other threads are at the barrier
+        ^# _wake() - callback function to wake up a paused thread
+    
+    """
     def __init__(self,
                  up_amp_bias: float,
                  up_amp,
                  up_collector,
                  up_shunt:float,
                  *args, **kwargs):
-        """<...>"""
+        """Constructor for the BaseTLP class, accepts arguments associated with the upper probe.
+        
+        Arguments:
+            up_amp_bias: float - desired HV amplifier output (Volts)
+            up_amp: HighVoltAmp - takes a desired bias and outputs it from the amplifier
+            up_collector: VoltageSensor - reads voltage samples across the collector shunt resistor
+            up_shunt: float - resistance of the associated shunt
+
+        """
         super().__init__(*args, **kwargs)
 
         # PROBE CONFIG
@@ -56,5 +107,8 @@ class BaseTLP(BaseProbe):
         self.up_collector = up_collector   # Obtain voltage samples to calculate probe current.
 
     def run(self):
-        """<...>"""
-        super().run() 
+        """Invokes the parent run() method; called by the threading library when start() is called
+        on this object.
+
+        """
+        super().run()

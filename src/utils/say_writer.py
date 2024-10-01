@@ -1,12 +1,12 @@
 """ G3 - Plasma Devs
 Utilities - Say Writer
     Provides printing a utility class, capable of outputting text to various I/O objects, as well
-    as well as Queue objects from the built-in queue module.
+    as Queue objects from the built-in queue module.
 
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
-classes:
+Classes:
     SayWriter - object to provide thread-safe printing functionality
 """
 
@@ -28,14 +28,16 @@ class SayWriter:
         say("Hello World!") # call the object as a function
     
     Attributes:
-        + end - terminator for Text I/O outputs (default '\\n')
+        + end - terminator for Text I/O outputs (default: newline)
         - __buffer: Queue | TextIOWrapper - object to output text
+        - __mode: str - string identifying the objects write mode
     
     Mehtods:
+        + __init__() - object constructor
         + set_buffer() - changes the printing mode of object
         + __call__() - method called when a SayWriter object is invoked as callable object
         + close() - close the writers output stream
-        + get_mode() - returns the current mode andused buffer
+        + get_mode() - returns the current mode and used buffer
         - __default() - the default printing method, uses built-in 'print()'
         - __io_write() - write text to the Text I/O object
         - __queue_msg() - enqueue text to the Queue buffer
@@ -101,7 +103,7 @@ class SayWriter:
         print(msg, flush=True)      # default built-in method
 
     def __io_write(self, msg) -> None:
-        """<...>"""
+        """Writes text to a Text I/O stream."""
         self.__buffer.write(f"{msg}{self.end}")    # write to the Text I/O object
         self.__buffer.flush()       # flush the TextI/O object's buffer
 
@@ -110,7 +112,7 @@ class SayWriter:
         self.__buffer.put(msg)      # enqueue text
 
     def __whisper(self, msg) -> None:
-        """Method invoked to print text in the __call__ method. Overriden by the object
+        """Method invoked to print text in the __call__ method. Overridden by the object
         with the corresponding print method depending on the object's mode
         """
         raise NotImplementedError("The __whisper() method was not overriden in the constructor!")

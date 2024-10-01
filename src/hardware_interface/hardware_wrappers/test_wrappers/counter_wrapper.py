@@ -1,30 +1,43 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Counter Wrapper
-    Implements a test wrapper that prints all recieved arguments.
+Layer 1 - Hardware Interface - Counter Wrapper
+    Implements a testing variant of the hardware wrapper interface that does not depend on physical
+    hardware components or external packages.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - add SayWriter usage
+status: DONE
+
+Classes:
+    CounterWrapperTest - exported as 'wrapper'
 """
 
 # built-in imports
 import sys
 import os
 
-# ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
-if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 3             # how many parent folders to reach /plasmetry/src
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
+    """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
 
-    # absolute path to plasmetry/src
-    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..')
+    # locate project root
+    src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    split = src_abs.split('\\')     # separate path into folders for validation
-    assert split[-2] == 'plasmetry' and split[-1] == 'src'  # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
-    # get subdirs, exclude __pycache__
-    targets = [x[0] for x in os.walk(src_abs) if x[0].split('\\')[-1]!='__pycache__'] 
-    for dir in targets: sys.path.append(dir)    # add all subdirectories to python path
-    print(f"Path Hammer: subdirectories appended to python path")
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+
+if __name__ == "__main__":  # execute path hammer if this script is run directly
+    path_hammer(3, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 # local imports
@@ -35,15 +48,32 @@ from say_writer import SayWriter
 
 
 class CounterWrapperTest(AbstractWrapper):
-    """A dummy hardware interface wrapper for testing purposes.
-    Prints arguments and tracks calls to read methods.
+    """A dummy hardware wrapper for testing purposes. Prints arguments and tracks calls.
+    
+    Attributes:
+        + name - label used for printing debug messages
+        + analog_in_count - number calls to read_analog()
+        + analog_out_count - number calls to write_analog()
+        + digital_in_count - number calls to read_digital()
+        + digital_out_count - number calls to write_analog()
+        + max_addr - highest address number allowed by the wrapper
+        # _say_obj - text output object
+    
+    Methods:
+        + __init__() - hardware wrapper constructor
+        + write_analog() - sets an analog voltage output
+        + read_analog() - reads an analog voltage input
+        + write_digital() - sets a digital voltage output
+        + read_digital() - reads a digital voltage input
     """
-
-    def __init__(self, name:str="CountHW", debug:bool=False, output:SayWriter=None):
+    def __init__(self, name:str="CountHW", output:SayWriter=None):
         """Initialize CounterWrapperTest.
         
-                name: str - shorthand name for printing  
-                debug: bool - set to print debug messages
+        Arguments:
+            name: str - label prefixed to text output
+                default: "CountHW"
+            output: SayWriter - text output object
+                default: None - use built-in 'print()' method
         """
         # Validate output writer
         if output is None:
@@ -56,53 +86,52 @@ class CounterWrapperTest(AbstractWrapper):
         self.analog_out_count = 0   # number of times write_analog() has been called
         self.digital_in_count = 0   # number of times read_digital() has been called
         self.digital_out_count = 0  # number of times write_digital() has been called
-        self.debug = debug          # boolean, to decide whether to print debug messages
         self.max_addr = 8           # highest allowed address for counter wrapper tests
 
     # ----- ANALOG I/O ----- #
     @enforce_type
     def write_analog(self, address:int, value:float|int) -> None:
-        """Prints arguments."""
+        """Prints arguments and increments counter."""
         self.validate_address(address)
         self.analog_out_count += 1    # increment counter
         self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
 
     @enforce_type
     def read_analog(self, address:int) -> float:
-        """Print arguments. Return count value as float."""
+        """Print arguments and increments counter. Return count value as float."""
         self.validate_address(address)
         self.analog_in_count += 1     # increment counter
         self.say(f"Ain addr:{address} count:{self.analog_in_count}")
         return float(self.analog_in_count)
 
-
     # ----- DIGITAL I/O ----- #
     @enforce_type
     def write_digital(self, address: int, level: bool) -> None:
-        """Prints arguments."""
+        """Print arguments and increments counter."""
         self.validate_address(address)
         self.digital_out_count += 1    # increment counter
         self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
     
     @enforce_type
     def read_digital(self, address: int) -> bool:
-        """Print arguments. Returns True."""
+        """Print arguments and increments counter. Returns True."""
         self.validate_address(address)
         self.digital_in_count += 1     # increment counter
         self.say(f"Din addr:{address} count:{self.digital_in_count}")
         return True
 
-
     # ----- UTILITIES ----- #
     def validate_address(self, address):
+        """Raises an error if the given address exceeds the maximum number."""
         if address > self.max_addr:
             raise RuntimeError(f"Address exceeds allowed max of {self.max_addr}. Given {address}")
 
     def say(self, msg):
-        """Print messages prepended with object's name."""
+        """Print messages prepended with the object's name using the SayWriter."""
         self._say_obj(f"{self.name}: {msg}")
 
     def print_state(self):
+        """Prints the values returned by the state() method."""
         state_msg = self.lpreppend(1, '\t ', self.state())
         self.lprint(state_msg)
 

@@ -1,14 +1,13 @@
 """ G3 - Plasma Devs
 Utilities - Printer Thread
     Provides a class, PrinterThread, that provides thread-safe text output for objects and scripts.
-    The PrinterThread reads text from a queue and outputs it so the specified object.
+    The PrinterThread reads text from a queue and outputs it to the specified object.
 
 author: figueroa_90894@students.pupr.edu
 status: DONE
 
-classes:
-    PrinterThread - reads from a buffer and print to the given output.
-    SayWriter - object to provide thread-safe printing functionality
+Classes:
+    PrinterThread - reads from a buffer and prints to the given output/s
 """
 
 # built-in imports
@@ -22,15 +21,26 @@ from io import TextIOWrapper
 
 from typing import Tuple
 
-# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
-def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:  
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
+def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
+
+    # locate project root
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
     print(f"Path Hammer: {src_abs}")
-    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
+
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
     
     # get subdirs, exclude unwanted
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude] 
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
     for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
 
 if __name__ == "__main__":  # execute path hammer if this script is run directly
@@ -74,6 +84,7 @@ class PrinterThread(BaseThread):
         + get_writer() - returns a SayWriter object configured to push items to the PrinterThread
         + say() - inherited from BaseThread, in PrinterThread's case, pushes to its own input queue
         + run() - method invoked by the threading framework when start() is called on the object
+        + read() - gets items from the input buffer
         # _THREAD_MAIN_() - the main loop of the PrinterThread, called by run()
         # _thread_setup_() - prepares the thread for execution, called before _THREAD_MAIN_()
         # _thread_cleanup_() - closes all output streams, called after _THREAD_MAIN_() exits
@@ -101,6 +112,9 @@ class PrinterThread(BaseThread):
             text_out: object or list of objects of output streams to associate with writers
                 default: None (creates a single default SayWriter object)
             daemon: bool - sets the thread to daemonic behavior (see built-in threading module)
+                default: False - the PrinterThread continues execution until explicitly terminated
+            name: str - thread name used for labeling text output (not on forwarded text)
+                default: str - "PRINTR"
         """
         # Validate if text_in was not specified
         if text_in is None:
@@ -190,6 +204,7 @@ class PrinterThread(BaseThread):
             writer(msg)
 
     def read(self):
+        """Attempts to dequeue a message from the input buffer and returns it."""
         return self._input.get(timeout=BUFF_TIMEOUT)
 
 # # Basic Tests

@@ -1,7 +1,15 @@
-# author: figueroa_90894@students.pupr.edu
-# status: WIP
-#   - add docstrings
-#   - implement run()
+""" G3 - Plasma Devs
+Layer 2 - Diagnostics - Langmuir Probe
+    Provides a concrete class for Langmuir Probes, for our current implementations this supports
+    Single Langmuir Probes and Double Langmuir Probes. It inherits from the SweeperProbe class.
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
+
+Classes:
+    LangmuirProbe
+
+"""
 
 # built-in imports
 import sys
@@ -40,17 +48,67 @@ from Sweeper_Probe import SweeperProbe
 RELAY_PAUSE = 3
 
 class LangmuirProbe(SweeperProbe):
-    """<...>"""
+    """This class defines a concrete implementation for SLPs and DLPs, inheriting its sweep
+    functionality directly from the SweeperProbe, and indirectly inheriting general attributes
+    from BaseProbe. Though an SLP and DLP differ in physical makeup, their operation and components
+    remain the same, their difference being the equations they use to calculate plasma parameters.
+
+    Note that all their attributes are inherited, as they are simple sweeper probes, therefore,
+    even its constructor is entirely inherited. However, this class does in fact redefine the thread
+    life-cycle methods that make up their data acquisition functionality, as they are specific to
+    SLPs and DLPs.
+
+    Attributes (Config and Control):
+        ^+ probe_id - identifier for the probe's type
+        ^+ sys_ref: dict - reference to system settings
+        ^+ config_ref: dict - reference to user settings
+        ^+ status_flags - state indicators
+        ^+ command_flags - action triggers
+        ^+ data_buff: Queue - buffer to return data samples
+        ^+ delay: float - seconds that the thread should wait before entering its main loop
+        ^+ barrier: Barrier - synchronization primitive, blocks until other threads are ready
+        ^+ pause_sig: Event - flag used locally to pause a threads execution
+        ^# _say_obj: SayWriter - text output object used to write messages
+    
+    Attributes (Data Acquisition)
+        ^+ sweeper_shunt: float - shunt resistance to obtain current through the probe
+        ^+ sweeper: VoltageSweeper - outputs premapped voltage steps from the associated amplifier
+        ^+ collector: VoltageSensor - reads voltages across the associated shunt
+        ^# _premap_bias: list - precalculated DAC outputs that produce desired HV output at the amp
+        ^+ sampling_rate: int - samples to obtain per second (Hz)
+        ^+ num_samples: int - number of measurements per voltage sweep
+        ^+ relay_set: RelaySet - collection of relays to energize the amplifiers
+
+    Methods:
+        ^+ __init__() - initialize the object, called by subclasses
+        # _THREAD_MAIN_() - the main loop of the thread, repeatedly invokes the sweep() method
+        # _thread_setup_() - zeros and enables the probe circuit
+        # _thread_cleanup_() - zeros and disables the probe circuit, then resets the DAC output
+        ^+ sweep() - performs one voltage sweep, applying one voltage when sample trigger is set
+        ^+ preprocess_samples() - formats data samples and adds config data required by calculations
+        ^+ run() - executes the threads three life-cycle methods
+        ^+ pause() - blocks the thread's execution for a specified time
+        ^+ say() - text output method, using the SayWriter
+        ^# _delay_start() - blocks the thread's startup until a specified time passes
+        ^# _barrier_wait() - blocks the thread's startup until other threads are at the barrier
+        ^# _wake() - callback function to wake up a paused thread
+
+    """
     def __init__(self, *args, **kwargs):
-        """<...>"""
+        """The constructor for the LangmuirProbe class, it is directly inherited from its parent."""
         super().__init__(*args, **kwargs)   # initialize attributes inherited from parent
 
     def run(self):
-        """<...>"""
+        """The method invoked by the threading framework when start() is called on this object."""
         super().run() 
 
     def _THREAD_MAIN_(self):
-        """<...>"""
+        """The main loop of the LangmuirProbe data acquisition process. It traps the thread's
+        execution in a while loop until the user halts diagnostics. Every iteration blocks until
+        a full voltage sweep is performed. The sweep() method returns a list of samples, enqueued in
+        the data buffer as a single data point.
+        
+        """
         self.say("starting data acquisition...")
         # Continuously acquire data samples until user halts the operation
         while self.diagnose.is_set():
@@ -59,7 +117,13 @@ class LangmuirProbe(SweeperProbe):
         self.say("completed data acquisition")
 
     def _thread_setup_(self):
-        """<...>"""
+        """Called before _THREAD_MAIN_ by the run() method. Initially, it sets the operating status
+        flag to true to indicate the high voltage amplifiers are energized. Next, it sets the
+        sweeper amplifier's output to 0 volts, and enables its relays. After pausing to allow the
+        relays to close, the thread blocks in the parent's setup method until it synchronizes with
+        the clock thread. Once it releases, the thread proceeds to its main loop.
+
+        """
         # notify circuit is active
         self.say("enabling probe circuit...")   # log message to file
         self.status_flags.operating.set()       # set status indicator to True
@@ -75,7 +139,16 @@ class LangmuirProbe(SweeperProbe):
         super()._thread_setup_()
 
     def _thread_cleanup_(self):
-        """<...>"""
+        """Called after the thread exits the main loop when the user halts diagnostics or unhandled
+        exceptions are raised in the main loop. This allows the thread to safely disable the probe
+        circuit in the event of a system crash.
+
+        This method sets the sweeper amplifier's output to 0 volts, then disables its relays. It
+        blocks to allow the relays to open. Once the amplifiers are no longer energized, the thread
+        resets its DAC output to 0 volts and clears the operating status flag. Finally, it invokes
+        its parent's cleanup method to terminate.
+
+        """
         self.say("disabling probe circuit...")  # log message to file
 
         # set amplifier outputs to zero
@@ -90,5 +163,4 @@ class LangmuirProbe(SweeperProbe):
 
         self.status_flags.operating.clear() # notify circuit is inactive
         super()._thread_cleanup_()          # call parent cleanup
-
 

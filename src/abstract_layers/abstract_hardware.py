@@ -1,16 +1,18 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface
+Layer 1 - Hardware Interface
     Defines the required public functionality for concrete implementations of the Hardware
     Interface Layer.
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
 
     Unlike other layers, the Hardware Interface Layer does not perform diagnostic operations
     directly. Instead, it provides hardware objects to the upper layers that model the behavior of
     electronic components. It is upper layers' responsibility to operate and control the hardware
     components through the objects provided by this layer.
 
-author: figueroa_90894@students.pupr.edu
-status: WIP
-    - confirm and agree with team on interface specifications
+Classes:
+    AbstractHardware
 """
 
 # built-in imports
@@ -38,16 +40,27 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 from abstract_base_layer import AbstractBaseLayer
 
 class AbstractHardware(AbstractBaseLayer):
-    """This class defines all public methods that 'Layer 4 - Hardware Interface' implementations
+    """This class defines all public methods that 'Layer 1 - Hardware Interface' implementations
     must expose to upper layers.
     
     The two public methods offered are getters to the factories that generate configured 
     hardware objects. This layer's primary responsibility is to abstract the details of instanting,
     mapping, and low-level control between the software and hardware components.
 
-    Public Methods:
-        get_component_factory() - returns factory for complex hardware control objects
-        get_channel_factory() - returns factory for basic hardware control objects 
+    Attributes:
+        ^+ name: str - name identifying the layer for printing purposes
+        ^# _say_obj: SayWriter - text output object
+
+    Methods:
+        ^+ __init__() - instantiates an object of the class
+        ^+ say() - print messages to configured output
+        + get_component_factory() - returns factory for complex hardware control objects
+        + get_channel_factory() - returns factory for basic hardware control objects
+        + reset_components() - disable all digital and analog outputs
+        + layer_shutdown() - resets output channels and destroys subcomponent objects
+        ^# _info() - returns information about a layer's subcomponents
+        ^# _load_all_subcomponents() - returns uninstantiated classes of subcomponents
+        ^# _load_mod() - returns a module for a subcomponent
     """
 
     @abstractmethod
@@ -76,15 +89,14 @@ class AbstractHardware(AbstractBaseLayer):
         """Called by upper layers to disable all relays, digital outputs, and reset the HV amp
         outputs to zero.
         
-        All hardware objects are tracked independently of probe selection in order to reset the
-        system as a whole when changing operating modes. Though each probe will disable the
-        hardware it used in its own cleanup script, this function should be called before beginning
-        a new operating mode as a failsafe.
+        Though each probe will disable the hardware it used in its own cleanup script, this
+        function should be called before beginning a new operating mode as a failsafe.
         """
         raise NotImplementedError("This function was not overloaded in the subclass!")
     
     @abstractmethod
     def layer_shutdown(self):
         """Triggers a shutdown in this layer. HardwareLayer will attempt to reset all DAC and DOUT
-        channels before destroying its subcomponent's objects."""
+        channels before destroying its subcomponent's objects.
+        """
         raise NotImplementedError("Method layer_shutdown() was not overriden by subclass!")

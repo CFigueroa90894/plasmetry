@@ -1,20 +1,14 @@
 """ G3 - Plasma Devs
-Layer 3 - Diagnostics
+Layer 2 - Diagnostics - Probe Operation
     Provides the main implementation for the Diagnostics Layer's thread, controlling probes and 
     calculating plasma parameters. Creates Probe Objects that access the Hardware Interface Layer
     through a set of hardware objects.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - add docstrings
-  - move layer logic to DiagnosticsLayer
-  - validate all methods
-  - correct keys used to access dictionaries
-  - move tests to a unittest file
+status: DONE
 
-classes:
+Classes:
     ProbeOperation - Control probe objects and perform general data acquisition control functions. 
-
 """
 # built-in imports
 import sys
@@ -67,35 +61,38 @@ BARR_PARTIES = 2    # number of threads that trigger clock barrier, including cl
 class ProbeOperation(BaseThread):
     """The main thread of the Diagnsotics Layer.
     
-    ProbeOperation implements the `AbstractDiagnostics` interface, and inherits utils from
-    `BaseThread`. During diagnostics, the ProbeOperation thread collects data samples from
-    Probe Objects, calculates plasma parameters, updates parameters to display, and aggregates
-    samples as results. When diagnostics halt, results are returned pushed to the results buffer.
+    ProbeOperation inherits its utils from BaseThread. During diagnostics, the ProbeOperation thread
+    collects data samples from Probe Objects, calculates plasma parameters, updates parameters to
+    display, and aggregates samples as results. When diagnostics halt, results are returned and
+    pushed to the results buffer for the upper layers to process.
     
-    Public Attributes:
-        status_flags: `StatusFlags` - system state indicators
-        command_flags: `CommandFlags` - action triggers
-        results_buffer: `Queue` - sends experiment results to Control Layer
-        real_time_param: `ProtectedDictionary` - sends to UI parameters to display
+    Attributes:
+        + status_flags: `StatusFlags` - system state indicators
+        + command_flags: `CommandFlags` - action triggers
+        + results_buffer: `Queue` - sends experiment results to Control Layer
+        + real_time_param: `ProtectedDictionary` - sends to UI parameters to display
+        + probe_factory: instantiates various probe objects
+        + calculate - if False, ProbeOperation will skip parameter calculations
+        + debug - defines the clock's printing behavior
+        # _probe: `BaseProbe` subclass - instantiated probe object
+        # _sys_ref - dictionary of system settings for the probe object to be operated
+        # _config_ref - dictionary of user settings for the probe to be operated
+        # _data_buff: `Queue` - recieves data samples Probe Object
+        # _aggregate_samples: list - collected samples and plasma parameters
+        # _ready: indicate ProbeOperation is awaiting to begin diagnostics
+        # _fail: bool - indicates error during operations
+        # _clock_barrier - prevents clock from starting until probe thread is ready
+        # _clock - thread to maintain synchronized data sampling
 
-    Protected Attributes:
-        _probe_factory: instantiates various probe objects
-        _probe: `BaseProbe` subclass - instantiated probe object
-        _ready: indicate ProbeOperation is awaiting to begin diagnostics
-        _fail: bool - indicates error during operations
-        _data_buff: `Queue` - recieves data samples Probe Object
-        _aggregate_samples: list - collected samples and plasma parameters
-
-    Public Methods:
-        run(): invoked by calling thread's start(); overloads BaseThread
-        say(): thread-safe printing; inherited from BaseThread
-
-    Protected Methods:
-        _calculate_params(): calculate plasma parameters from data samples
-            return: Two ProtectedDictionary objects, containing plasma parameters
-        _THREAD_MAIN_(): controls probe objects and processes data samples
-        _thread_setup_(): thread related initialization
-        _thread_cleanup_(): thread related cleanup
+    Methods:
+        + __init__()
+        + arm(): instantiates probe and clock threads and prepares for diagnostics
+        + run(): invoked by calling thread's start(); overloads BaseThread
+        + say(): thread-safe printing; inherited from BaseThread
+        # _calculate_params(): calculate plasma parameters from data samples
+        # _THREAD_MAIN_(): controls probe objects and processes data samples
+        # _thread_setup_(): thread related initialization
+        # _thread_cleanup_(): thread related cleanup
     """
     def __init__(self,
                  status_flags,
@@ -111,7 +108,7 @@ class ProbeOperation(BaseThread):
         ):
         """"Use keyword arguments to correctly invoke parent constructors.
 
-        Keyword Arguments:
+        Arguments:
             status_flags: `StatusFlags` - indicators for subsystem states 
             command_flags: `CommandFlags` - triggers for subsystem behavior
             results_buffer: `Queue` thread-safe queue to pass results to Control Layer
@@ -152,7 +149,6 @@ class ProbeOperation(BaseThread):
         self._fail.clear()
 
     # ----- PROBE CONTROL METHODS ----- #
-    # TO DO
     def arm(self, sys_ref, config_ref):
         """Prepares probe operation for impending plasma diagnostic operations. Instantiates probe,
         clock thread, and other control artifacts.
@@ -245,14 +241,11 @@ class ProbeOperation(BaseThread):
                 self.say(traceback.format_exc())
             self._thread_cleanup_()
 
-
-    # TO DO - validate
     def _THREAD_MAIN_(self):
         """Main thread script for ProbeOperation.
         Aggregates results, calculates plasma parameters, updates display values, and sends
         result to the Control Layer.
         """
-        attribute_errors = 0  # count raised attribute errors
         while self.status_flags.operating.is_set() or not self._data_buff.empty():
             try:
                 # get data samples sent by Probe Object through data buffer
@@ -292,19 +285,6 @@ class ProbeOperation(BaseThread):
             except Empty:
                 self.say("data buff empty...")  # log message to file
 
-            # TO DO - DELETE - temporary for basic tests
-            except AttributeError as err:
-                self.say(f"{err} in _THREAD_MAIN_")
-                attribute_errors += 1
-                if attribute_errors >= MAX_ATTR_ERR:
-                    self.say("attribute errors exceeded threshold!")
-                    self._fail.set()    # set flag to True
-                    break
-                else:
-                    self.pause(BUFF_TIMEOUT)
-                    continue
-
-    # TO DO - validate
     # threading setup
     def _thread_setup_(self):
         """Initialize values and perform entry actions for threaded operations."""
@@ -330,7 +310,6 @@ class ProbeOperation(BaseThread):
         else:
             super()._thread_setup_() # basic print from parent
 
-    # TO DO - validate
     # threading cleanup
     def _thread_cleanup_(self):
         """Clear values and perform exit actions after threaded operations."""
@@ -378,64 +357,4 @@ class ProbeOperation(BaseThread):
         configuration.
         """
         super().say(msg)
-
-
-# if __name__ == "__main__":
-#     # from counter_wrapper import CounterWrapperTest
-#     from printer_thread import PrinterThread
-#     from system_flags import StatusFlags, CommandFlags
-
-#     from threading import Event
-#     from queue import Queue
-#     from unittest.mock import MagicMock
-#     import time
-    
-#     kill = Event()
-#     printing_buff = Queue()
-#     results_buff = Queue()
-#     status = StatusFlags()
-#     commands = CommandFlags()
-#     rt_container = ProtectedDictionary()
-
-#     printer = PrinterThread(
-#         name="PRINTR",
-#         kill=kill,
-#         console_buff=printing_buff,
-#     )
-#     po = ProbeOperation(
-#         console_buff=printing_buff,
-#         status_flags=status,
-#         command_flags=commands,
-#         real_time_param=rt_container,
-#         results_buffer=results_buff,
-#         probe_factory=MagicMock(),
-#         name='PRB_OP'
-#     )
-#     sys_ref = MagicMock(spec=ProtectedDictionary)
-#     config_ref = {
-#         "probe_id": "TESTPROBE",
-#         "sampling_rate": 2,
-#     }
-#     po.arm(sys_ref=sys_ref,
-#            config_ref=config_ref,
-#            print_buff=printing_buff)
-    
-#     # reconfigure probe op for test with no probe
-#     po._data_buff = Queue()
-#     po._clock.barrier = None
-
-#     commands.diagnose.set()
-#     commands.shutdown.clear()
-#     printer.start()
-#     po.start()
-
-#     time.sleep(5)
-#     status.operating.clear()
-#     time.sleep(15)
-#     commands.diagnose.clear()
-#     po.join()
-
-#     kill.set()
-#     printer.join()
-#     print('done')
 

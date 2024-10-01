@@ -70,7 +70,7 @@ class ControlLayer(AbstractControl):
     # TO DO - Carlos
     def __init__(self,
                  name:str="CTRL",
-                 debug:bool=True,
+                 debug:bool=False,
                  buffer_text:bool=False, *args, **kwargs):
         """<...>"""
         # validate if a PrinterThread is needed
@@ -230,11 +230,10 @@ class ControlLayer(AbstractControl):
         
         # checks successful, proceed
         else:
-            self.say("notifying diagnostics must start...")
+            self.say("starting experiment...")
             self._ready.clear()     # cannot be 'ready' for diagnostics once diagnostics start
             self._diagnostics.start_diagnostics()   # trigger diagnostics in lower layers
 
-    # TO DO - CALL FILE UPLOAD
     def stop_experiment(self) -> None:
         """Called by upper layers to halt plasma diagnostic operations in lower layers.
         
@@ -261,15 +260,11 @@ class ControlLayer(AbstractControl):
             try:
                 results = self._results.get(timeout=RESULT_TIMEOUT)  # read results from buffer
                 self.say("results obtained")
+                self.say(f"{len(results)} data-points obtained.")
 
-                # TEMPORARY - DELETE WHEN CALL TO FILE UPLOAD IS IMPLEMENTED
-                self.say(results)
-
-                # TO DO - CALL FILE UPLOAD
                 # Make a single-use FileUpload object
-                
                 uploader = self._file_upload_cls(**self.__file_upload_args())
-                Thread(target=uploader.new_data(results), daemon=False).start()
+                Thread(target=uploader.new_data, args=[results], daemon=False,).start()
 
                 self.__selected_probe = None    # clear probe selection
 

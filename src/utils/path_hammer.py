@@ -1,6 +1,8 @@
-# author: figueroa_90894@students.pupr.edu
-
-"""PATH HAMMER
+""" G3 - Plasma Devs
+Utilities - Path Hammer
+    Provides a parameterized method that recursively searches for subdirectories in a given path,
+    and appends them to the python path, allowing absolute imports of local modules regardless of
+    where they reside in the project folder structure. 
 
     Code snippet that adds each of Plasmetry's layer folders to the python path.
     Assumes absolute imports will invoke modules under /plasmetry/src/<target>.
@@ -16,6 +18,20 @@
     printed path corresponds to plasmetry/src. The path hammer with automatically
     raise an assertion error if it does not find plasmetry/src. Increase or decrease
     the path hammer's arguments as necessary.
+
+
+author: figueroa_90894@students.pupr.edu
+status: DONE
+
+Methods:
+    path_hammer() - appends subdirectories to the python path
+
+Method Arguments:
+    num_dir: int - number of directories, from the current file, to the project's root folder
+    root_target: list[str] - the expected root folder and its parents; validates if it was found
+    exclude: list[str] - subdirectories that should not be appended to the python path
+    suffix: str - appended to folder path, allows targetting the root outside of its subfolders
+        default: empty string
 """
 
 # built-in imports

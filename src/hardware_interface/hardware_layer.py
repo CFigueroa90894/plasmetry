@@ -1,13 +1,13 @@
 """G3 - Plasma Devs
-Layer 4 - Hardware Interface - Concrete Implementation
-    Implements the interface specified by AbstractHardware class.
-    <...>
+Layer 1 - Hardware Interface - Concrete Implementation
+    Implements the interface specified by AbstractHardware class. Instantiates hardware factories
+    for use by upper layers, as well as providing a failsafe to reset all hardware I/O channels.
 
 author: figueroa_90894@students.pupr.edu
-status: WIP
-  - add docstrings to module header
-  - implement reset_components() method
-  - validate with team
+status: DONE
+
+Classes:
+    HardwareLayer
 """
 
 # built-in imports
@@ -16,27 +16,40 @@ import os
 
 import time
 
-# ----- PATH HAMMER v2.7 ----- resolve absolute imports ----- #
+# ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recursing into subdirs and appending them to python path."""
+    # os delimeters
+    win_delimeter, rpi_delimeter = "\\", "/"
+
+    # locate project root
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..' + suffix)
-    assert src_abs.split('\\')[-1*len(root_target):] == root_target   # validate correct top folder
-    
-    # get subdirs, exclude unwanted
-    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split('\\')[-1] not in exclude]
-    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
     print(f"Path Hammer: {src_abs}")
 
+    # select path delimeter
+    if win_delimeter in src_abs: delimeter = win_delimeter
+    elif rpi_delimeter in src_abs: delimeter = rpi_delimeter
+    else: raise RuntimeError("Path Hammer could not determine path delimeter!")
+
+    # validate correct top folder
+    assert src_abs.split(delimeter)[-1*len(root_target):] == root_target
+    
+    # get subdirs, exclude unwanted
+    dirs = [sub[0] for sub in os.walk(src_abs) if sub[0].split(delimeter)[-1] not in exclude]
+    for dir in dirs: sys.path.append(dir)    # add all subdirectories to python path
+
 if __name__ == "__main__":  # execute path hammer if this script is run directly
-    path_hammer(1, ['plasmetry', 'src'], ['__pycache__'])
+    path_hammer(1, ['plasmetry', 'src'], ['__pycache__'])  # hammer subdirs in plasmetry/src
 # ----- END PATH HAMMER ----- #
 
 
 # local imports
 from abstract_hardware import AbstractHardware
-from say_writer import SayWriter
 
-# TO DO
+# local config
+RELAY_PAUSE = 3
+
+
 class HardwareLayer(AbstractHardware):
     """This class implements the Hardware Interface Layer's specified interface, providing
     public access to its required functionality. As a simple implementation, its main concern
@@ -57,7 +70,7 @@ class HardwareLayer(AbstractHardware):
         + __init__() - initialize the HardwareLayer object
         + get_component_factory() - returns the instantiated component factory
         + get_channel_factory() - returns the instantiated channel factory
-        + reset_components() - TO BE IMPLEMENTED - should disable all relays and zero all amps
+        + reset_components() - disables all digital outputs and sets all analog outputs to zero
         # _load_all_subcomponents() - returns dictionary of all subcomponent classes
         ^# _load_mod() - imports and returns a module, specified by name
         # _info() - returns a tuple containing info about the layer's instantiated subcomponents
@@ -98,7 +111,6 @@ class HardwareLayer(AbstractHardware):
         """Return the instantiated ChannelFactory."""
         return self._channel
     
-    # TO DO
     def reset_components(self):
         """This function attempts clear all output channels of the ADC/DAC associated with this
         layer's hardware wrapper. For DAC and DOUT channels, this function iterates over channel
@@ -116,7 +128,7 @@ class HardwareLayer(AbstractHardware):
             self.say("DOUTs cleared")
 
         # pause to allow relays to disengage
-        time.sleep(3)
+        time.sleep(RELAY_PAUSE)
 
         # reset analog outputs
         self.say("clearing DACs...")
@@ -129,7 +141,7 @@ class HardwareLayer(AbstractHardware):
             self.say("DACs cleared")
 
     def _load_all_subcomponents(self):
-        """Returns a dictionary with all the classes corresponding to this layer."""
+        """Returns a dictionary with all the subcomponent classes corresponding to this layer."""
         classes = {
             "hardware_wrapper": self._load_mod(self.hardware_wrapper_mod).wrapper,
             "channel_factory": self._load_mod(self.channel_factory_mod).ChannelFactory,
@@ -138,7 +150,7 @@ class HardwareLayer(AbstractHardware):
         return classes
     
     def layer_shutdown(self):
-        """<...>"""
+        """Terminates the layer. Resets all output channels and destroys object references."""
         self.say("shutting down hardware layer...")
         self.reset_components() # reset all components
 
