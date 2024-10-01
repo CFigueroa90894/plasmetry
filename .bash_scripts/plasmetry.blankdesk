@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Plasmetry
+Comment=Plasma Diagnostics Solution
+# Exec=/home/plasmadev/plasmetry/.bash_scripts/plasmetry.init.sh
+Type=Application
+Terminal=false
+StartupNotify=true
