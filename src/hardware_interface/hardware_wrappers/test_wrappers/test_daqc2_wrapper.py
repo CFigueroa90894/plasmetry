@@ -15,6 +15,8 @@ Classes:
 import sys
 import os
 
+from time import perf_counter_ns
+
 # ----- PATH HAMMER v3.0 ----- resolve absolute imports ----- #
 def path_hammer(num_dir:int, root_target:list[str], exclude:list[str], suffix:str="") -> None:
     """Resolve absolute imports by recursing into subdirs and appending them to python path."""
@@ -86,16 +88,16 @@ class TestDAQC2Wrapper(CounterWrapperTest):
             address: int - the address of the channel being written
             value: float|int - the voltage value to output from the channel (Volts)
         """
-        self.analog_out_count += 1
-        self.say(f"Aout addr:{address} val:{value} count:{self.analog_out_count}")
+        # self.analog_out_count += 1
+        self.say(f"Aout:{address} val:{value} time(ns):{perf_counter_ns()}")
         self.dac.write_analog(address, value)
     
     @enforce_type
     def read_analog(self, address:int) -> float:
         """Returns the voltage value measured at the given ADC channel."""
-        self.analog_in_count += 1
+        # self.analog_in_count += 1
         val = self.dac.read_analog(address)
-        self.say(f"Ain addr:{address} val:{val} count:{self.analog_in_count}")
+        self.say(f"Ain :{address} val:{val} time(ns):{perf_counter_ns()}")
         return val
     
     # ----- DIGITAL I/O ----- #
@@ -109,8 +111,8 @@ class TestDAQC2Wrapper(CounterWrapperTest):
                 True: High
                 False: Low
         """
-        self.digital_out_count += 1
-        self.say(f"Dout addr:{address} val:{level} count:{self.digital_out_count}")
+        # self.digital_out_count += 1
+        self.say(f"Dout:{address} val:{level} time(ns):{perf_counter_ns()}")
         self.dac.write_digital(address, level)
     
     @enforce_type
@@ -122,7 +124,7 @@ class TestDAQC2Wrapper(CounterWrapperTest):
             False: Low
         """
         val = self.dac.read_digital(address)
-        self.say(f"Din addr:{address} val:{val} count:{self.digital_in_count}")
+        self.say(f"Din :{address} val:{val} time(ns):{perf_counter_ns()}")
         return val
 
     
