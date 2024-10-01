@@ -11,3 +11,6 @@ echo 'Setting up plasmetry...'
 # Add plasmetry app to desktop and start menu
 . ~/plasmetry/.bash_scripts/plasmetry.mkdesk.sh
 . ~/plasmetry/.bash_scripts/plasmetry.deskadd.sh
+
+# Make init executable
+chmod +x ~/plasmetry/.bash_scripts/plasmetry.init.sh
