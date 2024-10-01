@@ -447,8 +447,9 @@ class ConfigManager:
                 
         # If key is selected_gas, storing the value of the gas into the probe_id dictionaries
         elif key == 'selected_gas':
-            for probe_id in self.sys_ref:
+            for probe_id in list(self.sys_ref.keys()):
                 ref[probe_id][key] = value
+            ref['selected_gas'] = value
         else:
             # Other values do not require validation.
             ref[key] = value
