@@ -415,9 +415,9 @@ class ExperimentRun(QMainWindow):
 
     def emit_stop_signal(self):
          """Emit signal when stop button is clicked."""
-         self.display_alert_message("Stopping experiment...")
          if self.running:
-            
+            self.display_alert_message("Stopping experiment...")
+
             # Disable stop_btn 
             self.ui.stop_btn.setEnabled(False)
             # Re-enable run_btn & back_btn
