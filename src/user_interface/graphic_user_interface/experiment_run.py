@@ -260,40 +260,40 @@ class ExperimentRun(QMainWindow):
             self.display_container = self.params_container.copy()
             self.params_flag.clear()
         
-        # Storing a copy of the display_container, since the copy list shall be emptied
-        parameter_values = self.display_container.copy()
-        
-        # Going through each widget in the frame_left and identifying the Qline edits for rewrite
-        for i in range(self.ui.frame_left.layout().count()):
-            item = self.ui.frame_left.layout().itemAt(i)
-            if item:
-                widget = item.widget()
-                if isinstance(widget, QFrame):
-                    for j in range(widget.layout().count()):
-                        inner_item = widget.layout().itemAt(j)
-                        inner_widget = inner_item.widget()
-                        if isinstance(inner_widget, QLineEdit):
-                            if parameter_values:
-                                # Pop operation performed on the list, poping the first value
-                                new_value = str(parameter_values.pop(0))
-                                # Writing the new value
-                                inner_widget.setText(new_value)
-                                
-        # Going through each widget in the frame_right and identifying the Qline edits for rewrite
-        for i in range(self.ui.frame_right.layout().count()):
-            item = self.ui.frame_right.layout().itemAt(i)
-            if item:
-                widget = item.widget()
-                if isinstance(widget, QFrame):
-                    for j in range(widget.layout().count()):
-                        inner_item = widget.layout().itemAt(j)
-                        inner_widget = inner_item.widget()
-                        if isinstance(inner_widget, QLineEdit):
-                            if parameter_values:
-                                # Pop operation performed on the list, poping the first value
-                                new_value = str(parameter_values.pop(0))
-                                # Writing the new value
-                                inner_widget.setText(new_value)
+            # Storing a copy of the display_container, since the copy list shall be emptied
+            parameter_values = self.display_container.copy()
+            
+            # Going through each widget in the frame_left and identifying the Qline edits for rewrite
+            for i in range(self.ui.frame_left.layout().count()):
+                item = self.ui.frame_left.layout().itemAt(i)
+                if item:
+                    widget = item.widget()
+                    if isinstance(widget, QFrame):
+                        for j in range(widget.layout().count()):
+                            inner_item = widget.layout().itemAt(j)
+                            inner_widget = inner_item.widget()
+                            if isinstance(inner_widget, QLineEdit):
+                                if parameter_values:
+                                    # Pop operation performed on the list, poping the first value
+                                    new_value = str(parameter_values.pop(0))
+                                    # Writing the new value
+                                    inner_widget.setText(new_value)
+                                    
+            # Going through each widget in the frame_right and identifying the Qline edits for rewrite
+            for i in range(self.ui.frame_right.layout().count()):
+                item = self.ui.frame_right.layout().itemAt(i)
+                if item:
+                    widget = item.widget()
+                    if isinstance(widget, QFrame):
+                        for j in range(widget.layout().count()):
+                            inner_item = widget.layout().itemAt(j)
+                            inner_widget = inner_item.widget()
+                            if isinstance(inner_widget, QLineEdit):
+                                if parameter_values:
+                                    # Pop operation performed on the list, poping the first value
+                                    new_value = str(parameter_values.pop(0))
+                                    # Writing the new value
+                                    inner_widget.setText(new_value)
             
 
     def clear_layout(self, layout):
