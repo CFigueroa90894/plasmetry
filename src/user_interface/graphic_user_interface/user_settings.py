@@ -118,8 +118,6 @@ class UserSettings(QMainWindow):
         # Connect QToolButton clicks to open the virtual keyboard
         self.ui.credentials_path_btn.clicked.connect(lambda: self.open_file_dialog(
             self.ui.credentials_path_input, 'credentials_path'))
-        self.ui.local_path_btn.clicked.connect(
-            lambda: self.open_file_dialog(self.ui.local_path_input, 'local_path'))
         
         self.ui.folder_id_btn.clicked.connect(
             lambda: self.open_keyboard(self.ui.folder_id_input, 'folder_id'))
@@ -515,9 +513,7 @@ class UserSettings(QMainWindow):
 
         self.ui.credentials_path_input.setText(
             Path(self.control.get_config(probe_id='', key='credentials_path')).name)
-        self.ui.local_path_input.setText(
-            Path(self.control.get_config(probe_id='', key='experiment_name')).name)
-        
+       
         self.ui.folder_id_input.setText(self.control.get_config(probe_id='', key='folder_id'))
         
         self.ui.button_adjust_input.setValue(
