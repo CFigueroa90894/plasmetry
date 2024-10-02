@@ -509,6 +509,7 @@ class UserSettings(QMainWindow):
         self.ui.save_btn.setVisible(True)
 
     def set_widget_values(self):
+        
         """set_widget_values initializes the values demonstrated by the UI with config accessor functions."""
 
         self.ui.credentials_path_input.setText(
@@ -664,7 +665,6 @@ class UserSettings(QMainWindow):
             self.control.get_config('hea', 'sweeper_shunt'))
         self.ui.hea_area_units_cb.setCurrentText(self.control.get_config(probe_id='hea', key={'area_units':'unit'}))
 
-
     def show_data_upload_settings(self):
         
         """show_data_upload_settings defines the logic executed when the 'Data Upload' widget is clicked."""
@@ -672,16 +672,20 @@ class UserSettings(QMainWindow):
         self.ui.main_view.setCurrentWidget(self.ui.data_upload_settings_page)
         # Hide the combobox when switching away
         self.ui.cb_handler.setVisible(False)
+        self.control._say_obj("GUI: Data Upload button clicked.")
+
 
     def probe_config_settings(self):
         
         """probe_config_settings defines the logic executed when the 'Probe Configurations' widget is clicked."""
-
+        
         # Switch to the probe config page
         self.ui.main_view.setCurrentWidget(self.ui.probe_config_settings_page)
         self.ui.cb_handler.setVisible(True)  # Show the probe selection combo box
         # Initialize the page view
         self.switch_probe_page(self.ui.probe_selection_cb.currentIndex())
+        self.control._say_obj("GUI: Probe Configurations button clicked.")
+
         
     def set_selected_gas(self, current_gas):
         
@@ -689,6 +693,8 @@ class UserSettings(QMainWindow):
         
         # Invoking control mutator function that interfaces with the ConfigManager
         self.control.set_config(probe_id = '', key='selected_gas', value=current_gas.lower())
+        self.control._say_obj(f"GUI: Selected {current_gas} as gas.")
+
         
     def set_area_units(self, probe_id, combo_box):
          
@@ -696,6 +702,8 @@ class UserSettings(QMainWindow):
         
         # Invoking control mutator function that interfaces with the ConfigManager
         self.control.set_config(probe_id = probe_id, key={'area_units':'unit'}, value=combo_box.currentText())
+        self.control._say_obj(f"GUI: Selected {combo_box.currentText()} as units for the area.")
+
         
     def switch_probe_page(self, index):
         """
@@ -705,6 +713,9 @@ class UserSettings(QMainWindow):
         # Extract the selected probe ID and reset page tracking
         self.selected_probe = self.ui.probe_selection_cb.currentText(
         )[-4:-1].lower()
+        
+        self.control._say_obj(f"GUI: Switched to {self.selected_probe} config page.")
+
 
         # Dynamically calculate the number of pages for the selected probe
         self.total_pages = self.count_probe_pages(self.selected_probe)
@@ -763,6 +774,7 @@ class UserSettings(QMainWindow):
         if self.current_page_index < self.total_pages - 1:
             self.current_page_index += 1
             self.update_page_view()  # Update the view
+            
         else:
             print("Already on the last page")
 
@@ -778,6 +790,8 @@ class UserSettings(QMainWindow):
     def open_keyboard(self, line_edit, key):
         
         """open_keyboard initializes a VirtualKeyboard object used for text input."""
+        self.control._say_obj(f"GUI: Writing input...")
+
         keyboard = VirtualKeyboard(self)
         input_text = ''
         keyboard.setAccessibleName(line_edit.text())
@@ -788,12 +802,17 @@ class UserSettings(QMainWindow):
             line_edit.setText(input_text)
         if input_text:
             self.control.set_config( probe_id='', key=key, value=input_text)
+            self.control._say_obj(f"GUI: Folder ID {input_text} selected.")
+        else: 
+            self.control._say_obj(f"GUI: No input written.")
+
 
         
     def open_file_dialog(self, line_edit, key):
         
         """open_file_dialog allows the user to use PyQt5's QFileDialog, used for search in the directory."""
-        
+        self.control._say_obj(f"GUI: Selecting credentials file...")
+
         dialog = QFileDialog(self)
         dialog.setDirectory(r'C:/')
         if key == 'credentials_path':
@@ -810,6 +829,9 @@ class UserSettings(QMainWindow):
                     probe_id='', key=key, value=str(Path(filenames[0])))
                 line_edit.setText(
                     Path(self.control.get_config(probe_id='', key=key)).name)
+                self.control._say_obj(f"GUI: Credentials file {str(Path(filenames[0])).name} selected.")
+        else:
+                self.control._say_obj(f"GUI: No credentials file selected.")
 
     def adjust_value(self, spinbox, direction, config_key):
         """
@@ -845,6 +867,11 @@ class UserSettings(QMainWindow):
         # If the result is valid, a new value is set in the spinbox
         # Otherwise, previous value set
         spinbox.setValue(self.control.get_config(probe, config_key)*scale)
+        if direction == 1:
+            self.control._say_obj(f"GUI: increment button cliked, new value for {config_key} is {new_value}")
+        else: 
+            self.control._say_obj(f"GUI: decrement button cliked, new value for {config_key} is {new_value}")
+
         
     def new_adjust_scale(self, current_value, direction):
         
@@ -881,7 +908,9 @@ class UserSettings(QMainWindow):
         self.ui.iea_area_gb.setTitle(self.ui.iea_area_gb.title())
 
     def handle_back_button(self):
-        
+        self.control._say_obj(f"GUI: Back button clicked")
+
+
         """handle_back_button defines the logic executed when the back button is clicked."""
         # Check if the current page is not the settings_select_page
         if self.ui.main_view.currentWidget() != self.ui.settings_select_page:
@@ -890,8 +919,11 @@ class UserSettings(QMainWindow):
             # Hide the combobox when switching away
             self.ui.cb_handler.setVisible(False)
         else:
+
             # If already on settings_select_page, emit the back button signal
             self.emit_back_signal()
+            
+
 
     def display_alert_message(self, message):
         """
@@ -921,6 +953,7 @@ class UserSettings(QMainWindow):
         
         # Setting the widget values in the experiment setup page
         self.setup_window.set_widget_values()
+        
 
         
 
@@ -928,6 +961,8 @@ class UserSettings(QMainWindow):
         """reset_settings defines the logic executed when the reset button is clicked."""
 
         self.display_alert_message("Resetting Values")
+        self.control._say_obj(f"GUI: Reset button clicked")
+
         
         # Receiving original config values
         self.control.load_config_file()
@@ -936,6 +971,6 @@ class UserSettings(QMainWindow):
 
     def save_settings(self):
         """save_settings defines the logic executed when the reset button is clicked."""
-
+        self.control._say_obj(f"GUI: Save button clicked")
         self.control.save_config_file()
         self.setup_window.set_widget_values()

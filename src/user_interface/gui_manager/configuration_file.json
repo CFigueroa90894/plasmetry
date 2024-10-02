@@ -56,10 +56,10 @@
         }
     },
     "config_ref": {
-        "local_path": "C:\\Users\\ajco2\\OneDrive\\Desktop\\experiment #123123123",
+        "local_path": "C:\\experiment #678",
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\control\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
-        "folder_id": "1YTVDDlXlnL8CBE8EXQRMml7Tim0cgVWw",
-        "experiment_name": "experiment #123123123",
+        "folder_id": "1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ",
+        "experiment_name": "experiment #678",
         "selected_gas": "argon",
         "button_adjust": 1.0,
         "slp": {
@@ -99,7 +99,8 @@
                 "unit": "km",
                 "display_value": 5.0
             },
-            "selected_gas": "argon"
+            "selected_gas": "argon",
+            "Particle mass": 6.63588e-26
         },
         "hea": {
             "probe_id": "hea",
@@ -174,7 +175,8 @@
                 "unit": "km",
                 "display_value": 24.0
             },
-            "selected_gas": "argon"
+            "selected_gas": "argon",
+            "Particle mass": 6.63588e-26
         },
         "tlv": {
             "probe_id": "tlv",
@@ -194,7 +196,7 @@
                 "display_value": 1.0
             },
             "selected_gas": "argon",
-            "Particle mass": 1.67425e-27
+            "Particle mass": 6.63588e-26
         }
     }
 }
