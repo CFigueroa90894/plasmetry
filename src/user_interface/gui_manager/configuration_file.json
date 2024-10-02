@@ -56,10 +56,10 @@
         }
     },
     "config_ref": {
-        "local_path": "C:\\experiment #678",
+        "local_path": "C:\\Users\\ajco2\\OneDrive\\Desktop\\experiment #123123123",
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\control\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
         "folder_id": "1YTVDDlXlnL8CBE8EXQRMml7Tim0cgVWw",
-        "experiment_name": "experiment #678",
+        "experiment_name": "experiment #123123123",
         "selected_gas": "argon",
         "button_adjust": 1.0,
         "slp": {
@@ -119,9 +119,9 @@
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 25.0,
-            "Probe area": 400.0,
+            "Probe area": 0.04,
             "area_units": {
-                "unit": "hm",
+                "unit": "cm",
                 "display_value": 4.0
             },
             "selected_gas": "argon",
@@ -150,7 +150,8 @@
                 "unit": "dm",
                 "display_value": 4.0
             },
-            "selected_gas": "argon"
+            "selected_gas": "argon",
+            "Particle mass": 9.10938e-31
         },
         "tlc": {
             "probe_id": "tlc",
@@ -187,10 +188,10 @@
             "up_shunt": 200.0,
             "float_collector_gain": 1.0,
             "num_samples": 2,
-            "Probe area": 0.04,
+            "Probe area": 0.01,
             "area_units": {
                 "unit": "cm",
-                "display_value": 4.0
+                "display_value": 1.0
             },
             "selected_gas": "argon",
             "Particle mass": 1.67425e-27
