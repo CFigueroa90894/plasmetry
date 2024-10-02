@@ -185,12 +185,12 @@
             "up_amp_bias": 10.0,
             "up_collector_gain": 1.0,
             "up_shunt": 200.0,
-            "float_collector_gain": 2.0,
+            "float_collector_gain": 1.0,
             "num_samples": 2,
-            "Probe area": 0.01,
+            "Probe area": 0.04,
             "area_units": {
                 "unit": "cm",
-                "display_value": 1.0
+                "display_value": 4.0
             },
             "selected_gas": "argon",
             "Particle mass": 1.67425e-27

@@ -2990,7 +2990,7 @@ class Ui_user_settings_view(object):
         self.tlv_area_units_cb.addItem("")
         self.tlv_area_units_cb.addItem("")
         self.tlv_float_collect_gain_gb = QtWidgets.QGroupBox(self.tlv_area_gb)
-        self.tlv_float_collect_gain_gb.setGeometry(QtCore.QRect(400, 10, 395, 125))
+        self.tlv_float_collect_gain_gb.setGeometry(QtCore.QRect(400, 0, 395, 125))
         self.tlv_float_collect_gain_gb.setMinimumSize(QtCore.QSize(395, 125))
         self.tlv_float_collect_gain_gb.setMaximumSize(QtCore.QSize(395, 125))
         font = QtGui.QFont()
