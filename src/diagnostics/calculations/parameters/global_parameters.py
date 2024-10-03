@@ -118,13 +118,12 @@ def get_particle_density(parameters):
     else:
         particle_temperature = parameters['Particle temperature (Joules)']
         particle_saturation_current = parameters['Particle saturation current (Amperes)']
-        
     # Acquiring electron density
     parameters['Particle density (m-3)'] =  abs(particle_saturation_current / \
                                          (ELECTRON_CHARGE * probe_area * \
                                           np.sqrt(abs(particle_temperature / \
                                          (np.pi * particle_mass * 2)))))
-   
+
     # Deleting the temporary key created for SLP
     if ('Electron saturation current (Amperes)' in parameters) or ('Ion saturation current (Amperes)' in parameters):       
         parameters['Electron density (m-3)'] = parameters['Particle density (m-3)']
@@ -188,7 +187,6 @@ def get_particle_temperature(parameters):
     
     # Storing the particle temperature in Joules
     parameters['Particle temperature (Joules)'] = parameters['Particle temperature (eV)'] * ELECTRON_CHARGE
-    
 
 def get_equations():
     

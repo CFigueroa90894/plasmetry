@@ -16,10 +16,11 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 # ----- END PATH HAMMER ----- #
 
 import unittest
-from slp_plasma_parameters import get_equations
+from dlp_plasma_parameters import get_equations
 from GlobalTestCases import GlobalTestCases
 
 def generate_suite(equations, probe_test_cases):
+    
     """This function returns am instantiated TestSuite object. 
     
     The suite contains the tests to be extracted from the GlobalTestCases class"""
@@ -67,7 +68,7 @@ if __name__ == '__main__':
         import csv as csv_library
         import numpy as np
         
-        with open('initial data for test cases/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+        with open('../../src/diagnostics/calculations/testing scenarios/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
@@ -86,8 +87,8 @@ if __name__ == '__main__':
     # Only must change particle mass and the imported equations reference
     bias, raw_current =  LoadPreviousData()
     
-    parameters = {'Bias': bias, 'Raw current': raw_current}
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31}
+    parameters = {'Bias 1': bias, 'Raw voltage 1': raw_current}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  9.10938356e-31, 'sweeper_shunt':1}
 
     # Setting the GlobalTestCases paramaters atribute 
     GlobalTestCases.set_probe_type(get_equations(), parameters)
