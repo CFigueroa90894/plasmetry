@@ -60,8 +60,8 @@
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\control\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
         "folder_id": "1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ",
         "experiment_name": "experiment #678",
-        "selected_gas": "argon",
-        "button_adjust": 1.0,
+        "selected_gas": "nitrogen",
+        "button_adjust": 0.1,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 200.0,
@@ -80,7 +80,7 @@
                 "display_value": 6.0
             },
             "Particle mass": 9.10938e-31,
-            "selected_gas": "argon"
+            "selected_gas": "nitrogen"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -99,7 +99,7 @@
                 "unit": "km",
                 "display_value": 5.0
             },
-            "selected_gas": "argon",
+            "selected_gas": "nitrogen",
             "Particle mass": 6.63588e-26
         },
         "hea": {
@@ -125,7 +125,7 @@
                 "unit": "cm",
                 "display_value": 4.0
             },
-            "selected_gas": "argon",
+            "selected_gas": "nitrogen",
             "Particle mass": 9.10938e-31
         },
         "iea": {
@@ -151,7 +151,7 @@
                 "unit": "dm",
                 "display_value": 4.0
             },
-            "selected_gas": "argon",
+            "selected_gas": "nitrogen",
             "Particle mass": 9.10938e-31
         },
         "tlc": {
@@ -175,7 +175,7 @@
                 "unit": "km",
                 "display_value": 24.0
             },
-            "selected_gas": "argon",
+            "selected_gas": "nitrogen",
             "Particle mass": 6.63588e-26
         },
         "tlv": {
@@ -195,7 +195,7 @@
                 "unit": "cm",
                 "display_value": 1.0
             },
-            "selected_gas": "argon",
+            "selected_gas": "nitrogen",
             "Particle mass": 6.63588e-26
         }
     }
