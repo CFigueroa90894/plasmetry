@@ -71,9 +71,9 @@ cut_second_derivative = second_deriv[401-99:len(second_deriv)-len(cut_bias)]
 #plotting bias vs raw current 
 print('\nraw current vs bias:\n')
 plt.plot(bias, parameters['Raw voltage 1'], marker='o', linestyle='-')
-plt.xlabel('bias')
-plt.ylabel('current')
-plt.title('Plot of Y vs X')
+plt.xlabel('Bias')
+plt.ylabel('Raw Signal')
+plt.title('Plot of Raw Signal vs Bias')
 plt.grid(True)
 plt.show()
 
@@ -81,9 +81,9 @@ plt.show()
 print('\nfiltered current vs bias:\n')
 
 plt.plot(bias, filtered_current, marker='o', linestyle='-')
-plt.xlabel('bias')
-plt.ylabel('filtered current')
-plt.title('Plot of Y vs X')
+plt.xlabel('Bias')
+plt.ylabel('Filtered Signal')
+plt.title('Plot of Filtered Signal vs Bias')
 plt.grid(True)
 plt.show()
 
