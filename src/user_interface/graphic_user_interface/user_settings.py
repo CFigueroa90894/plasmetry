@@ -829,7 +829,7 @@ class UserSettings(QMainWindow):
                     probe_id='', key=key, value=str(Path(filenames[0])))
                 line_edit.setText(
                     Path(self.control.get_config(probe_id='', key=key)).name)
-                self.control._say_obj(f"GUI: Credentials file {str(Path(filenames[0])).name} selected.")
+                self.control._say_obj(f"GUI: Credentials file {str(Path(filenames[0]).name)} selected.")
         else:
                 self.control._say_obj(f"GUI: No credentials file selected.")
 
