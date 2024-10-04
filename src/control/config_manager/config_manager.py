@@ -96,12 +96,12 @@ class ConfigManager:
             # Storing config_ref key value pair as a class attribute.
             self.config_ref=ProtectedDictionary(complete_file['config_ref'])
                 
-            
+            # Writing to log.
+            self.say('config loaded!')
             # Validate_all function call to verify config file entries.
             self.validate_all()
             
-            # Writing to log.
-            self.say('config loaded!')
+            
  
     def save_config_file(self):
         """save_config_file rewrites onfig file contents."""
@@ -141,6 +141,7 @@ class ConfigManager:
              self.say('Must load config file before using mutator functions!')
 
              return False
+         
     def validate_all(self):
         
         """validate_all validates entries on config file, 
@@ -156,10 +157,17 @@ class ConfigManager:
             # Going through sys_ref and config_ref values for validiation by calling validate_entry
             for key in self.sys_ref[probe_id].keys():
                 self.validate_entry(self.sys_ref, probe_id, key, self.sys_ref[probe_id][key])
-                
+                self.say(f'Probe ID {probe_id} {key}: {self.sys_ref[probe_id][key]}')
+
             for key in self.config_ref[probe_id].keys():
                 self.validate_entry(self.config_ref, probe_id, key, self.config_ref[probe_id][key])
-     
+                self.say(f' Probe ID {probe_id} {key}: {self.config_ref[probe_id][key]}')
+                
+        for key in list(self.config_ref.keys()):
+            if not key in probe_ids:
+                self.validate_entry(self.config_ref, '', key, self.config_ref[key])
+                self.say(f' {key}: {self.config_ref[key]}')
+                
             
     def validate_json_path(self, file_name):
         
@@ -190,6 +198,11 @@ class ConfigManager:
              
              # If no probe_id has been set, retreiving non-probe specific values
              elif key in self.config_ref.keys() and probe_id == '':
+                 if 'selected_gas' == key:
+                     if self.config_ref[key] == 'co2':
+                         return self.config_ref[key].upper()
+                     else:
+                         return self.config_ref[key][0].upper() + self.config_ref[key][1:]
                  return self.config_ref[key]
              
              # If config_ref value, retreiving the value for probe specified
@@ -447,8 +460,9 @@ class ConfigManager:
                 
         # If key is selected_gas, storing the value of the gas into the probe_id dictionaries
         elif key == 'selected_gas':
-            for probe_id in self.sys_ref:
+            for probe_id in list(self.sys_ref.keys()):
                 ref[probe_id][key] = value
+            ref['selected_gas'] = value
         else:
             # Other values do not require validation.
             ref[key] = value

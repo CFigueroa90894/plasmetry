@@ -34,33 +34,42 @@ def get_floating_and_plasma_potential(parameters):
     
     Since currents acquired may not reach 0, the current value closest to 0 shall be taken.
     """
-    
-    # Storing filtered current and applied bias 
-    filtered_current_list = parameters['Filtered current (Amperes)'] 
-    voltage_list = parameters['Bias 1']
+    try:
+        # Storing filtered current and applied bias 
+        filtered_current_list = parameters['Filtered current (Amperes)'] 
+        voltage_list = parameters['Bias 1']
 
-    # Storing the index of the floating potential and its value
-    parameters['Floating potential index'] = np.argmin(abs(filtered_current_list)) 
-    parameters['Floating potential (Volts)'] = voltage_list[parameters['Floating potential index']]
-    
+        # Storing the index of the floating potential and its value
+        parameters['Floating potential index'] = np.argmin(abs(filtered_current_list)) 
+        parameters['Floating potential (Volts)'] = voltage_list[parameters['Floating potential index']]
+        
 
-    """The plasma potential may be yielded from the value of the voltage where the 
+        """The plasma potential may be yielded from the value of the voltage where the 
 
-    minimum value of the second order derivate occurs.
-    """
-    
-    # Acquiring second order derivative
-    first_derivative = np.gradient(filtered_current_list, voltage_list)
-    second_derivative = np.gradient(first_derivative, voltage_list)
-    
-    # Storing the index of the plasma potential and its value
-    parameters['Plasma potential index'] = np.argmin(second_derivative)
-    parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
-    
-    # If the calculated plasma potential is negative,
-    # biases entered or data captured does not produce expected sigmoid.
-    if parameters['Plasma potential (Volts)'] <= 0: 
-        return 'This sweep is not valid'
+        minimum value of the second order derivate occurs.
+        """
+        
+        # Acquiring second order derivative
+        first_derivative = np.gradient(filtered_current_list, voltage_list)
+        second_derivative = np.gradient(first_derivative, voltage_list)
+        
+        # Storing the index of the plasma potential and its value
+        parameters['Plasma potential index'] = np.argmin(second_derivative)
+        parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
+        
+        # If the calculated plasma potential is negative,
+        # biases entered or data captured does not produce expected sigmoid.
+        if parameters['Plasma potential (Volts)'] <= 0: 
+            return 'This sweep is not valid'
+        
+    except Exception as e: 
+        
+        parameters['Plasma potential index'] = np.nan
+        parameters['Plasma potential (Volts)'] = np.nan
+        parameters['Floating potential index'] = np.nan 
+        parameters['Floating potential (Volts)'] = np.nan
+        print(f'{e}')
+        
     
     
 def get_electron_saturation_current(parameters):    
@@ -71,12 +80,19 @@ def get_electron_saturation_current(parameters):
     
     thus the current acquired at this point yields the value of the electron saturation current.
     """
-    
-    # Storing the plasma potential index
-    saturation_index = parameters['Plasma potential index']
-    
-    # Storing the current acquired at the plasma potential, A.K.A the electron saturation current
-    parameters['Electron saturation current (Amperes)'] = parameters['Filtered current (Amperes)'][saturation_index]
+    try:
+        # Storing the plasma potential index
+        saturation_index = parameters['Plasma potential index']
+        
+        # Storing the current acquired at the plasma potential, A.K.A the electron saturation current
+        parameters['Electron saturation current (Amperes)'] = parameters['Filtered current (Amperes)'][saturation_index]
+        
+    except Exception as e: 
+        
+        # If there is an error raise
+        parameters['Electron saturation current (Amperes)'] = np.nan
+        
+        
 
 
 def get_electron_temperature(parameters):
@@ -96,32 +112,40 @@ def get_electron_temperature(parameters):
     
     This decision was made to ensure the calculations are based on the expected slope.
     """
-       
-    # Storing the charge of the electron particle, since it shall be used for calculation
-    ELECTRON_CHARGE = 1.60217657e-19
+    try:
+        # Storing the charge of the electron particle, since it shall be used for calculation
+        ELECTRON_CHARGE = 1.60217657e-19
 
-    # Storing the number of points between the plasma potential and floating potential.
-    points_number = parameters['Plasma potential index'] - parameters['Floating potential index']
-    
-    # The starting point used calculate the slope is the point with an index 1/4 of the way
-    # between the floating potential and plasma potential.
-    starting_index = int(np.ceil(points_number * 0.25)) + parameters['Floating potential index']
-    
-    # The final point used to calculate the slope is the point with an index 3/4 of the distance 
-    # between the floating potential and plasma potential. 
-    final_index= int(np.ceil(points_number * 0.75 )) + parameters['Floating potential index']
-   
-    # To calculate the slope, the numerator and denominator shall be acquired.
-    numerator_of_slope = np.log(parameters['Filtered current (Amperes)'][final_index]) - \
-    np.log(abs(parameters['Filtered current (Amperes)'] [starting_index]))
-    denominator_of_slope = parameters['Bias 1'][final_index] - parameters['Bias 1'][starting_index]
-    
-    # Denominator / numerator is being performed 
-    parameters['Electron temperature (eV)'] = denominator_of_slope / numerator_of_slope
-    
-    # Multiplying the electron particle mass times the electron temperature in electron volts
-    # yields the electron temperature in Joules
-    parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * ELECTRON_CHARGE
+        # Storing the number of points between the plasma potential and floating potential.
+        points_number = parameters['Plasma potential index'] - parameters['Floating potential index']
+        
+        # The starting point used calculate the slope is the point with an index 1/4 of the way
+        # between the floating potential and plasma potential.
+        starting_index = int(np.ceil(points_number * 0.25)) + parameters['Floating potential index']
+        
+        # The final point used to calculate the slope is the point with an index 3/4 of the distance 
+        # between the floating potential and plasma potential. 
+        final_index= int(np.ceil(points_number * 0.75 )) + parameters['Floating potential index']
+       
+        # To calculate the slope, the numerator and denominator shall be acquired.
+        numerator_of_slope = np.log(parameters['Filtered current (Amperes)'][final_index]) - \
+        np.log(abs(parameters['Filtered current (Amperes)'] [starting_index]))
+        denominator_of_slope = parameters['Bias 1'][final_index] - parameters['Bias 1'][starting_index]
+        
+        # Denominator / numerator is being performed 
+        parameters['Electron temperature (eV)'] = denominator_of_slope / numerator_of_slope
+        
+        # Multiplying the electron particle mass times the electron temperature in electron volts
+        # yields the electron temperature in Joules
+        parameters['Electron temperature (Joules)'] = parameters['Electron temperature (eV)'] * ELECTRON_CHARGE
+    except Exception as e: 
+        
+        # storing np.nan since there is an error raise
+        parameters['Electron temperature (eV)'] = np.nan
+        
+        # storing np.nan since there is an error raise
+        parameters['Electron temperature (Joules)'] = np.nan
+        print (f'{e}')
 
 
 def get_display_parameters(parameters):

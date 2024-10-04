@@ -275,7 +275,8 @@ class ExperimentSetup(QMainWindow):
         """
         
         self.selected_probe = self.ui.probe_selection_cb.currentText()[-4:-1].lower()
-        
+        self.control._say_obj(f"GUI: Switched to {self.selected_probe} setup page.")
+
 
         # Map the QComboBox index to the correct page in main_view
         if index == 0:
@@ -300,7 +301,8 @@ class ExperimentSetup(QMainWindow):
     def emit_switch_to_run_signal(self, run_window):
         
         """emit_switch_to_run_signal defines the logic executed when the continue button is clicked."""
-        
+        self.control._say_obj(f"GUI: Run button clicked")
+
         # Disables all interactables to prevent erros while system prepares for experiment run
         self.disable_all()
 
@@ -317,14 +319,16 @@ class ExperimentSetup(QMainWindow):
         # Restores all interactables as enables
         self.enable_all()
 
+
         
        
     def emit_switch_to_settings_signal(self):
         
         """emit_switch_to_settings_signal defines the logic executed when the settings button is clicked."""
-        
+        self.control._say_obj(f"GUI: Settings button clicked")
         # Emit the signal to switch to the user settings window
         self.switch_to_settings.emit() 
+
 
 
     def reset_setup(self):
@@ -332,6 +336,8 @@ class ExperimentSetup(QMainWindow):
         """reset_setup defines the logic executed when the reset button is clicked."""
 
         self.display_alert_message("Resetting Values")
+        self.control._say_obj(f"GUI: Reset button clicked")
+
         # Receiving original config values
         self.control.load_config_file()
         # Reset values from config file
@@ -360,6 +366,11 @@ class ExperimentSetup(QMainWindow):
         # If the result is valid, a new value is set in the spinbox
         # Otherwise, previous value set
         spinbox.setValue(self.control.get_config(self.selected_probe, config_key))
+        if direction == 1:
+            self.control._say_obj(f"GUI: increment button cliked, new value for {config_key} is {new_value}")
+        else: 
+            self.control._say_obj(f"GUI: decrement button cliked, new value for {config_key} is {new_value}")
+
 
     def display_alert_message(self, message):
         """

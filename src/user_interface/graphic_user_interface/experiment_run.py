@@ -83,9 +83,6 @@ class ExperimentRun(QMainWindow):
         # Storing boolean value for logic
         self.running = False
         
-        # Instantiating the list used for display, shall be rewritten when new data is available
-        self.display_container = []
-        
         
         # Used to verify if an experiment has ran previously
         self.ran = False
@@ -151,12 +148,16 @@ class ExperimentRun(QMainWindow):
         self.handle_page_switch()
 
     def show_exp_path_name_frame(self):
+        self.control._say_obj(f"GUI: Switch to new experiment name selection page, user clicked no.")
+
         """Shows exp_path_name_frame and hides exp_path_name_query_frame."""
         self.ui.exp_path_name_input.setText(Path(self.control.get_config(probe_id='', key='experiment_name')).name)
         self.ui.exp_path_name_query_frame.setVisible(False)
         self.ui.exp_path_name_frame.setVisible(True)
 
     def switch_to_run_page(self):
+        self.control._say_obj(f"GUI: Experiment name confirmed, switching to data acquisition page.")
+
         """Switches to the run_page when the user confirms or clicks yes."""
         self.control.save_config_file()
         self.ui.main_view.setCurrentIndex(1)  # Assuming run_page is at index 1
@@ -190,14 +191,18 @@ class ExperimentRun(QMainWindow):
 
     def start_timer(self):
         """Start the timer to update parameters every second."""
+        self.control._say_obj(f"GUI: Starting Qtimer.")
+
         self.ui.timer.start(1000)  # Update every second
 
     def stop_timer(self):
         """Stop the timer."""
+        self.control._say_obj(f"GUI: Stoping Qtimer.")
         self.ui.timer.stop()
 
     def load_probe_calculations(self, parameters):
         """Load and display calculations for the selected probe."""
+        
         if parameters:
             print('Loading calculations...')
 
@@ -217,9 +222,12 @@ class ExperimentRun(QMainWindow):
             for key in self.keys[half:]:
                 self.add_calculation_to_frame(
                     self.ui.frame_right.layout(), key)
+                
+            self.control._say_obj(f"GUI: Parameter labels loaded.")
 
         else:
             print('No parameters provided.')
+        
 
     def add_calculation_to_frame(self, layout, param_name):
         """Add a parameter's calculation display to a specified layout."""
@@ -257,43 +265,43 @@ class ExperimentRun(QMainWindow):
         
         # Verifying if new parameters, if so, rewriting the display_container object
         if self.params_flag.is_set():
-            self.display_container = self.params_container.copy()
+            self.control._say_obj(f"GUI: Received new parameters.")
+
+            parameter_values = self.params_container.copy()
             self.params_flag.clear()
         
-        # Storing a copy of the display_container, since the copy list shall be emptied
-        parameter_values = self.display_container.copy()
-        
-        # Going through each widget in the frame_left and identifying the Qline edits for rewrite
-        for i in range(self.ui.frame_left.layout().count()):
-            item = self.ui.frame_left.layout().itemAt(i)
-            if item:
-                widget = item.widget()
-                if isinstance(widget, QFrame):
-                    for j in range(widget.layout().count()):
-                        inner_item = widget.layout().itemAt(j)
-                        inner_widget = inner_item.widget()
-                        if isinstance(inner_widget, QLineEdit):
-                            if parameter_values:
-                                # Pop operation performed on the list, poping the first value
-                                new_value = str(parameter_values.pop(0))
-                                # Writing the new value
-                                inner_widget.setText(new_value)
-                                
-        # Going through each widget in the frame_right and identifying the Qline edits for rewrite
-        for i in range(self.ui.frame_right.layout().count()):
-            item = self.ui.frame_right.layout().itemAt(i)
-            if item:
-                widget = item.widget()
-                if isinstance(widget, QFrame):
-                    for j in range(widget.layout().count()):
-                        inner_item = widget.layout().itemAt(j)
-                        inner_widget = inner_item.widget()
-                        if isinstance(inner_widget, QLineEdit):
-                            if parameter_values:
-                                # Pop operation performed on the list, poping the first value
-                                new_value = str(parameter_values.pop(0))
-                                # Writing the new value
-                                inner_widget.setText(new_value)
+            
+            # Going through each widget in the frame_left and identifying the Qline edits for rewrite
+            for i in range(self.ui.frame_left.layout().count()):
+                item = self.ui.frame_left.layout().itemAt(i)
+                if item:
+                    widget = item.widget()
+                    if isinstance(widget, QFrame):
+                        for j in range(widget.layout().count()):
+                            inner_item = widget.layout().itemAt(j)
+                            inner_widget = inner_item.widget()
+                            if isinstance(inner_widget, QLineEdit):
+                                if parameter_values:
+                                    # Pop operation performed on the list, poping the first value
+                                    new_value = str(parameter_values.pop(0))
+                                    # Writing the new value
+                                    inner_widget.setText(new_value)
+                                    
+            # Going through each widget in the frame_right and identifying the Qline edits for rewrite
+            for i in range(self.ui.frame_right.layout().count()):
+                item = self.ui.frame_right.layout().itemAt(i)
+                if item:
+                    widget = item.widget()
+                    if isinstance(widget, QFrame):
+                        for j in range(widget.layout().count()):
+                            inner_item = widget.layout().itemAt(j)
+                            inner_widget = inner_item.widget()
+                            if isinstance(inner_widget, QLineEdit):
+                                if parameter_values:
+                                    # Pop operation performed on the list, poping the first value
+                                    new_value = str(parameter_values.pop(0))
+                                    # Writing the new value
+                                    inner_widget.setText(new_value)
             
 
     def clear_layout(self, layout):
@@ -348,7 +356,8 @@ class ExperimentRun(QMainWindow):
 
     def emit_back_signal(self):
         """Emit signal when back button is clicked."""
-        
+        self.control._say_obj(f"GUI: Back button clicked.")
+
         if self.running:
             self.running = False
             self.control.stop_experiment()
@@ -361,6 +370,8 @@ class ExperimentRun(QMainWindow):
     def emit_run_signal(self):
         """Emit signal when run button is clicked."""
         
+        self.control._say_obj(f"GUI: Run button clicked.")
+
         if not self.running:  # Ensure it only triggers if not already running
         
             if self.ran:
@@ -387,6 +398,9 @@ class ExperimentRun(QMainWindow):
         self.display_alert_message("Experiment started")
         
     def open_file_dialog(self, line_edit):
+        
+        self.control._say_obj(f"GUI: New experiment name folder being selected...")
+
         """open_file_dialog opens a file dialog for folder path identification."""
         # Storing the file dialog object
         dialog = QFileDialog(self)
@@ -411,10 +425,18 @@ class ExperimentRun(QMainWindow):
                 self.control.set_config(probe_id='', key='experiment_name', value=Path(filenames[0]).name)
                 # Writing the new folder name
                 line_edit.setText(Path(self.control.get_config(probe_id='', key='local_path')).name)
+                self.control._say_obj(f"GUI: New experiment name {Path(self.control.get_config(probe_id='', key='local_path')).name} selected...")
+        else:
+            self.control._say_obj(f"GUI: No new experiment name selected...")
+
 
 
     def emit_stop_signal(self):
+    
          """Emit signal when stop button is clicked."""
+         
+         self.control._say_obj(f"GUI: Stop button clicked")
+
          if self.running:
             self.display_alert_message("Stopping experiment...")
 

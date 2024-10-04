@@ -56,18 +56,18 @@
         }
     },
     "config_ref": {
-        "local_path": "D:\\My Files ALT\\CLASSES\\CAPSTONE\\plasmetry\\experiment_test_results\\test_1",
-        "credentials_path": "D:\\My Files ALT\\CLASSES\\CAPSTONE\\plasmetry\\src\\control\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
-        "folder_id": "no",
-        "experiment_name": "test_1",
+        "local_path": "C:\\experiment #678",
+        "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\control\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
+        "folder_id": "1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ",
+        "experiment_name": "experiment #678",
         "selected_gas": "nitrogen",
-        "button_adjust": 10.0,
+        "button_adjust": 0.1,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 200.0,
             "dac_min": 0.0,
-            "dac_max": 1.0,
-            "num_samples": 10,
+            "dac_max": 4.0,
+            "num_samples": 50,
             "sweep_min": -300.0,
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
@@ -80,7 +80,7 @@
                 "display_value": 6.0
             },
             "Particle mass": 9.10938e-31,
-            "selected_gas": "oxygen"
+            "selected_gas": "nitrogen"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -99,7 +99,8 @@
                 "unit": "km",
                 "display_value": 5.0
             },
-            "selected_gas": "oxygen"
+            "selected_gas": "nitrogen",
+            "Particle mass": 6.63588e-26
         },
         "hea": {
             "probe_id": "hea",
@@ -107,8 +108,8 @@
             "dac_min": 0.0,
             "dac_max": 4.0,
             "num_samples": 10,
-            "sweep_min": -70.0,
-            "sweep_max": 220.0,
+            "sweep_min": -300.0,
+            "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 199.0,
@@ -119,12 +120,12 @@
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 25.0,
-            "Probe area": 400.0,
+            "Probe area": 0.04,
             "area_units": {
-                "unit": "hm",
+                "unit": "cm",
                 "display_value": 4.0
             },
-            "selected_gas": "oxygen",
+            "selected_gas": "nitrogen",
             "Particle mass": 9.10938e-31
         },
         "iea": {
@@ -133,7 +134,7 @@
             "dac_min": 0.0,
             "dac_max": 4.0,
             "num_samples": 50,
-            "sweep_min": -299.99,
+            "sweep_min": -300.0,
             "sweep_max": 300.0,
             "sweep_amp_min": -300.0,
             "sweep_amp_max": 300.0,
@@ -150,30 +151,32 @@
                 "unit": "dm",
                 "display_value": 4.0
             },
-            "selected_gas": "oxygen"
+            "selected_gas": "nitrogen",
+            "Particle mass": 9.10938e-31
         },
         "tlc": {
             "probe_id": "tlc",
-            "sampling_rate": 0.5,
+            "sampling_rate": 50.0,
             "dac_min": 0.0,
             "dac_max": 4.0,
             "up_amp_min": -300.0,
             "up_amp_max": 300.0,
-            "up_amp_bias": -120.0,
+            "up_amp_bias": 20.0,
             "up_collector_gain": 101.0,
             "up_shunt": 200,
             "down_amp_min": -300.0,
             "down_amp_max": 300.0,
-            "down_amp_bias": 10.0,
+            "down_amp_bias": 30.0,
             "down_collector_gain": 1.0,
             "down_shunt": 200.0,
-            "num_samples": 7,
+            "num_samples": 25,
             "Probe area": 24000.0,
             "area_units": {
                 "unit": "km",
                 "display_value": 24.0
             },
-            "selected_gas": "oxygen"
+            "selected_gas": "nitrogen",
+            "Particle mass": 6.63588e-26
         },
         "tlv": {
             "probe_id": "tlv",
@@ -187,12 +190,13 @@
             "up_shunt": 200.0,
             "float_collector_gain": 1.0,
             "num_samples": 2,
-            "Probe area": 1000.0,
+            "Probe area": 0.01,
             "area_units": {
-                "unit": "km",
+                "unit": "cm",
                 "display_value": 1.0
             },
-            "selected_gas": "oxygen"
+            "selected_gas": "nitrogen",
+            "Particle mass": 6.63588e-26
         }
     }
 }
