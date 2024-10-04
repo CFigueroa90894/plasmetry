@@ -38,12 +38,17 @@ def filter_current(parameters):
         filteredSignal = signal after being processed by a butterworth digital filter.
     """
 
-    
-    sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
-    
-    filteredSignal = np.array(signal.sosfiltfilt(sos, parameters['Raw voltage 1']))
-   
-    parameters['Filtered current (Amperes)'] = filteredSignal / parameters['config_ref']['sweeper_shunt']
+    try:
+        sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
+        
+        filteredSignal = np.array(signal.sosfiltfilt(sos, parameters['Raw voltage 1']))
+       
+        parameters['Filtered current (Amperes)'] = filteredSignal / parameters['config_ref']['sweeper_shunt']
+        
+    except Exception as e: 
+        print(f'{e}')
+        parameters['Particle density (m-3)'] = np.nan
+        
     
 def get_display_parameters(parameters):
     
@@ -97,37 +102,41 @@ def get_particle_density(parameters):
     
     Otherwise, the particle mass should be the estimated mass of the ions in the plasma
     """
-    
-    # Storing the charge of the electron particle in Coulumb
-    ELECTRON_CHARGE = 1.60217657e-19
-    
-    # Configuration object stored, in order to get 'Probe Area'
-    config_object = parameters['config_ref']
-    probe_area = config_object['Probe area']
-    particle_mass =  config_object['Particle mass']
-    
-    # Verifying the argument keys in order to store variables
-    if  'Electron saturation current (Amperes)' in parameters:
-        particle_saturation_current = parameters['Electron saturation current (Amperes)']
-        particle_temperature = parameters['Electron temperature (Joules)'] 
+    try:
+        # Storing the charge of the electron particle in Coulumb
+        ELECTRON_CHARGE = 1.60217657e-19
         
-    elif 'Ion saturation current (Amperes)' in parameters:
-        particle_saturation_current = parameters['Ion saturation current (Amperes)']
-        particle_temperature = parameters['Electron temperature (Joules)'] 
+        # Configuration object stored, in order to get 'Probe Area'
+        config_object = parameters['config_ref']
+        probe_area = config_object['Probe area']
+        particle_mass =  config_object['Particle mass']
+        
+        # Verifying the argument keys in order to store variables
+        if  'Electron saturation current (Amperes)' in parameters:
+            particle_saturation_current = parameters['Electron saturation current (Amperes)']
+            particle_temperature = parameters['Electron temperature (Joules)'] 
+            
+        elif 'Ion saturation current (Amperes)' in parameters:
+            particle_saturation_current = parameters['Ion saturation current (Amperes)']
+            particle_temperature = parameters['Electron temperature (Joules)'] 
 
-    else:
-        particle_temperature = parameters['Particle temperature (Joules)']
-        particle_saturation_current = parameters['Particle saturation current (Amperes)']
-    # Acquiring electron density
-    parameters['Particle density (m-3)'] =  abs(particle_saturation_current / \
-                                         (ELECTRON_CHARGE * probe_area * \
-                                          np.sqrt(abs(particle_temperature / \
-                                         (np.pi * particle_mass * 2)))))
+        else:
+            particle_temperature = parameters['Particle temperature (Joules)']
+            particle_saturation_current = parameters['Particle saturation current (Amperes)']
+        # Acquiring electron density
+        parameters['Particle density (m-3)'] =  abs(particle_saturation_current / \
+                                             (ELECTRON_CHARGE * probe_area * \
+                                              np.sqrt(abs(particle_temperature / \
+                                             (np.pi * particle_mass * 2)))))
 
-    # Deleting the temporary key created for SLP
-    if ('Electron saturation current (Amperes)' in parameters) or ('Ion saturation current (Amperes)' in parameters):       
-        parameters['Electron density (m-3)'] = parameters['Particle density (m-3)']
-        del parameters['Particle density (m-3)']
+        # Deleting the temporary key created for SLP
+        if ('Electron saturation current (Amperes)' in parameters) or ('Ion saturation current (Amperes)' in parameters):       
+            parameters['Electron density (m-3)'] = parameters['Particle density (m-3)']
+            del parameters['Particle density (m-3)']
+    except Exception as e:
+        print('f{e}')
+        parameters['Particle density (m-3)'] = np.nan
+        parameters['Electron density (m-3)'] = np.nan
        
        
        

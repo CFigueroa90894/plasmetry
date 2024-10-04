@@ -48,7 +48,7 @@ def generate_suite(equations, probe_test_cases):
     
 def run_test_suite(suite):
     
-    """THis function runs the test cases in the test suite."""
+    """This function runs the test cases in the test suite."""
     
     # Instantiating TextTestRunner object with enough verbosity
     runner = unittest.TextTestRunner(verbosity=2)
