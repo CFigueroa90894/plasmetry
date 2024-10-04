@@ -234,6 +234,6 @@ if __name__ == "__main__":
     
     for i in parameters_to_display: 
         
-        print(parameters_to_display)
+        print(i)
         
    
