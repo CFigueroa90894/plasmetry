@@ -77,8 +77,8 @@ def get_debye_length(parameters):
     EPSILON_NAUGHT= 8.854e-12
     
     # Acquiring Debye length
-    parameters['Debye length (Meters)'] = np.sqrt(2 * EPSILON_NAUGHT *  \
-                                         parameters['Electron temperature (Joules)'] /  \
+    parameters['Debye length (Meters)'] = np.sqrt((2 * EPSILON_NAUGHT *  \
+                                         parameters['Electron temperature (Joules)'] )/  \
                                         (parameters['Electron density (m-3)'] * ELECTRON_CHARGE ** 2))
 
  
