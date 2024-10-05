@@ -127,12 +127,20 @@ def get_electron_density(parameters):
     if np.isnan(parameters['Electron temperature (Joules)']):
         parameters['Electron density (m-3)'] = np.nan
         return
+          
+    # Storing the charge of the electron particle, since it shall be used for calculation
+    ELECTRON_CHARGE = 1.60217657e-19
     
-    # Storing ion saturation current
-    parameters['Ion saturation current (Amperes)'] = parameters['Probe 2 filtered current (Amperes)']
+    # Configuration object stored, in order to get 'Probe Area' and 'Ion mass'
+    config_object = parameters['config_ref']
+    probe_area = config_object['Probe area']
+    ion_mass = config_object['Particle mass']
     
-    # Calling global electron density function, which is deployed by SLP, HEA, and IEA
-    get_particle_density(parameters)
+    # Acquiring electron density 
+    square_root_term =  np.sqrt(ion_mass / parameters['Electron temperature (Joules)'])
+    parameters['Electron density (m-3)'] = abs(parameters['Ion saturation current (Amperes)'] / \
+                                        (ELECTRON_CHARGE *  probe_area) * \
+                                        (square_root_term * np.exp(0.5)))
 
 
 def get_probe_current(parameters):
@@ -140,6 +148,7 @@ def get_probe_current(parameters):
     parameters['Probe 1 filtered current (Amperes)'] = -1 * (parameters['Probe 3 filtered current (Amperes)'] + \
                                                  
                                                    parameters['Probe 2 filtered current (Amperes)'])
+    parameters['Ion saturation current (Amperes)']=  parameters['Probe 2 filtered current (Amperes)']
 def get_display_parameters(parameters):
     
     """This function returns a ProtectedDictionary object containing the parameters used for display.
