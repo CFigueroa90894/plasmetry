@@ -218,9 +218,9 @@ if __name__ == "__main__":
     # Storing bias and raw current lists from previous implementation
     parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
     
-    # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
+    # Storing Probe area and electron mass of a previous implementation,
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 9.10938356e-31, 'sweeper_shunt': 1}
     
     # Running each equation
     list_of_equations = get_equations()
@@ -231,9 +231,20 @@ if __name__ == "__main__":
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
+   # print(f'Floating Potential: {parameters_to_display[0]}')
+   # print(f'Plasma Potential: {parameters_to_display[1]}')
+    #print(f'Electron Saturation Current: {parameters_to_display[2]}')
+   # print(f'Electron Temperature (eV): {parameters_to_display[3]}')
+   # print(f'Electron Temperature (Joules): {parameters_to_display[4]}')
+   # print(f'Electron Density: {parameters_to_display[5]}')
+    #print(f'Debye Length: {parameters_to_display[6]}')
+   # print(f'Number Of Electrons in the Debye Sphere: {parameters_to_display[7]}')
+
     
-    for i in parameters_to_display: 
-        
-        print(i)
+
+
+
+
+
         
    
