@@ -1,7 +1,5 @@
 import numpy as np 
-from global_parameters import (
-    get_particle_density
-)
+
 
 # Storing the charge of the electron particle, since it shall be used for calculation
 ELECTRON_CHARGE = 1.60217657e-19
@@ -15,8 +13,6 @@ NUMBER_OF_ITERATIONS = 100
 # Storing the tolerance for the Newton-Raphson approximation
 TOLERANCE = 1e-5
 
-# Storing initial guess for Newton-Raphson iterations
-estimated_guess = 0.1
 
 
 def filter_current(parameters):
@@ -32,14 +28,15 @@ def iteration(parameters, estimated_guess):
     # First exponential term, shall be used for function and derivative calculation
     first_exp_term =  (parameters['Probe 1 filtered current (Amperes)'] - \
                        parameters['Probe 3 filtered current (Amperes)']) * \
-                       np.exp(np.clip(parameters['Bias 1'] * estimated_guess, None, LIMIT))
-     
+                       np.exp(np.clip(  parameters['Bias 1'] *estimated_guess, None, LIMIT))
     # Second exponential term,  shall be used for function and derivative calculation
     second_exp_term =(parameters['Probe 1 filtered current (Amperes)'] - \
                       parameters['Probe 2 filtered current (Amperes)']) * \
-                      np.exp(np.clip(parameters['Bias 2'] * estimated_guess, None, LIMIT))
+                      np.exp(np.clip(  parameters['Bias 2'] *estimated_guess, None, LIMIT))
     
+   
     
+
     # Storing the function, to be used for the next estimated guess calculation
     function_output =  first_exp_term - second_exp_term - \
                        parameters['Probe 2 filtered current (Amperes)'] + \
@@ -48,12 +45,10 @@ def iteration(parameters, estimated_guess):
     # Storing the prime value, to be used for the next estimated guess calculation
     derivative_output = parameters['Bias 1'] * first_exp_term - \
                         parameters['Bias 2'] * second_exp_term    
-    
     # If result after the prime calculation is 0, returning 0 to trigger TypeError
     # Since the value will be used as a denominator
     if derivative_output ==0:
         return 0
-    
     return function_output, derivative_output
 
 
@@ -67,14 +62,15 @@ def get_electron_temperature(parameters):
     """
     
     # Initial guess
-    global estimated_guess 
     
     # Storing the counter, shall be used to know the number of iterations
     counter = 0
     
     # Variable storing the previous guess at the beginning of each iteration
     previous_guess = 0
-   
+    
+    # Initial guess
+    estimated_guess =0.1
     
     # The Newton-Raphson approximation iterations occur in this loop
     while abs(estimated_guess - previous_guess) > TOLERANCE and counter < NUMBER_OF_ITERATIONS:
@@ -99,7 +95,6 @@ def get_electron_temperature(parameters):
         
         # Storing the next estimated value
         estimated_guess = (estimated_guess - function_output/derivative_output)
-        
         counter +=1
         
         
@@ -121,7 +116,6 @@ def get_electron_temperature(parameters):
     # Storing the electron temperature in Joules
     parameters['Electron temperature (Joules)'] = ELECTRON_CHARGE * parameters['Electron temperature (eV)']
 
-
 def get_electron_density(parameters):
     
     if np.isnan(parameters['Electron temperature (Joules)']):
@@ -139,8 +133,10 @@ def get_electron_density(parameters):
     # Acquiring electron density 
     square_root_term =  np.sqrt(ion_mass / parameters['Electron temperature (Joules)'])
     parameters['Electron density (m-3)'] = abs(parameters['Ion saturation current (Amperes)'] / \
-                                        (ELECTRON_CHARGE *  probe_area) * \
-                                        (square_root_term * np.exp(0.5)))
+                                              (ELECTRON_CHARGE *  probe_area) * \
+                                              (square_root_term * np.exp(0.5)))
+ 
+
 
 
 def get_probe_current(parameters):
@@ -176,3 +172,30 @@ def get_equations():
     return list_of_references
 
 
+if __name__ == "__main__": 
+
+    
+    # Parameter dictionary, stores parameters
+    parameters= {}
+    
+    # Storing bias, measured current, and measured voltage to test the implementation.
+    parameters['Bias 1'], parameters['Bias 2'] =  1, 1
+    parameters['Probe 3 filtered current (Amperes)'] = 0
+    parameters['Probe 2 filtered current (Amperes)'] = -1
+    parameters['Bias 1']= 60
+    parameters['Bias 2'] = 50
+    
+    # Storing Probe area of a previous implementation, and ion mass of Argon in kg, simulating config values
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass':  6.629e-26, 'up_shunt': 1, 'down_shunt':1}
+    
+    
+    # Running each equation
+    list_of_equations = get_equations()
+   
+    for i in list_of_equations[1:len(list_of_equations)-1]:
+        i(parameters)
+    print(parameters)
+    # Requires protected_dictionary to be loaded in memory
+    parameters_to_display = list_of_equations[-1](parameters)
+    print(f'Ion Saturation Current (Amperes): {parameters_to_display[0]}')
+ 
