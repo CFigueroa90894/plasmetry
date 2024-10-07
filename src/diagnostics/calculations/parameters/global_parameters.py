@@ -3,7 +3,7 @@ import sys
 
 # ----- PATH HAMMER v2.4 ----- resolve absolute imports ----- #
 if __name__ == "__main__":  # execute snippet if current script was run directly 
-    num_dir = 4            # how many parent folders to reach /plasmetry/src
+    num_dir = 3           # how many parent folders to reach /plasmetry/src
 
     src_abs = os.path.abspath(os.path.dirname(__file__) + num_dir*'/..') # absolute path to plasmetry/src
     print(f"Path Hammer: {src_abs}")
@@ -77,8 +77,8 @@ def get_debye_length(parameters):
     EPSILON_NAUGHT= 8.854e-12
     
     # Acquiring Debye length
-    parameters['Debye length (Meters)'] = np.sqrt(2 * EPSILON_NAUGHT *  \
-                                         parameters['Electron temperature (Joules)'] /  \
+    parameters['Debye length (Meters)'] = np.sqrt((2 * EPSILON_NAUGHT *  \
+                                         parameters['Electron temperature (Joules)'] )/  \
                                         (parameters['Electron density (m-3)'] * ELECTRON_CHARGE ** 2))
 
  
@@ -90,7 +90,7 @@ def get_number_of_electrons(parameters):
         parameters['Number of electrons'] =  np.nan
         return None
     # Obtaining the number of electrons in the debye sphere 
-    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length (Meters)'] * \
+    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length (Meters)'] ** 3 * \
                                             parameters['Electron density (m-3)'])
         
         
@@ -149,9 +149,9 @@ def get_particle_saturation_current(parameters):
     bias = parameters['Bias 1']
     
     # Storing the charged particle saturation current
-    saturation_index = np.argmin(abs(np.gradient(filtered_current, bias)))
+    saturation_index = np.max(np.argwhere(np.gradient(filtered_current, bias) != 0))
     parameters['Particle saturation current (Amperes)'] = filtered_current[saturation_index]
-       
+    
     
 def get_plasma_potential(parameters):
     
@@ -164,8 +164,8 @@ def get_plasma_potential(parameters):
     # Storing dI/dV
     derivative = np.gradient(filtered_current_list, voltage_list)
     
-    # Value closest to 0 is taken to yield the index, since the derivative may not be 0
-    parameters['Plasma potential index'] = np.argmin(abs(derivative))
+    # Value closest to 0 is taken to yield the index
+    parameters['Plasma potential index'] =  np.max(np.argwhere(np.gradient(filtered_current_list, voltage_list) != 0))
     
     # Storing the plasma potential
     parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
@@ -196,6 +196,7 @@ def get_particle_temperature(parameters):
     
     # Storing the particle temperature in Joules
     parameters['Particle temperature (Joules)'] = parameters['Particle temperature (eV)'] * ELECTRON_CHARGE
+
 
 def get_equations():
     
@@ -229,7 +230,7 @@ if __name__ == "__main__":
         """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
         
         import csv as csv_library
-        with open('../testing scenarios/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+        with open('../testing scenarios/generated_ion_parameters_data.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
@@ -241,27 +242,26 @@ if __name__ == "__main__":
                 except:
                     None    
             
-            return voltageSLP, current
+            return voltageSLP, current 
     
     
     # Parameter dictionary, stores parameters
     parameters= {}
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Filtered current (Amperes)'] =  LoadPreviousData()
     
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'Shunt 1': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
     
     # Running each equation
     list_of_equations = get_equations()
-    for i in list_of_equations[:len(list_of_equations)-1]:
+
+    for i in list_of_equations[1:]:
         i(parameters)
     
-    parameters_to_display = list_of_equations[-1](parameters)
     
-    keys = parameters_to_display.keys()
     
-    for i in keys: 
-        print(i, ':', parameters_to_display[i])
+    print(f"Plasma Potential (Volts): {parameters['Plasma potential (Volts)']}")
+    
