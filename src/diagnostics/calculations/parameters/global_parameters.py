@@ -90,7 +90,7 @@ def get_number_of_electrons(parameters):
         parameters['Number of electrons'] =  np.nan
         return None
     # Obtaining the number of electrons in the debye sphere 
-    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length (Meters)'] * \
+    parameters['Number of electrons'] = int(4/3 * np.pi * parameters['Debye length (Meters)'] ** 3 * \
                                             parameters['Electron density (m-3)'])
         
         
@@ -258,11 +258,10 @@ if __name__ == "__main__":
     # Running each equation
     list_of_equations = get_equations()
 
-    for i in list_of_equations[1:len(list_of_equations)-1]:
+    for i in list_of_equations[1:]:
         i(parameters)
-        
     
     
-  
-    print(f"Ion Saturation Current: {parameters['Particle saturation current (Amperes)']}")
+    
+    print(f"Plasma Potential (Volts): {parameters['Plasma potential (Volts)']}")
     
