@@ -6,11 +6,11 @@ echo 'Setting up plasmetry...'
 [[ -d ~/plasmetry ]] || mkdir ~/plasmetry
 
 # Install dependencies and make venv
-. ~/plasmetry/.bash_scripts/plasmetry.reqs.sh
+. ~/plasmetry/.setup_scripts/plasmetry.reqs.sh
 
 # Add plasmetry app to desktop and start menu
-. ~/plasmetry/.bash_scripts/plasmetry.mkdesk.sh
-. ~/plasmetry/.bash_scripts/plasmetry.deskadd.sh
+. ~/plasmetry/.setup_scripts/plasmetry.mkdesk.sh
+. ~/plasmetry/.setup_scripts/plasmetry.deskadd.sh
 
 # Make init executable
-chmod +x ~/plasmetry/.bash_scripts/plasmetry.init.sh
+chmod +x ~/plasmetry/plasmetry.init.sh
