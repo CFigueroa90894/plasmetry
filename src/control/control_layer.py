@@ -54,6 +54,7 @@ from abstract_control import AbstractControl
 from system_flags import StatusFlags, CommandFlags
 
 from printer_thread import PrinterThread
+from path_finder import resolve_path
 
 # local config
 RESULT_TIMEOUT = 10
@@ -161,7 +162,7 @@ class ControlLayer(AbstractControl):
         # save arguments
         self.debug = debug
         self.log_text = log_text
-        self.config_pathname = config_pathname
+        self.config_pathname = resolve_path(f"src/control/config_manager/{config_pathname}", root=['plasmetry'])
         
         # validate if a PrinterThread is needed
         if buffer_text:
@@ -443,10 +444,8 @@ class ControlLayer(AbstractControl):
         # create output log file
         if self.log_text:
             log_time = str(datetime.datetime.now()).replace(':', '_')
-            src_path = os.path.dirname(__file__)
 
-            log_fold = "../../run_logs"
-            log_fold = os.path.abspath(f"{src_path}/{log_fold}")
+            log_fold = resolve_path("run_logs", root=['plasmetry'])
             if not os.path.exists(log_fold):
                 os.mkdir(log_fold)
 
