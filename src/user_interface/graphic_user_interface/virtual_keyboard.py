@@ -33,6 +33,7 @@ class VirtualKeyboard(QDialog):
         + shift_button
         + switch_button
         + confirm_button
+        * cancel_button
 
     Methods:
         + __init__()
@@ -52,6 +53,9 @@ class VirtualKeyboard(QDialog):
         # Set the size of the dialog to match the main UI size
         self.setFixedSize(parent.width(), parent.height())
 
+        # Update the background color of the dialog
+        self.setStyleSheet("background-color: #fffcfc;")  # Changed background color
+
         # Layout setup
         self.setWindowTitle("Virtual Keyboard")
         self.layout = QVBoxLayout(self)
@@ -62,7 +66,7 @@ class VirtualKeyboard(QDialog):
         # Create the display text field
         self.display_text = QLineEdit(self)
         self.display_text.setMinimumHeight(int(self.height() * 0.1)) # Make the text field take up 10% of the height
-        self.display_text.setStyleSheet("font-size: 24px;")  # Larger font for better readability
+        self.display_text.setStyleSheet("font-size: 24px; border: 2px solid #4d5bbe;")
         self.layout.addWidget(self.display_text)
 
         # Keyboard layout (where the keys are placed)
@@ -74,8 +78,8 @@ class VirtualKeyboard(QDialog):
         self.shift_mode = False
 
         # Define the buttons for letters and special characters
-        self.lowercase_letters = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
-        self.uppercase_letters = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
+        self.lowercase_letters = ["0123456789", "qwertyuiop", "asdfghjkl", "zxcvbnm"]
+        self.uppercase_letters = ["0123456789", "QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"]
         self.special_chars = ["!@#$%^&*()", "-_=+[]{}"]
 
         # Initially load lowercase letters
@@ -86,23 +90,38 @@ class VirtualKeyboard(QDialog):
 
         # Shift button to toggle between uppercase and lowercase letters
         self.shift_button = QPushButton("Shift", self)
-        self.shift_button.setStyleSheet("font-size: 20px; padding: 10px;")
+        self.shift_button.setStyleSheet("font-size: 20px; padding: 10px; background-color: #403c3c; color: white;")
         self.shift_button.clicked.connect(self.toggle_shift)
         self.action_button_layout.addWidget(self.shift_button)
 
         # 123 button to switch between letters and special characters
         self.switch_button = QPushButton("123", self)
-        self.switch_button.setStyleSheet("font-size: 20px; padding: 10px;")
+        self.switch_button.setStyleSheet("font-size: 20px; padding: 10px; background-color: #403c3c; color: white;")
         self.switch_button.clicked.connect(self.switch_characters)
         self.action_button_layout.addWidget(self.switch_button)
 
+        # Add the layout for the shift and 123 buttons to the main layout
         self.layout.addLayout(self.action_button_layout)
+
+        # Add Confirm and Cancel buttons in a horizontal layout
+        self.confirm_cancel_button_layout = QHBoxLayout()
 
         # Confirm button with increased size and text
         self.confirm_button = QPushButton("Confirm", self)
-        self.confirm_button.setStyleSheet("font-size: 20px; padding: 10px;")  # Larger button and font
+        self.confirm_button.setStyleSheet("font-size: 20px; padding: 10px; background-color: #403c3c; color: white;")
         self.confirm_button.clicked.connect(self.accept)
-        self.layout.addWidget(self.confirm_button)
+
+        # Cancel button to close dialog without making changes
+        self.cancel_button = QPushButton("Cancel", self)
+        self.cancel_button.setStyleSheet("font-size: 20px; padding: 10px; background-color: #403c3c; color: white;")
+        self.cancel_button.clicked.connect(self.reject)  # Reject changes
+        
+        # Add both buttons to a horizontal layout
+        self.confirm_cancel_button_layout.addWidget(self.cancel_button)
+        self.confirm_cancel_button_layout.addWidget(self.confirm_button)
+
+        # Add the confirm and cancel buttons layout to the main layout
+        self.layout.addLayout(self.confirm_cancel_button_layout)
 
     def load_buttons(self, characters):
         """Load the buttons for the keyboard layout."""
@@ -116,9 +135,9 @@ class VirtualKeyboard(QDialog):
         for row in characters:
             row_layout = QHBoxLayout()
             for char in row:
-                button = QPushButton(char, self)
+                button = QPushButton(char.replace("&", "&&"), self)
                 button.setFixedSize(button_size, button_size)  # Set fixed size based on calculated button size
-                button.setStyleSheet(f"font-size: {font_size}px;")  # Adjust font size
+                button.setStyleSheet(f"font-size: {font_size}px; background-color: #505cbc; color: white; border-radius: 5px;")  # Adjust font size
                 button.clicked.connect(lambda ch, char=char: self.add_character(char))
                 row_layout.addWidget(button)
             self.keyboard_layout.addLayout(row_layout)
