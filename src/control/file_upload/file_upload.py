@@ -135,12 +135,16 @@ class FileUpload:
     def upload_data(self):
         
         """upload_data uploads data locally and offsite when invoked."""
-        
-        # Store locally
-        self.local_upload()
-        
-        # Store offsite
-        self.offsite_upload()
+        try:
+            # Store locally
+            self.local_upload()
+        except Exception as e:
+            self.say(f'local upload failed. {e}')
+        try: 
+            # Store offsite
+            self.offsite_upload()
+        except Exception as e:
+            self.say(f'Offsite upload failed. {e}')
 
         self.say("finished")
         
