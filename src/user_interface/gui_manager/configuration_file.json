@@ -74,10 +74,10 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 3.0,
-            "Probe area": 6.0,
+            "Probe area": 0.00061,
             "area_units": {
-                "unit": "m",
-                "display_value": 6.0
+                "unit": "cm\u00b2",
+                "display_value": 6.1
             },
             "Particle mass": 9.10938e-31,
             "selected_gas": "nitrogen"
@@ -94,9 +94,9 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 1.0,
-            "Probe area": 5000.0,
+            "Probe area": 5.0,
             "area_units": {
-                "unit": "km",
+                "unit": "m\u00b2",
                 "display_value": 5.0
             },
             "selected_gas": "nitrogen",
@@ -120,9 +120,9 @@
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 25.0,
-            "Probe area": 0.04,
+            "Probe area": 4.0,
             "area_units": {
-                "unit": "cm",
+                "unit": "m\u00b2",
                 "display_value": 4.0
             },
             "selected_gas": "nitrogen",
@@ -146,9 +146,9 @@
             "collector_bias_min": -300.0,
             "collector_bias_max": 300.0,
             "collector_bias": 20.0,
-            "Probe area": 0.4,
+            "Probe area": 4e-06,
             "area_units": {
-                "unit": "dm",
+                "unit": "mm\u00b2",
                 "display_value": 4.0
             },
             "selected_gas": "nitrogen",
@@ -170,9 +170,9 @@
             "down_collector_gain": 1.0,
             "down_shunt": 200.0,
             "num_samples": 25,
-            "Probe area": 24000.0,
+            "Probe area": 24.0,
             "area_units": {
-                "unit": "km",
+                "unit": "m\u00b2",
                 "display_value": 24.0
             },
             "selected_gas": "nitrogen",
@@ -190,9 +190,9 @@
             "up_shunt": 200.0,
             "float_collector_gain": 1.0,
             "num_samples": 2,
-            "Probe area": 0.01,
+            "Probe area": 1.0,
             "area_units": {
-                "unit": "cm",
+                "unit": "m\u00b2",
                 "display_value": 1.0
             },
             "selected_gas": "nitrogen",
