@@ -17,11 +17,10 @@ TOLERANCE = 1e-5
 
 def filter_current(parameters):
     
-    parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
-    parameters['Raw voltage 2'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    parameters['Probe 2 filtered current (Amperes)'] =  parameters['Raw voltage 1'] / parameters['config_ref']['up_shunt']
-    parameters['Probe 3 filtered current (Amperes)'] = parameters['Raw voltage 2'] / parameters['config_ref']['down_shunt']
-    
+    parameters['Probe 2 filtered current (Amperes)'] = (np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1']))/ parameters['config_ref']['up_shunt']
+    parameters['Probe 3 filtered current (Amperes)'] = (np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2']))/ parameters['config_ref']['down_shunt']
+    parameters['Raw voltage 1'] = parameters['Raw voltage 1'][-1]
+    parameters['Raw voltage 2'] = parameters['Raw voltage 2'][-1]
 
 def iteration(parameters, estimated_guess):
     

@@ -472,18 +472,11 @@ class ConfigManager:
         as well as converts the area to meters for calculations."""
         
         # Storing dictionary with key-value pairs for units of meter
-        units = {'km': 1e+3,
-                 'hm': 1e+2,
-                 'dam': 1e+1,
-                 'm': 1,
-                 'dm':1e-1,
-                 'cm':1e-2,
-                 'mm':1e-3,
-                 'dmm':1e-4,
-                 'cmm':1e-5,
-                 'µm':1e-6,
-                 'nm':1e-9
-            }
+        units = {
+                 'm²': 1,
+                 'cm²':1e-4,
+                 'mm²':1e-6
+                }
         
         # Extracting key info from dictionary stored in the key variable
         config_key = list(key.keys())[0]

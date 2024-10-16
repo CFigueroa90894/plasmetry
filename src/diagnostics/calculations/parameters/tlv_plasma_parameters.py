@@ -12,11 +12,12 @@ TOLERANCE = 1e-5
 
 
 def filter_current(parameters):
-    
+
+
     parameters['Potential difference'] = np.sum(parameters['Raw voltage 2']) / len(parameters['Raw voltage 2'])
-    del parameters['Raw voltage 2']
-    parameters['Raw voltage 1'] = np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])
-    parameters['Filtered current (Amperes)'] = parameters['Raw voltage 1'] / parameters['config_ref']['up_shunt']
+    parameters['Filtered current (Amperes)'] = (np.sum(parameters['Raw voltage 1']) / len(parameters['Raw voltage 1'])) / parameters['config_ref']['up_shunt']
+    parameters['Raw voltage 1'] = parameters['Raw voltage 1'][-1]
+    parameters['Raw voltage 2'] = parameters['Raw voltage 2'][-1]
     
 def iteration(potential_difference, bias, estimated_guess):
     
@@ -50,7 +51,7 @@ def get_electron_temperature(parameters):
     
     """This function calculates electron temperature in electron volts and Joules.
     
-    The Newton-Raphson method has been deployed to calculte the inverse value of the temperature.
+    The Newton-Raphson method has been deployed to calculte the value of the temperature.
     
     The loop runs 100 iterations unless a value has been approximated, with a tolerance of 1e-5.
     """
@@ -67,7 +68,8 @@ def get_electron_temperature(parameters):
         previous_guess = 0
        
         # Storing initial guess for Newton-Raphson approximation iterations
-        estimated_guess = np.log(2) / (bias - potential_difference)
+        estimated_guess = np.log(0.5) / (potential_difference- bias)
+        
         
         # The Newton-Raphson approximation iterations occur in this while loop
         while abs(estimated_guess - previous_guess) > TOLERANCE:
@@ -178,7 +180,7 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias, measured current, and measured voltage to test the implementation.
-    parameters['Bias 1'], parameters['Potential difference'] =  40, 32
+    parameters['Bias 1'], parameters['Potential difference'] =  110, 109
     get_electron_temperature(parameters)
     print(parameters)
     parameters['Raw voltage 1']= [34.4 for i in range(1,10)]
