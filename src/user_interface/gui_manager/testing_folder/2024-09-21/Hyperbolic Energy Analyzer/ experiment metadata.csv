@@ -1,2 +1,0 @@
-probe_id,selected_gas,sampling_rate,dac_min,dac_max,num_samples,sweep_min,sweep_max,sweep_amp_min,sweep_amp_max,sweeper_shunt,collector_gain,rejector_min,rejector_max,rejector_bias,collector_bias_min,collector_bias_max,collector_bias,Probe area,Shunt 1,Particle mass
-hea,argon,50,0.0,4.0,50,-300.0,300.0,-300.0,300.0,200.0,1.0,-300.0,300.0,20.0,-300.0,300.0,21.0,1.0,200,9.10938e-31

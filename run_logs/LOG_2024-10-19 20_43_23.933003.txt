@@ -1,0 +1,1837 @@
+PRINTR : running...
+# LOG_2024-10-19 20_43_23.933003.txt
+HWINT: hardware layer initialized...
+DIAGN: DEBUG - False
+DIAGN: diagnostics layer initialized...
+CTRL: DEBUG - False
+CTRL: control layer initialized...
+loading config...
+config loaded!
+Probe ID slp relay_addresses: [1]
+Probe ID slp sweeper_address: 1
+Probe ID slp collector_address: 1
+ Probe ID slp probe_id: slp
+ Probe ID slp sampling_rate: 200.0
+ Probe ID slp dac_min: 0.0
+ Probe ID slp dac_max: 4.0
+ Probe ID slp num_samples: 50
+ Probe ID slp sweep_min: -300.0
+ Probe ID slp sweep_max: 300.0
+ Probe ID slp sweep_amp_min: -300.0
+ Probe ID slp sweep_amp_max: 300.0
+ Probe ID slp sweeper_shunt: 200.0
+ Probe ID slp collector_gain: 3.0
+ Probe ID slp Probe area: 6.0
+ Probe ID slp area_units: {'unit': 'm', 'display_value': 6.0}
+ Probe ID slp Particle mass: 9.10938e-31
+ Probe ID slp selected_gas: nitrogen
+Probe ID dlp relay_addresses: [1]
+Probe ID dlp sweeper_address: 1
+Probe ID dlp collector_address: 1
+ Probe ID dlp probe_id: dlp
+ Probe ID dlp sampling_rate: 50
+ Probe ID dlp dac_min: 0.0
+ Probe ID dlp dac_max: 4.0
+ Probe ID dlp num_samples: 50
+ Probe ID dlp sweep_min: -300.0
+ Probe ID dlp sweep_max: 300.0
+ Probe ID dlp sweep_amp_min: -300.0
+ Probe ID dlp sweep_amp_max: 300.0
+ Probe ID dlp sweeper_shunt: 200.0
+ Probe ID dlp collector_gain: 1.0
+ Probe ID dlp Probe area: 5000.0
+ Probe ID dlp area_units: {'unit': 'km', 'display_value': 5.0}
+ Probe ID dlp selected_gas: nitrogen
+ Probe ID dlp Particle mass: 6.63588e-26
+Probe ID hea relay_addresses: [1, 2, 3]
+Probe ID hea sweeper_address: 1
+Probe ID hea collector_address: 1
+Probe ID hea rejector_address: 2
+Probe ID hea collector_bias_address: 3
+ Probe ID hea probe_id: hea
+ Probe ID hea sampling_rate: 50.0
+ Probe ID hea dac_min: 0.0
+ Probe ID hea dac_max: 4.0
+ Probe ID hea num_samples: 10
+ Probe ID hea sweep_min: -300.0
+ Probe ID hea sweep_max: 300.0
+ Probe ID hea sweep_amp_min: -300.0
+ Probe ID hea sweep_amp_max: 300.0
+ Probe ID hea sweeper_shunt: 199.0
+ Probe ID hea collector_gain: 1.0
+ Probe ID hea rejector_min: -300.0
+ Probe ID hea rejector_max: 300.0
+ Probe ID hea rejector_bias: 50.0
+ Probe ID hea collector_bias_min: -300.0
+ Probe ID hea collector_bias_max: 300.0
+ Probe ID hea collector_bias: 25.0
+ Probe ID hea Probe area: 0.04
+ Probe ID hea area_units: {'unit': 'cm', 'display_value': 4.0}
+ Probe ID hea selected_gas: nitrogen
+ Probe ID hea Particle mass: 9.10938e-31
+Probe ID iea relay_addresses: [1, 2, 3]
+Probe ID iea sweeper_address: 1
+Probe ID iea collector_address: 1
+Probe ID iea rejector_address: 2
+Probe ID iea collector_bias_address: 3
+ Probe ID iea probe_id: iea
+ Probe ID iea sampling_rate: 60.0
+ Probe ID iea dac_min: 0.0
+ Probe ID iea dac_max: 4.0
+ Probe ID iea num_samples: 50
+ Probe ID iea sweep_min: -300.0
+ Probe ID iea sweep_max: 300.0
+ Probe ID iea sweep_amp_min: -300.0
+ Probe ID iea sweep_amp_max: 300.0
+ Probe ID iea sweeper_shunt: 200.0
+ Probe ID iea collector_gain: 1.0
+ Probe ID iea rejector_min: -300.0
+ Probe ID iea rejector_max: 300.0
+ Probe ID iea rejector_bias: 35.0
+ Probe ID iea collector_bias_min: -300.0
+ Probe ID iea collector_bias_max: 300.0
+ Probe ID iea collector_bias: 20.0
+ Probe ID iea Probe area: 0.4
+ Probe ID iea area_units: {'unit': 'dm', 'display_value': 4.0}
+ Probe ID iea selected_gas: nitrogen
+ Probe ID iea Particle mass: 9.10938e-31
+Probe ID tlc relay_addresses: [2, 3]
+Probe ID tlc up_amp_address: 2
+Probe ID tlc up_collector_address: 2
+Probe ID tlc down_amp_address: 3
+Probe ID tlc down_collector_address: 3
+ Probe ID tlc probe_id: tlc
+ Probe ID tlc sampling_rate: 50.0
+ Probe ID tlc dac_min: 0.0
+ Probe ID tlc dac_max: 4.0
+ Probe ID tlc up_amp_min: -300.0
+ Probe ID tlc up_amp_max: 300.0
+ Probe ID tlc up_amp_bias: 20.0
+ Probe ID tlc up_collector_gain: 101.0
+ Probe ID tlc up_shunt: 200
+ Probe ID tlc down_amp_min: -300.0
+ Probe ID tlc down_amp_max: 300.0
+ Probe ID tlc down_amp_bias: 30.0
+ Probe ID tlc down_collector_gain: 1.0
+ Probe ID tlc down_shunt: 200.0
+ Probe ID tlc num_samples: 25
+ Probe ID tlc Probe area: 24000.0
+ Probe ID tlc area_units: {'unit': 'km', 'display_value': 24.0}
+ Probe ID tlc selected_gas: nitrogen
+ Probe ID tlc Particle mass: 6.63588e-26
+Probe ID tlv relay_addresses: [2]
+Probe ID tlv up_amp_address: 2
+Probe ID tlv up_collector_address: 2
+Probe ID tlv float_collector_address: 3
+ Probe ID tlv probe_id: tlv
+ Probe ID tlv sampling_rate: 50.0
+ Probe ID tlv dac_min: 0.0
+ Probe ID tlv dac_max: 4.0
+ Probe ID tlv up_amp_min: -300.0
+ Probe ID tlv up_amp_max: 300.0
+ Probe ID tlv up_amp_bias: 10.0
+ Probe ID tlv up_collector_gain: 1.0
+ Probe ID tlv up_shunt: 200.0
+ Probe ID tlv float_collector_gain: 1.0
+ Probe ID tlv num_samples: 2
+ Probe ID tlv Probe area: 0.01
+ Probe ID tlv area_units: {'unit': 'cm', 'display_value': 1.0}
+ Probe ID tlv selected_gas: nitrogen
+ Probe ID tlv Particle mass: 6.63588e-26
+ local_path: D:\My Files ALT\CLASSES\CAPSTONE\plasmetry\experiment_test_results
+The file path C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json is invalid! Check that the name is set correctly.
+ credentials_path: C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json
+ folder_id: 1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ
+ experiment_name: experiment_test_results
+ selected_gas: nitrogen
+ button_adjust: 0.1
+GUI: Switched to slp setup page.
+GUI: Switched to hea setup page.
+GUI: Run button clicked
+CTRL: setting up experiment...
+DIAGN: preparing for diagnostics...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:1
+CountHW: Dout addr:1 val:False count:2
+CountHW: Dout addr:2 val:False count:3
+CountHW: Dout addr:3 val:False count:4
+CountHW: Dout addr:4 val:False count:5
+CountHW: Dout addr:5 val:False count:6
+CountHW: Dout addr:6 val:False count:7
+CountHW: Dout addr:7 val:False count:8
+CountHW: Dout addr:8 val:False count:9
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:1
+CountHW: Aout addr:1 val:0 count:2
+CountHW: Aout addr:2 val:0 count:3
+CountHW: Aout addr:3 val:0 count:4
+CountHW: Aout addr:4 val:0 count:5
+CountHW: Aout addr:5 val:0 count:6
+CountHW: Aout addr:6 val:0 count:7
+CountHW: Aout addr:7 val:0 count:8
+CountHW: Aout addr:8 val:0 count:9
+HWINT: DACs cleared
+PRB_OP : arming...
+DIAGN: READY
+CTRL: READY
+CTRL: <function filter_current at 0x000001E10BA544A0>
+CTRL: <function get_particle_saturation_current at 0x000001E10BA547C0>
+CTRL: <function get_plasma_potential at 0x000001E10BA54860>
+CTRL: <function get_particle_temperature at 0x000001E10BA54900>
+CTRL: <function get_particle_density at 0x000001E10BA54720>
+CTRL: <function get_display_parameters at 0x000001E10BA54540>
+GUI: Switch to Run Page.
+GUI: Parameter labels loaded.
+GUI: Experiment name confirmed, switching to data acquisition page.
+Probe ID slp relay_addresses: [1]
+Probe ID slp sweeper_address: 1
+Probe ID slp collector_address: 1
+ Probe ID slp probe_id: slp
+ Probe ID slp sampling_rate: 200.0
+ Probe ID slp dac_min: 0.0
+ Probe ID slp dac_max: 4.0
+ Probe ID slp num_samples: 50
+ Probe ID slp sweep_min: -300.0
+ Probe ID slp sweep_max: 300.0
+ Probe ID slp sweep_amp_min: -300.0
+ Probe ID slp sweep_amp_max: 300.0
+ Probe ID slp sweeper_shunt: 200.0
+ Probe ID slp collector_gain: 3.0
+ Probe ID slp Probe area: 6.0
+ Probe ID slp area_units: {'unit': 'm', 'display_value': 6.0}
+ Probe ID slp Particle mass: 9.10938e-31
+ Probe ID slp selected_gas: nitrogen
+Probe ID dlp relay_addresses: [1]
+Probe ID dlp sweeper_address: 1
+Probe ID dlp collector_address: 1
+ Probe ID dlp probe_id: dlp
+ Probe ID dlp sampling_rate: 50
+ Probe ID dlp dac_min: 0.0
+ Probe ID dlp dac_max: 4.0
+ Probe ID dlp num_samples: 50
+ Probe ID dlp sweep_min: -300.0
+ Probe ID dlp sweep_max: 300.0
+ Probe ID dlp sweep_amp_min: -300.0
+ Probe ID dlp sweep_amp_max: 300.0
+ Probe ID dlp sweeper_shunt: 200.0
+ Probe ID dlp collector_gain: 1.0
+ Probe ID dlp Probe area: 5000.0
+ Probe ID dlp area_units: {'unit': 'km', 'display_value': 5.0}
+ Probe ID dlp selected_gas: nitrogen
+ Probe ID dlp Particle mass: 6.63588e-26
+Probe ID hea relay_addresses: [1, 2, 3]
+Probe ID hea sweeper_address: 1
+Probe ID hea collector_address: 1
+Probe ID hea rejector_address: 2
+Probe ID hea collector_bias_address: 3
+ Probe ID hea probe_id: hea
+ Probe ID hea sampling_rate: 50.0
+ Probe ID hea dac_min: 0.0
+ Probe ID hea dac_max: 4.0
+ Probe ID hea num_samples: 10
+ Probe ID hea sweep_min: -300.0
+ Probe ID hea sweep_max: 300.0
+ Probe ID hea sweep_amp_min: -300.0
+ Probe ID hea sweep_amp_max: 300.0
+ Probe ID hea sweeper_shunt: 199.0
+ Probe ID hea collector_gain: 1.0
+ Probe ID hea rejector_min: -300.0
+ Probe ID hea rejector_max: 300.0
+ Probe ID hea rejector_bias: 50.0
+ Probe ID hea collector_bias_min: -300.0
+ Probe ID hea collector_bias_max: 300.0
+ Probe ID hea collector_bias: 25.0
+ Probe ID hea Probe area: 0.04
+ Probe ID hea area_units: {'unit': 'cm', 'display_value': 4.0}
+ Probe ID hea selected_gas: nitrogen
+ Probe ID hea Particle mass: 9.10938e-31
+Probe ID iea relay_addresses: [1, 2, 3]
+Probe ID iea sweeper_address: 1
+Probe ID iea collector_address: 1
+Probe ID iea rejector_address: 2
+Probe ID iea collector_bias_address: 3
+ Probe ID iea probe_id: iea
+ Probe ID iea sampling_rate: 60.0
+ Probe ID iea dac_min: 0.0
+ Probe ID iea dac_max: 4.0
+ Probe ID iea num_samples: 50
+ Probe ID iea sweep_min: -300.0
+ Probe ID iea sweep_max: 300.0
+ Probe ID iea sweep_amp_min: -300.0
+ Probe ID iea sweep_amp_max: 300.0
+ Probe ID iea sweeper_shunt: 200.0
+ Probe ID iea collector_gain: 1.0
+ Probe ID iea rejector_min: -300.0
+ Probe ID iea rejector_max: 300.0
+ Probe ID iea rejector_bias: 35.0
+ Probe ID iea collector_bias_min: -300.0
+ Probe ID iea collector_bias_max: 300.0
+ Probe ID iea collector_bias: 20.0
+ Probe ID iea Probe area: 0.4
+ Probe ID iea area_units: {'unit': 'dm', 'display_value': 4.0}
+ Probe ID iea selected_gas: nitrogen
+ Probe ID iea Particle mass: 9.10938e-31
+Probe ID tlc relay_addresses: [2, 3]
+Probe ID tlc up_amp_address: 2
+Probe ID tlc up_collector_address: 2
+Probe ID tlc down_amp_address: 3
+Probe ID tlc down_collector_address: 3
+ Probe ID tlc probe_id: tlc
+ Probe ID tlc sampling_rate: 50.0
+ Probe ID tlc dac_min: 0.0
+ Probe ID tlc dac_max: 4.0
+ Probe ID tlc up_amp_min: -300.0
+ Probe ID tlc up_amp_max: 300.0
+ Probe ID tlc up_amp_bias: 20.0
+ Probe ID tlc up_collector_gain: 101.0
+ Probe ID tlc up_shunt: 200
+ Probe ID tlc down_amp_min: -300.0
+ Probe ID tlc down_amp_max: 300.0
+ Probe ID tlc down_amp_bias: 30.0
+ Probe ID tlc down_collector_gain: 1.0
+ Probe ID tlc down_shunt: 200.0
+ Probe ID tlc num_samples: 25
+ Probe ID tlc Probe area: 24000.0
+ Probe ID tlc area_units: {'unit': 'km', 'display_value': 24.0}
+ Probe ID tlc selected_gas: nitrogen
+ Probe ID tlc Particle mass: 6.63588e-26
+Probe ID tlv relay_addresses: [2]
+Probe ID tlv up_amp_address: 2
+Probe ID tlv up_collector_address: 2
+Probe ID tlv float_collector_address: 3
+ Probe ID tlv probe_id: tlv
+ Probe ID tlv sampling_rate: 50.0
+ Probe ID tlv dac_min: 0.0
+ Probe ID tlv dac_max: 4.0
+ Probe ID tlv up_amp_min: -300.0
+ Probe ID tlv up_amp_max: 300.0
+ Probe ID tlv up_amp_bias: 10.0
+ Probe ID tlv up_collector_gain: 1.0
+ Probe ID tlv up_shunt: 200.0
+ Probe ID tlv float_collector_gain: 1.0
+ Probe ID tlv num_samples: 2
+ Probe ID tlv Probe area: 0.01
+ Probe ID tlv area_units: {'unit': 'cm', 'display_value': 1.0}
+ Probe ID tlv selected_gas: nitrogen
+ Probe ID tlv Particle mass: 6.63588e-26
+ local_path: D:\My Files ALT\CLASSES\CAPSTONE\plasmetry\experiment_test_results
+The file path C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json is invalid! Check that the name is set correctly.
+ credentials_path: C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json
+ folder_id: 1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ
+ experiment_name: experiment_test_results
+ selected_gas: nitrogen
+ button_adjust: 0.1
+
+saving in memory...
+Successfully saved!
+
+GUI: Run button clicked.
+CTRL: starting experiment...
+DIAGN: starting diagnostics...
+PRB_OP : launching threads...
+GUI: Starting Qtimer.
+PRB.HEA : enabling probe circuit...
+CountHW: Aout addr:1 val:2.0 count:10
+CountHW: Aout addr:2 val:2.3333333333333335 count:11
+CountHW: Aout addr:3 val:2.1666666666666665 count:12
+CountHW: Dout addr:1 val:True count:10
+CountHW: Dout addr:2 val:True count:11
+CountHW: Dout addr:3 val:True count:12
+Clock : waiting at barrier...
+PRB_OP : waiting for Probe Object to start...
+PRB_OP : running...
+PRB_OP : data buff empty...
+PRB.HEA : waiting at barrier...
+PRB.HEA : running...
+PRB.HEA : starting data acquisition...
+Clock : running...
+CountHW: Aout addr:1 val:0.0 count:13
+CountHW: Ain addr:1 count:1
+CountHW: Aout addr:1 val:0.4444444444444446 count:14
+CountHW: Ain addr:1 count:2
+CountHW: Aout addr:1 val:0.888888888888889 count:15
+CountHW: Ain addr:1 count:3
+CountHW: Aout addr:1 val:1.3333333333333333 count:16
+CountHW: Ain addr:1 count:4
+CountHW: Aout addr:1 val:1.777777777777778 count:17
+CountHW: Ain addr:1 count:5
+CountHW: Aout addr:1 val:2.2222222222222223 count:18
+CountHW: Ain addr:1 count:6
+CountHW: Aout addr:1 val:2.6666666666666665 count:19
+CountHW: Ain addr:1 count:7
+CountHW: Aout addr:1 val:3.111111111111111 count:20
+CountHW: Ain addr:1 count:8
+CountHW: Aout addr:1 val:3.555555555555556 count:21
+CountHW: Ain addr:1 count:9
+CountHW: Aout addr:1 val:4.0 count:22
+CountHW: Ain addr:1 count:10
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:23
+CountHW: Ain addr:1 count:11
+CountHW: Aout addr:1 val:0.4444444444444446 count:24
+CountHW: Ain addr:1 count:12
+CountHW: Aout addr:1 val:0.888888888888889 count:25
+CountHW: Ain addr:1 count:13
+CountHW: Aout addr:1 val:1.3333333333333333 count:26
+CountHW: Ain addr:1 count:14
+CountHW: Aout addr:1 val:1.777777777777778 count:27
+CountHW: Ain addr:1 count:15
+CountHW: Aout addr:1 val:2.2222222222222223 count:28
+CountHW: Ain addr:1 count:16
+CountHW: Aout addr:1 val:2.6666666666666665 count:29
+CountHW: Ain addr:1 count:17
+CountHW: Aout addr:1 val:3.111111111111111 count:30
+CountHW: Ain addr:1 count:18
+CountHW: Aout addr:1 val:3.555555555555556 count:31
+CountHW: Ain addr:1 count:19
+CountHW: Aout addr:1 val:4.0 count:32
+CountHW: Ain addr:1 count:20
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:33
+CountHW: Ain addr:1 count:21
+CountHW: Aout addr:1 val:0.4444444444444446 count:34
+CountHW: Ain addr:1 count:22
+CountHW: Aout addr:1 val:0.888888888888889 count:35
+CountHW: Ain addr:1 count:23
+CountHW: Aout addr:1 val:1.3333333333333333 count:36
+CountHW: Ain addr:1 count:24
+CountHW: Aout addr:1 val:1.777777777777778 count:37
+CountHW: Ain addr:1 count:25
+CountHW: Aout addr:1 val:2.2222222222222223 count:38
+CountHW: Ain addr:1 count:26
+CountHW: Aout addr:1 val:2.6666666666666665 count:39
+CountHW: Ain addr:1 count:27
+CountHW: Aout addr:1 val:3.111111111111111 count:40
+CountHW: Ain addr:1 count:28
+CountHW: Aout addr:1 val:3.555555555555556 count:41
+CountHW: Ain addr:1 count:29
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:4.0 count:42
+CountHW: Ain addr:1 count:30
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:43
+CountHW: Ain addr:1 count:31
+CountHW: Aout addr:1 val:0.4444444444444446 count:44
+CountHW: Ain addr:1 count:32
+CountHW: Aout addr:1 val:0.888888888888889 count:45
+CountHW: Ain addr:1 count:33
+CountHW: Aout addr:1 val:1.3333333333333333 count:46
+CountHW: Ain addr:1 count:34
+CountHW: Aout addr:1 val:1.777777777777778 count:47
+CountHW: Ain addr:1 count:35
+CountHW: Aout addr:1 val:2.2222222222222223 count:48
+CountHW: Ain addr:1 count:36
+CountHW: Aout addr:1 val:2.6666666666666665 count:49
+CountHW: Ain addr:1 count:37
+CountHW: Aout addr:1 val:3.111111111111111 count:50
+CountHW: Ain addr:1 count:38
+CountHW: Aout addr:1 val:3.555555555555556 count:51
+CountHW: Ain addr:1 count:39
+CountHW: Aout addr:1 val:4.0 count:52
+CountHW: Ain addr:1 count:40
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:53
+CountHW: Ain addr:1 count:41
+CountHW: Aout addr:1 val:0.4444444444444446 count:54
+CountHW: Ain addr:1 count:42
+CountHW: Aout addr:1 val:0.888888888888889 count:55
+CountHW: Ain addr:1 count:43
+CountHW: Aout addr:1 val:1.3333333333333333 count:56
+CountHW: Ain addr:1 count:44
+CountHW: Aout addr:1 val:1.777777777777778 count:57
+CountHW: Ain addr:1 count:45
+CountHW: Aout addr:1 val:2.2222222222222223 count:58
+CountHW: Ain addr:1 count:46
+CountHW: Aout addr:1 val:2.6666666666666665 count:59
+CountHW: Ain addr:1 count:47
+CountHW: Aout addr:1 val:3.111111111111111 count:60
+CountHW: Ain addr:1 count:48
+CountHW: Aout addr:1 val:3.555555555555556 count:61
+CountHW: Ain addr:1 count:49
+CountHW: Aout addr:1 val:4.0 count:62
+CountHW: Ain addr:1 count:50
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:63
+CountHW: Ain addr:1 count:51
+CountHW: Aout addr:1 val:0.4444444444444446 count:64
+CountHW: Ain addr:1 count:52
+CountHW: Aout addr:1 val:0.888888888888889 count:65
+CountHW: Ain addr:1 count:53
+CountHW: Aout addr:1 val:1.3333333333333333 count:66
+CountHW: Ain addr:1 count:54
+CountHW: Aout addr:1 val:1.777777777777778 count:67
+CountHW: Ain addr:1 count:55
+CountHW: Aout addr:1 val:2.2222222222222223 count:68
+CountHW: Ain addr:1 count:56
+CountHW: Aout addr:1 val:2.6666666666666665 count:69
+CountHW: Ain addr:1 count:57
+CountHW: Aout addr:1 val:3.111111111111111 count:70
+CountHW: Ain addr:1 count:58
+CountHW: Aout addr:1 val:3.555555555555556 count:71
+CountHW: Ain addr:1 count:59
+CountHW: Aout addr:1 val:4.0 count:72
+CountHW: Ain addr:1 count:60
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:0.0 count:73
+CountHW: Ain addr:1 count:61
+CountHW: Aout addr:1 val:0.4444444444444446 count:74
+CountHW: Ain addr:1 count:62
+CountHW: Aout addr:1 val:0.888888888888889 count:75
+CountHW: Ain addr:1 count:63
+CountHW: Aout addr:1 val:1.3333333333333333 count:76
+CountHW: Ain addr:1 count:64
+CountHW: Aout addr:1 val:1.777777777777778 count:77
+CountHW: Ain addr:1 count:65
+CountHW: Aout addr:1 val:2.2222222222222223 count:78
+CountHW: Ain addr:1 count:66
+CountHW: Aout addr:1 val:2.6666666666666665 count:79
+CountHW: Ain addr:1 count:67
+CountHW: Aout addr:1 val:3.111111111111111 count:80
+CountHW: Ain addr:1 count:68
+CountHW: Aout addr:1 val:3.555555555555556 count:81
+CountHW: Ain addr:1 count:69
+CountHW: Aout addr:1 val:4.0 count:82
+CountHW: Ain addr:1 count:70
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:83
+CountHW: Ain addr:1 count:71
+CountHW: Aout addr:1 val:0.4444444444444446 count:84
+CountHW: Ain addr:1 count:72
+CountHW: Aout addr:1 val:0.888888888888889 count:85
+CountHW: Ain addr:1 count:73
+CountHW: Aout addr:1 val:1.3333333333333333 count:86
+CountHW: Ain addr:1 count:74
+CountHW: Aout addr:1 val:1.777777777777778 count:87
+CountHW: Ain addr:1 count:75
+CountHW: Aout addr:1 val:2.2222222222222223 count:88
+CountHW: Ain addr:1 count:76
+CountHW: Aout addr:1 val:2.6666666666666665 count:89
+CountHW: Ain addr:1 count:77
+CountHW: Aout addr:1 val:3.111111111111111 count:90
+CountHW: Ain addr:1 count:78
+CountHW: Aout addr:1 val:3.555555555555556 count:91
+CountHW: Ain addr:1 count:79
+CountHW: Aout addr:1 val:4.0 count:92
+CountHW: Ain addr:1 count:80
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:93
+CountHW: Ain addr:1 count:81
+CountHW: Aout addr:1 val:0.4444444444444446 count:94
+CountHW: Ain addr:1 count:82
+CountHW: Aout addr:1 val:0.888888888888889 count:95
+CountHW: Ain addr:1 count:83
+CountHW: Aout addr:1 val:1.3333333333333333 count:96
+CountHW: Ain addr:1 count:84
+CountHW: Aout addr:1 val:1.777777777777778 count:97
+CountHW: Ain addr:1 count:85
+CountHW: Aout addr:1 val:2.2222222222222223 count:98
+CountHW: Ain addr:1 count:86
+CountHW: Aout addr:1 val:2.6666666666666665 count:99
+CountHW: Ain addr:1 count:87
+CountHW: Aout addr:1 val:3.111111111111111 count:100
+CountHW: Ain addr:1 count:88
+CountHW: Aout addr:1 val:3.555555555555556 count:101
+CountHW: Ain addr:1 count:89
+CountHW: Aout addr:1 val:4.0 count:102
+CountHW: Ain addr:1 count:90
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:103
+CountHW: Ain addr:1 count:91
+CountHW: Aout addr:1 val:0.4444444444444446 count:104
+CountHW: Ain addr:1 count:92
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:0.888888888888889 count:105
+CountHW: Ain addr:1 count:93
+CountHW: Aout addr:1 val:1.3333333333333333 count:106
+CountHW: Ain addr:1 count:94
+CountHW: Aout addr:1 val:1.777777777777778 count:107
+CountHW: Ain addr:1 count:95
+CountHW: Aout addr:1 val:2.2222222222222223 count:108
+CountHW: Ain addr:1 count:96
+CountHW: Aout addr:1 val:2.6666666666666665 count:109
+CountHW: Ain addr:1 count:97
+CountHW: Aout addr:1 val:3.111111111111111 count:110
+CountHW: Ain addr:1 count:98
+CountHW: Aout addr:1 val:3.555555555555556 count:111
+CountHW: Ain addr:1 count:99
+CountHW: Aout addr:1 val:4.0 count:112
+CountHW: Ain addr:1 count:100
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:113
+CountHW: Ain addr:1 count:101
+CountHW: Aout addr:1 val:0.4444444444444446 count:114
+CountHW: Ain addr:1 count:102
+CountHW: Aout addr:1 val:0.888888888888889 count:115
+CountHW: Ain addr:1 count:103
+CountHW: Aout addr:1 val:1.3333333333333333 count:116
+CountHW: Ain addr:1 count:104
+CountHW: Aout addr:1 val:1.777777777777778 count:117
+CountHW: Ain addr:1 count:105
+CountHW: Aout addr:1 val:2.2222222222222223 count:118
+CountHW: Ain addr:1 count:106
+CountHW: Aout addr:1 val:2.6666666666666665 count:119
+CountHW: Ain addr:1 count:107
+CountHW: Aout addr:1 val:3.111111111111111 count:120
+CountHW: Ain addr:1 count:108
+CountHW: Aout addr:1 val:3.555555555555556 count:121
+CountHW: Ain addr:1 count:109
+CountHW: Aout addr:1 val:4.0 count:122
+CountHW: Ain addr:1 count:110
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:123
+CountHW: Ain addr:1 count:111
+CountHW: Aout addr:1 val:0.4444444444444446 count:124
+CountHW: Ain addr:1 count:112
+CountHW: Aout addr:1 val:0.888888888888889 count:125
+CountHW: Ain addr:1 count:113
+CountHW: Aout addr:1 val:1.3333333333333333 count:126
+CountHW: Ain addr:1 count:114
+CountHW: Aout addr:1 val:1.777777777777778 count:127
+CountHW: Ain addr:1 count:115
+CountHW: Aout addr:1 val:2.2222222222222223 count:128
+CountHW: Ain addr:1 count:116
+CountHW: Aout addr:1 val:2.6666666666666665 count:129
+CountHW: Ain addr:1 count:117
+CountHW: Aout addr:1 val:3.111111111111111 count:130
+CountHW: Ain addr:1 count:118
+CountHW: Aout addr:1 val:3.555555555555556 count:131
+CountHW: Ain addr:1 count:119
+CountHW: Aout addr:1 val:4.0 count:132
+CountHW: Ain addr:1 count:120
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:133
+CountHW: Ain addr:1 count:121
+CountHW: Aout addr:1 val:0.4444444444444446 count:134
+CountHW: Ain addr:1 count:122
+CountHW: Aout addr:1 val:0.888888888888889 count:135
+CountHW: Ain addr:1 count:123
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:1.3333333333333333 count:136
+CountHW: Ain addr:1 count:124
+CountHW: Aout addr:1 val:1.777777777777778 count:137
+CountHW: Ain addr:1 count:125
+CountHW: Aout addr:1 val:2.2222222222222223 count:138
+CountHW: Ain addr:1 count:126
+CountHW: Aout addr:1 val:2.6666666666666665 count:139
+CountHW: Ain addr:1 count:127
+CountHW: Aout addr:1 val:3.111111111111111 count:140
+CountHW: Ain addr:1 count:128
+CountHW: Aout addr:1 val:3.555555555555556 count:141
+CountHW: Ain addr:1 count:129
+CountHW: Aout addr:1 val:4.0 count:142
+CountHW: Ain addr:1 count:130
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:143
+CountHW: Ain addr:1 count:131
+CountHW: Aout addr:1 val:0.4444444444444446 count:144
+CountHW: Ain addr:1 count:132
+CountHW: Aout addr:1 val:0.888888888888889 count:145
+CountHW: Ain addr:1 count:133
+CountHW: Aout addr:1 val:1.3333333333333333 count:146
+CountHW: Ain addr:1 count:134
+GUI: Stop button clicked
+CTRL: stopping experiment...
+DIAGN: stopping diagnostics...
+DIAGN: waiting for ProbeOperation to exit...
+CountHW: Aout addr:1 val:1.777777777777778 count:147
+CountHW: Ain addr:1 count:135
+CountHW: Aout addr:1 val:2.2222222222222223 count:148
+CountHW: Ain addr:1 count:136
+CountHW: Aout addr:1 val:2.6666666666666665 count:149
+CountHW: Ain addr:1 count:137
+CountHW: Aout addr:1 val:3.111111111111111 count:150
+CountHW: Ain addr:1 count:138
+CountHW: Aout addr:1 val:3.555555555555556 count:151
+CountHW: Ain addr:1 count:139
+CountHW: Aout addr:1 val:4.0 count:152
+CountHW: Ain addr:1 count:140
+PRB.HEA : completed data acquisition
+PRB.HEA : disabling probe circuit...
+CountHW: Aout addr:1 val:2.0 count:153
+CountHW: Aout addr:2 val:2.0 count:154
+CountHW: Aout addr:3 val:2.0 count:155
+CountHW: Dout addr:1 val:False count:13
+CountHW: Dout addr:2 val:False count:14
+CountHW: Dout addr:3 val:False count:15
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0 count:156
+CountHW: Aout addr:2 val:0 count:157
+CountHW: Aout addr:3 val:0 count:158
+PRB.HEA : exiting...
+PRB_OP : data buff empty...
+PRB_OP : pushed new sample set to control layer
+PRB_OP : waiting for Probe Object to exit...
+PRB_OP : waiting for Clock Thread to exit...
+Clock : exiting...
+PRB_OP : exiting...
+DIAGN: ProbeOperation exited
+CTRL: awaiting results...
+CTRL: results obtained
+CTRL: 14 data-points obtained.
+Local path not valid.
+UPLDR: initialized...
+UPLDR: processing results...
+UPLDR: processing complete.
+UPLDR: storing results locally...
+UPLDR: local upload failed. 'LocalUpload' object has no attribute 'parent_folder'
+UPLDR: uploading results to remote storage...
+UPLDR: No credentials path set! Cannot upload results!
+UPLDR: finished
+GUI: Stoping Qtimer.
+GUI: Back button clicked.
+GUI: Switch to Setup Page.
+GUI: Run button clicked
+CTRL: setting up experiment...
+DIAGN: preparing for diagnostics...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:16
+CountHW: Dout addr:1 val:False count:17
+CountHW: Dout addr:2 val:False count:18
+CountHW: Dout addr:3 val:False count:19
+CountHW: Dout addr:4 val:False count:20
+CountHW: Dout addr:5 val:False count:21
+CountHW: Dout addr:6 val:False count:22
+CountHW: Dout addr:7 val:False count:23
+CountHW: Dout addr:8 val:False count:24
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:159
+CountHW: Aout addr:1 val:0 count:160
+CountHW: Aout addr:2 val:0 count:161
+CountHW: Aout addr:3 val:0 count:162
+CountHW: Aout addr:4 val:0 count:163
+CountHW: Aout addr:5 val:0 count:164
+CountHW: Aout addr:6 val:0 count:165
+CountHW: Aout addr:7 val:0 count:166
+CountHW: Aout addr:8 val:0 count:167
+HWINT: DACs cleared
+PRB_OP : arming...
+DIAGN: READY
+CTRL: READY
+CTRL: <function filter_current at 0x000001E10BA544A0>
+CTRL: <function get_particle_saturation_current at 0x000001E10BA547C0>
+CTRL: <function get_plasma_potential at 0x000001E10BA54860>
+CTRL: <function get_particle_temperature at 0x000001E10BA54900>
+CTRL: <function get_particle_density at 0x000001E10BA54720>
+CTRL: <function get_display_parameters at 0x000001E10BA54540>
+GUI: Switch to Run Page.
+GUI: Parameter labels loaded.
+GUI: Switch to new experiment name selection page, user clicked no.
+GUI: New experiment name folder being selected...
+GUI: New experiment name experiment #678 selected...
+GUI: Experiment name confirmed, switching to data acquisition page.
+Probe ID slp relay_addresses: [1]
+Probe ID slp sweeper_address: 1
+Probe ID slp collector_address: 1
+ Probe ID slp probe_id: slp
+ Probe ID slp sampling_rate: 200.0
+ Probe ID slp dac_min: 0.0
+ Probe ID slp dac_max: 4.0
+ Probe ID slp num_samples: 50
+ Probe ID slp sweep_min: -300.0
+ Probe ID slp sweep_max: 300.0
+ Probe ID slp sweep_amp_min: -300.0
+ Probe ID slp sweep_amp_max: 300.0
+ Probe ID slp sweeper_shunt: 200.0
+ Probe ID slp collector_gain: 3.0
+ Probe ID slp Probe area: 6.0
+ Probe ID slp area_units: {'unit': 'm', 'display_value': 6.0}
+ Probe ID slp Particle mass: 9.10938e-31
+ Probe ID slp selected_gas: nitrogen
+Probe ID dlp relay_addresses: [1]
+Probe ID dlp sweeper_address: 1
+Probe ID dlp collector_address: 1
+ Probe ID dlp probe_id: dlp
+ Probe ID dlp sampling_rate: 50
+ Probe ID dlp dac_min: 0.0
+ Probe ID dlp dac_max: 4.0
+ Probe ID dlp num_samples: 50
+ Probe ID dlp sweep_min: -300.0
+ Probe ID dlp sweep_max: 300.0
+ Probe ID dlp sweep_amp_min: -300.0
+ Probe ID dlp sweep_amp_max: 300.0
+ Probe ID dlp sweeper_shunt: 200.0
+ Probe ID dlp collector_gain: 1.0
+ Probe ID dlp Probe area: 5000.0
+ Probe ID dlp area_units: {'unit': 'km', 'display_value': 5.0}
+ Probe ID dlp selected_gas: nitrogen
+ Probe ID dlp Particle mass: 6.63588e-26
+Probe ID hea relay_addresses: [1, 2, 3]
+Probe ID hea sweeper_address: 1
+Probe ID hea collector_address: 1
+Probe ID hea rejector_address: 2
+Probe ID hea collector_bias_address: 3
+ Probe ID hea probe_id: hea
+ Probe ID hea sampling_rate: 50.0
+ Probe ID hea dac_min: 0.0
+ Probe ID hea dac_max: 4.0
+ Probe ID hea num_samples: 10
+ Probe ID hea sweep_min: -300.0
+ Probe ID hea sweep_max: 300.0
+ Probe ID hea sweep_amp_min: -300.0
+ Probe ID hea sweep_amp_max: 300.0
+ Probe ID hea sweeper_shunt: 199.0
+ Probe ID hea collector_gain: 1.0
+ Probe ID hea rejector_min: -300.0
+ Probe ID hea rejector_max: 300.0
+ Probe ID hea rejector_bias: 50.0
+ Probe ID hea collector_bias_min: -300.0
+ Probe ID hea collector_bias_max: 300.0
+ Probe ID hea collector_bias: 25.0
+ Probe ID hea Probe area: 0.04
+ Probe ID hea area_units: {'unit': 'cm', 'display_value': 4.0}
+ Probe ID hea selected_gas: nitrogen
+ Probe ID hea Particle mass: 9.10938e-31
+Probe ID iea relay_addresses: [1, 2, 3]
+Probe ID iea sweeper_address: 1
+Probe ID iea collector_address: 1
+Probe ID iea rejector_address: 2
+Probe ID iea collector_bias_address: 3
+ Probe ID iea probe_id: iea
+ Probe ID iea sampling_rate: 60.0
+ Probe ID iea dac_min: 0.0
+ Probe ID iea dac_max: 4.0
+ Probe ID iea num_samples: 50
+ Probe ID iea sweep_min: -300.0
+ Probe ID iea sweep_max: 300.0
+ Probe ID iea sweep_amp_min: -300.0
+ Probe ID iea sweep_amp_max: 300.0
+ Probe ID iea sweeper_shunt: 200.0
+ Probe ID iea collector_gain: 1.0
+ Probe ID iea rejector_min: -300.0
+ Probe ID iea rejector_max: 300.0
+ Probe ID iea rejector_bias: 35.0
+ Probe ID iea collector_bias_min: -300.0
+ Probe ID iea collector_bias_max: 300.0
+ Probe ID iea collector_bias: 20.0
+ Probe ID iea Probe area: 0.4
+ Probe ID iea area_units: {'unit': 'dm', 'display_value': 4.0}
+ Probe ID iea selected_gas: nitrogen
+ Probe ID iea Particle mass: 9.10938e-31
+Probe ID tlc relay_addresses: [2, 3]
+Probe ID tlc up_amp_address: 2
+Probe ID tlc up_collector_address: 2
+Probe ID tlc down_amp_address: 3
+Probe ID tlc down_collector_address: 3
+ Probe ID tlc probe_id: tlc
+ Probe ID tlc sampling_rate: 50.0
+ Probe ID tlc dac_min: 0.0
+ Probe ID tlc dac_max: 4.0
+ Probe ID tlc up_amp_min: -300.0
+ Probe ID tlc up_amp_max: 300.0
+ Probe ID tlc up_amp_bias: 20.0
+ Probe ID tlc up_collector_gain: 101.0
+ Probe ID tlc up_shunt: 200
+ Probe ID tlc down_amp_min: -300.0
+ Probe ID tlc down_amp_max: 300.0
+ Probe ID tlc down_amp_bias: 30.0
+ Probe ID tlc down_collector_gain: 1.0
+ Probe ID tlc down_shunt: 200.0
+ Probe ID tlc num_samples: 25
+ Probe ID tlc Probe area: 24000.0
+ Probe ID tlc area_units: {'unit': 'km', 'display_value': 24.0}
+ Probe ID tlc selected_gas: nitrogen
+ Probe ID tlc Particle mass: 6.63588e-26
+Probe ID tlv relay_addresses: [2]
+Probe ID tlv up_amp_address: 2
+Probe ID tlv up_collector_address: 2
+Probe ID tlv float_collector_address: 3
+ Probe ID tlv probe_id: tlv
+ Probe ID tlv sampling_rate: 50.0
+ Probe ID tlv dac_min: 0.0
+ Probe ID tlv dac_max: 4.0
+ Probe ID tlv up_amp_min: -300.0
+ Probe ID tlv up_amp_max: 300.0
+ Probe ID tlv up_amp_bias: 10.0
+ Probe ID tlv up_collector_gain: 1.0
+ Probe ID tlv up_shunt: 200.0
+ Probe ID tlv float_collector_gain: 1.0
+ Probe ID tlv num_samples: 2
+ Probe ID tlv Probe area: 0.01
+ Probe ID tlv area_units: {'unit': 'cm', 'display_value': 1.0}
+ Probe ID tlv selected_gas: nitrogen
+ Probe ID tlv Particle mass: 6.63588e-26
+ local_path: C:\experiment #678
+The file path C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json is invalid! Check that the name is set correctly.
+ credentials_path: C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json
+ folder_id: 1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ
+ experiment_name: experiment #678
+ selected_gas: nitrogen
+ button_adjust: 0.1
+
+saving in memory...
+Successfully saved!
+
+GUI: Back button clicked.
+GUI: Switch to Setup Page.
+GUI: Settings button clicked
+GUI: Switch to Settings Page.
+GUI: Data Upload button clicked.
+GUI: Writing input...
+GUI: No input written.
+GUI: Selecting credentials file...
+GUI: No credentials file selected.
+GUI: Save button clicked
+Probe ID slp relay_addresses: [1]
+Probe ID slp sweeper_address: 1
+Probe ID slp collector_address: 1
+ Probe ID slp probe_id: slp
+ Probe ID slp sampling_rate: 200.0
+ Probe ID slp dac_min: 0.0
+ Probe ID slp dac_max: 4.0
+ Probe ID slp num_samples: 50
+ Probe ID slp sweep_min: -300.0
+ Probe ID slp sweep_max: 300.0
+ Probe ID slp sweep_amp_min: -300.0
+ Probe ID slp sweep_amp_max: 300.0
+ Probe ID slp sweeper_shunt: 200.0
+ Probe ID slp collector_gain: 3.0
+ Probe ID slp Probe area: 6.0
+ Probe ID slp area_units: {'unit': 'm', 'display_value': 6.0}
+ Probe ID slp Particle mass: 9.10938e-31
+ Probe ID slp selected_gas: nitrogen
+Probe ID dlp relay_addresses: [1]
+Probe ID dlp sweeper_address: 1
+Probe ID dlp collector_address: 1
+ Probe ID dlp probe_id: dlp
+ Probe ID dlp sampling_rate: 50
+ Probe ID dlp dac_min: 0.0
+ Probe ID dlp dac_max: 4.0
+ Probe ID dlp num_samples: 50
+ Probe ID dlp sweep_min: -300.0
+ Probe ID dlp sweep_max: 300.0
+ Probe ID dlp sweep_amp_min: -300.0
+ Probe ID dlp sweep_amp_max: 300.0
+ Probe ID dlp sweeper_shunt: 200.0
+ Probe ID dlp collector_gain: 1.0
+ Probe ID dlp Probe area: 5000.0
+ Probe ID dlp area_units: {'unit': 'km', 'display_value': 5.0}
+ Probe ID dlp selected_gas: nitrogen
+ Probe ID dlp Particle mass: 6.63588e-26
+Probe ID hea relay_addresses: [1, 2, 3]
+Probe ID hea sweeper_address: 1
+Probe ID hea collector_address: 1
+Probe ID hea rejector_address: 2
+Probe ID hea collector_bias_address: 3
+ Probe ID hea probe_id: hea
+ Probe ID hea sampling_rate: 50.0
+ Probe ID hea dac_min: 0.0
+ Probe ID hea dac_max: 4.0
+ Probe ID hea num_samples: 10
+ Probe ID hea sweep_min: -300.0
+ Probe ID hea sweep_max: 300.0
+ Probe ID hea sweep_amp_min: -300.0
+ Probe ID hea sweep_amp_max: 300.0
+ Probe ID hea sweeper_shunt: 199.0
+ Probe ID hea collector_gain: 1.0
+ Probe ID hea rejector_min: -300.0
+ Probe ID hea rejector_max: 300.0
+ Probe ID hea rejector_bias: 50.0
+ Probe ID hea collector_bias_min: -300.0
+ Probe ID hea collector_bias_max: 300.0
+ Probe ID hea collector_bias: 25.0
+ Probe ID hea Probe area: 0.04
+ Probe ID hea area_units: {'unit': 'cm', 'display_value': 4.0}
+ Probe ID hea selected_gas: nitrogen
+ Probe ID hea Particle mass: 9.10938e-31
+Probe ID iea relay_addresses: [1, 2, 3]
+Probe ID iea sweeper_address: 1
+Probe ID iea collector_address: 1
+Probe ID iea rejector_address: 2
+Probe ID iea collector_bias_address: 3
+ Probe ID iea probe_id: iea
+ Probe ID iea sampling_rate: 60.0
+ Probe ID iea dac_min: 0.0
+ Probe ID iea dac_max: 4.0
+ Probe ID iea num_samples: 50
+ Probe ID iea sweep_min: -300.0
+ Probe ID iea sweep_max: 300.0
+ Probe ID iea sweep_amp_min: -300.0
+ Probe ID iea sweep_amp_max: 300.0
+ Probe ID iea sweeper_shunt: 200.0
+ Probe ID iea collector_gain: 1.0
+ Probe ID iea rejector_min: -300.0
+ Probe ID iea rejector_max: 300.0
+ Probe ID iea rejector_bias: 35.0
+ Probe ID iea collector_bias_min: -300.0
+ Probe ID iea collector_bias_max: 300.0
+ Probe ID iea collector_bias: 20.0
+ Probe ID iea Probe area: 0.4
+ Probe ID iea area_units: {'unit': 'dm', 'display_value': 4.0}
+ Probe ID iea selected_gas: nitrogen
+ Probe ID iea Particle mass: 9.10938e-31
+Probe ID tlc relay_addresses: [2, 3]
+Probe ID tlc up_amp_address: 2
+Probe ID tlc up_collector_address: 2
+Probe ID tlc down_amp_address: 3
+Probe ID tlc down_collector_address: 3
+ Probe ID tlc probe_id: tlc
+ Probe ID tlc sampling_rate: 50.0
+ Probe ID tlc dac_min: 0.0
+ Probe ID tlc dac_max: 4.0
+ Probe ID tlc up_amp_min: -300.0
+ Probe ID tlc up_amp_max: 300.0
+ Probe ID tlc up_amp_bias: 20.0
+ Probe ID tlc up_collector_gain: 101.0
+ Probe ID tlc up_shunt: 200
+ Probe ID tlc down_amp_min: -300.0
+ Probe ID tlc down_amp_max: 300.0
+ Probe ID tlc down_amp_bias: 30.0
+ Probe ID tlc down_collector_gain: 1.0
+ Probe ID tlc down_shunt: 200.0
+ Probe ID tlc num_samples: 25
+ Probe ID tlc Probe area: 24000.0
+ Probe ID tlc area_units: {'unit': 'km', 'display_value': 24.0}
+ Probe ID tlc selected_gas: nitrogen
+ Probe ID tlc Particle mass: 6.63588e-26
+Probe ID tlv relay_addresses: [2]
+Probe ID tlv up_amp_address: 2
+Probe ID tlv up_collector_address: 2
+Probe ID tlv float_collector_address: 3
+ Probe ID tlv probe_id: tlv
+ Probe ID tlv sampling_rate: 50.0
+ Probe ID tlv dac_min: 0.0
+ Probe ID tlv dac_max: 4.0
+ Probe ID tlv up_amp_min: -300.0
+ Probe ID tlv up_amp_max: 300.0
+ Probe ID tlv up_amp_bias: 10.0
+ Probe ID tlv up_collector_gain: 1.0
+ Probe ID tlv up_shunt: 200.0
+ Probe ID tlv float_collector_gain: 1.0
+ Probe ID tlv num_samples: 2
+ Probe ID tlv Probe area: 0.01
+ Probe ID tlv area_units: {'unit': 'cm', 'display_value': 1.0}
+ Probe ID tlv selected_gas: nitrogen
+ Probe ID tlv Particle mass: 6.63588e-26
+ local_path: C:\experiment #678
+The file path C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json is invalid! Check that the name is set correctly.
+ credentials_path: C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json
+ folder_id: 1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ
+ experiment_name: experiment #678
+ selected_gas: nitrogen
+ button_adjust: 0.1
+
+saving in memory...
+Successfully saved!
+
+GUI: Back button clicked
+GUI: Back button clicked
+GUI: Switch to Setup Page.
+GUI: Run button clicked
+CTRL: setting up experiment...
+DIAGN: preparing for diagnostics...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:25
+CountHW: Dout addr:1 val:False count:26
+CountHW: Dout addr:2 val:False count:27
+CountHW: Dout addr:3 val:False count:28
+CountHW: Dout addr:4 val:False count:29
+CountHW: Dout addr:5 val:False count:30
+CountHW: Dout addr:6 val:False count:31
+CountHW: Dout addr:7 val:False count:32
+CountHW: Dout addr:8 val:False count:33
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:168
+CountHW: Aout addr:1 val:0 count:169
+CountHW: Aout addr:2 val:0 count:170
+CountHW: Aout addr:3 val:0 count:171
+CountHW: Aout addr:4 val:0 count:172
+CountHW: Aout addr:5 val:0 count:173
+CountHW: Aout addr:6 val:0 count:174
+CountHW: Aout addr:7 val:0 count:175
+CountHW: Aout addr:8 val:0 count:176
+HWINT: DACs cleared
+PRB_OP : arming...
+DIAGN: READY
+CTRL: READY
+CTRL: <function filter_current at 0x000001E10BA544A0>
+CTRL: <function get_particle_saturation_current at 0x000001E10BA547C0>
+CTRL: <function get_plasma_potential at 0x000001E10BA54860>
+CTRL: <function get_particle_temperature at 0x000001E10BA54900>
+CTRL: <function get_particle_density at 0x000001E10BA54720>
+CTRL: <function get_display_parameters at 0x000001E10BA54540>
+GUI: Switch to Run Page.
+GUI: Parameter labels loaded.
+GUI: Experiment name confirmed, switching to data acquisition page.
+Probe ID slp relay_addresses: [1]
+Probe ID slp sweeper_address: 1
+Probe ID slp collector_address: 1
+ Probe ID slp probe_id: slp
+ Probe ID slp sampling_rate: 200.0
+ Probe ID slp dac_min: 0.0
+ Probe ID slp dac_max: 4.0
+ Probe ID slp num_samples: 50
+ Probe ID slp sweep_min: -300.0
+ Probe ID slp sweep_max: 300.0
+ Probe ID slp sweep_amp_min: -300.0
+ Probe ID slp sweep_amp_max: 300.0
+ Probe ID slp sweeper_shunt: 200.0
+ Probe ID slp collector_gain: 3.0
+ Probe ID slp Probe area: 6.0
+ Probe ID slp area_units: {'unit': 'm', 'display_value': 6.0}
+ Probe ID slp Particle mass: 9.10938e-31
+ Probe ID slp selected_gas: nitrogen
+Probe ID dlp relay_addresses: [1]
+Probe ID dlp sweeper_address: 1
+Probe ID dlp collector_address: 1
+ Probe ID dlp probe_id: dlp
+ Probe ID dlp sampling_rate: 50
+ Probe ID dlp dac_min: 0.0
+ Probe ID dlp dac_max: 4.0
+ Probe ID dlp num_samples: 50
+ Probe ID dlp sweep_min: -300.0
+ Probe ID dlp sweep_max: 300.0
+ Probe ID dlp sweep_amp_min: -300.0
+ Probe ID dlp sweep_amp_max: 300.0
+ Probe ID dlp sweeper_shunt: 200.0
+ Probe ID dlp collector_gain: 1.0
+ Probe ID dlp Probe area: 5000.0
+ Probe ID dlp area_units: {'unit': 'km', 'display_value': 5.0}
+ Probe ID dlp selected_gas: nitrogen
+ Probe ID dlp Particle mass: 6.63588e-26
+Probe ID hea relay_addresses: [1, 2, 3]
+Probe ID hea sweeper_address: 1
+Probe ID hea collector_address: 1
+Probe ID hea rejector_address: 2
+Probe ID hea collector_bias_address: 3
+ Probe ID hea probe_id: hea
+ Probe ID hea sampling_rate: 50.0
+ Probe ID hea dac_min: 0.0
+ Probe ID hea dac_max: 4.0
+ Probe ID hea num_samples: 10
+ Probe ID hea sweep_min: -300.0
+ Probe ID hea sweep_max: 300.0
+ Probe ID hea sweep_amp_min: -300.0
+ Probe ID hea sweep_amp_max: 300.0
+ Probe ID hea sweeper_shunt: 199.0
+ Probe ID hea collector_gain: 1.0
+ Probe ID hea rejector_min: -300.0
+ Probe ID hea rejector_max: 300.0
+ Probe ID hea rejector_bias: 50.0
+ Probe ID hea collector_bias_min: -300.0
+ Probe ID hea collector_bias_max: 300.0
+ Probe ID hea collector_bias: 25.0
+ Probe ID hea Probe area: 0.04
+ Probe ID hea area_units: {'unit': 'cm', 'display_value': 4.0}
+ Probe ID hea selected_gas: nitrogen
+ Probe ID hea Particle mass: 9.10938e-31
+Probe ID iea relay_addresses: [1, 2, 3]
+Probe ID iea sweeper_address: 1
+Probe ID iea collector_address: 1
+Probe ID iea rejector_address: 2
+Probe ID iea collector_bias_address: 3
+ Probe ID iea probe_id: iea
+ Probe ID iea sampling_rate: 60.0
+ Probe ID iea dac_min: 0.0
+ Probe ID iea dac_max: 4.0
+ Probe ID iea num_samples: 50
+ Probe ID iea sweep_min: -300.0
+ Probe ID iea sweep_max: 300.0
+ Probe ID iea sweep_amp_min: -300.0
+ Probe ID iea sweep_amp_max: 300.0
+ Probe ID iea sweeper_shunt: 200.0
+ Probe ID iea collector_gain: 1.0
+ Probe ID iea rejector_min: -300.0
+ Probe ID iea rejector_max: 300.0
+ Probe ID iea rejector_bias: 35.0
+ Probe ID iea collector_bias_min: -300.0
+ Probe ID iea collector_bias_max: 300.0
+ Probe ID iea collector_bias: 20.0
+ Probe ID iea Probe area: 0.4
+ Probe ID iea area_units: {'unit': 'dm', 'display_value': 4.0}
+ Probe ID iea selected_gas: nitrogen
+ Probe ID iea Particle mass: 9.10938e-31
+Probe ID tlc relay_addresses: [2, 3]
+Probe ID tlc up_amp_address: 2
+Probe ID tlc up_collector_address: 2
+Probe ID tlc down_amp_address: 3
+Probe ID tlc down_collector_address: 3
+ Probe ID tlc probe_id: tlc
+ Probe ID tlc sampling_rate: 50.0
+ Probe ID tlc dac_min: 0.0
+ Probe ID tlc dac_max: 4.0
+ Probe ID tlc up_amp_min: -300.0
+ Probe ID tlc up_amp_max: 300.0
+ Probe ID tlc up_amp_bias: 20.0
+ Probe ID tlc up_collector_gain: 101.0
+ Probe ID tlc up_shunt: 200
+ Probe ID tlc down_amp_min: -300.0
+ Probe ID tlc down_amp_max: 300.0
+ Probe ID tlc down_amp_bias: 30.0
+ Probe ID tlc down_collector_gain: 1.0
+ Probe ID tlc down_shunt: 200.0
+ Probe ID tlc num_samples: 25
+ Probe ID tlc Probe area: 24000.0
+ Probe ID tlc area_units: {'unit': 'km', 'display_value': 24.0}
+ Probe ID tlc selected_gas: nitrogen
+ Probe ID tlc Particle mass: 6.63588e-26
+Probe ID tlv relay_addresses: [2]
+Probe ID tlv up_amp_address: 2
+Probe ID tlv up_collector_address: 2
+Probe ID tlv float_collector_address: 3
+ Probe ID tlv probe_id: tlv
+ Probe ID tlv sampling_rate: 50.0
+ Probe ID tlv dac_min: 0.0
+ Probe ID tlv dac_max: 4.0
+ Probe ID tlv up_amp_min: -300.0
+ Probe ID tlv up_amp_max: 300.0
+ Probe ID tlv up_amp_bias: 10.0
+ Probe ID tlv up_collector_gain: 1.0
+ Probe ID tlv up_shunt: 200.0
+ Probe ID tlv float_collector_gain: 1.0
+ Probe ID tlv num_samples: 2
+ Probe ID tlv Probe area: 0.01
+ Probe ID tlv area_units: {'unit': 'cm', 'display_value': 1.0}
+ Probe ID tlv selected_gas: nitrogen
+ Probe ID tlv Particle mass: 6.63588e-26
+ local_path: C:\experiment #678
+The file path C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json is invalid! Check that the name is set correctly.
+ credentials_path: C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json
+ folder_id: 1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ
+ experiment_name: experiment #678
+ selected_gas: nitrogen
+ button_adjust: 0.1
+
+saving in memory...
+Successfully saved!
+
+GUI: Run button clicked.
+CTRL: starting experiment...
+DIAGN: starting diagnostics...
+PRB_OP : launching threads...
+GUI: Starting Qtimer.
+PRB.HEA : enabling probe circuit...
+CountHW: Aout addr:1 val:2.0 count:177
+CountHW: Aout addr:2 val:2.3333333333333335 count:178
+CountHW: Aout addr:3 val:2.1666666666666665 count:179
+CountHW: Dout addr:1 val:True count:34
+CountHW: Dout addr:2 val:True count:35
+CountHW: Dout addr:3 val:True count:36
+Clock : waiting at barrier...
+PRB_OP : waiting for Probe Object to start...
+PRB_OP : running...
+GUI: Received new parameters.
+PRB.HEA : waiting at barrier...
+PRB.HEA : running...
+PRB.HEA : starting data acquisition...
+PRB_OP : data buff empty...
+Clock : running...
+CountHW: Aout addr:1 val:0.0 count:180
+CountHW: Ain addr:1 count:141
+CountHW: Aout addr:1 val:0.4444444444444446 count:181
+CountHW: Ain addr:1 count:142
+CountHW: Aout addr:1 val:0.888888888888889 count:182
+CountHW: Ain addr:1 count:143
+CountHW: Aout addr:1 val:1.3333333333333333 count:183
+CountHW: Ain addr:1 count:144
+CountHW: Aout addr:1 val:1.777777777777778 count:184
+CountHW: Ain addr:1 count:145
+CountHW: Aout addr:1 val:2.2222222222222223 count:185
+CountHW: Ain addr:1 count:146
+CountHW: Aout addr:1 val:2.6666666666666665 count:186
+CountHW: Ain addr:1 count:147
+CountHW: Aout addr:1 val:3.111111111111111 count:187
+CountHW: Ain addr:1 count:148
+CountHW: Aout addr:1 val:3.555555555555556 count:188
+CountHW: Ain addr:1 count:149
+CountHW: Aout addr:1 val:4.0 count:189
+CountHW: Ain addr:1 count:150
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:190
+CountHW: Ain addr:1 count:151
+CountHW: Aout addr:1 val:0.4444444444444446 count:191
+CountHW: Ain addr:1 count:152
+CountHW: Aout addr:1 val:0.888888888888889 count:192
+CountHW: Ain addr:1 count:153
+CountHW: Aout addr:1 val:1.3333333333333333 count:193
+CountHW: Ain addr:1 count:154
+CountHW: Aout addr:1 val:1.777777777777778 count:194
+CountHW: Ain addr:1 count:155
+CountHW: Aout addr:1 val:2.2222222222222223 count:195
+CountHW: Ain addr:1 count:156
+CountHW: Aout addr:1 val:2.6666666666666665 count:196
+CountHW: Ain addr:1 count:157
+CountHW: Aout addr:1 val:3.111111111111111 count:197
+CountHW: Ain addr:1 count:158
+CountHW: Aout addr:1 val:3.555555555555556 count:198
+CountHW: Ain addr:1 count:159
+CountHW: Aout addr:1 val:4.0 count:199
+CountHW: Ain addr:1 count:160
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:200
+CountHW: Ain addr:1 count:161
+CountHW: Aout addr:1 val:0.4444444444444446 count:201
+CountHW: Ain addr:1 count:162
+CountHW: Aout addr:1 val:0.888888888888889 count:202
+CountHW: Ain addr:1 count:163
+CountHW: Aout addr:1 val:1.3333333333333333 count:203
+CountHW: Ain addr:1 count:164
+CountHW: Aout addr:1 val:1.777777777777778 count:204
+CountHW: Ain addr:1 count:165
+CountHW: Aout addr:1 val:2.2222222222222223 count:205
+CountHW: Ain addr:1 count:166
+CountHW: Aout addr:1 val:2.6666666666666665 count:206
+CountHW: Ain addr:1 count:167
+CountHW: Aout addr:1 val:3.111111111111111 count:207
+CountHW: Ain addr:1 count:168
+CountHW: Aout addr:1 val:3.555555555555556 count:208
+CountHW: Ain addr:1 count:169
+CountHW: Aout addr:1 val:4.0 count:209
+CountHW: Ain addr:1 count:170
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:210
+CountHW: Ain addr:1 count:171
+CountHW: Aout addr:1 val:0.4444444444444446 count:211
+CountHW: Ain addr:1 count:172
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:0.888888888888889 count:212
+CountHW: Ain addr:1 count:173
+CountHW: Aout addr:1 val:1.3333333333333333 count:213
+CountHW: Ain addr:1 count:174
+CountHW: Aout addr:1 val:1.777777777777778 count:214
+CountHW: Ain addr:1 count:175
+CountHW: Aout addr:1 val:2.2222222222222223 count:215
+CountHW: Ain addr:1 count:176
+CountHW: Aout addr:1 val:2.6666666666666665 count:216
+CountHW: Ain addr:1 count:177
+CountHW: Aout addr:1 val:3.111111111111111 count:217
+CountHW: Ain addr:1 count:178
+CountHW: Aout addr:1 val:3.555555555555556 count:218
+CountHW: Ain addr:1 count:179
+CountHW: Aout addr:1 val:4.0 count:219
+CountHW: Ain addr:1 count:180
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:220
+CountHW: Ain addr:1 count:181
+CountHW: Aout addr:1 val:0.4444444444444446 count:221
+CountHW: Ain addr:1 count:182
+CountHW: Aout addr:1 val:0.888888888888889 count:222
+CountHW: Ain addr:1 count:183
+CountHW: Aout addr:1 val:1.3333333333333333 count:223
+CountHW: Ain addr:1 count:184
+CountHW: Aout addr:1 val:1.777777777777778 count:224
+CountHW: Ain addr:1 count:185
+GUI: Stop button clicked
+CTRL: stopping experiment...
+DIAGN: stopping diagnostics...
+DIAGN: waiting for ProbeOperation to exit...
+CountHW: Aout addr:1 val:2.2222222222222223 count:225
+CountHW: Ain addr:1 count:186
+CountHW: Aout addr:1 val:2.6666666666666665 count:226
+CountHW: Ain addr:1 count:187
+CountHW: Aout addr:1 val:3.111111111111111 count:227
+CountHW: Ain addr:1 count:188
+CountHW: Aout addr:1 val:3.555555555555556 count:228
+CountHW: Ain addr:1 count:189
+CountHW: Aout addr:1 val:4.0 count:229
+CountHW: Ain addr:1 count:190
+PRB.HEA : completed data acquisition
+PRB.HEA : disabling probe circuit...
+CountHW: Aout addr:1 val:2.0 count:230
+CountHW: Aout addr:2 val:2.0 count:231
+CountHW: Aout addr:3 val:2.0 count:232
+CountHW: Dout addr:1 val:False count:37
+CountHW: Dout addr:2 val:False count:38
+CountHW: Dout addr:3 val:False count:39
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+PRB_OP : data buff empty...
+CountHW: Aout addr:1 val:0 count:233
+CountHW: Aout addr:2 val:0 count:234
+CountHW: Aout addr:3 val:0 count:235
+PRB.HEA : exiting...
+PRB_OP : data buff empty...
+PRB_OP : pushed new sample set to control layer
+PRB_OP : waiting for Probe Object to exit...
+PRB_OP : waiting for Clock Thread to exit...
+Clock : exiting...
+PRB_OP : exiting...
+DIAGN: ProbeOperation exited
+CTRL: awaiting results...
+CTRL: results obtained
+CTRL: 5 data-points obtained.
+UPLDR: initialized...
+UPLDR: processing results...
+UPLDR: processing complete.
+UPLDR: storing results locally...
+GUI: Stoping Qtimer.
+UPLDR: local storage successful.
+UPLDR: uploading results to remote storage...
+UPLDR: No credentials path set! Cannot upload results!
+UPLDR: finished
+GUI: Back button clicked.
+GUI: Switch to Setup Page.
+GUI: Run button clicked
+CTRL: setting up experiment...
+DIAGN: preparing for diagnostics...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:40
+CountHW: Dout addr:1 val:False count:41
+CountHW: Dout addr:2 val:False count:42
+CountHW: Dout addr:3 val:False count:43
+CountHW: Dout addr:4 val:False count:44
+CountHW: Dout addr:5 val:False count:45
+CountHW: Dout addr:6 val:False count:46
+CountHW: Dout addr:7 val:False count:47
+CountHW: Dout addr:8 val:False count:48
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:236
+CountHW: Aout addr:1 val:0 count:237
+CountHW: Aout addr:2 val:0 count:238
+CountHW: Aout addr:3 val:0 count:239
+CountHW: Aout addr:4 val:0 count:240
+CountHW: Aout addr:5 val:0 count:241
+CountHW: Aout addr:6 val:0 count:242
+CountHW: Aout addr:7 val:0 count:243
+CountHW: Aout addr:8 val:0 count:244
+HWINT: DACs cleared
+PRB_OP : arming...
+DIAGN: READY
+CTRL: READY
+CTRL: <function filter_current at 0x000001E10BA544A0>
+CTRL: <function get_particle_saturation_current at 0x000001E10BA547C0>
+CTRL: <function get_plasma_potential at 0x000001E10BA54860>
+CTRL: <function get_particle_temperature at 0x000001E10BA54900>
+CTRL: <function get_particle_density at 0x000001E10BA54720>
+CTRL: <function get_display_parameters at 0x000001E10BA54540>
+GUI: Switch to Run Page.
+GUI: Parameter labels loaded.
+GUI: Experiment name confirmed, switching to data acquisition page.
+Probe ID slp relay_addresses: [1]
+Probe ID slp sweeper_address: 1
+Probe ID slp collector_address: 1
+ Probe ID slp probe_id: slp
+ Probe ID slp sampling_rate: 200.0
+ Probe ID slp dac_min: 0.0
+ Probe ID slp dac_max: 4.0
+ Probe ID slp num_samples: 50
+ Probe ID slp sweep_min: -300.0
+ Probe ID slp sweep_max: 300.0
+ Probe ID slp sweep_amp_min: -300.0
+ Probe ID slp sweep_amp_max: 300.0
+ Probe ID slp sweeper_shunt: 200.0
+ Probe ID slp collector_gain: 3.0
+ Probe ID slp Probe area: 6.0
+ Probe ID slp area_units: {'unit': 'm', 'display_value': 6.0}
+ Probe ID slp Particle mass: 9.10938e-31
+ Probe ID slp selected_gas: nitrogen
+Probe ID dlp relay_addresses: [1]
+Probe ID dlp sweeper_address: 1
+Probe ID dlp collector_address: 1
+ Probe ID dlp probe_id: dlp
+ Probe ID dlp sampling_rate: 50
+ Probe ID dlp dac_min: 0.0
+ Probe ID dlp dac_max: 4.0
+ Probe ID dlp num_samples: 50
+ Probe ID dlp sweep_min: -300.0
+ Probe ID dlp sweep_max: 300.0
+ Probe ID dlp sweep_amp_min: -300.0
+ Probe ID dlp sweep_amp_max: 300.0
+ Probe ID dlp sweeper_shunt: 200.0
+ Probe ID dlp collector_gain: 1.0
+ Probe ID dlp Probe area: 5000.0
+ Probe ID dlp area_units: {'unit': 'km', 'display_value': 5.0}
+ Probe ID dlp selected_gas: nitrogen
+ Probe ID dlp Particle mass: 6.63588e-26
+Probe ID hea relay_addresses: [1, 2, 3]
+Probe ID hea sweeper_address: 1
+Probe ID hea collector_address: 1
+Probe ID hea rejector_address: 2
+Probe ID hea collector_bias_address: 3
+ Probe ID hea probe_id: hea
+ Probe ID hea sampling_rate: 50.0
+ Probe ID hea dac_min: 0.0
+ Probe ID hea dac_max: 4.0
+ Probe ID hea num_samples: 10
+ Probe ID hea sweep_min: -300.0
+ Probe ID hea sweep_max: 300.0
+ Probe ID hea sweep_amp_min: -300.0
+ Probe ID hea sweep_amp_max: 300.0
+ Probe ID hea sweeper_shunt: 199.0
+ Probe ID hea collector_gain: 1.0
+ Probe ID hea rejector_min: -300.0
+ Probe ID hea rejector_max: 300.0
+ Probe ID hea rejector_bias: 50.0
+ Probe ID hea collector_bias_min: -300.0
+ Probe ID hea collector_bias_max: 300.0
+ Probe ID hea collector_bias: 25.0
+ Probe ID hea Probe area: 0.04
+ Probe ID hea area_units: {'unit': 'cm', 'display_value': 4.0}
+ Probe ID hea selected_gas: nitrogen
+ Probe ID hea Particle mass: 9.10938e-31
+Probe ID iea relay_addresses: [1, 2, 3]
+Probe ID iea sweeper_address: 1
+Probe ID iea collector_address: 1
+Probe ID iea rejector_address: 2
+Probe ID iea collector_bias_address: 3
+ Probe ID iea probe_id: iea
+ Probe ID iea sampling_rate: 60.0
+ Probe ID iea dac_min: 0.0
+ Probe ID iea dac_max: 4.0
+ Probe ID iea num_samples: 50
+ Probe ID iea sweep_min: -300.0
+ Probe ID iea sweep_max: 300.0
+ Probe ID iea sweep_amp_min: -300.0
+ Probe ID iea sweep_amp_max: 300.0
+ Probe ID iea sweeper_shunt: 200.0
+ Probe ID iea collector_gain: 1.0
+ Probe ID iea rejector_min: -300.0
+ Probe ID iea rejector_max: 300.0
+ Probe ID iea rejector_bias: 35.0
+ Probe ID iea collector_bias_min: -300.0
+ Probe ID iea collector_bias_max: 300.0
+ Probe ID iea collector_bias: 20.0
+ Probe ID iea Probe area: 0.4
+ Probe ID iea area_units: {'unit': 'dm', 'display_value': 4.0}
+ Probe ID iea selected_gas: nitrogen
+ Probe ID iea Particle mass: 9.10938e-31
+Probe ID tlc relay_addresses: [2, 3]
+Probe ID tlc up_amp_address: 2
+Probe ID tlc up_collector_address: 2
+Probe ID tlc down_amp_address: 3
+Probe ID tlc down_collector_address: 3
+ Probe ID tlc probe_id: tlc
+ Probe ID tlc sampling_rate: 50.0
+ Probe ID tlc dac_min: 0.0
+ Probe ID tlc dac_max: 4.0
+ Probe ID tlc up_amp_min: -300.0
+ Probe ID tlc up_amp_max: 300.0
+ Probe ID tlc up_amp_bias: 20.0
+ Probe ID tlc up_collector_gain: 101.0
+ Probe ID tlc up_shunt: 200
+ Probe ID tlc down_amp_min: -300.0
+ Probe ID tlc down_amp_max: 300.0
+ Probe ID tlc down_amp_bias: 30.0
+ Probe ID tlc down_collector_gain: 1.0
+ Probe ID tlc down_shunt: 200.0
+ Probe ID tlc num_samples: 25
+ Probe ID tlc Probe area: 24000.0
+ Probe ID tlc area_units: {'unit': 'km', 'display_value': 24.0}
+ Probe ID tlc selected_gas: nitrogen
+ Probe ID tlc Particle mass: 6.63588e-26
+Probe ID tlv relay_addresses: [2]
+Probe ID tlv up_amp_address: 2
+Probe ID tlv up_collector_address: 2
+Probe ID tlv float_collector_address: 3
+ Probe ID tlv probe_id: tlv
+ Probe ID tlv sampling_rate: 50.0
+ Probe ID tlv dac_min: 0.0
+ Probe ID tlv dac_max: 4.0
+ Probe ID tlv up_amp_min: -300.0
+ Probe ID tlv up_amp_max: 300.0
+ Probe ID tlv up_amp_bias: 10.0
+ Probe ID tlv up_collector_gain: 1.0
+ Probe ID tlv up_shunt: 200.0
+ Probe ID tlv float_collector_gain: 1.0
+ Probe ID tlv num_samples: 2
+ Probe ID tlv Probe area: 0.01
+ Probe ID tlv area_units: {'unit': 'cm', 'display_value': 1.0}
+ Probe ID tlv selected_gas: nitrogen
+ Probe ID tlv Particle mass: 6.63588e-26
+ local_path: C:\experiment #678
+The file path C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json is invalid! Check that the name is set correctly.
+ credentials_path: C:\Users\ajco2\OneDrive\Documents\GitHub\plasmetry\src\control\file_upload\credentials\plasma-software-data-upload-e75374a18f56.json
+ folder_id: 1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ
+ experiment_name: experiment #678
+ selected_gas: nitrogen
+ button_adjust: 0.1
+
+saving in memory...
+Successfully saved!
+
+GUI: Run button clicked.
+CTRL: starting experiment...
+DIAGN: starting diagnostics...
+PRB_OP : launching threads...
+GUI: Starting Qtimer.
+PRB.HEA : enabling probe circuit...
+CountHW: Aout addr:1 val:2.0 count:245
+CountHW: Aout addr:2 val:2.3333333333333335 count:246
+CountHW: Aout addr:3 val:2.1666666666666665 count:247
+CountHW: Dout addr:1 val:True count:49
+CountHW: Dout addr:2 val:True count:50
+CountHW: Dout addr:3 val:True count:51
+Clock : waiting at barrier...
+PRB_OP : waiting for Probe Object to start...
+PRB_OP : running...
+GUI: Received new parameters.
+PRB_OP : data buff empty...
+PRB.HEA : waiting at barrier...
+PRB.HEA : running...
+PRB.HEA : starting data acquisition...
+Clock : running...
+CountHW: Aout addr:1 val:0.0 count:248
+CountHW: Ain addr:1 count:191
+CountHW: Aout addr:1 val:0.4444444444444446 count:249
+CountHW: Ain addr:1 count:192
+CountHW: Aout addr:1 val:0.888888888888889 count:250
+CountHW: Ain addr:1 count:193
+CountHW: Aout addr:1 val:1.3333333333333333 count:251
+CountHW: Ain addr:1 count:194
+CountHW: Aout addr:1 val:1.777777777777778 count:252
+CountHW: Ain addr:1 count:195
+CountHW: Aout addr:1 val:2.2222222222222223 count:253
+CountHW: Ain addr:1 count:196
+CountHW: Aout addr:1 val:2.6666666666666665 count:254
+CountHW: Ain addr:1 count:197
+CountHW: Aout addr:1 val:3.111111111111111 count:255
+CountHW: Ain addr:1 count:198
+CountHW: Aout addr:1 val:3.555555555555556 count:256
+CountHW: Ain addr:1 count:199
+CountHW: Aout addr:1 val:4.0 count:257
+CountHW: Ain addr:1 count:200
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:258
+CountHW: Ain addr:1 count:201
+CountHW: Aout addr:1 val:0.4444444444444446 count:259
+CountHW: Ain addr:1 count:202
+CountHW: Aout addr:1 val:0.888888888888889 count:260
+CountHW: Ain addr:1 count:203
+CountHW: Aout addr:1 val:1.3333333333333333 count:261
+CountHW: Ain addr:1 count:204
+CountHW: Aout addr:1 val:1.777777777777778 count:262
+CountHW: Ain addr:1 count:205
+CountHW: Aout addr:1 val:2.2222222222222223 count:263
+CountHW: Ain addr:1 count:206
+CountHW: Aout addr:1 val:2.6666666666666665 count:264
+CountHW: Ain addr:1 count:207
+CountHW: Aout addr:1 val:3.111111111111111 count:265
+CountHW: Ain addr:1 count:208
+CountHW: Aout addr:1 val:3.555555555555556 count:266
+CountHW: Ain addr:1 count:209
+CountHW: Aout addr:1 val:4.0 count:267
+CountHW: Ain addr:1 count:210
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:268
+CountHW: Ain addr:1 count:211
+CountHW: Aout addr:1 val:0.4444444444444446 count:269
+CountHW: Ain addr:1 count:212
+CountHW: Aout addr:1 val:0.888888888888889 count:270
+CountHW: Ain addr:1 count:213
+CountHW: Aout addr:1 val:1.3333333333333333 count:271
+CountHW: Ain addr:1 count:214
+CountHW: Aout addr:1 val:1.777777777777778 count:272
+CountHW: Ain addr:1 count:215
+CountHW: Aout addr:1 val:2.2222222222222223 count:273
+CountHW: Ain addr:1 count:216
+CountHW: Aout addr:1 val:2.6666666666666665 count:274
+CountHW: Ain addr:1 count:217
+CountHW: Aout addr:1 val:3.111111111111111 count:275
+CountHW: Ain addr:1 count:218
+CountHW: Aout addr:1 val:3.555555555555556 count:276
+CountHW: Ain addr:1 count:219
+CountHW: Aout addr:1 val:4.0 count:277
+CountHW: Ain addr:1 count:220
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:278
+CountHW: Ain addr:1 count:221
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:0.4444444444444446 count:279
+CountHW: Ain addr:1 count:222
+CountHW: Aout addr:1 val:0.888888888888889 count:280
+CountHW: Ain addr:1 count:223
+CountHW: Aout addr:1 val:1.3333333333333333 count:281
+CountHW: Ain addr:1 count:224
+CountHW: Aout addr:1 val:1.777777777777778 count:282
+CountHW: Ain addr:1 count:225
+CountHW: Aout addr:1 val:2.2222222222222223 count:283
+CountHW: Ain addr:1 count:226
+CountHW: Aout addr:1 val:2.6666666666666665 count:284
+CountHW: Ain addr:1 count:227
+CountHW: Aout addr:1 val:3.111111111111111 count:285
+CountHW: Ain addr:1 count:228
+CountHW: Aout addr:1 val:3.555555555555556 count:286
+CountHW: Ain addr:1 count:229
+CountHW: Aout addr:1 val:4.0 count:287
+CountHW: Ain addr:1 count:230
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:288
+CountHW: Ain addr:1 count:231
+CountHW: Aout addr:1 val:0.4444444444444446 count:289
+CountHW: Ain addr:1 count:232
+CountHW: Aout addr:1 val:0.888888888888889 count:290
+CountHW: Ain addr:1 count:233
+CountHW: Aout addr:1 val:1.3333333333333333 count:291
+CountHW: Ain addr:1 count:234
+CountHW: Aout addr:1 val:1.777777777777778 count:292
+CountHW: Ain addr:1 count:235
+CountHW: Aout addr:1 val:2.2222222222222223 count:293
+CountHW: Ain addr:1 count:236
+CountHW: Aout addr:1 val:2.6666666666666665 count:294
+CountHW: Ain addr:1 count:237
+CountHW: Aout addr:1 val:3.111111111111111 count:295
+CountHW: Ain addr:1 count:238
+CountHW: Aout addr:1 val:3.555555555555556 count:296
+CountHW: Ain addr:1 count:239
+CountHW: Aout addr:1 val:4.0 count:297
+CountHW: Ain addr:1 count:240
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:298
+CountHW: Ain addr:1 count:241
+CountHW: Aout addr:1 val:0.4444444444444446 count:299
+CountHW: Ain addr:1 count:242
+CountHW: Aout addr:1 val:0.888888888888889 count:300
+CountHW: Ain addr:1 count:243
+CountHW: Aout addr:1 val:1.3333333333333333 count:301
+CountHW: Ain addr:1 count:244
+CountHW: Aout addr:1 val:1.777777777777778 count:302
+CountHW: Ain addr:1 count:245
+CountHW: Aout addr:1 val:2.2222222222222223 count:303
+CountHW: Ain addr:1 count:246
+CountHW: Aout addr:1 val:2.6666666666666665 count:304
+CountHW: Ain addr:1 count:247
+CountHW: Aout addr:1 val:3.111111111111111 count:305
+CountHW: Ain addr:1 count:248
+CountHW: Aout addr:1 val:3.555555555555556 count:306
+CountHW: Ain addr:1 count:249
+CountHW: Aout addr:1 val:4.0 count:307
+CountHW: Ain addr:1 count:250
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:308
+CountHW: Ain addr:1 count:251
+CountHW: Aout addr:1 val:0.4444444444444446 count:309
+CountHW: Ain addr:1 count:252
+CountHW: Aout addr:1 val:0.888888888888889 count:310
+CountHW: Ain addr:1 count:253
+GUI: Received new parameters.
+CountHW: Aout addr:1 val:1.3333333333333333 count:311
+CountHW: Ain addr:1 count:254
+CountHW: Aout addr:1 val:1.777777777777778 count:312
+CountHW: Ain addr:1 count:255
+CountHW: Aout addr:1 val:2.2222222222222223 count:313
+CountHW: Ain addr:1 count:256
+CountHW: Aout addr:1 val:2.6666666666666665 count:314
+CountHW: Ain addr:1 count:257
+CountHW: Aout addr:1 val:3.111111111111111 count:315
+CountHW: Ain addr:1 count:258
+CountHW: Aout addr:1 val:3.555555555555556 count:316
+CountHW: Ain addr:1 count:259
+CountHW: Aout addr:1 val:4.0 count:317
+CountHW: Ain addr:1 count:260
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0.0 count:318
+CountHW: Ain addr:1 count:261
+CountHW: Aout addr:1 val:0.4444444444444446 count:319
+CountHW: Ain addr:1 count:262
+CountHW: Aout addr:1 val:0.888888888888889 count:320
+CountHW: Ain addr:1 count:263
+CountHW: Aout addr:1 val:1.3333333333333333 count:321
+CountHW: Ain addr:1 count:264
+CountHW: Aout addr:1 val:1.777777777777778 count:322
+CountHW: Ain addr:1 count:265
+GUI: Stop button clicked
+CTRL: stopping experiment...
+DIAGN: stopping diagnostics...
+DIAGN: waiting for ProbeOperation to exit...
+CountHW: Aout addr:1 val:2.2222222222222223 count:323
+CountHW: Ain addr:1 count:266
+CountHW: Aout addr:1 val:2.6666666666666665 count:324
+CountHW: Ain addr:1 count:267
+CountHW: Aout addr:1 val:3.111111111111111 count:325
+CountHW: Ain addr:1 count:268
+CountHW: Aout addr:1 val:3.555555555555556 count:326
+CountHW: Ain addr:1 count:269
+CountHW: Aout addr:1 val:4.0 count:327
+CountHW: Ain addr:1 count:270
+PRB.HEA : completed data acquisition
+PRB.HEA : disabling probe circuit...
+CountHW: Aout addr:1 val:2.0 count:328
+CountHW: Aout addr:2 val:2.0 count:329
+CountHW: Aout addr:3 val:2.0 count:330
+CountHW: Dout addr:1 val:False count:52
+CountHW: Dout addr:2 val:False count:53
+CountHW: Dout addr:3 val:False count:54
+PRB_OP : calculating paramaters...
+PRB_OP : calculations complete
+CountHW: Aout addr:1 val:0 count:331
+CountHW: Aout addr:2 val:0 count:332
+CountHW: Aout addr:3 val:0 count:333
+PRB.HEA : exiting...
+PRB_OP : data buff empty...
+PRB_OP : pushed new sample set to control layer
+PRB_OP : waiting for Probe Object to exit...
+PRB_OP : waiting for Clock Thread to exit...
+Clock : exiting...
+PRB_OP : exiting...
+DIAGN: ProbeOperation exited
+CTRL: awaiting results...
+CTRL: results obtained
+CTRL: 8 data-points obtained.
+UPLDR: initialized...
+UPLDR: processing results...
+UPLDR: processing complete.
+UPLDR: storing results locally...
+GUI: Stoping Qtimer.
+UPLDR: local storage successful.
+UPLDR: uploading results to remote storage...
+UPLDR: No credentials path set! Cannot upload results!
+UPLDR: finished
+GUI: Back button clicked.
+GUI: Switch to Setup Page.
+GUI: Settings button clicked
+GUI: Switch to Settings Page.
+GUI: Data Upload button clicked.
+GUI: Selecting credentials file...
+GUI: No credentials file selected.
+CTRL: initiating system-wide shutdown...
+CTRL: experiment is already halted.
+DIAGN: initiating local layer shutdown...
+DIAGN: diagnostics are already halted.
+DIAGN: deleting subcomponents...
+HWINT: shutting down hardware layer...
+HWINT: clearing DOUTs...
+CountHW: Dout addr:0 val:False count:55
+CountHW: Dout addr:1 val:False count:56
+CountHW: Dout addr:2 val:False count:57
+CountHW: Dout addr:3 val:False count:58
+CountHW: Dout addr:4 val:False count:59
+CountHW: Dout addr:5 val:False count:60
+CountHW: Dout addr:6 val:False count:61
+CountHW: Dout addr:7 val:False count:62
+CountHW: Dout addr:8 val:False count:63
+HWINT: DOUTs cleared
+HWINT: clearing DACs...
+CountHW: Aout addr:0 val:0 count:334
+CountHW: Aout addr:1 val:0 count:335
+CountHW: Aout addr:2 val:0 count:336
+CountHW: Aout addr:3 val:0 count:337
+CountHW: Aout addr:4 val:0 count:338
+CountHW: Aout addr:5 val:0 count:339
+CountHW: Aout addr:6 val:0 count:340
+CountHW: Aout addr:7 val:0 count:341
+CountHW: Aout addr:8 val:0 count:342
+HWINT: DACs cleared
+HWINT: hardware layer terminated
+DIAGN: layer shutdown complete.
+CTRL: layer shutdown complete.
+CTRL: waiting for printer to exit...
+PRINTR: exiting...

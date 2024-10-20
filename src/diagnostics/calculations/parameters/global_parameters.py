@@ -17,7 +17,7 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 import numpy as np
 from scipy import signal
-from protected_dictionary import ProtectedDictionary
+#from protected_dictionary import ProtectedDictionary
 
 # Normalized cutoff frequency for the butterworth filter
 CUTOFF_FREQUENCY = 0.03

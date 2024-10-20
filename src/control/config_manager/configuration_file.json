@@ -56,10 +56,10 @@
         }
     },
     "config_ref": {
-        "local_path": "D:\\My Files ALT\\CLASSES\\CAPSTONE\\plasmetry\\experiment_test_results",
+        "local_path": "C:\\experiment #678",
         "credentials_path": "C:\\Users\\ajco2\\OneDrive\\Documents\\GitHub\\plasmetry\\src\\control\\file_upload\\credentials\\plasma-software-data-upload-e75374a18f56.json",
         "folder_id": "1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ",
-        "experiment_name": "experiment_test_results",
+        "experiment_name": "experiment #678",
         "selected_gas": "nitrogen",
         "button_adjust": 0.1,
         "slp": {
