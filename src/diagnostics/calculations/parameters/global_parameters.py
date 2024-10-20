@@ -17,7 +17,6 @@ if __name__ == "__main__":  # execute snippet if current script was run directly
 
 import numpy as np
 from scipy import signal
-#from protected_dictionary import ProtectedDictionary
 
 # Normalized cutoff frequency for the butterworth filter
 CUTOFF_FREQUENCY = 0.03
@@ -52,7 +51,7 @@ def filter_current(parameters):
     
 def get_display_parameters(parameters):
     
-    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    """This function returns a list object containing the parameters used for display.
     
     Intended for all probe parameters."""
     

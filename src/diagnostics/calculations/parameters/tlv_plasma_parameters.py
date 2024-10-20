@@ -149,7 +149,7 @@ def get_electron_density(parameters):
     
 def get_display_parameters(parameters):
     
-    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    """This function returns a list object containing the parameters used for display.
     
     Intended for all probe parameters."""
     display_parameters = []
