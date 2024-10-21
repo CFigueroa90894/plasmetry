@@ -146,7 +146,7 @@ def get_probe_current(parameters):
     parameters['Ion saturation current (Amperes)']=  parameters['Probe 2 filtered current (Amperes)']
 def get_display_parameters(parameters):
     
-    """This function returns a ProtectedDictionary object containing the parameters used for display.
+    """This function returns a list object containing the parameters used for display.
     
     Intended for all probe parameters."""
     display_parameters = []

@@ -27,15 +27,7 @@ FILTER_ORDER = 2
 
 def filter_current(parameters):
     
-    # Extracted from Felix Cuadrado's code
-    """Filters a signal using a butterworth digital filter. 
-    
-    Inputs:
-        rawSignal = an array of raw data captured by the sensor.
-        
-    Outputs:
-        filteredSignal = signal after being processed by a butterworth digital filter.
-    """
+    """Filters raw signals using a butterworth digital filter."""
 
     try:
         sos = signal.butter(FILTER_ORDER, CUTOFF_FREQUENCY, output='sos')
