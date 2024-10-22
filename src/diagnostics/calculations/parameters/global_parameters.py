@@ -189,7 +189,7 @@ def get_particle_temperature(parameters):
     voltage_list =  parameters['Bias 1']
     
     # Storing the derivative of the ln(I)-V values
-    log_I_V_derivative=  np.gradient(np.log(abs(filtered_current_list)), voltage_list )
+    log_I_V_derivative=  abs(np.gradient(np.log(abs(filtered_current_list)), voltage_list ))
     
     # Storing the particle temperature in electron volts
     parameters['Particle temperature (eV)'] = 1 / log_I_V_derivative[plasma_potential_index]
