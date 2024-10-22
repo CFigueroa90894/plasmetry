@@ -150,6 +150,7 @@ def get_particle_saturation_current(parameters):
     
     # Storing the charged particle saturation current
     saturation_index = np.max(np.argwhere(np.gradient(filtered_current, bias) != 0))
+    
     parameters['Particle saturation current (Amperes)'] = filtered_current[saturation_index]
     
     
@@ -165,7 +166,7 @@ def get_plasma_potential(parameters):
     derivative = np.gradient(filtered_current_list, voltage_list)
     
     # Value closest to 0 is taken to yield the index
-    parameters['Plasma potential index'] =  np.max(np.argwhere(np.gradient(filtered_current_list, voltage_list) != 0))
+    parameters['Plasma potential index'] =  np.argmin((derivative))
     
     # Storing the plasma potential
     parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
@@ -189,7 +190,7 @@ def get_particle_temperature(parameters):
     voltage_list =  parameters['Bias 1']
     
     # Storing the derivative of the ln(I)-V values
-    log_I_V_derivative=  abs(np.gradient(np.log(abs(filtered_current_list)), voltage_list ))
+    log_I_V_derivative=  np.gradient(np.log(abs(filtered_current_list)), voltage_list )
     
     # Storing the particle temperature in electron volts
     parameters['Particle temperature (eV)'] = 1 / log_I_V_derivative[plasma_potential_index]
@@ -230,14 +231,14 @@ if __name__ == "__main__":
         """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
         
         import csv as csv_library
-        with open('Leal_IonEnergyAnalyzer.csv', newline='') as csv:
+        with open('Leal_HyperbolicEnergyAnalyzer.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
             voltageSLP = []
             for row in dataReader:
                 try:
-                    current = np.append(current, float(row[1]))
+                    current = np.append(current, float(row[1])*-1)
                     voltageSLP = np.append(voltageSLP, float(row[0]))
                 except:
                     None    
@@ -263,4 +264,5 @@ if __name__ == "__main__":
     
     
     
+    print(f"Plasma Potential (Volts): {parameters['Plasma potential (Volts)']}")
     print(parameters)
