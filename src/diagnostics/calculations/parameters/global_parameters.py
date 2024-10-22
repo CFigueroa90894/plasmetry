@@ -230,15 +230,15 @@ if __name__ == "__main__":
         """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
         
         import csv as csv_library
-        with open('../testing scenarios/generated_ion_parameters_data.csv', newline='') as csv:
+        with open('Leal_IonEnergyAnalyzer.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
             voltageSLP = []
             for row in dataReader:
                 try:
-                    current = np.append(current, float(row[0]))
-                    voltageSLP = np.append(voltageSLP, float(row[1]))
+                    current = np.append(current, float(row[1]))
+                    voltageSLP = np.append(voltageSLP, float(row[0]))
                 except:
                     None    
             
@@ -263,5 +263,4 @@ if __name__ == "__main__":
     
     
     
-    print(f"Plasma Potential (Volts): {parameters['Plasma potential (Volts)']}")
-    
+    print(parameters)
