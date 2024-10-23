@@ -146,12 +146,11 @@ def get_particle_saturation_current(parameters):
     
     # Storing parameters used for calculations
     filtered_current = parameters['Filtered current (Amperes)']
-    bias = parameters['Bias 1']
     
     # Storing the charged particle saturation current
-    saturation_index = np.max(np.argwhere(np.gradient(filtered_current, bias) != 0))
+    parameters['Plasma potential index'] = np.argmax(abs(filtered_current))
     
-    parameters['Particle saturation current (Amperes)'] = filtered_current[saturation_index]
+    parameters['Particle saturation current (Amperes)'] = filtered_current[ parameters['Plasma potential index']]
     
     
 def get_plasma_potential(parameters):
@@ -161,21 +160,10 @@ def get_plasma_potential(parameters):
     # Storing I-V values
     filtered_current_list = parameters['Filtered current (Amperes)'] 
     voltage_list =  parameters['Bias 1']
-    
-    # Storing dI/dV
-    derivative = np.gradient(filtered_current_list, voltage_list)
-    
-    second_derivative = np.gradient(derivative, voltage_list)
-    
-    maximum_current= np.argmax(abs(filtered_current_list))
-    
+ 
     
     # Storing the index of the plasma potential and its value
-    if parameters['Filtered current (Amperes)'][maximum_current] >0:
-        # Storing the index of the plasma potential and its value
-        parameters['Plasma potential index'] = np.argmin(abs(second_derivative))
-    else:
-        parameters['Plasma potential index'] = np.argmax((second_derivative))
+
     parameters['Plasma potential (Volts)'] = voltage_list[parameters['Plasma potential index']]
     
     # Storing the index of the floating potential and its value
@@ -208,7 +196,7 @@ def get_particle_temperature(parameters):
         
         # The starting point used calculate the slope is the point with an index 1/4 of the way
         # between the floating potential and plasma potential.
-        starting_index = int(np.ceil(points_number * 0.25)) + parameters['Minimum value index']
+        starting_index = parameters['Plasma potential index']
         
         # The final point used to calculate the slope is the point with an index 3/4 of the distance 
         # between the floating potential and plasma potential. 
@@ -257,14 +245,14 @@ Must note, since  the EAs do not expect a sigmoid, calculation results will not 
 yet they still highlight that the algorithms are running."""    
 
 if __name__ == "__main__": 
-
+    import matplotlib.pyplot as plt
     
     def LoadPreviousData():
         
         """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
         
         import csv as csv_library
-        with open('Leal_HyperbolicEnergyAnalyzer.csv', newline='') as csv:
+        with open('HEA_Ion_Parameters.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
@@ -284,7 +272,7 @@ if __name__ == "__main__":
     
     # Storing bias and raw current lists from previous implementation
     parameters['Bias 1'], parameters['Filtered current (Amperes)'] =  LoadPreviousData()
-    
+   # parameters['Filtered current (Amperes)'] = np.sort(parameters['Filtered current (Amperes)'])
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
     parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
@@ -298,4 +286,13 @@ if __name__ == "__main__":
     
     
     print(f"Plasma Potential (Volts): {parameters['Plasma potential (Volts)']}")
+    plt.plot( parameters['Bias 1'], parameters['Filtered current (Amperes)'], marker='o', linestyle='-')
+    plt.xlabel('Bias')
+    plt.ylabel('Raw Signal')
+    plt.title('Plot of Raw Signal vs Bias')
+    plt.grid(True)
+    plt.axvline(x= parameters['Plasma potential (Volts)'], color='r')
+    plt.axhline(y=0, color='r', linestyle='-')
+    plt.show()
+    
     print(parameters)
