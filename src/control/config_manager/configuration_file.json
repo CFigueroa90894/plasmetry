@@ -61,7 +61,7 @@
         "folder_id": "1ovtXoON4qaahxUlniB9iGlr_Hu1Ba-SQ",
         "experiment_name": "experiment #678",
         "selected_gas": "nitrogen",
-        "button_adjust": 1.0,
+        "button_adjust": 0.010000000000000002,
         "slp": {
             "probe_id": "slp",
             "sampling_rate": 200.0,
@@ -74,10 +74,10 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 1.0,
             "collector_gain": 1.0,
-            "Probe area": 6.0,
+            "Probe area": 3.039e-05,
             "area_units": {
-                "unit": "m",
-                "display_value": 6.0
+                "unit": "mm\u00b2",
+                "display_value": 30.39
             },
             "Particle mass": 9.10938e-31,
             "selected_gas": "nitrogen"
