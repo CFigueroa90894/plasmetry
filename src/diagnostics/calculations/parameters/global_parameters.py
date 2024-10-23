@@ -143,7 +143,7 @@ def get_particle_density(parameters):
 def get_particle_saturation_current(parameters):
     
     """This function yields the saturation current for HEA and IEA."""
-    
+    parameters['Filtered current (Amperes)']  =  np.array(parameters['Raw voltage 1'])
     # Storing parameters used for calculations
     filtered_current = parameters['Filtered current (Amperes)']
     
@@ -228,7 +228,7 @@ def get_equations():
     """
     
     list_of_references = []
-    list_of_references.append(filter_current)
+    #list_of_references.append(filter_current)
     list_of_references.append(get_particle_saturation_current)
     list_of_references.append(get_plasma_potential)
     list_of_references.append(get_particle_temperature)
@@ -271,7 +271,7 @@ if __name__ == "__main__":
     parameters= {}
     
     # Storing bias and raw current lists from previous implementation
-    parameters['Bias 1'], parameters['Filtered current (Amperes)'] =  LoadPreviousData()
+    parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
    # parameters['Filtered current (Amperes)'] = np.sort(parameters['Filtered current (Amperes)'])
     # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
     # simulating config values
