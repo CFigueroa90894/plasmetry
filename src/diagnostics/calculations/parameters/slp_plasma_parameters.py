@@ -204,8 +204,8 @@ if __name__ == "__main__":
             voltageSLP = []
             for row in dataReader:
                 try:
-                    current = np.append(current, float(row[0]))
-                    voltageSLP = np.append(voltageSLP, float(row[1]))
+                    current = np.append(current, float(row[1]))
+                    voltageSLP = np.append(voltageSLP, float(row[0]))
                 except:
                     None    
             
@@ -241,10 +241,4 @@ if __name__ == "__main__":
    # print(f'Number Of Electrons in the Debye Sphere: {parameters_to_display[7]}')
 
     
-
-
-
-
-
-        
-   
+    print(parameters)
