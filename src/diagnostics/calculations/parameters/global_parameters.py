@@ -143,7 +143,7 @@ def get_particle_density(parameters):
 def get_particle_saturation_current(parameters):
     
     """This function yields the saturation current for HEA and IEA."""
-    
+
     # Storing parameters used for calculations
     filtered_current = parameters['Filtered current (Amperes)']
     
@@ -280,7 +280,7 @@ if __name__ == "__main__":
     # Running each equation
     list_of_equations = get_equations()
 
-    for i in list_of_equations:
+    for i in list_of_equations[1:]:
         i(parameters)
     
     
