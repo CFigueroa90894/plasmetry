@@ -252,7 +252,7 @@ if __name__ == "__main__":
         """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
         
         import csv as csv_library
-        with open('HEA_Ion_Parameters.csv', newline='') as csv:
+        with open('HEA_Electron_Parameters.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []
