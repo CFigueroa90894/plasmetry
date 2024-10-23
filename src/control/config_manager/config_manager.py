@@ -157,16 +157,16 @@ class ConfigManager:
             # Going through sys_ref and config_ref values for validiation by calling validate_entry
             for key in self.sys_ref[probe_id].keys():
                 self.validate_entry(self.sys_ref, probe_id, key, self.sys_ref[probe_id][key])
-                self.say(f'Probe ID {probe_id} {key}: {self.sys_ref[probe_id][key]}')
+                #self.say(f'Probe ID {probe_id} {key}: {self.sys_ref[probe_id][key]}')
 
             for key in self.config_ref[probe_id].keys():
                 self.validate_entry(self.config_ref, probe_id, key, self.config_ref[probe_id][key])
-                self.say(f' Probe ID {probe_id} {key}: {self.config_ref[probe_id][key]}')
+                #self.say(f' Probe ID {probe_id} {key}: {self.config_ref[probe_id][key]}')
                 
         for key in list(self.config_ref.keys()):
             if not key in probe_ids:
                 self.validate_entry(self.config_ref, '', key, self.config_ref[key])
-                self.say(f' {key}: {self.config_ref[key]}')
+                #self.say(f' {key}: {self.config_ref[key]}')
                 
             
     def validate_json_path(self, file_name):

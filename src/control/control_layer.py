@@ -203,6 +203,9 @@ class ControlLayer(AbstractControl):
 
         self.__selected_probe = None
 
+        for info in self._info():
+            self.say(info)
+
         
     # ----- Config Manipulations ----- #
     def set_config(self, probe_id, key, value):
@@ -401,7 +404,7 @@ class ControlLayer(AbstractControl):
 
         """
         sub = [
-            ("Control", "File Upload", str(self._file_upload)),
+            ("Control", "File Upload", str(self._file_upload_cls)),
             ("Control", "Config Manager", str(self._config_manager)),
             ("Control", "Diagnostics Layer", str(self._diagnostics)),
         ]
