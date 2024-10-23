@@ -88,7 +88,7 @@ class PlaybackWrapper(CounterWrapperTest):
 
         self.say(f"\n\nCHN: {channels}")
         self.ain = channels['AIN']   # list of channels, each channel is a list of values
-
+        self.aout = channels['AOUT']
         # cast each channel list to a cycle iterable (circular list)
         for i in range(len(self.ain)):
             #self.say(f"LIST: {self.ain[i]}")

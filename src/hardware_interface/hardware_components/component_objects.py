@@ -256,6 +256,7 @@ class VoltageSweeper(HighVoltAmp):
         high-voltage. To produce the desired high-voltage at the amp's output, its input must be
         driven with the required low-voltage.
         """
+        """
         # access protected attributes, makes reading the function easier
         high_max = self._max_volt
         high_min = self._min_volt
@@ -273,6 +274,11 @@ class VoltageSweeper(HighVoltAmp):
             high_volt_step = index*hv_increment + high_min  # calculate HV value of step
             low_volt_step = self._translate(high_volt_step) # translate into LV value of step
             steps.append((low_volt_step, high_volt_step))   # append steps to list
+        """
+        steps = []
+        for hv_step in self._output._hardware.aout[1]:
+            lv_step = self._translate(hv_step) # translate into LV value of step
+            steps.append((lv_step, hv_step))   # append steps to list
 
         # cast list to tuple and return
         return tuple(steps)
