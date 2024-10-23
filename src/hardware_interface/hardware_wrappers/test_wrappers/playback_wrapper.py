@@ -43,11 +43,13 @@ if __name__ == "__main__":  # execute path hammer if this script is run directly
 
 
 # local imports
-from abstract_wrapper import AbstractWrapper
+# from abstract_wrapper import AbstractWrapper
 from type_enforcer import enforce_type
+from counter_wrapper import CounterWrapperTest
+from path_finder import resolve_path
 
 
-class PlaybackWrapper(AbstractWrapper):
+class PlaybackWrapper(CounterWrapperTest):
     """<...>
     Implements the methods specified by AbstractWrapper, providing calls to the 
     library without the caller having to be aware of the used interface.
@@ -61,7 +63,10 @@ class PlaybackWrapper(AbstractWrapper):
         + write_digital() - sets 
         + read_digital() - reads 
     """
-    def __init__(self, csv_path=''):
+    def __init__(self, 
+                 csv_path='NTRS_DoubleLangmuirProbe.csv',
+                 name:str="PLBCK",
+                 *args, **kwargs):
         """
         <...>
         Constructor for the wrapper object.
@@ -69,18 +74,29 @@ class PlaybackWrapper(AbstractWrapper):
         Arguments:
             
         """
-        channel_dict = self._load_csv_columns_to_dict(filepath=csv_path)
+        super().__init__(*args, name=name, **kwargs)   # call both parent constructors
+
+        csv_rel = f"demo_csv/{csv_path}"
+        csv_abs = resolve_path(csv_rel, ['plasmetry'])
+
+        channel_dict = self._load_csv_columns_to_dict(filepath=csv_abs)
+
+        for key in channel_dict.keys():
+            self.say(f"\n\nCH_D: {key}: {channel_dict[key]}")
+
         channels = self._parse_channel_dict_to_lists(channel_dict)
 
+        self.say(f"\n\nCHN: {channels}")
         self.ain = channels['AIN']   # list of channels, each channel is a list of values
 
         # cast each channel list to a cycle iterable (circular list)
         for i in range(len(self.ain)):
+            #self.say(f"LIST: {self.ain[i]}")
             self.ain[i] = cycle(self.ain[i])
 
     
     # ----- CSV Utils ----- #
-    def _parse_channel_dict_to_lists(channel_dict):
+    def _parse_channel_dict_to_lists(self, channel_dict):
         """Returns dictionaries with two lists, one for AIN channels, and one for AOUT channels."""
         ain_keys = []   # tracks keys for simulated analog inputs
         aout_keys = []  # tracks keys for simulated analog outputs
@@ -131,13 +147,24 @@ class PlaybackWrapper(AbstractWrapper):
                 delimiter_char:str=',',
                 quote_char:str='|'):
         """Accepts a file path to a CSV and returns a list of its unparsed rows."""
-       
+        
+        self.max_addr = 8
+        
         # Parse CSV columns into lists for simulated analog I/O
-        with open(filepath, newline=newline_char) as csvfile:
+        with open(filepath) as csvfile:
             # Get all rows
-            dataReader = csv.DictReader(csvfile, delimiter=delimiter_char, quotechar=quote_char)
+            dataReader = csv.DictReader(csvfile) #, delimiter=delimiter_char, quotechar=quote_char)
             
-            column_keys = dataReader[0].keys()     # get all keys for columns in CSV
+            lines = []
+            for l in dataReader:
+                self.say(f"L: {l}")
+                lines.append(l)
+
+            column_keys = lines[0].keys()   # get all keys for columns in CSV
+            
+            # DEBUG PRINT
+            self.say(f"CK:{column_keys}")
+            
             raw_dicts = {}                  # generate empty dictionary for parsed CSV columns
 
             # Populate column dictionary with empty lists for each column
@@ -156,9 +183,10 @@ class PlaybackWrapper(AbstractWrapper):
             
             # Populate each column list with their values
             valid_keys = raw_dicts.keys()           # get valid channel keys
-            for row in dataReader:                  # iterate over every row
+            for row in lines:                  # iterate over every row
+                self.say(f"ROW: {row}")
                 for key in valid_keys:              # get each value for the row by key
-                    raw_dicts[key].append(row[key]) # append the column value to its list
+                    raw_dicts[key].append(float(row[key])) # append the column value to its list
             
             return raw_dicts
 
@@ -171,13 +199,17 @@ class PlaybackWrapper(AbstractWrapper):
             address: int - the address of the channel being written
             value: float|int - the voltage value to output from the channel (Volts)
         """
-        pass
+        if address > self.max_addr: raise ValueError('Address out of range!')
+        self.say(f"Aout addr:{address} val:{value}")
         
     
     @enforce_type
     def read_analog(self, address:int) -> float:
         """Returns the voltage value measured at the given ADC channel."""
-        return self.ain[address].next()
+        if address > self.max_addr: raise ValueError('Address out of range!')
+        val = next(self.ain[address])
+        self.say(f"Ain addr:{address} val:{val}")
+        return val
     
     # ----- DIGITAL I/O ----- #
     @enforce_type
@@ -190,10 +222,8 @@ class PlaybackWrapper(AbstractWrapper):
                 True: High
                 False: Low
         """
-        if level:   # set on True
-            pass
-        else:       # clear on False
-            pass
+        if address > self.max_addr: raise ValueError('Address out of range!')
+        self.say(f"Dout addr:{address} val:{level}")
     
     @enforce_type
     def read_digital(self, address:int) -> bool:
@@ -203,6 +233,8 @@ class PlaybackWrapper(AbstractWrapper):
             True: High
             False: Low
         """
+        if address > self.max_addr: raise ValueError('Address out of range!')
+        self.say(f"Din addr:{address} val:{None} count:{self.digital_in_count}")
         return None
 
     
