@@ -64,7 +64,7 @@ class PlaybackWrapper(CounterWrapperTest):
         + read_digital() - reads 
     """
     def __init__(self, 
-                 csv_path= 'VoltageMode.csv',
+                 csv_path='',
                  name:str="PLBCK",
                  *args, **kwargs):
         """
@@ -76,6 +76,18 @@ class PlaybackWrapper(CounterWrapperTest):
         """
         super().__init__(*args, name=name, **kwargs)   # call both parent constructors
 
+        # ---------------- DEMO CSV ---------------- #
+        #csv_path = 'VoltageMode.csv'
+        #csv_path = 'NTRS_DoubleLangmuirProbe.csv'
+        #csv_path = 'Leal_IonEnergyAnalyzer.csv'
+        #csv_path = 'HEA_Ion_Parameters.csv'
+        #csv_path = 'HEA_Electron_Parameters.csv'
+        csv_path = 'Feliz_A1 MirorSLP120200813T105858.csv'
+        #csv_path = 'CurrentMode.csv'
+        # ------------------------------------------ #
+        
+        
+        
         csv_rel = f"demo_csv/{csv_path}"
         csv_abs = resolve_path(csv_rel, ['plasmetry'])
 

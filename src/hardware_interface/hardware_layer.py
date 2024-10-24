@@ -77,7 +77,12 @@ class HardwareLayer(AbstractHardware):
     """
 
     # Default subcomponent module names
+    
+    # ---------------- DEMO WRAPPER ---------------- #
     hardware_wrapper_mod = 'playback_wrapper'
+    #hardware_wrapper_mod = 'counter_wrapper'
+    # ---------------------------------------------- #
+    
     channel_factory_mod = 'channel_factory'
     component_factory_mod = 'component_factory'
 
