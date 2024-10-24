@@ -64,7 +64,7 @@ class PlaybackWrapper(CounterWrapperTest):
         + read_digital() - reads 
     """
     def __init__(self, 
-                 csv_path='Feliz_A1 MirorSLP120200813T105858.csv',
+                 csv_path= 'VoltageMode.csv',
                  name:str="PLBCK",
                  *args, **kwargs):
         """
@@ -127,7 +127,10 @@ class PlaybackWrapper(CounterWrapperTest):
 
         # -- MAKE AOUT LIST -- #
         # generate empty list of empty output channels
-        big_aout = aout_keys[-1].split('_')[-1]  # get the largest aout address
+        try:
+            big_aout = aout_keys[-1].split('_')[-1]  # get the largest aout address
+        except:
+            big_aout = 1
         num_aout = int(big_aout) + 1             # cast to int and add 1 to be zero-inclusive
         
         aout = [[]]*num_aout                     # list with empty element for each analog out
