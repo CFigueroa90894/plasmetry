@@ -59,6 +59,7 @@ def get_display_parameters(parameters):
     display_parameters = []
 
     display_parameters.append(parameters['Particle saturation current (Amperes)'])
+    display_parameters.append(parameters['Plasma potential (Volts)'])
     display_parameters.append(parameters['Particle temperature (eV)'])
     display_parameters.append(parameters['Particle temperature (Joules)'])
     display_parameters.append(parameters['Particle density (m-3)'])
