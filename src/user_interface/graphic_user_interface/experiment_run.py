@@ -193,7 +193,7 @@ class ExperimentRun(QMainWindow):
         """Start the timer to update parameters every second."""
         self.control._say_obj(f"GUI: Starting Qtimer.")
 
-        self.ui.timer.start(1000)  # Update every second
+        self.ui.timer.start(100)  # Update every 0.1 second, 10 Hz
 
     def stop_timer(self):
         """Stop the timer."""

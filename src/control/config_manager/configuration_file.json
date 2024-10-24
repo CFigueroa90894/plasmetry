@@ -80,7 +80,7 @@
                 "display_value": 30.39
             },
             "Particle mass": 9.10938e-31,
-            "selected_gas": "nitrogen"
+            "selected_gas": "hydrogen"
         },
         "dlp": {
             "probe_id": "dlp",
@@ -94,9 +94,9 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 1.0,
             "collector_gain": 1.0,
-            "Probe area": 5000.0,
+            "Probe area": 0.05,
             "area_units": {
-                "unit": "km",
+                "unit": "cm",
                 "display_value": 5.0
             },
             "selected_gas": "nitrogen",
@@ -114,18 +114,18 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 199.0,
             "collector_gain": 1.0,
-            "rejector_min": -300.0,
-            "rejector_max": 300.0,
+            "rejector_min": -350.0,
+            "rejector_max": 350.0,
             "rejector_bias": 50.0,
-            "collector_bias_min": -300.0,
-            "collector_bias_max": 300.0,
+            "collector_bias_min": -350.0,
+            "collector_bias_max": 350.0,
             "collector_bias": 25.0,
             "Probe area": 0.04,
             "area_units": {
                 "unit": "cm",
                 "display_value": 4.0
             },
-            "selected_gas": "nitrogen",
+            "selected_gas": "hydrogen",
             "Particle mass": 9.10938e-31
         },
         "iea": {
@@ -140,18 +140,18 @@
             "sweep_amp_max": 300.0,
             "sweeper_shunt": 200.0,
             "collector_gain": 1.0,
-            "rejector_min": -300.0,
-            "rejector_max": 300.0,
+            "rejector_min": -350.0,
+            "rejector_max": 350.0,
             "rejector_bias": 35.0,
-            "collector_bias_min": -300.0,
-            "collector_bias_max": 300.0,
+            "collector_bias_min": -350.0,
+            "collector_bias_max": 350.0,
             "collector_bias": 20.0,
-            "Probe area": 0.4,
+            "Probe area": 0.04,
             "area_units": {
-                "unit": "dm",
+                "unit": "cm",
                 "display_value": 4.0
             },
-            "selected_gas": "nitrogen",
+            "selected_gas": "hydrogen",
             "Particle mass": 9.10938e-31
         },
         "tlc": {
@@ -159,23 +159,23 @@
             "sampling_rate": 50.0,
             "dac_min": 0.0,
             "dac_max": 4.0,
-            "up_amp_min": -300.0,
-            "up_amp_max": 300.0,
+            "up_amp_min": -350.0,
+            "up_amp_max": 350.0,
             "up_amp_bias": 20.0,
-            "up_collector_gain": 101.0,
+            "up_collector_gain": 1.0,
             "up_shunt": 200,
-            "down_amp_min": -300.0,
-            "down_amp_max": 300.0,
+            "down_amp_min": -350.0,
+            "down_amp_max": 350.0,
             "down_amp_bias": 30.0,
             "down_collector_gain": 1.0,
             "down_shunt": 200.0,
             "num_samples": 25,
-            "Probe area": 24000.0,
+            "Probe area": 0.24,
             "area_units": {
-                "unit": "km",
+                "unit": "cm",
                 "display_value": 24.0
             },
-            "selected_gas": "nitrogen",
+            "selected_gas": "hydrogen",
             "Particle mass": 6.63588e-26
         },
         "tlv": {
@@ -183,19 +183,19 @@
             "sampling_rate": 50.0,
             "dac_min": 0.0,
             "dac_max": 4.0,
-            "up_amp_min": -300.0,
-            "up_amp_max": 300.0,
+            "up_amp_min": -350.0,
+            "up_amp_max": 350.0,
             "up_amp_bias": 10.0,
             "up_collector_gain": 1.0,
             "up_shunt": 200.0,
             "float_collector_gain": 1.0,
-            "num_samples": 2,
+            "num_samples": 20,
             "Probe area": 0.01,
             "area_units": {
                 "unit": "cm",
                 "display_value": 1.0
             },
-            "selected_gas": "nitrogen",
+            "selected_gas": "hydrogen",
             "Particle mass": 6.63588e-26
         }
     }
