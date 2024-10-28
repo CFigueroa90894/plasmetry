@@ -146,15 +146,14 @@ if __name__ == "__main__":
         
         import csv as csv_library
         
-        with open('../testing scenarios/Feliz_A1 MirorSLP120200813T105858.csv', newline='') as csv:
+        with open('NTRS_DoubleLangmuirProbe.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
-            next(dataReader)  # Skip the header row
             current = []
             voltageSLP = []
             for row in dataReader:
                 try:
-                    current = np.append(current, float(row[0]))
-                    voltageSLP = np.append(voltageSLP, float(row[1]))
+                    current = np.append(current, float(row[1]))
+                    voltageSLP = np.append(voltageSLP, float(row[0]))
                 except:
                     None    
             
@@ -166,9 +165,9 @@ if __name__ == "__main__":
     # Storing bias and raw current lists from previous implementation
     parameters['Bias 1'], parameters['Raw voltage 1'] =  LoadPreviousData()
     
-    # Storing Probe area of a previous implementation, and ion mass in kg of argon, 
+    # Storing Probe area of a previous implementation, and ion mass in kg of Carbon Dioxide, 
     # simulating config values
-    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 6.629e-26, 'sweeper_shunt': 1}
+    parameters['config_ref'] = {'Probe area' : 30.3858e-06, 'Particle mass': 7.31063e-26, 'sweeper_shunt':1}
     
     
     # Running each equation
@@ -180,8 +179,7 @@ if __name__ == "__main__":
     # Requires protected_dictionary to be loaded in memory
     parameters_to_display = list_of_equations[-1](parameters)
     
-   
     
-    for i in parameters_to_display: 
-        print(i)
-        
+    print(parameters)
+  
+    
