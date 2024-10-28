@@ -59,6 +59,7 @@ def get_display_parameters(parameters):
     display_parameters = []
 
     display_parameters.append(parameters['Particle saturation current (Amperes)'])
+    display_parameters.append(parameters['Plasma potential (Volts)'])
     display_parameters.append(parameters['Particle temperature (eV)'])
     display_parameters.append(parameters['Particle temperature (Joules)'])
     display_parameters.append(parameters['Particle density (m-3)'])
@@ -252,7 +253,7 @@ if __name__ == "__main__":
         """Function to load data from previous implementation. Code developed by Felix Cuadrado"""
         
         import csv as csv_library
-        with open('HEA_Ion_Parameters.csv', newline='') as csv:
+        with open('Leal_IonEnergyAnalyzer.csv', newline='') as csv:
             dataReader = csv_library.reader(csv, delimiter=',', quotechar='|')
             next(dataReader)  # Skip the header row
             current = []

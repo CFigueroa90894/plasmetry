@@ -58,6 +58,7 @@ class RunParameters:
             ],
             "iea": [
             "Particle saturation current (Amperes)",
+            "Plasma Potential (Volts)",
             "Particle temperature (eV)",
             "Particle temperature (Joules)",
             "Particle density (m<sup>-3</sup>)"
@@ -65,6 +66,7 @@ class RunParameters:
             ],
             "hea": [
             "Particle saturation current (Amperes)",
+            "Plasma Potential (Volts)",
             "Particle temperature (eV)",
             "Particle temperature (Joules)",
             "Particle density (m<sup>-3</sup>)"
