@@ -139,11 +139,17 @@ def get_electron_density(parameters):
 
 
 def get_probe_current(parameters):
-    "This function returns "
+    "This function stores the saturation current and the third probe current."
+    
     parameters['Probe 1 filtered current (Amperes)'] = -1 * (parameters['Probe 3 filtered current (Amperes)'] + \
                                                  
                                                    parameters['Probe 2 filtered current (Amperes)'])
-    parameters['Ion saturation current (Amperes)']=  parameters['Probe 2 filtered current (Amperes)']
+    if parameters['Bias 1'] > parameters['Bias 2']:
+        parameters['Ion saturation current (Amperes)']=  parameters['Probe 2 filtered current (Amperes)']
+    else: 
+        parameters['Ion saturation current (Amperes)']=  parameters['Probe 3 filtered current (Amperes)']
+
+    
 def get_display_parameters(parameters):
     
     """This function returns a ProtectedDictionary object containing the parameters used for display.
